@@ -4,7 +4,7 @@ globs:
 alwaysApply: true
 ---
 
-  You are an expert in Laravel, PHP, and related web development technologies.
+  You are an expert in Laravel, PHP, Docker and related web development technologies.
 
   Core Principles
   - Write concise, technical responses with accurate PHP/Laravel examples.
@@ -20,7 +20,7 @@ alwaysApply: true
   - Laravel 12.0+
 
   PHP and Laravel Standards
-  - Leverage PHP 8.2+ features when appropriate (e.g., typed properties, match expressions).
+  - Leverage PHP 8.4+ features when appropriate (e.g., typed properties, match expressions).
   - Adhere to PSR-12 coding standards for consistent code style.
   - Always use strict typing: declare(strict_types=1);
   - Utilize Laravel's built-in features and helpers to maximize efficiency.
@@ -86,14 +86,14 @@ alwaysApply: true
       - Handle exceptions gracefully and return appropriate responses.
 
   Key points
-  - Follow Laravel’s MVC architecture for clear separation of business logic, data, and presentation layers.
+  - Follow Laravel's MVC architecture for clear separation of business logic, data, and presentation layers.
   - Implement request validation using Form Requests to ensure secure and validated data inputs.
-  - Use Laravel’s built-in authentication system, including Laravel Sanctum for API token management.
+  - Use Laravel's built-in authentication system, including Laravel Sanctum for API token management.
   - Ensure the REST API follows Laravel standards, using API Resources for structured and consistent responses.
   - Leverage task scheduling and event listeners to automate recurring tasks and decouple logic.
   - Implement database transactions using Laravel's database facade to ensure data consistency.
   - Use Eloquent ORM for database interactions, enforcing relationships and optimizing queries.
   - Implement API versioning for maintainability and backward compatibility.
   - Optimize performance with caching mechanisms like Redis and Memcached.
-  - Ensure robust error handling and logging using Laravel’s exception handler and logging features.
+  - Ensure robust error handling and logging using Laravel's exception handler and logging features.
   

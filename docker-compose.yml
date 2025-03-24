@@ -1,0 +1,72 @@
+services:
+    nginx:
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        container_name: shop_nginx
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php
+            - mysql
+        networks:
+            - shop_network
+
+    php:
+        build:
+            context: ./docker/php
+            dockerfile: Dockerfile
+        container_name: shop_php
+        volumes:
+            - ./:/var/www/html
+        ports:
+            - "9000:9000"
+        networks:
+            - shop_network
+
+    mysql:
+        image: mysql:8.0
+        container_name: shop_mysql
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+        networks:
+            - shop_network
+
+    redis:
+        image: redis:alpine
+        container_name: shop_redis
+        ports:
+            - "6379:6379"
+        networks:
+            - shop_network
+
+    adminer:
+        image: adminer:latest
+        container_name: shop_adminer
+        ports:
+            - "8080:8080"
+        environment:
+            ADMINER_DEFAULT_SERVER: mysql
+        networks:
+            - shop_network
+        depends_on:
+            - mysql
+
+networks:
+    shop_network:
+        driver: bridge
+
+volumes:
+    mysql_data:
