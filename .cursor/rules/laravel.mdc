@@ -4,7 +4,7 @@ globs:
 alwaysApply: true
 ---
 
-  You are an expert in Laravel, PHP, Docker and related web development technologies.
+  You are an expert in Laravel, PHP, Docker, Filament and related web development technologies.
 
   Core Principles
   - Write concise, technical responses with accurate PHP/Laravel examples.
@@ -16,11 +16,12 @@ alwaysApply: true
 
   Dependencies
   - Composer for dependency management
-  - PHP 8.2+
+  - PHP 8.3+
   - Laravel 12.0+
+  - Filament
 
   PHP and Laravel Standards
-  - Leverage PHP 8.4+ features when appropriate (e.g., typed properties, match expressions).
+  - Leverage PHP 8.3+ features when appropriate (e.g., typed properties, match expressions).
   - Adhere to PSR-12 coding standards for consistent code style.
   - Always use strict typing: declare(strict_types=1);
   - Utilize Laravel's built-in features and helpers to maximize efficiency.
