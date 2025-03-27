@@ -3,19 +3,30 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "darkaonline/l5-swagger": "^9.0",
         "filament/filament": "^3.3",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "filament/spatie-laravel-media-library-plugin": "^3.3",
+        "laravel/framework": "^11.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.10.1",
+        "livewire/livewire": "^3.6",
+        "spatie/laravel-medialibrary": "^11.12",
+        "spatie/laravel-sluggable": "^3.7"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.41",
+        "laravel/telescope": "^5.6",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.7",
@@ -111,16 +122,16 @@
         ]
     },
     "scripts-descriptions": {
-        "fresh": "\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445 \u0438 \u043a\u044d\u0448\u0430",
-        "fresh-seed": "\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445, \u043a\u044d\u0448\u0430 \u0438 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u0442\u0435\u0441\u0442\u043e\u0432\u044b\u043c\u0438 \u0434\u0430\u043d\u043d\u044b\u043c\u0438",
-        "dev-setup": "\u041f\u0435\u0440\u0432\u043e\u043d\u0430\u0447\u0430\u043b\u044c\u043d\u0430\u044f \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u043f\u0440\u043e\u0435\u043a\u0442\u0430",
-        "docker-fresh": "Docker: \u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u0431\u0430\u0437\u044b \u0434\u0430\u043d\u043d\u044b\u0445 \u0438 \u043a\u044d\u0448\u0430",
-        "docker-fresh-seed": "Docker: \u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u0411\u0414, \u043a\u044d\u0448\u0430 \u0438 \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435 \u0442\u0435\u0441\u0442\u043e\u0432\u044b\u043c\u0438 \u0434\u0430\u043d\u043d\u044b\u043c\u0438",
-        "docker-setup": "Docker: \u041f\u0435\u0440\u0432\u043e\u043d\u0430\u0447\u0430\u043b\u044c\u043d\u0430\u044f \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u043f\u0440\u043e\u0435\u043a\u0442\u0430",
-        "pint": "\u0424\u043e\u0440\u043c\u0430\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043e\u0434\u0430",
-        "pint-test": "\u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u0444\u043e\u0440\u043c\u0430\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u043a\u043e\u0434\u0430 \u0431\u0435\u0437 \u0432\u043d\u0435\u0441\u0435\u043d\u0438\u044f \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0439",
-        "docker-pint": "Docker: \u0424\u043e\u0440\u043c\u0430\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043e\u0434\u0430",
-        "docker-pint-test": "Docker: \u041f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u0444\u043e\u0440\u043c\u0430\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u043a\u043e\u0434\u0430 \u0431\u0435\u0437 \u0432\u043d\u0435\u0441\u0435\u043d\u0438\u044f \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0439"
+        "fresh": "Очистка базы данных и кэша",
+        "fresh-seed": "Очистка базы данных, кэша и заполнение тестовыми данными",
+        "dev-setup": "Первоначальная настройка проекта",
+        "docker-fresh": "Docker: Очистка базы данных и кэша",
+        "docker-fresh-seed": "Docker: Очистка БД, кэша и заполнение тестовыми данными",
+        "docker-setup": "Docker: Первоначальная настройка проекта",
+        "pint": "Форматирование кода",
+        "pint-test": "Проверка форматирования кода без внесения изменений",
+        "docker-pint": "Docker: Форматирование кода",
+        "docker-pint-test": "Docker: Проверка форматирования кода без внесения изменений"
     },
     "extra": {
         "laravel": {

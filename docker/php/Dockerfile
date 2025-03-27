@@ -5,15 +5,33 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
     zip \
     unzip \
     libzip-dev \
-    libicu-dev
+    libicu-dev \
+    nodejs \
+    npm \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
+    webp
 
-# Установка PHP расширений
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
+# Настройка и установка PHP расширений
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    zip \
+    intl
 
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -22,6 +40,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Установка прав на директорию
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html && \
+    mkdir -p /var/www/.npm && \
+    chown -R www-data:www-data /var/www/.npm
 
 USER www-data

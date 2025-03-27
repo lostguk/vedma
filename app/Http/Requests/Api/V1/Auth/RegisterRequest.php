@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Requests\Api\V1\Auth;
+
+use App\Http\Requests\Api\ApiRequest;
+
+class RegisterRequest extends ApiRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function rules(): array
+    {
+        return [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone' => ['nullable', 'string', 'max:20', 'regex:/^\+7\s?\(?\d{3}\)?\s?\d{3}[-\s]?\d{2}[-\s]?\d{2}$/'],
+            'country' => ['nullable', 'string', 'max:255'],
+            'region' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'postal_code' => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'first_name.required' => 'Поле Имя обязательно для заполнения',
+            'last_name.required' => 'Поле Фамилия обязательно для заполнения',
+            'middle_name.required' => 'Поле Отчество обязательно для заполнения',
+            'email.required' => 'Поле E-mail обязательно для заполнения',
+            'email.email' => 'Введите корректный E-mail адрес',
+            'email.unique' => 'Пользователь с таким E-mail уже существует',
+            'password.required' => 'Поле Пароль обязательно для заполнения',
+            'password.min' => 'Пароль должен содержать минимум 8 символов',
+            'password.confirmed' => 'Пароли не совпадают',
+            'phone.regex' => 'Неверный формат номера телефона. Используйте формат: +7 (XXX) XXX-XX-XX',
+        ];
+    }
+}
