@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Str;
 
-class UserRepository extends BaseRepository
+/**
+ * Репозиторий для работы с пользователями
+ */
+final class UserRepository extends BaseRepository
 {
     /**
      * UserRepository constructor.
@@ -16,9 +21,18 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Create a new user with verification token
+     * Создать нового пользователя с токеном верификации
+     *
+     * @param array{
+     *     email: string,
+     *     password: string,
+     *     first_name: string,
+     *     last_name: string,
+     *     middle_name?: string|null,
+     *     phone?: string|null
+     * } $payload Данные пользователя
      */
-    public function createWithVerification(array $payload): ?User
+    public function createWithVerification(array $payload): User
     {
         $payload['email_verification_token'] = Str::random(64);
 

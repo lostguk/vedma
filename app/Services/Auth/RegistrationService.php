@@ -1,25 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Auth;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
-class RegistrationService
+/**
+ * Сервис для регистрации новых пользователей
+ */
+final class RegistrationService
 {
-    private UserRepository $userRepository;
+    public function __construct(
+        private readonly UserRepository $userRepository,
+    ) {}
 
     /**
-     * RegistrationService constructor.
-     */
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
-    /**
-     * Register a new user
+     * Регистрация нового пользователя
+     *
+     * @param array{
+     *     email: string,
+     *     password: string,
+     *     first_name: string,
+     *     last_name: string,
+     *     middle_name?: string|null,
+     *     phone?: string|null
+     * } $data Данные пользователя
      */
     public function register(array $data): User
     {

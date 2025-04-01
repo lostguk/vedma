@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Contracts\RepositoryInterface;
@@ -8,15 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseRepository implements RepositoryInterface
 {
-    protected Model $model;
-
-    /**
-     * BaseRepository constructor.
-     */
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
+    public function __construct(
+        protected readonly Model $model,
+    ) {}
 
     /**
      * {@inheritDoc}
