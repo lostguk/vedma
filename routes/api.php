@@ -22,4 +22,5 @@ Route::prefix('v1')->group(function () {
     Route::get('categories/{slug}', [CategoryController::class, 'show'])->name('api.v1.categories.show');
     Route::get('products/{slug}', [ProductController::class, 'show'])
         ->name('api.v1.products.show');
+    Route::get('products', [ProductController::class, 'index'])->name('api.v1.products.index');
 });

@@ -159,6 +159,253 @@
                 }
             }
         },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Получить список продуктов",
+                "description": "Возвращает пагинированный список продуктов с возможностью фильтрации и сортировки.",
+                "operationId": "getProductsList",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Строка для поиска по названию продукта",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Slug категории для фильтрации",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price_from",
+                        "in": "query",
+                        "description": "Минимальная цена",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "price_to",
+                        "in": "query",
+                        "description": "Максимальная цена",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "is_new",
+                        "in": "query",
+                        "description": "Фильтр по новинкам (1 или true)",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "is_bestseller",
+                        "in": "query",
+                        "description": "Фильтр по хитам продаж (1 или true)",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "description": "Список ID продуктов через запятую",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Поле и направление сортировки",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "price_asc",
+                                "price_desc",
+                                "name_asc",
+                                "name_desc",
+                                "created_at_desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы пагинации",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Количество элементов на странице (макс: 100)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "maximum": 100,
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ со списком продуктов",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": "/api/v1/products?page=1",
+                                                    "nullable": true
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": "/api/v1/products?page=10",
+                                                    "nullable": true
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": "/api/v1/products?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1,
+                                                    "nullable": true
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "format": "url",
+                                                                "example": "/api/v1/products?page=1",
+                                                                "nullable": true
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "1"
+                                                            },
+                                                            "active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "format": "url",
+                                                    "example": "/api/v1/products"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 15,
+                                                    "nullable": true
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 150
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации параметров запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "category": [
+                                                    "The selected category is invalid."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/products/{slug}": {
             "get": {
                 "tags": [
