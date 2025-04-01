@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Api\ApiController;
@@ -8,7 +10,7 @@ use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\RegistrationService;
 use Illuminate\Http\JsonResponse;
 
-class RegisterController extends ApiController
+final class RegisterController extends ApiController
 {
     private RegistrationService $registrationService;
 

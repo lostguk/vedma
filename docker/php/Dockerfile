@@ -45,3 +45,6 @@ RUN chown -R www-data:www-data /var/www/html && \
     chown -R www-data:www-data /var/www/.npm
 
 USER www-data
+
+# Генерация Swagger документации при запуске контейнера
+CMD composer install && php artisan l5-swagger:generate && php-fpm

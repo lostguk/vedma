@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "darkaonline/l5-swagger": "^9.0",
         "filament/filament": "^3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
@@ -106,7 +106,7 @@
         "docker-setup": [
             "docker-compose exec php php artisan key:generate",
             "docker-compose exec php php artisan storage:link",
-            "@docker-fresh"
+            "@docker-fresh-seed"
         ],
         "pint": [
             "./vendor/bin/pint"
@@ -119,6 +119,12 @@
         ],
         "docker-pint-test": [
             "docker-compose exec php ./vendor/bin/pint --test"
+        ],
+        "swagger": [
+            "php artisan l5-swagger:generate"
+        ],
+        "docker-swagger": [
+            "docker-compose exec php php artisan l5-swagger:generate"
         ]
     },
     "scripts-descriptions": {
@@ -127,11 +133,13 @@
         "dev-setup": "Первоначальная настройка проекта",
         "docker-fresh": "Docker: Очистка базы данных и кэша",
         "docker-fresh-seed": "Docker: Очистка БД, кэша и заполнение тестовыми данными",
-        "docker-setup": "Docker: Первоначальная настройка проекта",
+        "docker-setup": "Docker: Первоначальная настройка проекта с заполнением тестовыми данными",
         "pint": "Форматирование кода",
         "pint-test": "Проверка форматирования кода без внесения изменений",
         "docker-pint": "Docker: Форматирование кода",
-        "docker-pint-test": "Docker: Проверка форматирования кода без внесения изменений"
+        "docker-pint-test": "Docker: Проверка форматирования кода без внесения изменений",
+        "swagger": "Генерация Swagger документации",
+        "docker-swagger": "Docker: Генерация Swagger документации"
     },
     "extra": {
         "laravel": {

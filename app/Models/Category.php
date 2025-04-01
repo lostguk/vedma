@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection as SupportCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Category extends Model implements HasMedia
+final class Category extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
@@ -59,12 +63,12 @@ class Category extends Model implements HasMedia
         return $this->hasMany(Category::class, 'parent_id')->orderBy('sort_order');
     }
 
-    public function descendants()
+    public function descendants(): HasMany
     {
         return $this->children()->with('descendants');
     }
 
-    public function getAllDescendants()
+    public function getAllDescendants(): SupportCollection
     {
         $descendants = collect();
 
@@ -89,19 +93,19 @@ class Category extends Model implements HasMedia
         return $path->join('/');
     }
 
-    public function scopeRoot($query)
+    public function scopeRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id')
             ->where('is_visible', true)
             ->orderBy('sort_order');
     }
 
-    public function scopeVisible($query)
+    public function scopeVisible(Builder $query): Builder
     {
         return $query->where('is_visible', true);
     }
 
-    public function scopeSlugUniqueInParent($query, string $slug, ?int $parentId = null, ?int $ignoreId = null)
+    public function scopeSlugUniqueInParent(Builder $query, string $slug, ?int $parentId = null, ?int $ignoreId = null): Builder
     {
         return $query->where('slug', $slug)
             ->where('parent_id', $parentId)
