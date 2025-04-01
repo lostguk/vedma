@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Api\V1\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+final class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 

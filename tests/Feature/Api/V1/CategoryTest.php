@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Api\V1;
 
 use App\Models\Category;
@@ -8,7 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+final class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -77,8 +79,8 @@ class CategoryTest extends TestCase
     public function test_can_show_hidden_categories_with_parameter(): void
     {
         // Arrange
-        $visibleCategory = Category::factory()->create(['is_visible' => true]);
-        $hiddenCategory = Category::factory()->create(['is_visible' => false]);
+        $visibleCategory = Category::factory()->create(['is_visible' => true, 'sort_order' => 1]);
+        $hiddenCategory = Category::factory()->create(['is_visible' => false, 'sort_order' => 2]);
 
         // Act
         $response = $this->getJson(route('api.v1.categories.index', ['show_hidden' => true]));
