@@ -19,7 +19,8 @@ RUN apt-get update && apt-get install -y \
     optipng \
     pngquant \
     gifsicle \
-    webp
+    webp \
+    && rm -rf /var/lib/apt/lists/*
 
 # Настройка и установка PHP расширений
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -31,20 +32,29 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     bcmath \
     gd \
     zip \
-    intl
+    intl \
+    && docker-php-source delete
 
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Настройка кэширования Composer
+ENV COMPOSER_HOME=/var/www/.composer
+ENV COMPOSER_CACHE_DIR=/var/www/.composer/cache
+ENV NPM_CONFIG_CACHE=/var/www/.npm
+
 # Установка рабочей директории
 WORKDIR /var/www/html
 
-# Установка прав на директорию
-RUN chown -R www-data:www-data /var/www/html && \
-    mkdir -p /var/www/.npm && \
-    chown -R www-data:www-data /var/www/.npm
+# Установка прав на директории
+RUN mkdir -p /var/www/.composer/cache \
+    && mkdir -p /var/www/.npm \
+    && chown -R www-data:www-data /var/www
 
+# Переключение на пользователя www-data
 USER www-data
 
 # Генерация Swagger документации при запуске контейнера
-CMD composer install && php artisan l5-swagger:generate && php-fpm
+CMD composer install --no-interaction --no-progress --prefer-dist \
+    && php artisan l5-swagger:generate \
+    && php-fpm
