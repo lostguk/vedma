@@ -21,13 +21,13 @@ class ProductFactory extends Factory
             'name' => fake()->words(3, true),
             'description' => fake()->paragraphs(3, true),
             'price' => fake()->randomFloat(2, 100, 10000),
-            'old_price' => fake()->optional(0.3)->randomFloat(2, 100, 10000),
-            'weight' => fake()->randomFloat(3, 50, 5000),
-            'width' => fake()->optional()->randomFloat(2, 1, 100),
-            'height' => fake()->optional()->randomFloat(2, 1, 100),
-            'length' => fake()->optional()->randomFloat(2, 1, 100),
-            'is_new' => fake()->boolean(20),
-            'is_bestseller' => fake()->boolean(10),
+            'old_price' => fake()->boolean(20) ? fake()->randomFloat(2, 100, 10000) : null,
+            'weight' => fake()->randomFloat(3, 100, 5000),
+            'width' => fake()->randomFloat(2, 1, 100),
+            'height' => fake()->randomFloat(2, 1, 100),
+            'length' => fake()->randomFloat(2, 1, 100),
+            'is_new' => false,
+            'is_bestseller' => false,
             'sort_order' => fake()->numberBetween(0, 100),
         ];
     }
@@ -70,5 +70,34 @@ class ProductFactory extends Factory
             'height' => fake()->randomFloat(2, 1, 100),
             'length' => fake()->randomFloat(2, 1, 100),
         ]);
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (Product $product) {
+            // Создаем тестовое изображение
+            $path = storage_path('app/public/test-images/product.jpg');
+
+            // Если файл не существует, создаем его
+            if (! file_exists($path)) {
+                if (! file_exists(dirname($path))) {
+                    mkdir(dirname($path), 0755, true);
+                }
+                // Создаем простое изображение
+                $image = imagecreatetruecolor(800, 600);
+                $bgColor = imagecolorallocate($image, 200, 200, 200);
+                imagefill($image, 0, 0, $bgColor);
+                $textColor = imagecolorallocate($image, 0, 0, 0);
+                imagestring($image, 5, 350, 280, "Product {$product->id}", $textColor);
+                imagejpeg($image, $path);
+                imagedestroy($image);
+            }
+
+            // Добавляем изображение к продукту
+            $product
+                ->addMedia($path)
+                ->preservingOriginal()
+                ->toMediaCollection(Product::IMAGES_COLLECTION);
+        });
     }
 }

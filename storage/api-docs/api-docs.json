@@ -158,10 +158,191 @@
                     }
                 }
             }
+        },
+        "/api/v1/products/{slug}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Получить детальную информацию о продукте",
+                "description": "Возвращает детальную информацию о продукте, включая его категории и рекомендуемые товары",
+                "operationId": "getProductBySlug",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug продукта (например: iphone-13)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "iphone-13"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Продукт не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "CategoryResource": {
+                "description": "Ресурс категории",
+                "required": [
+                    "id",
+                    "name",
+                    "slug"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Свечи"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "svechi"
+                    },
+                    "description": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "parent_id": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "sort_order": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "is_visible": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResource": {
+                "description": "Ресурс продукта",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "price",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Смартфон iPhone 13"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "iphone-13"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Мощный смартфон с отличной камерой",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 79999.99
+                    },
+                    "dimensions": {
+                        "properties": {
+                            "width": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 71.5
+                            },
+                            "height": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 146.7
+                            },
+                            "depth": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 7.65
+                            },
+                            "weight": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 174
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    },
+                    "related": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductResource"
+                        }
+                    },
+                    "images_urls": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://example.com/images/iphone-13.jpg"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
             "RegisterRequest": {
                 "required": [
                     "first_name",
@@ -345,6 +526,19 @@
                 },
                 "type": "object"
             },
+            "ErrorResponse": {
+                "description": "Ответ с ошибкой",
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Запрашиваемый ресурс не найден"
+                    }
+                },
+                "type": "object"
+            },
             "ApiResponse": {
                 "properties": {
                     "status": {
@@ -382,6 +576,106 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "description": "Модель продукта",
+                "required": [
+                    "id",
+                    "name",
+                    "slug",
+                    "price",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Смартфон iPhone 13"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "iphone-13"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Мощный смартфон с отличной камерой",
+                        "nullable": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 79999.99
+                    },
+                    "dimensions": {
+                        "properties": {
+                            "width": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 71.5
+                            },
+                            "height": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 146.7
+                            },
+                            "depth": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 7.65
+                            },
+                            "weight": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 174
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    },
+                    "related": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    },
+                    "images_urls": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://example.com/images/iphone-13.jpg"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResponse": {
+                "description": "Ответ с данными продукта",
+                "required": [
+                    "data"
+                ],
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Product"
                     }
                 },
                 "type": "object"
@@ -467,6 +761,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Products",
+            "description": "API для работы с продуктами"
+        },
         {
             "name": "Categories",
             "description": "API Endpoints for categories"

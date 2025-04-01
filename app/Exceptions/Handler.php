@@ -1,19 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Exceptions;
 
-use App\Exceptions\Api\ApiExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * The list of the inputs that are never flashed to the session on validation exceptions.
+     * A list of the exception types that are not reported.
+     *
+     * @var array<int, class-string<Throwable>>
+     */
+    protected $dontReport = [
+        //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
      *
      * @var array<int, string>
      */
@@ -25,62 +35,32 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
+     * Ensure this is clean or only contains default reportable.
      */
     public function register(): void
     {
-        $this->renderable(function (Throwable $e) {
-            if (request()->expectsJson()) {
-                if ($e instanceof ModelNotFoundException) {
-                    return new JsonResponse([
-                        'status' => 'error',
-                        'message' => 'Запрашиваемый ресурс не найден',
-                    ], 404);
-                }
-
-                if ($e instanceof NotFoundHttpException) {
-                    return new JsonResponse([
-                        'status' => 'error',
-                        'message' => 'Указанный маршрут не найден',
-                    ], 404);
-                }
-
-                if ($e instanceof ValidationException) {
-                    return new JsonResponse([
-                        'status' => 'error',
-                        'message' => 'Ошибка валидации данных',
-                        'errors' => $e->errors(),
-                    ], 422);
-                }
-
-                // Общий случай для остальных ошибок
-                $statusCode = method_exists($e, 'getStatusCode') ?
-                    $e->getStatusCode() : 500;
-
-                $message = $statusCode === 500 ?
-                    'Внутренняя ошибка сервера' : $e->getMessage();
-
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => $message,
-                ], $statusCode);
-            }
+        $this->reportable(function (Throwable $e) {
+            // Optional: logging logic
         });
+        // NO renderable callbacks here for ModelNotFound/NotFoundHttp
     }
 
     /**
      * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Throwable
      */
-    public function render($request, Throwable $e)
+    public function render($request, Throwable $e): Response
     {
-        if ($request->is('api/*')) {
-            return (new ApiExceptionHandler)->handle($request, $e);
+        // Check specifically for NotFoundHttpException caused by ModelNotFoundException in API context
+        if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
+            // Use expectsJson() for API check
+            if ($request instanceof Request && $request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Запрашиваемый ресурс не найден',
+                ], Response::HTTP_NOT_FOUND);
+            }
         }
 
+        // Fallback to the default handler
         return parent::render($request, $e);
     }
 }

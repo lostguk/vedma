@@ -52,12 +52,16 @@ class ProductSeeder extends Seeder
 
         // Добавляем связанные продукты
         Product::all()->each(function (Product $product) {
+            // Получаем случайные продукты, исключая текущий
             $relatedProducts = Product::where('id', '!=', $product->id)
                 ->inRandomOrder()
                 ->limit(3)
-                ->get();
+                ->get()
+                ->pluck('id')
+                ->toArray();
 
-            $product->related()->attach($relatedProducts);
+            // Добавляем связи без дублирования
+            $product->related()->syncWithoutDetaching($relatedProducts);
         });
     }
 
