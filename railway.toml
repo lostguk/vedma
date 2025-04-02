@@ -1,5 +1,6 @@
 [build]
 builder = "DOCKERFILE"
+dockerfilePath = "./docker/php/Dockerfile"
 
 [deploy]
 startCommand = "docker-compose -f docker-compose.prod.yml up -d && docker-compose -f docker-compose.prod.yml exec -T php php artisan migrate --force"

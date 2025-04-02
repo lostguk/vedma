@@ -11,6 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Install Railway CLI
         run: npm i -g @railway/cli
 
@@ -20,16 +23,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Deploy to Railway
+      - name: Build and push Docker images
         run: |
-          railway up
-          railway variables set APP_NAME=Laravel
-          railway variables set APP_ENV=production
-          railway variables set APP_KEY=your-app-key
-          railway variables set APP_DEBUG=false
-          railway variables set DB_DATABASE=laravel
-          railway variables set DB_USERNAME=laravel
-          railway variables set DB_PASSWORD=your-secure-password
+          docker-compose -f docker-compose.prod.yml build
+          docker-compose -f docker-compose.prod.yml push
+
+      - name: Deploy to Railway
+        run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 

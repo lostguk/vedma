@@ -3,6 +3,7 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+    image: ${DOCKER_HUB_USERNAME}/shop-nginx:latest
     container_name: shop_nginx
     ports:
       - "80:80"
@@ -22,6 +23,7 @@ services:
     build:
       context: ./docker/php
       dockerfile: Dockerfile
+    image: ${DOCKER_HUB_USERNAME}/shop-php:latest
     container_name: shop_php
     volumes:
       - ./:/var/www/html
