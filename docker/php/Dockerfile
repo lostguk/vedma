@@ -1,4 +1,4 @@
-FROM php:8.3-fpm
+FROM php:8.3-cli
 
 # Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
@@ -46,15 +46,22 @@ ENV NPM_CONFIG_CACHE=/var/www/.npm
 # Установка рабочей директории
 WORKDIR /var/www/html
 
+# Копирование файлов проекта
+COPY . .
+
 # Установка прав на директории
 RUN mkdir -p /var/www/.composer/cache \
     && mkdir -p /var/www/.npm \
     && chown -R www-data:www-data /var/www
 
+# Установка зависимостей
+RUN composer install --no-interaction --no-progress --prefer-dist
+
 # Переключение на пользователя www-data
 USER www-data
 
-# Генерация Swagger документации при запуске контейнера
-CMD composer install --no-interaction --no-progress --prefer-dist \
-    && php artisan l5-swagger:generate \
-    && php-fpm
+# Открываем порт
+EXPOSE 8000
+
+# Запуск приложения
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
