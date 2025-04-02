@@ -1,0 +1,40 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Deploy to Railway
+        run: |
+          railway up
+          railway variables set APP_NAME=Laravel
+          railway variables set APP_ENV=production
+          railway variables set APP_KEY=your-app-key
+          railway variables set APP_DEBUG=false
+          railway variables set DB_DATABASE=laravel
+          railway variables set DB_USERNAME=laravel
+          railway variables set DB_PASSWORD=your-secure-password
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Add Railway deployment configuration"
+          git push origin main
