@@ -46,6 +46,12 @@ ENV NPM_CONFIG_CACHE=/var/www/.npm
 # Установка рабочей директории
 WORKDIR /var/www/html
 
+# Создание необходимых директорий
+RUN mkdir -p /var/www/html/storage/framework/cache && \
+    mkdir -p /var/www/html/storage/framework/sessions && \
+    mkdir -p /var/www/html/storage/framework/views && \
+    mkdir -p /var/www/html/storage/logs
+
 # Копирование файлов проекта
 COPY . .
 
