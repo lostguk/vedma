@@ -41,11 +41,18 @@ RUN mkdir -p storage/framework/cache && \
     mkdir -p storage/logs && \
     mkdir -p bootstrap/cache
 
-# Копирование файлов проекта
+# Копирование только composer файлов
+COPY composer.json composer.lock ./
+
+# Временно отключаем post-autoload-dump скрипты
+RUN composer install --no-scripts --no-autoloader
+
+# Копирование остальных файлов проекта
 COPY . .
 
-# Установка зависимостей
-RUN composer install --no-interaction --no-progress --prefer-dist
+# Генерация автозагрузчика и запуск скриптов
+RUN composer dump-autoload --optimize && \
+    composer run-script post-autoload-dump
 
 # Установка прав
 RUN chown -R www-data:www-data /var/www/html
