@@ -1,4 +1,4 @@
-FROM php:8.3-cli
+FROM php:8.3-fpm
 
 # Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
@@ -13,6 +13,13 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libzip-dev \
     libicu-dev \
+    nodejs \
+    npm \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
+    webp \
     && rm -rf /var/lib/apt/lists/*
 
 # Настройка и установка PHP расширений
@@ -31,48 +38,23 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Настройка кэширования Composer
+ENV COMPOSER_HOME=/var/www/.composer
+ENV COMPOSER_CACHE_DIR=/var/www/.composer/cache
+ENV NPM_CONFIG_CACHE=/var/www/.npm
+
 # Установка рабочей директории
 WORKDIR /var/www/html
 
-# Создание необходимых директорий
-RUN mkdir -p storage/framework/cache && \
-    mkdir -p storage/framework/sessions && \
-    mkdir -p storage/framework/views && \
-    mkdir -p storage/logs && \
-    mkdir -p bootstrap/cache
-
-# Копирование только composer файлов
-COPY composer.json composer.lock ./
-
-# Временно отключаем post-autoload-dump скрипты
-RUN composer install --no-scripts --no-autoloader
-
-# Копирование остальных файлов проекта
-COPY . .
-
-# Генерация автозагрузчика и запуск скриптов
-RUN composer dump-autoload --optimize && \
-    composer run-script post-autoload-dump
-
-# Установка прав
-RUN chown -R www-data:www-data /var/www/html
-
-# Генерация ключа приложения
-RUN php artisan key:generate --force
-
-# Создание символической ссылки для storage
-RUN php artisan storage:link
-
-# Очистка кэша
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan cache:clear
+# Установка прав на директории
+RUN mkdir -p /var/www/.composer/cache \
+    && mkdir -p /var/www/.npm \
+    && chown -R www-data:www-data /var/www
 
 # Переключение на пользователя www-data
 USER www-data
 
-# Открываем порт
-EXPOSE 8000
-
-# Запуск приложения
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Генерация Swagger документации при запуске контейнера
+CMD composer install --no-interaction --no-progress --prefer-dist \
+    && php artisan l5-swagger:generate \
+    && php-fpm
