@@ -2,20 +2,39 @@ FROM php:8.3-cli
 
 # Установка минимально необходимых расширений PHP
 RUN apt-get update && apt-get install -y \
+    git \
+    zip \
+    unzip \
     libzip-dev \
     libicu-dev \
     && docker-php-ext-install zip pdo_mysql intl exif \
     && rm -rf /var/lib/apt/lists/*
 
+# Установка Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Настройка переменных окружения
+ENV APP_ENV=production
+ENV APP_DEBUG=false
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Рабочая директория
 WORKDIR /app
+
+# Копируем файлы композера
+COPY composer.* ./
+
+# Установка зависимостей
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
 
 # Копируем весь проект
 COPY . .
 
-# Установка прав
-RUN chown -R www-data:www-data /app \
-    && chmod -R 755 /app/storage
+# Финальные настройки
+RUN composer dump-autoload --optimize \
+    && mkdir -p storage/framework/{sessions,views,cache} \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data /app
 
 # Переключение на пользователя www-data
 USER www-data
