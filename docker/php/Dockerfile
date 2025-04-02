@@ -58,10 +58,6 @@ RUN chown -R www-data:www-data /var/www
 # Переключение на пользователя www-data
 USER www-data
 
-# Генерация ключа приложения и создание символической ссылки для storage
-RUN php artisan key:generate \
-    && php artisan storage:link
-
 # Открываем порт
 EXPOSE 8000
 
