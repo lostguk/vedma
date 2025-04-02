@@ -3,6 +3,8 @@ builder = "DOCKERFILE"
 dockerfilePath = "./docker/php/Dockerfile"
 
 [deploy]
-startCommand = "docker-compose -f docker-compose.prod.yml up -d && docker-compose -f docker-compose.prod.yml exec -T php php artisan migrate --force"
+startCommand = "docker-compose -f docker-compose.prod.yml up -d"
+healthcheckPath = "/api/v1/health"
+healthcheckTimeout = 100
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
