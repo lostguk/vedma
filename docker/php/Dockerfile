@@ -35,12 +35,12 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Оптимизация Laravel для продакшена (кэширует config, routes, views)
-# RUN php artisan optimize # Temporarily disabled for debugging startup
+RUN php artisan optimize
 
 # Финальные настройки прав и владельцев (chown должен быть последним перед USER www-data)
-# RUN mkdir -p storage/framework/{sessions,views,cache} \ # Temporarily disabled for debugging startup
-#     && chmod -R 775 storage bootstrap/cache \ # Temporarily disabled for debugging startup
-#     && chown -R www-data:www-data /app # Temporarily disabled for debugging startup
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data /app
 
 # Переключение на пользователя www-data
 USER www-data
