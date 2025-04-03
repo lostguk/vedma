@@ -33,8 +33,8 @@ COPY . .
 # Генерируем автозагрузчик ДО выполнения artisan команд
 RUN composer dump-autoload --optimize
 
-# Очистка кэша Laravel
-RUN php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear
+# Очистка кэша Laravel (кроме DB-зависимого cache:clear)
+RUN php artisan config:clear && php artisan route:clear && php artisan view:clear
 
 # Финальные настройки прав и владельцев (chown должен быть последним перед USER www-data)
 RUN mkdir -p storage/framework/{sessions,views,cache} \
