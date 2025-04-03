@@ -1,6 +1,7 @@
-FROM php:8.3-cli
+FROM php:8.3-fpm
 
 # Установка минимально необходимых расширений PHP
+# (Добавим unzip и zip для работы с зависимостями, если их нет в fpm образе)
 RUN apt-get update && apt-get install -y \
     git \
     zip \
