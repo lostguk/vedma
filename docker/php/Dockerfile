@@ -16,7 +16,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Настройка переменных окружения
 ENV APP_ENV=production
-ENV APP_DEBUG=false
+ENV APP_DEBUG=true
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Рабочая директория
