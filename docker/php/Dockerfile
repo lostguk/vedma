@@ -24,26 +24,28 @@ WORKDIR /app
 # Копируем файлы композера
 COPY composer.* ./
 
-# Установка зависимостей
+# Установка зависимостей (без автозагрузчика на этом этапе)
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-progress
 
 # Копируем весь проект
 COPY . .
 
+# Генерируем автозагрузчик ДО выполнения artisan команд
+RUN composer dump-autoload --optimize
+
 # Очистка кэша Laravel
 RUN php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear
 
-# Финальные настройки
-RUN composer dump-autoload --optimize \
-    && mkdir -p storage/framework/{sessions,views,cache} \
+# Финальные настройки прав и владельцев (chown должен быть последним перед USER www-data)
+RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chmod -R 775 storage bootstrap/cache \
     && chown -R www-data:www-data /app
 
 # Переключение на пользователя www-data
 USER www-data
 
-# Открываем порт
+# Открываем порт (все еще актуально, т.к. php-fpm будет слушать порт)
 EXPOSE 8000
 
-# Запуск приложения (будет переопределено Railway с использованием nginx/php-fpm)
+# CMD закомментирован, т.к. Railway использует свой механизм запуска
 # CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
