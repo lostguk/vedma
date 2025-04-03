@@ -3,6 +3,6 @@ builder = "DOCKERFILE"
 dockerfilePath = "./docker/php/Dockerfile"
 
 [deploy]
-startCommand = "chmod -R 777 storage bootstrap/cache && php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan serve --host=0.0.0.0"
+# startCommand removed to use Railway's default php-fpm/nginx handler
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10

@@ -30,6 +30,9 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-pr
 # Копируем весь проект
 COPY . .
 
+# Очистка кэша Laravel
+RUN php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear
+
 # Финальные настройки
 RUN composer dump-autoload --optimize \
     && mkdir -p storage/framework/{sessions,views,cache} \
@@ -42,5 +45,5 @@ USER www-data
 # Открываем порт
 EXPOSE 8000
 
-# Запуск приложения напрямую через PHP
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# Запуск приложения (будет переопределено Railway с использованием nginx/php-fpm)
+# CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
