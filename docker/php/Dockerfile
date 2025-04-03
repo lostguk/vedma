@@ -43,7 +43,7 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chown -R www-data:www-data /app
 
 # Переключение на пользователя www-data
-USER www-data
+# USER www-data # Temporarily run as root for debugging FPM
 
-# CMD закомментирован, т.к. Railway использует свой механизм запуска
-# CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# CMD для отладки FPM - запуск на переднем плане
+CMD ["php-fpm", "-F", "-R"]
