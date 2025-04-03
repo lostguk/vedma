@@ -1,8 +1,8 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1); // Reverted debug change
+// ini_set('display_startup_errors', 1); // Reverted debug change
+// error_reporting(E_ALL); // Reverted debug change
 
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;

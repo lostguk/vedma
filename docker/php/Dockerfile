@@ -39,11 +39,11 @@ RUN php artisan optimize
 
 # Финальные настройки прав и владельцев (chown должен быть последним перед USER www-data)
 RUN mkdir -p storage/framework/{sessions,views,cache} \
-    && chmod -R 775 storage bootstrap/cache \
+    && chmod -R 777 storage bootstrap/cache \
     && chown -R www-data:www-data /app
 
 # Переключение на пользователя www-data
-# USER www-data # Temporarily run as root for debugging FPM
+USER www-data
 
-# CMD для отладки FPM - запуск на переднем плане
-CMD ["php-fpm", "-F", "-R"]
+# CMD закомментирован, т.к. Railway использует свой механизм запуска
+# CMD ["php-fpm", "-F", "-R"]
