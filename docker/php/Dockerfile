@@ -35,7 +35,7 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Оптимизация Laravel для продакшена (кэширует config, routes, views)
-# RUN php artisan optimize # Keep commented out for now
+RUN php artisan optimize
 
 # Финальные настройки прав и владельцев (chown должен быть последним перед USER www-data)
 RUN mkdir -p storage/framework/{sessions,views,cache} \
