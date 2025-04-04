@@ -54,7 +54,9 @@ RUN mkdir -p /var/www/.composer/cache \
 # Переключение на пользователя www-data
 USER www-data
 
-# Генерация Swagger документации при запуске контейнера
-CMD composer install --no-interaction --no-progress --prefer-dist \
-    && php artisan l5-swagger:generate \
-    && php-fpm
+# Создаем скрипт для инициализации проекта
+COPY --chown=www-data:www-data docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]

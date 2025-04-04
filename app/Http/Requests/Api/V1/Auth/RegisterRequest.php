@@ -37,6 +37,63 @@ class RegisterRequest extends ApiRequest
     }
 
     /**
+     * Get parameters for body documentation for Scribe
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'first_name' => [
+                'description' => 'Имя пользователя',
+                'example' => 'Иван',
+            ],
+            'last_name' => [
+                'description' => 'Фамилия пользователя',
+                'example' => 'Иванов',
+            ],
+            'middle_name' => [
+                'description' => 'Отчество пользователя',
+                'example' => 'Иванович',
+            ],
+            'email' => [
+                'description' => 'Email пользователя (должен быть уникальным)',
+                'example' => 'user@example.com',
+            ],
+            'password' => [
+                'description' => 'Пароль (минимум 8 символов)',
+                'example' => 'password123',
+            ],
+            'password_confirmation' => [
+                'description' => 'Подтверждение пароля (должно совпадать с паролем)',
+                'example' => 'password123',
+            ],
+            'phone' => [
+                'description' => 'Номер телефона в формате +7 (XXX) XXX-XX-XX',
+                'example' => '+7 (999) 123-45-67',
+            ],
+            'country' => [
+                'description' => 'Страна',
+                'example' => 'Россия',
+            ],
+            'region' => [
+                'description' => 'Регион/область',
+                'example' => 'Московская область',
+            ],
+            'city' => [
+                'description' => 'Город',
+                'example' => 'Москва',
+            ],
+            'postal_code' => [
+                'description' => 'Почтовый индекс',
+                'example' => '123456',
+            ],
+            'address' => [
+                'description' => 'Адрес',
+                'example' => 'ул. Пушкина, д. 1',
+            ],
+        ];
+    }
+
+    /**
      * Get custom messages for validator errors.
      *
      * @return array<string, string>

@@ -1,0 +1,243 @@
+name: Категории
+description: |-
+
+  API для работы с категориями товаров
+
+  Категории представляют иерархическую структуру типов товаров магазина.
+  Каждая категория может иметь родительскую категорию и дочерние категории,
+  что позволяет строить многоуровневое дерево категорий.
+
+  ## Структура категории
+
+  Каждая категория содержит следующие основные поля:
+  - `id` - Уникальный идентификатор категории
+  - `name` - Название категории
+  - `slug` - Уникальный текстовый идентификатор для URL
+  - `description` - Описание категории
+  - `icon` - URL иконки категории
+  - `parent_id` - ID родительской категории (null для корневых категорий)
+  - `sort_order` - Порядок сортировки
+  - `is_visible` - Флаг видимости категории
+  - `children` - Массив дочерних категорий (если запрошены)
+
+  ## Использование API категорий
+
+  API категорий позволяет получить как полный список категорий с их иерархией,
+  так и детальную информацию по отдельной категории. Для идентификации конкретной
+  категории используется её slug (например, "ritualnye-svechi").
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/categories
+    metadata:
+      groupName: Категории
+      groupDescription: |-
+
+        API для работы с категориями товаров
+
+        Категории представляют иерархическую структуру типов товаров магазина.
+        Каждая категория может иметь родительскую категорию и дочерние категории,
+        что позволяет строить многоуровневое дерево категорий.
+
+        ## Структура категории
+
+        Каждая категория содержит следующие основные поля:
+        - `id` - Уникальный идентификатор категории
+        - `name` - Название категории
+        - `slug` - Уникальный текстовый идентификатор для URL
+        - `description` - Описание категории
+        - `icon` - URL иконки категории
+        - `parent_id` - ID родительской категории (null для корневых категорий)
+        - `sort_order` - Порядок сортировки
+        - `is_visible` - Флаг видимости категории
+        - `children` - Массив дочерних категорий (если запрошены)
+
+        ## Использование API категорий
+
+        API категорий позволяет получить как полный список категорий с их иерархией,
+        так и детальную информацию по отдельной категории. Для идентификации конкретной
+        категории используется её slug (например, "ritualnye-svechi").
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Получение списка категорий'
+      description: |-
+        Возвращает список всех категорий магазина. По умолчанию включает все видимые категории.
+        Вы можете использовать параметр `show_hidden` для отображения скрытых категорий.
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      show_hidden:
+        name: show_hidden
+        description: 'Показать скрытые категории.'
+        required: false
+        example: false
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanQueryParameters:
+      show_hidden: false
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "data": [
+                  {
+                      "id": 1,
+                      "name": "Все свечи",
+                      "slug": "vse-svechi",
+                      "description": "Категория, включающая все типы свечей",
+                      "icon": "http://localhost:8000/storage/1/candle2.svg",
+                      "parent_id": null,
+                      "sort_order": 1,
+                      "is_visible": true,
+                      "children": [
+                          {
+                              "id": 2,
+                              "name": "Ритуальные Свечи",
+                              "slug": "ritualnye-svechi",
+                              "description": "Свечи для различных ритуалов и церемоний",
+                              "icon": "http://localhost:8000/storage/2/candle3.svg",
+                              "parent_id": 1,
+                              "sort_order": 1,
+                              "is_visible": true
+                          }
+                      ]
+                  }
+              ]
+          }
+        headers: []
+        description: 'Успешный запрос'
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/categories/{slug}'
+    metadata:
+      groupName: Категории
+      groupDescription: |-
+
+        API для работы с категориями товаров
+
+        Категории представляют иерархическую структуру типов товаров магазина.
+        Каждая категория может иметь родительскую категорию и дочерние категории,
+        что позволяет строить многоуровневое дерево категорий.
+
+        ## Структура категории
+
+        Каждая категория содержит следующие основные поля:
+        - `id` - Уникальный идентификатор категории
+        - `name` - Название категории
+        - `slug` - Уникальный текстовый идентификатор для URL
+        - `description` - Описание категории
+        - `icon` - URL иконки категории
+        - `parent_id` - ID родительской категории (null для корневых категорий)
+        - `sort_order` - Порядок сортировки
+        - `is_visible` - Флаг видимости категории
+        - `children` - Массив дочерних категорий (если запрошены)
+
+        ## Использование API категорий
+
+        API категорий позволяет получить как полный список категорий с их иерархией,
+        так и детальную информацию по отдельной категории. Для идентификации конкретной
+        категории используется её slug (например, "ritualnye-svechi").
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Получение категории по уникальному идентификатору (slug)'
+      description: 'Возвращает детальную информацию о категории включая дочерние категории.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      slug:
+        name: slug
+        description: 'Уникальный идентификатор категории.'
+        required: true
+        example: ritualnye-svechi
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      slug: ritualnye-svechi
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+              "data": {
+                  "id": 2,
+                  "name": "Ритуальные Свечи",
+                  "slug": "ritualnye-svechi",
+                  "description": "Свечи для различных ритуалов и церемоний",
+                  "icon": "http://localhost:8000/storage/2/candle3.svg",
+                  "parent_id": 1,
+                  "sort_order": 1,
+                  "is_visible": true,
+                  "children": [
+                      {
+                          "id": 5,
+                          "name": "Свечи для привлечения денег",
+                          "slug": "svechi-dlya-privlecheniya-deneg",
+                          "description": "Специальные свечи для денежных ритуалов",
+                          "icon": "http://localhost:8000/storage/5/candle2.svg",
+                          "parent_id": 2,
+                          "sort_order": 1,
+                          "is_visible": true
+                      },
+                      {
+                          "id": 6,
+                          "name": "Любовные свечи",
+                          "slug": "lyubovnye-svechi",
+                          "description": "Свечи для привлечения любви и укрепления отношений",
+                          "icon": "http://localhost:8000/storage/6/candle2.svg",
+                          "parent_id": 2,
+                          "sort_order": 2,
+                          "is_visible": true
+                      }
+                  ]
+              }
+          }
+        headers: []
+        description: 'Успешный запрос'
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Category]."
+          }
+        headers: []
+        description: 'Категория не найдена'
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
