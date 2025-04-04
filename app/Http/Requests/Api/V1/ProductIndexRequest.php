@@ -26,8 +26,8 @@ class ProductIndexRequest extends FormRequest
         return [
             'search' => 'nullable|string|max:255',
             'category' => 'nullable|string|exists:categories,slug',
-            'price_from' => 'nullable|numeric|min:0',
-            'price_to' => 'nullable|numeric|min:0|gte:price_from',
+            'price_from' => 'nullable|numeric|gte:0',
+            'price_to' => 'nullable|numeric|gte:0',
             'is_new' => 'nullable|boolean',
             'is_bestseller' => 'nullable|boolean',
             'ids' => 'nullable|string',
@@ -36,7 +36,57 @@ class ProductIndexRequest extends FormRequest
                 'string',
                 'in:price_asc,price_desc,name_asc,name_desc,created_at_desc',
             ],
-            'per_page' => 'nullable|integer|min:1|max:100',
+            'per_page' => 'nullable|integer|gte:1|lte:100',
+        ];
+    }
+
+    /**
+     * Get parameters for query documentation for Scribe
+     */
+    public function queryParameters(): array
+    {
+        return [
+            'search' => [
+                'description' => 'Строка для поиска продуктов по названию',
+                'example' => 'свеча ароматическая',
+            ],
+            'category' => [
+                'description' => 'Slug категории для фильтрации продуктов',
+                'example' => 'aromaticheskie-svechi',
+            ],
+            'price_from' => [
+                'description' => 'Минимальная цена для фильтрации',
+                'example' => 100.00,
+                'type' => 'number',
+            ],
+            'price_to' => [
+                'description' => 'Максимальная цена для фильтрации',
+                'example' => 500.00,
+                'type' => 'number',
+            ],
+            'is_new' => [
+                'description' => 'Фильтр для отображения только новых продуктов',
+                'example' => true,
+                'type' => 'boolean',
+            ],
+            'is_bestseller' => [
+                'description' => 'Фильтр для отображения только хитов продаж',
+                'example' => true,
+                'type' => 'boolean',
+            ],
+            'ids' => [
+                'description' => 'Список ID продуктов через запятую для фильтрации',
+                'example' => '1,2,3',
+            ],
+            'sort' => [
+                'description' => 'Сортировка результатов',
+                'example' => 'price_asc',
+            ],
+            'per_page' => [
+                'description' => 'Количество результатов на странице (от 1 до 100)',
+                'example' => 15,
+                'type' => 'integer',
+            ],
         ];
     }
 

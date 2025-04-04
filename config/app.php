@@ -135,7 +135,6 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Laravel\Telescope\TelescopeServiceProvider::class,
     ])->toArray(),
 
 ];

@@ -45,5 +45,9 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
 # Переключение на пользователя www-data
 USER www-data
 
-# CMD закомментирован, т.к. Railway использует свой механизм запуска
-# CMD ["php-fpm", "-F", "-R"]
+# Создаем скрипт для инициализации проекта
+COPY --chown=www-data:www-data docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php-fpm"]

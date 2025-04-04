@@ -11,76 +11,97 @@ use App\Models\Product;
 use App\Services\ProductFilterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response;
 
-#[OA\Tag(
-    name: 'Products',
-    description: 'API для работы с продуктами'
-)]
+/**
+ * @group Продукты
+ *
+ * API для работы с продуктами магазина
+ *
+ * Продукты - основные товары, доступные в магазине магических товаров.
+ * API предоставляет возможности для получения списка продуктов с фильтрацией,
+ * сортировкой и пагинацией, а также детальной информации о конкретном продукте.
+ *
+ * ## Структура продукта
+ *
+ * Каждый продукт содержит следующие основные поля:
+ * - `id` - Уникальный идентификатор продукта
+ * - `name` - Название продукта
+ * - `slug` - Уникальный текстовый идентификатор для URL
+ * - `description` - Описание продукта
+ * - `price` - Текущая цена
+ * - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
+ * - `categories` - Категории, к которым относится продукт
+ * - `images_urls` - Массив URL изображений продукта
+ * - `is_new` - Флаг новинки
+ * - `is_bestseller` - Флаг хита продаж
+ *
+ * ## Фильтрация и сортировка
+ *
+ * API продуктов предоставляет разнообразные возможности фильтрации:
+ * - По категории
+ * - По ценовому диапазону
+ * - По наличию статуса новинки или хита продаж
+ * - По текстовому поиску в названии
+ *
+ * Доступные варианты сортировки:
+ * - По цене (возрастание/убывание)
+ * - По названию (возрастание/убывание)
+ * - По дате добавления (убывание)
+ */
 final class ProductController extends ApiController
 {
     /**
      * Получить список продуктов с фильтрацией, сортировкой и пагинацией.
+     *
+     * Этот эндпоинт возвращает пагинированный список продуктов с возможностью фильтрации
+     * по различным параметрам, включая категорию, ценовой диапазон и статус "новинка".
+     *
+     * @queryParam search string Строка для поиска продуктов по названию. Example: свеча
+     * @queryParam category string Slug категории для фильтрации продуктов. Example: aromaticheskie-svechi
+     * @queryParam price_from numeric Минимальная цена для фильтрации. Example: 100
+     * @queryParam price_to numeric Максимальная цена для фильтрации. Example: 500
+     * @queryParam is_new boolean Фильтр для отображения только новых продуктов. Example: true
+     * @queryParam is_bestseller boolean Фильтр для отображения только хитов продаж. Example: true
+     * @queryParam sort string Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc). Example: price_asc
+     * @queryParam per_page integer Количество результатов на странице (от 1 до 100). Example: 15
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "name": "Ароматическая свеча Лаванда",
+     *       "slug": "aromaticheskaya-svecha-lavanda",
+     *       "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
+     *       "price": 1200.99,
+     *       "dimensions": {
+     *         "width": 10,
+     *         "height": 12,
+     *         "depth": 10,
+     *         "weight": 350
+     *       },
+     *       "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
+     *       "created_at": "2023-01-01T12:00:00.000000Z",
+     *       "updated_at": "2023-01-01T12:00:00.000000Z"
+     *     }
+     *   ],
+     *   "links": {
+     *     "first": "/api/v1/products?page=1",
+     *     "last": "/api/v1/products?page=5",
+     *     "prev": null,
+     *     "next": "/api/v1/products?page=2"
+     *   },
+     *   "meta": {
+     *     "current_page": 1,
+     *     "from": 1,
+     *     "last_page": 5,
+     *     "path": "/api/v1/products",
+     *     "per_page": 15,
+     *     "to": 15,
+     *     "total": 75
+     *   }
+     * }
      */
-    #[OA\Get(
-        path: '/api/v1/products',
-        operationId: 'getProductsList',
-        summary: 'Получить список продуктов',
-        description: 'Возвращает пагинированный список продуктов с возможностью фильтрации и сортировки.',
-        tags: ['Products'],
-        parameters: [
-            new OA\Parameter(name: 'search', description: 'Строка для поиска по названию продукта', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
-            new OA\Parameter(name: 'category', description: 'Slug категории для фильтрации', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
-            new OA\Parameter(name: 'price_from', description: 'Минимальная цена', in: 'query', required: false, schema: new OA\Schema(type: 'number', format: 'float', minimum: 0)),
-            new OA\Parameter(name: 'price_to', description: 'Максимальная цена', in: 'query', required: false, schema: new OA\Schema(type: 'number', format: 'float', minimum: 0)),
-            new OA\Parameter(name: 'is_new', description: 'Фильтр по новинкам (1 или true)', in: 'query', required: false, schema: new OA\Schema(type: 'boolean')),
-            new OA\Parameter(name: 'is_bestseller', description: 'Фильтр по хитам продаж (1 или true)', in: 'query', required: false, schema: new OA\Schema(type: 'boolean')),
-            new OA\Parameter(name: 'ids', description: 'Список ID продуктов через запятую', in: 'query', required: false, schema: new OA\Schema(type: 'string')),
-            new OA\Parameter(name: 'sort', description: 'Поле и направление сортировки', in: 'query', required: false, schema: new OA\Schema(type: 'string', enum: ['price_asc', 'price_desc', 'name_asc', 'name_desc', 'created_at_desc'])),
-            new OA\Parameter(name: 'page', description: 'Номер страницы пагинации', in: 'query', required: false, schema: new OA\Schema(type: 'integer', minimum: 1)),
-            new OA\Parameter(name: 'per_page', description: 'Количество элементов на странице (макс: 100)', in: 'query', required: false, schema: new OA\Schema(type: 'integer', minimum: 1, maximum: 100)),
-        ],
-        responses: [
-            new OA\Response(
-                response: Response::HTTP_OK,
-                description: 'Успешный ответ со списком продуктов',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(ref: '#/components/schemas/Product')),
-                        new OA\Property(property: 'links', properties: [
-                            new OA\Property(property: 'first', type: 'string', format: 'url', nullable: true, example: '/api/v1/products?page=1'),
-                            new OA\Property(property: 'last', type: 'string', format: 'url', nullable: true, example: '/api/v1/products?page=10'),
-                            new OA\Property(property: 'prev', type: 'string', format: 'url', nullable: true, example: null),
-                            new OA\Property(property: 'next', type: 'string', format: 'url', nullable: true, example: '/api/v1/products?page=2'),
-                        ], type: 'object'),
-                        new OA\Property(property: 'meta', properties: [
-                            new OA\Property(property: 'current_page', type: 'integer', example: 1),
-                            new OA\Property(property: 'from', type: 'integer', nullable: true, example: 1),
-                            new OA\Property(property: 'last_page', type: 'integer', example: 10),
-                            new OA\Property(property: 'links', type: 'array', items: new OA\Items(properties: [
-                                new OA\Property(property: 'url', type: 'string', format: 'url', nullable: true, example: '/api/v1/products?page=1'),
-                                new OA\Property(property: 'label', type: 'string', example: '1'),
-                                new OA\Property(property: 'active', type: 'boolean', example: true),
-                            ], type: 'object')),
-                            new OA\Property(property: 'path', type: 'string', format: 'url', example: '/api/v1/products'),
-                            new OA\Property(property: 'per_page', type: 'integer', example: 15),
-                            new OA\Property(property: 'to', type: 'integer', nullable: true, example: 15),
-                            new OA\Property(property: 'total', type: 'integer', example: 150),
-                        ], type: 'object'),
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: Response::HTTP_UNPROCESSABLE_ENTITY,
-                description: 'Ошибка валидации параметров запроса',
-                content: new OA\JsonContent(properties: [
-                    new OA\Property(property: 'message', type: 'string', example: 'The given data was invalid.'),
-                    new OA\Property(property: 'errors', type: 'object', example: ['category' => ['The selected category is invalid.']]),
-                ])
-            ),
-        ]
-    )]
     public function index(ProductIndexRequest $request, ProductFilterService $filterService): AnonymousResourceCollection
     {
         // Get validated data with defaults
@@ -98,36 +119,47 @@ final class ProductController extends ApiController
 
     /**
      * Получить детальную информацию о продукте
+     *
+     * Этот эндпоинт возвращает детальную информацию о конкретном продукте, включая его категории,
+     * связанные товары и медиафайлы. Продукт идентифицируется по его уникальному slug.
+     *
+     * @urlParam slug string required Уникальный идентификатор продукта. Example: aromaticheskaya-svecha-lavanda
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *   "data": {
+     *     "id": 1,
+     *     "name": "Ароматическая свеча Лаванда",
+     *     "slug": "aromaticheskaya-svecha-lavanda",
+     *     "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
+     *     "price": 1200.99,
+     *     "dimensions": {
+     *       "width": 10,
+     *       "height": 12,
+     *       "depth": 10,
+     *       "weight": 350
+     *     },
+     *     "categories": [
+     *       {
+     *         "id": 1,
+     *         "name": "Ароматические свечи",
+     *         "slug": "aromaticheskie-svechi",
+     *         "description": "Свечи с различными ароматами",
+     *         "icon": "http://localhost:8000/storage/7/candle4.svg",
+     *         "parent_id": null,
+     *         "sort_order": 4,
+     *         "is_visible": true
+     *       }
+     *     ],
+     *     "related": [],
+     *     "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
+     *     "created_at": "2023-01-01T12:00:00.000000Z",
+     *     "updated_at": "2023-01-01T12:00:00.000000Z"
+     *   }
+     * }
+     * @response 404 scenario="Продукт не найден" {
+     *   "message": "Запрашиваемый ресурс не найден"
+     * }
      */
-    #[OA\Get(
-        path: '/api/v1/products/{slug}',
-        operationId: 'getProductBySlug',
-        summary: 'Получить детальную информацию о продукте',
-        description: 'Возвращает детальную информацию о продукте, включая его категории и рекомендуемые товары',
-        tags: ['Products'],
-        parameters: [
-            new OA\Parameter(
-                name: 'slug',
-                description: 'Slug продукта (например: iphone-13)',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(type: 'string'),
-                example: 'iphone-13'
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: Response::HTTP_OK,
-                description: 'Успешный ответ',
-                content: new OA\JsonContent(ref: '#/components/schemas/ProductResponse')
-            ),
-            new OA\Response(
-                response: Response::HTTP_NOT_FOUND,
-                description: 'Продукт не найден',
-                content: new OA\JsonContent(ref: '#/components/schemas/ErrorResponse')
-            ),
-        ],
-    )]
     public function show(string $slug): ProductResource|JsonResponse
     {
         $product = Product::where('slug', $slug)->first();

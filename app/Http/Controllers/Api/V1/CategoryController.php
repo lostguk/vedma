@@ -8,49 +8,72 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\V1\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use OpenApi\Attributes as OA;
 
+/**
+ * @group Категории
+ *
+ * API для работы с категориями товаров
+ *
+ * Категории представляют иерархическую структуру типов товаров магазина.
+ * Каждая категория может иметь родительскую категорию и дочерние категории,
+ * что позволяет строить многоуровневое дерево категорий.
+ *
+ * ## Структура категории
+ *
+ * Каждая категория содержит следующие основные поля:
+ * - `id` - Уникальный идентификатор категории
+ * - `name` - Название категории
+ * - `slug` - Уникальный текстовый идентификатор для URL
+ * - `description` - Описание категории
+ * - `icon` - URL иконки категории
+ * - `parent_id` - ID родительской категории (null для корневых категорий)
+ * - `sort_order` - Порядок сортировки
+ * - `is_visible` - Флаг видимости категории
+ * - `children` - Массив дочерних категорий (если запрошены)
+ *
+ * ## Использование API категорий
+ *
+ * API категорий позволяет получить как полный список категорий с их иерархией,
+ * так и детальную информацию по отдельной категории. Для идентификации конкретной
+ * категории используется её slug (например, "ritualnye-svechi").
+ */
 final class CategoryController extends ApiController
 {
     /**
-     * Get list of categories
+     * Получение списка категорий
+     *
+     * Возвращает список всех категорий магазина. По умолчанию включает все видимые категории.
+     * Вы можете использовать параметр `show_hidden` для отображения скрытых категорий.
+     *
+     * @queryParam show_hidden boolean Показать скрытые категории. Example: false
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "name": "Все свечи",
+     *             "slug": "vse-svechi",
+     *             "description": "Категория, включающая все типы свечей",
+     *             "icon": "http://localhost:8000/storage/1/candle2.svg",
+     *             "parent_id": null,
+     *             "sort_order": 1,
+     *             "is_visible": true,
+     *             "children": [
+     *                 {
+     *                     "id": 2,
+     *                     "name": "Ритуальные Свечи",
+     *                     "slug": "ritualnye-svechi",
+     *                     "description": "Свечи для различных ритуалов и церемоний",
+     *                     "icon": "http://localhost:8000/storage/2/candle3.svg",
+     *                     "parent_id": 1,
+     *                     "sort_order": 1,
+     *                     "is_visible": true
+     *                 }
+     *             ]
+     *         }
+     *     ]
+     * }
      */
-    #[OA\Get(
-        path: '/api/v1/categories',
-        summary: 'Get list of categories',
-        tags: ['Categories'],
-        parameters: [
-            new OA\Parameter(
-                name: 'include_children',
-                description: 'Include children categories in response',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'boolean'),
-            ),
-            new OA\Parameter(
-                name: 'show_hidden',
-                description: 'Show hidden categories',
-                in: 'query',
-                required: false,
-                schema: new OA\Schema(type: 'boolean'),
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Success',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'data',
-                            type: 'array',
-                            items: new OA\Items(ref: '#/components/schemas/Category'),
-                        ),
-                    ],
-                ),
-            ),
-        ],
-    )]
     public function index(): AnonymousResourceCollection
     {
         $query = Category::query()
@@ -67,34 +90,50 @@ final class CategoryController extends ApiController
     }
 
     /**
-     * Get category by slug
+     * Получение категории по уникальному идентификатору (slug)
+     *
+     * Возвращает детальную информацию о категории включая дочерние категории.
+     *
+     * @urlParam slug string required Уникальный идентификатор категории. Example: ritualnye-svechi
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *     "data": {
+     *         "id": 2,
+     *         "name": "Ритуальные Свечи",
+     *         "slug": "ritualnye-svechi",
+     *         "description": "Свечи для различных ритуалов и церемоний",
+     *         "icon": "http://localhost:8000/storage/2/candle3.svg",
+     *         "parent_id": 1,
+     *         "sort_order": 1,
+     *         "is_visible": true,
+     *         "children": [
+     *             {
+     *                 "id": 5,
+     *                 "name": "Свечи для привлечения денег",
+     *                 "slug": "svechi-dlya-privlecheniya-deneg",
+     *                 "description": "Специальные свечи для денежных ритуалов",
+     *                 "icon": "http://localhost:8000/storage/5/candle2.svg",
+     *                 "parent_id": 2,
+     *                 "sort_order": 1,
+     *                 "is_visible": true
+     *             },
+     *             {
+     *                 "id": 6,
+     *                 "name": "Любовные свечи",
+     *                 "slug": "lyubovnye-svechi",
+     *                 "description": "Свечи для привлечения любви и укрепления отношений",
+     *                 "icon": "http://localhost:8000/storage/6/candle2.svg",
+     *                 "parent_id": 2,
+     *                 "sort_order": 2,
+     *                 "is_visible": true
+     *             }
+     *         ]
+     *     }
+     * }
+     * @response 404 scenario="Категория не найдена" {
+     *     "message": "No query results for model [App\\Models\\Category]."
+     * }
      */
-    #[OA\Get(
-        path: '/api/v1/categories/{slug}',
-        summary: 'Get category by slug',
-        tags: ['Categories'],
-        parameters: [
-            new OA\Parameter(
-                name: 'slug',
-                description: 'Category slug',
-                in: 'path',
-                required: true,
-                schema: new OA\Schema(type: 'string'),
-            ),
-        ],
-        responses: [
-            new OA\Response(
-                response: 200,
-                description: 'Success',
-                content: new OA\JsonContent(ref: '#/components/schemas/Category'),
-            ),
-            new OA\Response(
-                response: 404,
-                description: 'Category not found',
-                content: new OA\JsonContent(ref: '#/components/schemas/CategoryNotFound'),
-            ),
-        ],
-    )]
     public function show(string $slug): CategoryResource
     {
         $category = Category::query()
