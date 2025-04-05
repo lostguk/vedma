@@ -16,12 +16,14 @@ jobs:
       - name: Setup SSH and Add Key to ssh-agent
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/server_key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}"
+          cat ~/.ssh/server_key
+          chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 151.248.120.202 >> ~/.ssh/known_hosts
 
           eval $(ssh-agent -s)
-          ssh-add ~/.ssh/id_ed25519
+          ssh-add ~/.ssh/server_key
 
       - name: Deploy over SSH with Debugging
         run: |
