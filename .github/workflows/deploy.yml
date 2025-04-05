@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: main 
+    environment: main
 
     steps:
       - name: Checkout repository
@@ -33,17 +33,12 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{secrets}}"
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
-          echo "${{ secrets.DEPLOY }}"
-          cat ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 151.248.120.202 >> ~/.ssh/known_hosts
 
-          eval $(ssh-agent -s)
-          ssh-add ~/.ssh/server_key
-
       - name: Deploy over SSH with Debugging
         run: |
-          ssh -vvv deploy@151.248.120.202 << 'EOF'
+          ssh -vvv deploy@151.248.120.202 -i ~/.ssh/known_hosts << 'EOF'
             set -e
             cd /opt/vedma
             git pull origin cicd
