@@ -38,7 +38,7 @@ jobs:
 
       - name: Deploy over SSH with Debugging
         run: |
-          ssh -vvv deploy@151.248.120.202 -i ~/.ssh/known_hosts << 'EOF'
+          ssh -vvv deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
             set -e
             cd /opt/vedma
             git pull origin cicd
