@@ -38,9 +38,10 @@ jobs:
 
       - name: Deploy over SSH with Debugging
         run: |
-          ssh -vvv deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
+          ssh deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
             set -e
             cd /opt/vedma
+            git stash
             git pull origin cicd
             docker compose down
             docker compose up -d --build
