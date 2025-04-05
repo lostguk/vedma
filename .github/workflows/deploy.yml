@@ -19,10 +19,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H 151.248.120.202 >> ~/.ssh/known_hosts
+          # Выведем содержимое ключа для отладки
+          cat ~/.ssh/id_ed25519
+          # Выведем известные хосты для отладки
+          cat ~/.ssh/known_hosts
 
       - name: Deploy over SSH
         run: |
-          ssh deploy@151.248.120.202 << 'EOF'
+          # Пытаемся подключиться с флагом -v для отладки
+          ssh -v deploy@151.248.120.202 << 'EOF'
             set -e
             cd /opt/vedma
             git pull origin cicd
