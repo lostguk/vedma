@@ -13,9 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Check available secrets
+        run: |
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "SSH_PRIVATE_KEY is not set"
+          else
+            echo "SSH_PRIVATE_KEY is set"
+          fi
+
+          if [ -z "${{ secrets.DEPLOY }}" ]; then
+            echo "DEPLOY is not set"
+          else
+            echo "DEPLOY is set"
+          fi
+
       - name: Setup SSH and Add Key to ssh-agent
         run: |
           mkdir -p ~/.ssh
+          echo "${{secrets}}"
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           echo "${{ secrets.DEPLOY }}"
           cat ~/.ssh/server_key
