@@ -9,6 +9,7 @@ services:
         volumes:
             - ./:/var/www/html
             - ./docker/nginx/conf.d:/etc/nginx/conf.d
+            - /etc/letsencrypt/:/etc/letsencrypt/
         depends_on:
             php:
                 condition: service_healthy
@@ -24,8 +25,8 @@ services:
 
     php:
         build:
-            context: ./docker/php
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./docker/php/Dockerfile
         container_name: shop_php
         volumes:
             - ./:/var/www/html
