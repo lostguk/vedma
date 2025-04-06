@@ -34,6 +34,11 @@ final class UserRepository extends BaseRepository
      */
     public function createWithVerification(array $payload): User
     {
+        // Удаляем поле password_confirmation, так как его нет в таблице users
+        if (isset($payload['password_confirmation'])) {
+            unset($payload['password_confirmation']);
+        }
+
         $payload['email_verification_token'] = Str::random(64);
 
         /** @var User $user */
