@@ -1,105 +1,89 @@
-name: Продукты
+name: Категории
 description: |-
 
-  API для работы с продуктами магазина
+  API для работы с категориями товаров
 
-  Продукты - основные товары, доступные в магазине магических товаров.
-  API предоставляет возможности для получения списка продуктов с фильтрацией,
-  сортировкой и пагинацией, а также детальной информации о конкретном продукте.
+  Категории представляют иерархическую структуру типов товаров магазина.
+  Каждая категория может иметь родительскую категорию и дочерние категории,
+  что позволяет строить многоуровневое дерево категорий.
 
-  ## Структура продукта
+  ## Структура категории
 
-  Каждый продукт содержит следующие основные поля:
-  - `id` - Уникальный идентификатор продукта
-  - `name` - Название продукта
+  Каждая категория содержит следующие основные поля:
+  - `id` - Уникальный идентификатор категории
+  - `name` - Название категории
   - `slug` - Уникальный текстовый идентификатор для URL
-  - `description` - Описание продукта
-  - `price` - Текущая цена
-  - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
-  - `categories` - Категории, к которым относится продукт
-  - `images_urls` - Массив URL изображений продукта
-  - `is_new` - Флаг новинки
-  - `is_bestseller` - Флаг хита продаж
+  - `description` - Описание категории
+  - `icon` - URL иконки категории
+  - `parent_id` - ID родительской категории (null для корневых категорий)
+  - `sort_order` - Порядок сортировки
+  - `is_visible` - Флаг видимости категории
+  - `children` - Массив дочерних категорий (если запрошены)
 
-  ## Фильтрация и сортировка
+  ## Использование API категорий
 
-  API продуктов предоставляет разнообразные возможности фильтрации:
-  - По категории
-  - По ценовому диапазону
-  - По наличию статуса новинки или хита продаж
-  - По текстовому поиску в названии
-
-  Доступные варианты сортировки:
-  - По цене (возрастание/убывание)
-  - По названию (возрастание/убывание)
-  - По дате добавления (убывание)
+  API категорий позволяет получить как полный список категорий с их иерархией,
+  так и детальную информацию по отдельной категории. Для идентификации конкретной
+  категории используется её slug (например, "ritualnye-svechi").
 endpoints:
   -
     httpMethods:
       - GET
-    uri: 'api/v1/products/{slug}'
+    uri: api/v1/categories
     metadata:
-      groupName: Продукты
+      groupName: Категории
       groupDescription: |-
 
-        API для работы с продуктами магазина
+        API для работы с категориями товаров
 
-        Продукты - основные товары, доступные в магазине магических товаров.
-        API предоставляет возможности для получения списка продуктов с фильтрацией,
-        сортировкой и пагинацией, а также детальной информации о конкретном продукте.
+        Категории представляют иерархическую структуру типов товаров магазина.
+        Каждая категория может иметь родительскую категорию и дочерние категории,
+        что позволяет строить многоуровневое дерево категорий.
 
-        ## Структура продукта
+        ## Структура категории
 
-        Каждый продукт содержит следующие основные поля:
-        - `id` - Уникальный идентификатор продукта
-        - `name` - Название продукта
+        Каждая категория содержит следующие основные поля:
+        - `id` - Уникальный идентификатор категории
+        - `name` - Название категории
         - `slug` - Уникальный текстовый идентификатор для URL
-        - `description` - Описание продукта
-        - `price` - Текущая цена
-        - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
-        - `categories` - Категории, к которым относится продукт
-        - `images_urls` - Массив URL изображений продукта
-        - `is_new` - Флаг новинки
-        - `is_bestseller` - Флаг хита продаж
+        - `description` - Описание категории
+        - `icon` - URL иконки категории
+        - `parent_id` - ID родительской категории (null для корневых категорий)
+        - `sort_order` - Порядок сортировки
+        - `is_visible` - Флаг видимости категории
+        - `children` - Массив дочерних категорий (если запрошены)
 
-        ## Фильтрация и сортировка
+        ## Использование API категорий
 
-        API продуктов предоставляет разнообразные возможности фильтрации:
-        - По категории
-        - По ценовому диапазону
-        - По наличию статуса новинки или хита продаж
-        - По текстовому поиску в названии
-
-        Доступные варианты сортировки:
-        - По цене (возрастание/убывание)
-        - По названию (возрастание/убывание)
-        - По дате добавления (убывание)
+        API категорий позволяет получить как полный список категорий с их иерархией,
+        так и детальную информацию по отдельной категории. Для идентификации конкретной
+        категории используется её slug (например, "ritualnye-svechi").
       subgroup: ''
       subgroupDescription: ''
-      title: 'Получить детальную информацию о продукте'
+      title: 'Получение списка категорий'
       description: |-
-        Этот эндпоинт возвращает детальную информацию о конкретном продукте, включая его категории,
-        связанные товары и медиафайлы. Продукт идентифицируется по его уникальному slug.
+        Возвращает список всех категорий магазина. По умолчанию включает все видимые категории.
+        Вы можете использовать параметр `show_hidden` для отображения скрытых категорий.
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      slug:
-        name: slug
-        description: 'Уникальный идентификатор продукта.'
-        required: true
-        example: aromaticheskaya-svecha-lavanda
-        type: string
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      show_hidden:
+        name: show_hidden
+        description: 'Показать скрытые категории.'
+        required: false
+        example: false
+        type: boolean
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         custom: []
-    cleanUrlParameters:
-      slug: aromaticheskaya-svecha-lavanda
-    queryParameters: []
-    cleanQueryParameters: []
+    cleanQueryParameters:
+      show_hidden: false
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -108,47 +92,33 @@ endpoints:
         status: 200
         content: |-
           {
-            "data": {
-              "id": 1,
-              "name": "Ароматическая свеча Лаванда",
-              "slug": "aromaticheskaya-svecha-lavanda",
-              "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
-              "price": 1200.99,
-              "dimensions": {
-                "width": 10,
-                "height": 12,
-                "depth": 10,
-                "weight": 350
-              },
-              "categories": [
-                {
-                  "id": 1,
-                  "name": "Ароматические свечи",
-                  "slug": "aromaticheskie-svechi",
-                  "description": "Свечи с различными ароматами",
-                  "icon": "http://localhost:8000/storage/7/candle4.svg",
-                  "parent_id": null,
-                  "sort_order": 4,
-                  "is_visible": true
-                }
-              ],
-              "related": [],
-              "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
-              "created_at": "2023-01-01T12:00:00.000000Z",
-              "updated_at": "2023-01-01T12:00:00.000000Z"
-            }
+              "data": [
+                  {
+                      "id": 1,
+                      "name": "Все свечи",
+                      "slug": "vse-svechi",
+                      "description": "Категория, включающая все типы свечей",
+                      "icon": "http://localhost:8000/storage/1/candle2.svg",
+                      "parent_id": null,
+                      "sort_order": 1,
+                      "is_visible": true,
+                      "children": [
+                          {
+                              "id": 2,
+                              "name": "Ритуальные Свечи",
+                              "slug": "ritualnye-svechi",
+                              "description": "Свечи для различных ритуалов и церемоний",
+                              "icon": "http://localhost:8000/storage/2/candle3.svg",
+                              "parent_id": 1,
+                              "sort_order": 1,
+                              "is_visible": true
+                          }
+                      ]
+                  }
+              ]
           }
         headers: []
         description: 'Успешный запрос'
-        custom: []
-      -
-        status: 404
-        content: |-
-          {
-            "message": "Запрашиваемый ресурс не найден"
-          }
-        headers: []
-        description: 'Продукт не найден'
         custom: []
     responseFields: []
     auth: []
@@ -159,157 +129,59 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: api/v1/products
+    uri: 'api/v1/categories/{slug}'
     metadata:
-      groupName: Продукты
+      groupName: Категории
       groupDescription: |-
 
-        API для работы с продуктами магазина
+        API для работы с категориями товаров
 
-        Продукты - основные товары, доступные в магазине магических товаров.
-        API предоставляет возможности для получения списка продуктов с фильтрацией,
-        сортировкой и пагинацией, а также детальной информации о конкретном продукте.
+        Категории представляют иерархическую структуру типов товаров магазина.
+        Каждая категория может иметь родительскую категорию и дочерние категории,
+        что позволяет строить многоуровневое дерево категорий.
 
-        ## Структура продукта
+        ## Структура категории
 
-        Каждый продукт содержит следующие основные поля:
-        - `id` - Уникальный идентификатор продукта
-        - `name` - Название продукта
+        Каждая категория содержит следующие основные поля:
+        - `id` - Уникальный идентификатор категории
+        - `name` - Название категории
         - `slug` - Уникальный текстовый идентификатор для URL
-        - `description` - Описание продукта
-        - `price` - Текущая цена
-        - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
-        - `categories` - Категории, к которым относится продукт
-        - `images_urls` - Массив URL изображений продукта
-        - `is_new` - Флаг новинки
-        - `is_bestseller` - Флаг хита продаж
+        - `description` - Описание категории
+        - `icon` - URL иконки категории
+        - `parent_id` - ID родительской категории (null для корневых категорий)
+        - `sort_order` - Порядок сортировки
+        - `is_visible` - Флаг видимости категории
+        - `children` - Массив дочерних категорий (если запрошены)
 
-        ## Фильтрация и сортировка
+        ## Использование API категорий
 
-        API продуктов предоставляет разнообразные возможности фильтрации:
-        - По категории
-        - По ценовому диапазону
-        - По наличию статуса новинки или хита продаж
-        - По текстовому поиску в названии
-
-        Доступные варианты сортировки:
-        - По цене (возрастание/убывание)
-        - По названию (возрастание/убывание)
-        - По дате добавления (убывание)
+        API категорий позволяет получить как полный список категорий с их иерархией,
+        так и детальную информацию по отдельной категории. Для идентификации конкретной
+        категории используется её slug (например, "ritualnye-svechi").
       subgroup: ''
       subgroupDescription: ''
-      title: 'Получить список продуктов с фильтрацией, сортировкой и пагинацией.'
-      description: |-
-        Этот эндпоинт возвращает пагинированный список продуктов с возможностью фильтрации
-        по различным параметрам, включая категорию, ценовой диапазон и статус "новинка".
+      title: 'Получение категории по уникальному идентификатору (slug)'
+      description: 'Возвращает детальную информацию о категории включая дочерние категории.'
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters:
-      search:
-        name: search
-        description: 'Строка для поиска продуктов по названию.'
-        required: false
-        example: свеча
+    urlParameters:
+      slug:
+        name: slug
+        description: 'Уникальный идентификатор категории.'
+        required: true
+        example: ritualnye-svechi
         type: string
         enumValues: []
         exampleWasSpecified: true
-        nullable: true
+        nullable: false
         custom: []
-      category:
-        name: category
-        description: 'Slug категории для фильтрации продуктов.'
-        required: false
-        example: aromaticheskie-svechi
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      price_from:
-        name: price_from
-        description: 'numeric Минимальная цена для фильтрации.'
-        required: false
-        example: '100'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      price_to:
-        name: price_to
-        description: 'numeric Максимальная цена для фильтрации.'
-        required: false
-        example: '500'
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      is_new:
-        name: is_new
-        description: 'Фильтр для отображения только новых продуктов.'
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      is_bestseller:
-        name: is_bestseller
-        description: 'Фильтр для отображения только хитов продаж.'
-        required: false
-        example: true
-        type: boolean
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      ids:
-        name: ids
-        description: 'Список ID продуктов через запятую для фильтрации.'
-        required: false
-        example: '1,2,3'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        nullable: true
-        custom: []
-      sort:
-        name: sort
-        description: 'Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc).'
-        required: false
-        example: price_asc
-        type: string
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-      per_page:
-        name: per_page
-        description: 'Количество результатов на странице (от 1 до 100).'
-        required: false
-        example: 15
-        type: integer
-        enumValues: []
-        exampleWasSpecified: true
-        nullable: true
-        custom: []
-    cleanQueryParameters:
-      search: свеча
-      category: aromaticheskie-svechi
-      price_from: '100'
-      price_to: '500'
-      is_new: true
-      is_bestseller: true
-      ids: '1,2,3'
-      sort: price_asc
-      per_page: 15
+    cleanUrlParameters:
+      slug: ritualnye-svechi
+    queryParameters: []
+    cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
@@ -318,42 +190,50 @@ endpoints:
         status: 200
         content: |-
           {
-            "data": [
-              {
-                "id": 1,
-                "name": "Ароматическая свеча Лаванда",
-                "slug": "aromaticheskaya-svecha-lavanda",
-                "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
-                "price": 1200.99,
-                "dimensions": {
-                  "width": 10,
-                  "height": 12,
-                  "depth": 10,
-                  "weight": 350
-                },
-                "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
-                "created_at": "2023-01-01T12:00:00.000000Z",
-                "updated_at": "2023-01-01T12:00:00.000000Z"
+              "data": {
+                  "id": 2,
+                  "name": "Ритуальные Свечи",
+                  "slug": "ritualnye-svechi",
+                  "description": "Свечи для различных ритуалов и церемоний",
+                  "icon": "http://localhost:8000/storage/2/candle3.svg",
+                  "parent_id": 1,
+                  "sort_order": 1,
+                  "is_visible": true,
+                  "children": [
+                      {
+                          "id": 5,
+                          "name": "Свечи для привлечения денег",
+                          "slug": "svechi-dlya-privlecheniya-deneg",
+                          "description": "Специальные свечи для денежных ритуалов",
+                          "icon": "http://localhost:8000/storage/5/candle2.svg",
+                          "parent_id": 2,
+                          "sort_order": 1,
+                          "is_visible": true
+                      },
+                      {
+                          "id": 6,
+                          "name": "Любовные свечи",
+                          "slug": "lyubovnye-svechi",
+                          "description": "Свечи для привлечения любви и укрепления отношений",
+                          "icon": "http://localhost:8000/storage/6/candle2.svg",
+                          "parent_id": 2,
+                          "sort_order": 2,
+                          "is_visible": true
+                      }
+                  ]
               }
-            ],
-            "links": {
-              "first": "/api/v1/products?page=1",
-              "last": "/api/v1/products?page=5",
-              "prev": null,
-              "next": "/api/v1/products?page=2"
-            },
-            "meta": {
-              "current_page": 1,
-              "from": 1,
-              "last_page": 5,
-              "path": "/api/v1/products",
-              "per_page": 15,
-              "to": 15,
-              "total": 75
-            }
           }
         headers: []
         description: 'Успешный запрос'
+        custom: []
+      -
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Category]."
+          }
+        headers: []
+        description: 'Категория не найдена'
         custom: []
     responseFields: []
     auth: []

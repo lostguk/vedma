@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+# Проверяем, что .env существует и доступен
+if [ ! -f .env ]; then
+    echo ".env file not found!"
+    exit 1
+fi
+
 # Устанавливаем зависимости Composer, если vendor не существует
 if [ ! -d vendor ]; then
     echo "Installing Composer dependencies..."
@@ -8,7 +14,10 @@ if [ ! -d vendor ]; then
 fi
 
 # Генерируем ключ приложения, если он не установлен
-php artisan key:generate --no-interaction --force
+if ! php artisan key:generate --no-interaction --force; then
+    echo "Failed to generate APP_KEY"
+    exit 1
+fi
 
 # Запускаем миграции, если таблицы не существуют
 php artisan migrate --no-interaction --force
