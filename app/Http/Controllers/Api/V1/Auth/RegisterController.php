@@ -54,6 +54,7 @@ final class RegisterController extends ApiController
      * @bodyParam middle_name string required Отчество пользователя. Example: Иванович
      * @bodyParam email string required Email пользователя (должен быть уникальным). Example: user@example.com
      * @bodyParam password string required Пароль (минимум 8 символов). Example: password123
+     * @bodyParam password_confirmation string required Пароль (минимум 8 символов). Example: password123
      * @bodyParam phone string Номер телефона в формате +7 (XXX) XXX-XX-XX. Example: +7 (999) 123-45-67
      * @bodyParam country string Страна. Example: Россия
      * @bodyParam region string Регион/область. Example: Московская область

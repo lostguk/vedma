@@ -27,6 +27,7 @@ class RegisterRequest extends ApiRequest
             'middle_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => ['required', 'string'],
             'phone' => ['nullable', 'string', 'max:20', 'regex:/^\+7\s?\(?\d{3}\)?\s?\d{3}[-\s]?\d{2}[-\s]?\d{2}$/'],
             'country' => ['nullable', 'string', 'max:255'],
             'region' => ['nullable', 'string', 'max:255'],
@@ -110,6 +111,7 @@ class RegisterRequest extends ApiRequest
             'password.required' => 'Поле Пароль обязательно для заполнения',
             'password.min' => 'Пароль должен содержать минимум 8 символов',
             'password.confirmed' => 'Пароли не совпадают',
+            'password_confirmation.required' => 'Поле Подтверждение пароля обязательно для заполнения',
             'phone.regex' => 'Неверный формат номера телефона. Используйте формат: +7 (XXX) XXX-XX-XX',
         ];
     }

@@ -119,11 +119,17 @@
         "docker-pint-test": [
             "docker-compose exec php ./vendor/bin/pint --test"
         ],
-        "swagger": [
-            "php artisan l5-swagger:generate"
+        "docs": [
+            "php artisan scribe:generate"
         ],
-        "docker-swagger": [
-            "docker-compose exec php php artisan l5-swagger:generate"
+        "docker-docs": [
+            "docker exec shop_php php artisan scribe:generate"
+        ],
+        "docs-force": [
+            "php artisan scribe:generate --force"
+        ],
+        "docker-docs-force": [
+            "docker exec shop_php php artisan scribe:generate --force"
         ]
     },
     "scripts-descriptions": {
@@ -137,8 +143,10 @@
         "pint-test": "Проверка форматирования кода без внесения изменений",
         "docker-pint": "Docker: Форматирование кода",
         "docker-pint-test": "Docker: Проверка форматирования кода без внесения изменений",
-        "swagger": "Генерация Swagger документации",
-        "docker-swagger": "Docker: Генерация Swagger документации"
+        "docs": "Генерация API документации",
+        "docker-docs": "Docker: Генерация API документации",
+        "docs-force": "Генерация API документации с принудительной перезаписью файлов",
+        "docker-docs-force": "Docker: Генерация API документации с принудительной перезаписью файлов"
     },
     "extra": {
         "laravel": {
