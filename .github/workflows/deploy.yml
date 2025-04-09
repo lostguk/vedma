@@ -38,6 +38,7 @@ jobs:
           ssh deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
             set -e
             cd /opt/vedma
+            rm -rf .scribe/endpoints.cache || true
             git stash
             git pull origin main
             docker-compose down
