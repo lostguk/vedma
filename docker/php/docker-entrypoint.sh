@@ -31,6 +31,8 @@ php artisan config:clear
 php artisan view:clear
 php artisan route:clear
 
+composer fresh-seed
+
 echo "Initialization completed successfully!"
 
 # Запускаем основную команду
