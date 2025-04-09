@@ -31,8 +31,8 @@ WORKDIR /var/www/html
 
 # Создаем скрипт для инициализации проекта, если он нужен
 # Но лучше делать инициализацию через docker-compose.yml или вручную
-# COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-# RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-# ENTRYPOINT ["docker-entrypoint.sh"]
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["php-fpm"]
