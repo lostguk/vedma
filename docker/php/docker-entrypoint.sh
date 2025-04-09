@@ -19,6 +19,8 @@ if ! php artisan key:generate --no-interaction --force; then
     exit 1
 fi
 
+# Ждем пока база поднимется 20 секунд
+sleep 20
 # Запускаем миграции, если таблицы не существуют
 php artisan migrate --no-interaction --force
 
