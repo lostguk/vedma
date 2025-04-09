@@ -1,0 +1,48 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: main
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check available secrets
+        run: |
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "SSH_PRIVATE_KEY is not set"
+          else
+            echo "SSH_PRIVATE_KEY is set"
+          fi
+          if [ -z "${{ secrets.DEPLOY }}" ]; then
+            echo "DEPLOY is not set"
+          else
+            echo "DEPLOY is set"
+          fi
+      - name: Setup SSH and Add Key to ssh-agent
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{secrets}}"
+          echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
+          chmod 600 ~/.ssh/server_key
+          ssh-keyscan -H 151.248.120.202 >> ~/.ssh/known_hosts
+      - name: Deploy over SSH with Debugging
+        run: |
+          ssh deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
+            set -e
+            cd /opt/vedma
+            sudo rm -rf .scribe/endpoints.cache || true
+            sudo chown -R $USER:$USER . || true
+            git stash
+            git pull origin main
+            docker-compose down
+            docker-compose build
+            docker-compose up -d 
+          EOF

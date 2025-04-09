@@ -3,14 +3,13 @@ services:
         build:
             context: ./docker/nginx
             dockerfile: Dockerfile
-        container_name: shop_nginx
+        container_name: shop_nginx_dev
         ports:
-            - "80:80"
-            - "443:443"
+            - "8000:80"
         volumes:
             - ./:/var/www/html
-            - ./docker/nginx/conf.d:/etc/nginx/conf.d
-            - /etc/letsencrypt/:/etc/letsencrypt/
+            - ./docker/nginx/dev/conf.d:/etc/nginx/conf.d
+
         depends_on:
             php:
                 condition: service_healthy
@@ -28,13 +27,13 @@ services:
         build:
             context: ./docker/php
             dockerfile: Dockerfile
-        container_name: shop_php
+        container_name: shop_php_dev
         volumes:
             - ./:/var/www/html
             - composer_cache:/var/www/.composer/cache
             - npm_cache:/var/www/.npm
         ports:
-            - "9000:9000"
+            - "9001:9000"
         networks:
             - shop_network
         healthcheck:
@@ -45,7 +44,7 @@ services:
 
     mysql:
         image: mysql:8.0
-        container_name: shop_mysql
+        container_name: shop_mysql_dev
         restart: unless-stopped
         environment:
             MYSQL_DATABASE: ${DB_DATABASE}
@@ -53,7 +52,7 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_USER: ${DB_USERNAME}
         ports:
-            - "3306:3306"
+            - "3307:3306"
         volumes:
             - mysql_data:/var/lib/mysql
             - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
@@ -77,9 +76,9 @@ services:
 
     redis:
         image: redis:alpine
-        container_name: shop_redis
+        container_name: shop_redis_dev
         ports:
-            - "6379:6379"
+            - "6378:6379"
         networks:
             - shop_network
         healthcheck:
@@ -90,9 +89,9 @@ services:
 
     adminer:
         image: adminer:latest
-        container_name: shop_adminer
+        container_name: shop_adminer_dev
         ports:
-            - "8080:8080"
+            - "8081:8080"
         environment:
             ADMINER_DEFAULT_SERVER: mysql
         networks:
