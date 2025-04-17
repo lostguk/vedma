@@ -125,7 +125,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: April 4, 2025</li>
+        <li>Last updated: April 17, 2025</li>
     </ul>
 </div>
 
@@ -901,7 +901,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-04-04T08:55:57+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-04-17T04:36:02+00:00&quot;
 }</code>
  </pre>
     </span>

@@ -25,7 +25,7 @@
 
 1. Клонируйте репозиторий:
 
-    ```
+````
     git clone git@github.com:username/shop.git
     cd shop
     ```
@@ -39,7 +39,7 @@
 3. Запустите Docker-контейнеры:
 
     ```
-    docker-compose up -d
+    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
     ```
 
 4. Веб-приложение будет доступно по адресу:
@@ -51,8 +51,10 @@
 
 Документация API автоматически генерируется с помощью Scribe и доступна по адресу:
 
-```
+````
+
 http://localhost:8000/docs
+
 ```
 
 API документация организована в следующие группы для удобной навигации:
@@ -66,8 +68,10 @@ API документация организована в следующие гр
 Для обновления документации после внесения изменений в API выполните:
 
 ```
+
 docker exec shop_php php artisan scribe:generate
-```
+
+````
 
 ### Группировка эндпоинтов в API
 
@@ -84,7 +88,7 @@ class OrderController extends ApiController
 {
     // методы контроллера
 }
-```
+````
 
 Порядок групп можно настроить в файле `config/scribe.php` в секции `groups.order`.
 
