@@ -57,15 +57,15 @@
     </div>
 
     <div id="toc">
-                    <ul id="tocify-header-api-magazina-magiceskix-tovarov" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="api-magazina-magiceskix-tovarov">
-                    <a href="#api-magazina-magiceskix-tovarov">API Магазина Магических Товаров</a>
+                    <ul id="tocify-header-introduction" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="introduction">
+                    <a href="#introduction">Introduction</a>
                 </li>
-                                    <ul id="tocify-subheader-api-magazina-magiceskix-tovarov" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="dobro-pozalovat-v-dokumentaciiu-api">
-                                <a href="#dobro-pozalovat-v-dokumentaciiu-api">Добро пожаловать в документацию API</a>
-                            </li>
-                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-authenticating-requests" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authenticating-requests">
+                    <a href="#authenticating-requests">Authenticating requests</a>
+                </li>
                             </ul>
                     <ul id="tocify-header-autentifikaciia" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="autentifikaciia">
@@ -132,25 +132,18 @@
 <div class="page-wrapper">
     <div class="dark-box"></div>
     <div class="content">
-        <h1 id="api-magazina-magiceskix-tovarov">API Магазина Магических Товаров</h1>
-<h2 id="dobro-pozalovat-v-dokumentaciiu-api">Добро пожаловать в документацию API</h2>
-<p>Данное API предоставляет доступ к каталогу магических товаров, включая категории и продукты. Используйте его для интеграции нашего магического ассортимента в ваши приложения.</p>
-<h3 id="nacalo-raboty">Начало работы</h3>
-<ol>
-<li>Изучите документацию эндпоинтов</li>
-<li>Используйте предоставленные примеры запросов</li>
-<li>Тестируйте запросы прямо из документации с помощью &quot;Try it out&quot;</li>
-</ol>
-<h3 id="osnovnye-razdely-api">Основные разделы API</h3>
-<ul>
-<li><strong>Аутентификация</strong> — регистрация новых пользователей</li>
-<li><strong>Категории</strong> — получение списка категорий и подкатегорий товаров</li>
-<li><strong>Продукты</strong> — получение списка товаров с фильтрацией и подробной информацией о товаре</li>
-</ul>
-<h3 id="formaty-dannyx">Форматы данных</h3>
-<p>Все ответы API возвращаются в формате JSON, с соответствующим HTTP-кодом состояния.</p>
+        <h1 id="introduction">Introduction</h1>
+<p>API для интеграции с магазином магических товаров. Позволяет просматривать категории и товары, а также регистрировать новых пользователей.</p>
+<aside>
+    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+</aside>
+<pre><code>This documentation aims to provide all the information you need to work with our API.
 
-        <!-- Этот файл намеренно оставлен пустым -->
+&lt;aside&gt;As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).&lt;/aside&gt;</code></pre>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>This API is not authenticated.</p>
 
         <h1 id="autentifikaciia">Аутентификация</h1>
 
@@ -901,7 +894,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-04-17T04:36:02+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-04-17T04:55:31+00:00&quot;
 }</code>
  </pre>
     </span>
