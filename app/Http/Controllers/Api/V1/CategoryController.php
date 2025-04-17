@@ -46,6 +46,7 @@ final class CategoryController extends ApiController
      * Вы можете использовать параметр `show_hidden` для отображения скрытых категорий.
      *
      * @queryParam show_hidden boolean Показать скрытые категории. Example: false
+     * @queryParam ids array Список идентификаторов категорий. Example: [1, 2, 3]
      *
      * @response 200 scenario="Успешный запрос" {
      *     "data": [
@@ -82,6 +83,13 @@ final class CategoryController extends ApiController
 
         if (! request()->boolean('show_hidden')) {
             $query->visible();
+        }
+
+        $ids = request()->input('ids');
+
+        if ($ids) {
+            $ids = array_filter(array_map('intval', $ids), fn ($id) => $id > 0);
+            $query->whereIn('id', $ids);
         }
 
         $categories = $query->get();

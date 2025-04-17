@@ -515,7 +515,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/categories?show_hidden=" \
+    --get "http://localhost:8000/api/v1/categories?show_hidden=&amp;ids[]=1&amp;ids[]=2&amp;ids[]=3" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -527,6 +527,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 const params = {
     "show_hidden": "0",
+    "ids[0]": "1",
+    "ids[1]": "2",
+    "ids[2]": "3",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -667,6 +670,19 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </label>
     <br>
 <p>Показать скрытые категории. Example: <code>false</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>ids</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="ids[0]"                data-endpoint="GETapi-v1-categories"
+               data-component="query">
+        <input type="text" style="display: none"
+               name="ids[1]"                data-endpoint="GETapi-v1-categories"
+               data-component="query">
+    <br>
+<p>Список идентификаторов категорий.</p>
             </div>
                 </form>
 
@@ -894,7 +910,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-04-17T04:55:31+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-04-17T07:58:57+00:00&quot;
 }</code>
  </pre>
     </span>
