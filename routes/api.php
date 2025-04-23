@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -25,6 +26,7 @@ Route::prefix('v1')->group(function () {
         return response()->json(['status' => 'ok']);
     });
     Route::post('register', RegisterController::class)->name('api.v1.auth.register');
+    Route::post('login', LoginController::class)->name('api.v1.auth.login');
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
     Route::get('categories/{slug}', [CategoryController::class, 'show'])->name('api.v1.categories.show');
     Route::get('products/{slug}', [ProductController::class, 'show'])
