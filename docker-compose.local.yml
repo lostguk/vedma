@@ -27,6 +27,8 @@ services:
       retries: 3
 
   php:
+    env_file:
+        - .env
     build:
       context: ./docker/php
       dockerfile: Dockerfile
