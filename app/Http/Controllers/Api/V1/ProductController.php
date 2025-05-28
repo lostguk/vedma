@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * - `slug` - Уникальный текстовый идентификатор для URL
  * - `description` - Описание продукта
  * - `price` - Текущая цена
+ * - `old_price` - Старая цена
  * - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
  * - `categories` - Категории, к которым относится продукт
  * - `images_urls` - Массив URL изображений продукта
@@ -74,6 +75,7 @@ final class ProductController extends ApiController
      *       "slug": "aromaticheskaya-svecha-lavanda",
      *       "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *       "price": 1200.99,
+     *       "old_price": 1500.00,
      *       "dimensions": {
      *         "width": 10,
      *         "height": 12,
@@ -132,6 +134,7 @@ final class ProductController extends ApiController
      *     "slug": "aromaticheskaya-svecha-lavanda",
      *     "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *     "price": 1200.99,
+     *     "old_price": 1500.00,
      *     "dimensions": {
      *       "width": 10,
      *       "height": 12,

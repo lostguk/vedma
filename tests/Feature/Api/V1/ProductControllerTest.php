@@ -32,6 +32,7 @@ class ProductControllerTest extends TestCase
                     'slug',
                     'description',
                     'price',
+                    'old_price',
                     'dimensions' => [
                         'width',
                         'height',
@@ -85,12 +86,14 @@ class ProductControllerTest extends TestCase
                     'name',
                     'slug',
                     'price',
+                    'old_price',
                 ],
             ])
             ->assertJsonPath('data.id', $product->id)
             ->assertJsonPath('data.name', $product->name)
             ->assertJsonPath('data.slug', $product->slug)
-            ->assertJsonPath('data.price', 99.99);
+            ->assertJsonPath('data.price', 99.99)
+            ->assertJsonPath('data.old_price', $product->old_price);
     }
 
     /**
@@ -152,6 +155,7 @@ class ProductControllerTest extends TestCase
                         'slug',
                         'description',
                         'price',
+                        'old_price',
                         'dimensions',
                         'categories',
                         'related',

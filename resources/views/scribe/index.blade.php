@@ -1202,7 +1202,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-05-28T15:40:40+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-05-28T15:49:37+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -1537,6 +1537,7 @@ API предоставляет возможности для получения 
 <li><code>slug</code> - Уникальный текстовый идентификатор для URL</li>
 <li><code>description</code> - Описание продукта</li>
 <li><code>price</code> - Текущая цена</li>
+<li><code>old_price</code> - Старая цена</li>
 <li><code>dimensions</code> - Физические характеристики (ширина, высота, глубина, вес)</li>
 <li><code>categories</code> - Категории, к которым относится продукт</li>
 <li><code>images_urls</code> - Массив URL изображений продукта</li>
@@ -1607,6 +1608,7 @@ fetch(url, {
         &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
         &quot;description&quot;: &quot;Успокаивающий аромат лаванды для безмятежного отдыха&quot;,
         &quot;price&quot;: 1200.99,
+        &quot;old_price&quot;: 1500,
         &quot;dimensions&quot;: {
             &quot;width&quot;: 10,
             &quot;height&quot;: 12,
@@ -1791,6 +1793,7 @@ fetch(url, {
             &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
             &quot;description&quot;: &quot;Успокаивающий аромат лаванды для безмятежного отдыха&quot;,
             &quot;price&quot;: 1200.99,
+            &quot;old_price&quot;: 1500,
             &quot;dimensions&quot;: {
                 &quot;width&quot;: 10,
                 &quot;height&quot;: 12,
