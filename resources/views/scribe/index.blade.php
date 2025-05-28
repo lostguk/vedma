@@ -135,6 +135,11 @@
 
 Этот эндпоинт возвращает данные профиля аутентифицированного пользователя.</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="profil-PATCHapi-v1-profile">
+                                <a href="#profil-PATCHapi-v1-profile">Редактировать профиль текущего пользователя
+
+Этот эндпоинт позволяет обновить данные профиля аутентифицированного пользователя.</a>
+                            </li>
                                                                         </ul>
                             </ul>
             </div>
@@ -1197,7 +1202,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-05-28T15:26:47+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-05-28T15:40:40+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2164,6 +2169,297 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                    <h2 id="profil-PATCHapi-v1-profile">Редактировать профиль текущего пользователя
+
+Этот эндпоинт позволяет обновить данные профиля аутентифицированного пользователя.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-PATCHapi-v1-profile">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PATCH \
+    "http://localhost:8000/api/v1/profile" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"first_name\": \"Иван\",
+    \"last_name\": \"Иванов\",
+    \"middle_name\": \"Иванович\",
+    \"email\": \"ivan@example.com\",
+    \"phone\": \"+79999999999\",
+    \"country\": \"Россия\",
+    \"region\": \"Москва\",
+    \"city\": \"Москва\",
+    \"postal_code\": \"101000\",
+    \"address\": \"ул. Пример, д. 1\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/profile"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "first_name": "Иван",
+    "last_name": "Иванов",
+    "middle_name": "Иванович",
+    "email": "ivan@example.com",
+    "phone": "+79999999999",
+    "country": "Россия",
+    "region": "Москва",
+    "city": "Москва",
+    "postal_code": "101000",
+    "address": "ул. Пример, д. 1"
+};
+
+fetch(url, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PATCHapi-v1-profile">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;first_name&quot;: &quot;Иван&quot;,
+        &quot;last_name&quot;: &quot;Иванов&quot;,
+        &quot;middle_name&quot;: &quot;Иванович&quot;,
+        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+        &quot;email&quot;: &quot;ivan@example.com&quot;,
+        &quot;phone&quot;: &quot;+79999999999&quot;,
+        &quot;address&quot;: {
+            &quot;country&quot;: &quot;Россия&quot;,
+            &quot;region&quot;: &quot;Москва&quot;,
+            &quot;city&quot;: &quot;Москва&quot;,
+            &quot;postal_code&quot;: &quot;101000&quot;,
+            &quot;address&quot;: &quot;ул. Пример, д. 1&quot;
+        },
+        &quot;email_verified&quot;: true,
+        &quot;created_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;,
+        &quot;updated_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PATCHapi-v1-profile" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PATCHapi-v1-profile"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PATCHapi-v1-profile"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PATCHapi-v1-profile" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PATCHapi-v1-profile">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PATCHapi-v1-profile" data-method="PATCH"
+      data-path="api/v1/profile"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PATCHapi-v1-profile', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PATCHapi-v1-profile"
+                    onclick="tryItOut('PATCHapi-v1-profile');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PATCHapi-v1-profile"
+                    onclick="cancelTryOut('PATCHapi-v1-profile');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PATCHapi-v1-profile"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/v1/profile</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="PATCHapi-v1-profile"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PATCHapi-v1-profile"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PATCHapi-v1-profile"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>first_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="first_name"                data-endpoint="PATCHapi-v1-profile"
+               value="Иван"
+               data-component="body">
+    <br>
+<p>Имя пользователя. Example: <code>Иван</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="last_name"                data-endpoint="PATCHapi-v1-profile"
+               value="Иванов"
+               data-component="body">
+    <br>
+<p>Фамилия пользователя. Example: <code>Иванов</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>middle_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="middle_name"                data-endpoint="PATCHapi-v1-profile"
+               value="Иванович"
+               data-component="body">
+    <br>
+<p>Отчество пользователя. Example: <code>Иванович</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="PATCHapi-v1-profile"
+               value="ivan@example.com"
+               data-component="body">
+    <br>
+<p>Email пользователя. Example: <code>ivan@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="PATCHapi-v1-profile"
+               value="+79999999999"
+               data-component="body">
+    <br>
+<p>Телефон пользователя. Example: <code>+79999999999</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="country"                data-endpoint="PATCHapi-v1-profile"
+               value="Россия"
+               data-component="body">
+    <br>
+<p>Страна. Example: <code>Россия</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>region</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="region"                data-endpoint="PATCHapi-v1-profile"
+               value="Москва"
+               data-component="body">
+    <br>
+<p>Регион. Example: <code>Москва</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="city"                data-endpoint="PATCHapi-v1-profile"
+               value="Москва"
+               data-component="body">
+    <br>
+<p>Город. Example: <code>Москва</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="postal_code"                data-endpoint="PATCHapi-v1-profile"
+               value="101000"
+               data-component="body">
+    <br>
+<p>Почтовый индекс. Example: <code>101000</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="address"                data-endpoint="PATCHapi-v1-profile"
+               value="ул. Пример, д. 1"
+               data-component="body">
+    <br>
+<p>Адрес. Example: <code>ул. Пример, д. 1</code></p>
+        </div>
+        </form>
 
             
 

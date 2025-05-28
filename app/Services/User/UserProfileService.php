@@ -13,4 +13,11 @@ final readonly class UserProfileService
         // Здесь может быть дополнительная бизнес-логика
         return $user;
     }
+
+    public function updateProfile(User $user, array $data): User
+    {
+        $repo = app(\App\Repositories\UserRepository::class);
+
+        return $repo->updateById($user->id, $data);
+    }
 }

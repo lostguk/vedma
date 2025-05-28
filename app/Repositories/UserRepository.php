@@ -64,4 +64,16 @@ final class UserRepository extends BaseRepository
 
         return $user;
     }
+
+    /**
+     * Обновить пользователя по ID
+     */
+    public function updateById(int $id, array $data): User
+    {
+        /** @var User $user */
+        $user = $this->findById($id);
+        $user->update($data);
+
+        return $user->fresh();
+    }
 }
