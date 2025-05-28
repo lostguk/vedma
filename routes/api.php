@@ -46,4 +46,6 @@ Route::prefix('v1')->group(function () {
     Route::get('products', [ProductController::class, 'index'])->name('api.v1.products.index');
 
     Route::get('mail/test', [MailController::class, 'testMail'])->name('mail.test');
+
+    require base_path('routes/user.php');
 });

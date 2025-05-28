@@ -46,4 +46,22 @@ final class UserRepository extends BaseRepository
 
         return $user;
     }
+
+    /**
+     * Найти пользователя по ID
+     */
+    public function findById(
+        int $modelId,
+        array $columns = ['*'],
+        array $relations = [],
+        array $appends = [],
+    ): ?User {
+        /** @var User|null $user */
+        $user = $this->model->select($columns)->with($relations)->find($modelId);
+        if ($user && $appends) {
+            $user->append($appends);
+        }
+
+        return $user;
+    }
 }
