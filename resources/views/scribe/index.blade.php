@@ -30,9 +30,9 @@
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="{{ asset("/vendor/scribe/js/tryitout-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/tryitout-5.1.0.js") }}"></script>
 
-    <script src="{{ asset("/vendor/scribe/js/theme-default-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/theme-default-5.1.0.js") }}"></script>
 
 </head>
 
@@ -80,6 +80,9 @@
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-logout">
                                 <a href="#autentifikaciia-POSTapi-v1-logout">POST api/v1/logout</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-change-password">
+                                <a href="#autentifikaciia-POSTapi-v1-change-password">Смена пароля</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -151,7 +154,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: May 28, 2025</li>
+        <li>Last updated: June 5, 2025</li>
     </ul>
 </div>
 
@@ -769,6 +772,206 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                    <h2 id="autentifikaciia-POSTapi-v1-change-password">Смена пароля</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Этот эндпоинт позволяет сменить пароль авторизованного пользователя.
+Текущий пароль проверяется автоматически на валидность.</p>
+
+<span id="example-requests-POSTapi-v1-change-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/change-password" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"current_password\": \"oldpassword123\",
+    \"new_password\": \"newpassword456\",
+    \"new_password_confirmation\": \"newpassword456\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/change-password"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "current_password": "oldpassword123",
+    "new_password": "newpassword456",
+    "new_password_confirmation": "newpassword456"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-change-password">
+            <blockquote>
+            <p>Example response (200, Успешная смена пароля):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+  &quot;message&quot;: &quot;Пароль успешно обновлён.&quot;,
+  &quot;user&quot;: {
+    &quot;id&quot;: 1,
+    &quot;first_name&quot;: &quot;Иван&quot;,
+    &quot;last_name&quot;: &quot;Иванов&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    ...
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Ошибка валидации):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;current_password&quot;: [
+            &quot;Текущий пароль указан неверно.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-change-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-change-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-change-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-change-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-change-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-change-password" data-method="POST"
+      data-path="api/v1/change-password"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-change-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-change-password"
+                    onclick="tryItOut('POSTapi-v1-change-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-change-password"
+                    onclick="cancelTryOut('POSTapi-v1-change-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-change-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/change-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-change-password"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-change-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-change-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>current_password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="current_password"                data-endpoint="POSTapi-v1-change-password"
+               value="oldpassword123"
+               data-component="body">
+    <br>
+<p>Текущий пароль. Example: <code>oldpassword123</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>new_password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="new_password"                data-endpoint="POSTapi-v1-change-password"
+               value="newpassword456"
+               data-component="body">
+    <br>
+<p>Новый пароль (не менее 8 символов). Example: <code>newpassword456</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>new_password_confirmation</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="new_password_confirmation"                data-endpoint="POSTapi-v1-change-password"
+               value="newpassword456"
+               data-component="body">
+    <br>
+<p>Подтверждение нового пароля. Example: <code>newpassword456</code></p>
+        </div>
+        </form>
+
                 <h1 id="kategorii">Категории</h1>
 
     <p>API для работы с категориями товаров</p>
@@ -1202,7 +1405,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-05-28T15:49:37+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-05T11:18:43+00:00&quot;
 }</code>
  </pre>
     </span>

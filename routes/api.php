@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
@@ -34,6 +35,7 @@ Route::prefix('v1')->group(function () {
     Route::post('login', LoginController::class)->name('api.v1.auth.login');
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', LogoutController::class)->name('api.v1.auth.logout');
+        Route::post('change-password', ChangePasswordController::class)->name('api.v1.auth.change-password');
     });
 
     // Categories
