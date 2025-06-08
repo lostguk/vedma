@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\OrderCalculateRequest;
+use App\Http\Requests\Api\V1\OrderStoreRequest;
+use App\Http\Resources\Api\V1\OrderResource as ApiOrderResource;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\OrderCalculationService;
+use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 
 final class OrderController extends ApiController
@@ -58,5 +61,20 @@ final class OrderController extends ApiController
         $result = $orderCalculationService->calculate($products, $items, $promoCode);
 
         return $this->successResponse($result);
+    }
+
+    /**
+     * @group Оформление заказа
+     *
+     * Оформление заказа (создание)
+     *
+     * @response 201 scenario="Успешное оформление" {"status":"success","message":"Order created"}
+     */
+    public function store(OrderStoreRequest $request, OrderService $orderService): JsonResponse
+    {
+        $order = $orderService->createOrder($request->validated());
+        $order->load('items');
+
+        return $this->successResponse(new ApiOrderResource($order), 'Заказ успешно создан', 201);
     }
 }

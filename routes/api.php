@@ -59,6 +59,8 @@ Route::prefix('v1')->group(function () {
     // Order
     Route::post('order/calculate', [\App\Http\Controllers\Api\V1\OrderController::class, 'calculate'])
         ->name('api.v1.order.calculate');
+    Route::post('order', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])
+        ->name('api.v1.order.store');
 
     require base_path('routes/user.php');
 });
