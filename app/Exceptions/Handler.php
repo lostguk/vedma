@@ -42,7 +42,6 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             // Optional: logging logic
         });
-        // NO renderable callbacks here for ModelNotFound/NotFoundHttp
     }
 
     /**
@@ -50,12 +49,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $e): Response
     {
-        // Check specifically for NotFoundHttpException caused by ModelNotFoundException in API context
-        if ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException) {
-            // Use expectsJson() for API check
+        // Для NotFoundHttpException и ModelNotFoundException возвращаем единый формат
+        if (
+            ($e instanceof NotFoundHttpException && $e->getPrevious() instanceof ModelNotFoundException)
+            || $e instanceof ModelNotFoundException
+        ) {
             if ($request instanceof Request && $request->expectsJson()) {
                 return response()->json([
-                    'message' => 'Запрашиваемый ресурс не найден',
+                    'status' => 'error',
+                    'message' => 'Resource not found.',
                 ], Response::HTTP_NOT_FOUND);
             }
         }

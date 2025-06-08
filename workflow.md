@@ -16,20 +16,25 @@
 
 -   [ ] Проверить существование миграций, сидов, фабрик
 -   [ ] Создать/доработать миграции, сиды, фабрики
--   [ ] Выполнить `php artisan migrate:fresh` и `php artisan db:seed`
--   [ ] Покрыть миграции и сиды тестами
+-   [ ] Заполнить миграции, сиды и фабрики
+-   [ ] Выполнить `docker-compose -f docker-compose.local.yml exec php php artisan migrate:fresh --seed`
 
 **Пример команды:**
 
 ```bash
-docker compose exec app shop_php_dev artisan make:migration create_tags_table
+docker-compose -f docker-compose.local.yml exec php php artisan make:migration create_tags_table
+```
+
+```bash
+docker-compose -f docker-compose.local.yml exec php php artisan migrate:fresh --seed
 ```
 
 ---
 
 ### 2. Модель
 
--   [ ] Описать модель максимально полно (final, строгая типизация, отношения, касты, fillable, hidden и т.д.)
+-   [ ] Добавляем модель или модели с помощью консоли
+-   [ ] Описать модель максимально полно (final, строгая типизация, отношения, касты, fillable, hidden и т.д.) со всеми необходимыми полями, скоупами, связями..
 -   [ ] Проверить соответствие бизнес-логике и архитектуре
 
 **Пример:**
@@ -50,21 +55,27 @@ final class Tag extends Model
 -   [ ] Создать новый ресурс/страницу или доработать существующий
 -   [ ] Проверить полноту, добавить недостающие поля/функции
 -   [ ] Проверить права доступа
+-   [ ] Очищаем кеш Filament командой через докер
+-   [ ] Все должно быть на русском языке
 
 **Пример команды:**
 
 ```bash
-docker compose exec app shop_php_dev artisan make:filament-resource Tag
+docker-compose -f docker-compose.local.yml exec php php artisan make:filament-resource Tag
+```
+
+```bash
+docker-compose -f docker-compose.local.yml exec php php artisan filament:clear-cache
 ```
 
 ---
 
 ### 4. Роут и базовый контроллер
 
--   [ ] Создать роут с именем (name)
--   [ ] Создать базовый контроллер (final, только для чтения)
--   [ ] Использовать ApiController как базовый
+-   [ ] Создать роут с именем (name). Роуты лежат ./routes/api.php, но так же они разделяются по группам и по разным файлам если это необходимо и роутов много.
 -   [ ] Проверить группировку роутов по сущностям
+-   [ ] Создать базовый контроллер (final, только для чтения), $this->successResponse(...)
+-   [ ] Использовать ApiController как базовый
 
 **Пример:**
 
@@ -72,6 +83,15 @@ docker compose exec app shop_php_dev artisan make:filament-resource Tag
 Route::name('tags.')->group(function () {
     Route::get('/tags', [TagController::class, 'index'])->name('index');
 });
+```
+
+```php
+public function show(int $id): JsonResponse
+{
+    $page = $this->service->getById($id);
+
+    return $this->successResponse(new PageResource($page));
+}
 ```
 
 ---
@@ -85,7 +105,7 @@ Route::name('tags.')->group(function () {
 **Пример команды:**
 
 ```bash
-docker compose exec app php artisan make:request Api/V1/TagStoreRequest
+docker-compose -f docker-compose.local.yml exec php php artisan make:request Api/V1/TagStoreRequest
 ```
 
 ---
@@ -108,13 +128,14 @@ docker compose exec app php artisan make:request Api/V1/TagStoreRequest
 ### 8. Документация (Scribe)
 
 -   [ ] Описать новую фичу в документации API
+-   [ ] Добавляем в сущестующий подходящий раздел или создаем новый
 -   [ ] Сгенерировать новую документацию через knuckleswtf/scribe
 -   [ ] Проверить, что все эндпоинты и параметры описаны
 
 **Пример команды:**
 
 ```bash
-docker compose exec app shop_php_dev artisan scribe:generate
+docker-compose -f docker-compose.local.yml exec php php artisan scribe:generate
 ```
 
 ---
@@ -128,7 +149,7 @@ docker compose exec app shop_php_dev artisan scribe:generate
 **Пример команды:**
 
 ```bash
-docker compose exec app shoip_php_dev artisan test
+docker-compose -f docker-compose.local.yml exec php php artisan test
 ```
 
 ### 10. Фича документация

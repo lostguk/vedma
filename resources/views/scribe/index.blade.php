@@ -145,6 +145,21 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-stranicy" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="stranicy">
+                    <a href="#stranicy">Страницы</a>
+                </li>
+                                    <ul id="tocify-subheader-stranicy" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="stranicy-GETapi-v1-pages">
+                                <a href="#stranicy-GETapi-v1-pages">Получить список всех страниц
+
+Возвращает массив всех страниц.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="stranicy-GETapi-v1-pages--id-">
+                                <a href="#stranicy-GETapi-v1-pages--id-">Получить страницу по ID</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -154,7 +169,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 7, 2025</li>
+        <li>Last updated: June 8, 2025</li>
     </ul>
 </div>
 
@@ -1405,7 +1420,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-07T07:09:02+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-08T10:12:00+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2667,7 +2682,421 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
-            
+                <h1 id="stranicy">Страницы</h1>
+
+    
+
+                                <h2 id="stranicy-GETapi-v1-pages">Получить список всех страниц
+
+Возвращает массив всех страниц.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-pages">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/pages" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/pages"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-pages">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+vary: Origin
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;description&quot;: &quot;Главная страница&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Accusamus quidem ut deleniti. Eos voluptas architecto nihil dolore impedit aut. Fugiat explicabo reiciendis enim vero. Et in quia architecto odit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et ut placeat dolorem qui fuga eligendi nihil. Aut officia aperiam porro cupiditate. Dolor quas id et est illo.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 1,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;description&quot;: &quot;Каталог товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Eveniet assumenda reprehenderit ut vel cum. Exercitationem nulla natus id et tempore totam. Rerum qui beatae est eveniet est. Autem quod omnis molestiae aperiam asperiores ut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dicta illo commodi quo et vero officia praesentium. Officiis voluptatem debitis suscipit magni et. Magni quia delectus est rerum esse ducimus magnam. Tempora distinctio recusandae quam.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 1,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Numquam velit aspernatur eius illo animi vero. Et accusantium itaque maiores voluptatem eligendi temporibus aut quia. Omnis error expedita id fugit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Soluta quibusdam ipsum et et nam. Dolor pariatur soluta totam assumenda culpa reiciendis. Sed illo voluptas ullam enim necessitatibus. Qui aut fugit corporis vitae rerum incidunt et.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 1,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Dignissimos occaecati eum sed repellendus qui omnis. Recusandae eum est pariatur autem. Non necessitatibus expedita dolor qui qui sunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Rerum quibusdam tempore et et laborum. Laborum hic ut quasi et corporis nihil.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 1,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;description&quot;: &quot;Контактная информация&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Adipisci voluptatem placeat eos maxime nemo rerum. Inventore ex dolores vitae consectetur qui. Fuga adipisci doloremque voluptatem. Perferendis dolorum aut laudantium maiores et minima dolores.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quia ipsum asperiores culpa. Libero necessitatibus blanditiis quae voluptatum dignissimos labore omnis.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 1,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Facilis pariatur accusantium sint maxime magni. Unde enim pariatur voluptate tempora modi eius. Culpa nobis alias ullam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Laboriosam vitae velit laboriosam repellat molestias qui qui eum. Sint dolorem tenetur et et. Perferendis officia nulla qui omnis quo aut.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 0,
+            &quot;is_visible_in_footer&quot;: 1
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Est ex quaerat et eos quasi perspiciatis necessitatibus voluptatum. Sit ad sit molestiae voluptates quia.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quam cupiditate quia optio dolorum qui consectetur. Voluptatem tenetur et natus voluptatibus. Impedit earum repellat hic est enim. Qui doloremque quia quia ipsum repellendus numquam nesciunt.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: 0,
+            &quot;is_visible_in_footer&quot;: 1
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-pages" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-pages"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-pages"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-pages" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-pages">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-pages" data-method="GET"
+      data-path="api/v1/pages"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-pages', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-pages"
+                    onclick="tryItOut('GETapi-v1-pages');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-pages"
+                    onclick="cancelTryOut('GETapi-v1-pages');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-pages"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/pages</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-pages"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-pages"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+    <h3>Response</h3>
+    <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
+    <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+<br>
+<p>ID страницы</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>text</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_visible_in_header</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+<br>
+<p>Показывать в шапке</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_visible_in_footer</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+<br>
+<p>Показывать в футере</p>
+        </div>
+                        <h2 id="stranicy-GETapi-v1-pages--id-">Получить страницу по ID</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-pages--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/pages/16" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/pages/16"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-pages--id-">
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+vary: Origin
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Resource not found.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-pages--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-pages--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-pages--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-pages--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-pages--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-pages--id-" data-method="GET"
+      data-path="api/v1/pages/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-pages--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-pages--id-"
+                    onclick="tryItOut('GETapi-v1-pages--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-pages--id-"
+                    onclick="cancelTryOut('GETapi-v1-pages--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-pages--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/pages/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-pages--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-pages--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-v1-pages--id-"
+               value="16"
+               data-component="url">
+    <br>
+<p>ID страницы. Пример: 1 Example: <code>16</code></p>
+            </div>
+                    </form>
+
+    <h3>Response</h3>
+    <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
+    <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+<br>
+<p>ID страницы</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>text</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_visible_in_header</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+<br>
+<p>Показывать в шапке</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_visible_in_footer</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+<br>
+<p>Показывать в футере</p>
+        </div>
+                
 
         
     </div>

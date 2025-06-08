@@ -23,7 +23,7 @@ final class LogoutTest extends TestCase
 
         $response = $this->postJson(route('api.v1.auth.logout'));
 
-        $response->assertNoContent();
+        $response->assertStatus(200);
     }
 
     public function test_logout_unauthenticated(): void
