@@ -17,7 +17,7 @@
 -   [ ] Проверить существование миграций, сидов, фабрик
 -   [ ] Создать/доработать миграции, сиды, фабрики
 -   [ ] Заполнить миграции, сиды и фабрики. Если у нас есть связи, то мы должны заполнить их правильно с уже существущими в базе записями, что бы у нас не было конфлитов, ошибок и прочих проблем.
--   [ ] Выполнить `docker-compose -f docker-compose.local.yml exec php php artisan migrate:fresh --seed`
+-   [ ] Выполнить `./dev.sh reset-db`
 
 **Пример команды:**
 
@@ -26,7 +26,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan make:migration c
 ```
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan migrate:fresh --seed
+./dev.sh reset-db
 ```
 
 ---
@@ -66,7 +66,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan make:filament-re
 ```
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan filament:clear-cache
+./dev.sh filament-cache
 ```
 
 ---
@@ -136,7 +136,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan make:request Api
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan scribe:generate
+./dev.sh docs
 ```
 
 ---
@@ -150,7 +150,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan scribe:generate
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan test
+./dev.sh test
 ```
 
 ### 10. Фича документация

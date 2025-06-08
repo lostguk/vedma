@@ -79,10 +79,6 @@ final class UserRepository extends BaseRepository
 
     /**
      * Обновить пароль пользователя
-     *
-     * @param User $user
-     * @param string $hashedPassword
-     * @return User
      */
     public function updatePassword(User $user, string $hashedPassword): User
     {
@@ -92,5 +88,4 @@ final class UserRepository extends BaseRepository
 
         return $user->fresh();
     }
-
 }

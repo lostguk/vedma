@@ -19,10 +19,6 @@ final readonly class ChangePasswordService
 
     /**
      * Сменить пароль пользователя
-     *
-     * @param User $user
-     * @param string $newPassword
-     * @return User
      */
     public function changePassword(User $user, string $newPassword): User
     {

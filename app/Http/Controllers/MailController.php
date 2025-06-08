@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
-use App\Services\Mail\MailService;
 use App\Mail\TestMail;
+use App\Services\Mail\MailService;
 
 class MailController extends Controller
 {
@@ -14,12 +12,12 @@ class MailController extends Controller
         \Log::info('Отправка тестового письма');
 
         try {
-            $mailService->send('vitalii.it.88@gmail.com', new TestMail());
-            
+            $mailService->send('vitalii.it.88@gmail.com', new TestMail);
+
             $this->success(['message' => 'Письмо отправлено']);
 
         } catch (\Throwable $e) {
-            \Log::error('Ошибка отправки письма: ' . $e->getMessage());
+            \Log::error('Ошибка отправки письма: '.$e->getMessage());
         }
     }
 }

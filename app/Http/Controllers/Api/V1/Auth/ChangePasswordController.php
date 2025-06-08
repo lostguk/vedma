@@ -45,7 +45,6 @@ final class ChangePasswordController extends ApiController
      *     ...
      *   }
      * }
-     *
      * @response 422 scenario="Ошибка валидации" {
      *   "message": "The given data was invalid.",
      *   "errors": {

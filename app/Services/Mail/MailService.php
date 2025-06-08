@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Mail;
 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 
 final readonly class MailService
 {
