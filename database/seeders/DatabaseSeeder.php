@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         ProductSeeder::class,
         PromoCodeSeeder::class,
         PageSeeder::class,
+        OrderSeeder::class,
     ];
 
     /**
