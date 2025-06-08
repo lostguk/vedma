@@ -36,6 +36,17 @@ class PromoCodeResource extends Resource
                     ->multiple()
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('discount_type')
+                    ->label('Тип скидки')
+                    ->options([
+                        'percent' => 'Процент',
+                        'fixed' => 'Фиксированная сумма',
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('discount_value')
+                    ->label('Величина скидки')
+                    ->numeric()
+                    ->required(),
                 Forms\Components\DatePicker::make('start_date')
                     ->label('Дата начала')
                     ->required(),

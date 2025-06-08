@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->date('start_date');
             $table->date('end_date');
+            $table->enum('discount_type', ['percent', 'fixed']);
+            $table->float('discount_value');
             $table->timestamps();
         });
 

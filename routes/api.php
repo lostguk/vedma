@@ -56,5 +56,9 @@ Route::prefix('v1')->group(function () {
         Route::get('/pages/{id}', [PageController::class, 'show'])->name('show');
     });
 
+    // Order
+    Route::post('order/calculate', [\App\Http\Controllers\Api\V1\OrderController::class, 'calculate'])
+        ->name('api.v1.order.calculate');
+
     require base_path('routes/user.php');
 });

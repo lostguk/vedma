@@ -24,43 +24,32 @@ class ProductSeeder extends Seeder
 
         // Получаем все категории
         $categories = Category::all();
-
-        foreach ($categories as $category) {
-            // Создаем обычные продукты
-            Product::factory(self::PRODUCTS_PER_CATEGORY)
+        $categoryCount = $categories->count();
+        $products = collect();
+        // Для каждой категории создаём товары и привязываем к ней
+        foreach ($categories as $i => $category) {
+            $created = Product::factory(self::PRODUCTS_PER_CATEGORY)
                 ->create()
-                ->each(fn (Product $product) => $product->categories()->attach($category));
-
-            // Создаем продукты со скидкой
-            Product::factory(2)
-                ->withDiscount()
-                ->create()
-                ->each(fn (Product $product) => $product->categories()->attach($category));
-
-            // Создаем новинки
-            Product::factory(2)
-                ->markAsNew()
-                ->create()
-                ->each(fn (Product $product) => $product->categories()->attach($category));
-
-            // Создаем хиты продаж
-            Product::factory(1)
-                ->bestseller()
-                ->create()
-                ->each(fn (Product $product) => $product->categories()->attach($category));
+                ->each(function (Product $product) use ($category) {
+                    $product->categories()->attach($category);
+                });
+            $products = $products->merge($created);
         }
-
+        // Для каждого товара добавляем ещё 1-2 случайные категории (для тестов промокодов)
+        foreach ($products as $product) {
+            $extraCategories = $categories->whereNotIn('id', $product->categories->pluck('id'))->random(rand(0, min(2, $categoryCount - 1)))->pluck('id')->all();
+            if (! empty($extraCategories)) {
+                $product->categories()->attach($extraCategories);
+            }
+        }
         // Добавляем связанные продукты
         Product::all()->each(function (Product $product) {
-            // Получаем случайные продукты, исключая текущий
             $relatedProducts = Product::where('id', '!=', $product->id)
                 ->inRandomOrder()
                 ->limit(3)
                 ->get()
                 ->pluck('id')
                 ->toArray();
-
-            // Добавляем связи без дублирования
             $product->related()->syncWithoutDetaching($relatedProducts);
         });
     }

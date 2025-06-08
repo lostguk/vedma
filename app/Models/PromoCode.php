@@ -15,12 +15,15 @@ final class PromoCode extends Model
         'code',
         'start_date',
         'end_date',
+        'discount_type',
+        'discount_value',
     ];
 
     /** @var array<string, string> */
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'discount_value' => 'float',
     ];
 
     /**

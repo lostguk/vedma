@@ -115,6 +115,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-oformlenie-zakaza" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="oformlenie-zakaza">
+                    <a href="#oformlenie-zakaza">Оформление заказа</a>
+                </li>
+                                    <ul id="tocify-subheader-oformlenie-zakaza" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="oformlenie-zakaza-POSTapi-v1-order-calculate">
+                                <a href="#oformlenie-zakaza-POSTapi-v1-order-calculate">Расчет стоимости заказа с учетом промокода.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-produkty" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="produkty">
                     <a href="#produkty">Продукты</a>
@@ -1420,7 +1430,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-08T10:12:00+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-08T10:38:17+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -1740,6 +1750,200 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="oformlenie-zakaza">Оформление заказа</h1>
+
+    
+
+                                <h2 id="oformlenie-zakaza-POSTapi-v1-order-calculate">Расчет стоимости заказа с учетом промокода.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-order-calculate">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/order/calculate" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"items\": [
+        \"architecto\"
+    ],
+    \"promo_code\": \"architecto\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/order/calculate"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "items": [
+        "architecto"
+    ],
+    "promo_code": "architecto"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-order-calculate">
+            <blockquote>
+            <p>Example response (200, Успешный расчет):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Товар 1&quot;,
+            &quot;price&quot;: 100,
+            &quot;old_price&quot;: 120,
+            &quot;count&quot;: 2,
+            &quot;summery&quot;: 200,
+            &quot;summery_old&quot;: 240,
+            &quot;discounted&quot;: true
+        }
+    ],
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Success&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-order-calculate" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-order-calculate"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-order-calculate"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-order-calculate" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-order-calculate">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-order-calculate" data-method="POST"
+      data-path="api/v1/order/calculate"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-order-calculate', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-order-calculate"
+                    onclick="tryItOut('POSTapi-v1-order-calculate');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-order-calculate"
+                    onclick="cancelTryOut('POSTapi-v1-order-calculate');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-order-calculate"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/order/calculate</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-order-calculate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-order-calculate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b style="line-height: 2;"><code>items</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+<i>optional</i> &nbsp;
+<br>
+<p>Список товаров для расчета. Пример: [{&quot;id&quot;:1,&quot;count&quot;:3}]</p>
+            </summary>
+                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="items.0.id"                data-endpoint="POSTapi-v1-order-calculate"
+               value="16"
+               data-component="body">
+    <br>
+<p>ID товара. Пример: 1 Example: <code>16</code></p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="items.0.count"                data-endpoint="POSTapi-v1-order-calculate"
+               value="16"
+               data-component="body">
+    <br>
+<p>Количество товара. Пример: 3 Example: <code>16</code></p>
+                    </div>
+                                    </details>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>promo_code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="promo_code"                data-endpoint="POSTapi-v1-order-calculate"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Промокод (опционально). Пример: PROMO10 Example: <code>architecto</code></p>
+        </div>
+        </form>
 
                 <h1 id="produkty">Продукты</h1>
 
@@ -2739,64 +2943,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Accusamus quidem ut deleniti. Eos voluptas architecto nihil dolore impedit aut. Fugiat explicabo reiciendis enim vero. Et in quia architecto odit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et ut placeat dolorem qui fuga eligendi nihil. Aut officia aperiam porro cupiditate. Dolor quas id et est illo.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 1,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eveniet assumenda reprehenderit ut vel cum. Exercitationem nulla natus id et tempore totam. Rerum qui beatae est eveniet est. Autem quod omnis molestiae aperiam asperiores ut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dicta illo commodi quo et vero officia praesentium. Officiis voluptatem debitis suscipit magni et. Magni quia delectus est rerum esse ducimus magnam. Tempora distinctio recusandae quam.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 1,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Numquam velit aspernatur eius illo animi vero. Et accusantium itaque maiores voluptatem eligendi temporibus aut quia. Omnis error expedita id fugit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Soluta quibusdam ipsum et et nam. Dolor pariatur soluta totam assumenda culpa reiciendis. Sed illo voluptas ullam enim necessitatibus. Qui aut fugit corporis vitae rerum incidunt et.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 1,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Dignissimos occaecati eum sed repellendus qui omnis. Recusandae eum est pariatur autem. Non necessitatibus expedita dolor qui qui sunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Rerum quibusdam tempore et et laborum. Laborum hic ut quasi et corporis nihil.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 1,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Adipisci voluptatem placeat eos maxime nemo rerum. Inventore ex dolores vitae consectetur qui. Fuga adipisci doloremque voluptatem. Perferendis dolorum aut laudantium maiores et minima dolores.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quia ipsum asperiores culpa. Libero necessitatibus blanditiis quae voluptatum dignissimos labore omnis.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 1,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Facilis pariatur accusantium sint maxime magni. Unde enim pariatur voluptate tempora modi eius. Culpa nobis alias ullam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Laboriosam vitae velit laboriosam repellat molestias qui qui eum. Sint dolorem tenetur et et. Perferendis officia nulla qui omnis quo aut.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 0,
-            &quot;is_visible_in_footer&quot;: 1
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Est ex quaerat et eos quasi perspiciatis necessitatibus voluptatum. Sit ad sit molestiae voluptates quia.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quam cupiditate quia optio dolorum qui consectetur. Voluptatem tenetur et natus voluptatibus. Impedit earum repellat hic est enim. Qui doloremque quia quia ipsum repellendus numquam nesciunt.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: 0,
-            &quot;is_visible_in_footer&quot;: 1
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>

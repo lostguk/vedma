@@ -18,8 +18,8 @@ final class PageResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'text' => $this->text,
-            'is_visible_in_header' => $this->is_visible_in_header,
-            'is_visible_in_footer' => $this->is_visible_in_footer,
+            'is_visible_in_header' => (bool) $this->is_visible_in_header,
+            'is_visible_in_footer' => (bool) $this->is_visible_in_footer,
         ];
     }
 }
