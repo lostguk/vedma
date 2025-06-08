@@ -61,6 +61,130 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property int|null $user_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string|null $middle_name
+ * @property string $email
+ * @property string|null $phone
+ * @property string|null $country
+ * @property string|null $region
+ * @property string|null $city
+ * @property string|null $postal_code
+ * @property string|null $address
+ * @property int|null $promo_code_id
+ * @property float $total_price
+ * @property string $status
+ * @property string|null $payment_type
+ * @property Carbon|null $paid_at
+ * @property string|null $comment
+ * @property string|null $delivery_type
+ * @property float|null $delivery_price
+ * @property string|null $delivery_status
+ * @property array|null $delivery_data
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read User|null $user
+ * @property-read PromoCode|null $promoCode
+ * @property-read OrderItem[] $items
+ * @property-read int|null $items_count
+ * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereMiddleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaymentType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePromoCodeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereRegion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
+ */
+	final class Order extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $order_id
+ * @property int $product_id
+ * @property string $name
+ * @property float $price
+ * @property int $count
+ * @property float $total
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read Order $order
+ * @property-read Product $product
+ * @method static \Database\Factories\OrderItemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrderItem whereUpdatedAt($value)
+ */
+	final class OrderItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $description
+ * @property string $text
+ * @property int $is_visible_in_header
+ * @property int $is_visible_in_footer
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\PageFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereIsVisibleInFooter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereIsVisibleInHeader($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Page whereUpdatedAt($value)
+ */
+	final class Page extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $name
  * @property string $slug
  * @property string|null $description
@@ -110,6 +234,36 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product whereWidth($value)
  */
 	final class Product extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $code
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon $end_date
+ * @property string $discount_type
+ * @property float $discount_value
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+ * @property-read int|null $categories_count
+ * @method static \Database\Factories\PromoCodeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereDiscountType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereDiscountValue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PromoCode whereUpdatedAt($value)
+ */
+	final class PromoCode extends \Eloquent {}
 }
 
 namespace App\Models{
