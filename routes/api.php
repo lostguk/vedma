@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\Auth\VerifyRegistrationController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
@@ -45,6 +46,9 @@ Route::prefix('v1')->group(function () {
     });
 
     // Categories
+    Route::get('verify-registration/{user}/{hash}', VerifyRegistrationController::class)
+        ->name('api.v1.auth.verify-registration');
+
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
     Route::get('categories/{slug}', [CategoryController::class, 'show'])->name('api.v1.categories.show');
 

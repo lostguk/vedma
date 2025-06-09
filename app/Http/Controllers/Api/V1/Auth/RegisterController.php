@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\RegistrationService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -85,6 +86,8 @@ final class RegisterController extends ApiController
     public function __invoke(RegisterRequest $request): JsonResponse
     {
         $user = $this->registrationService->register($request->validated());
+
+        event(new Registered($user));
 
         return $this->successResponse(
             new UserResource($user),
