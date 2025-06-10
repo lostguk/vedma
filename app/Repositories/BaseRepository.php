@@ -91,7 +91,7 @@ abstract class BaseRepository implements RepositoryInterface
      */
     public function restoreById(int $modelId): bool
     {
-        return $this->findOnlyTrashedById($modelId)->restore();
+        return (bool) $this->findOnlyTrashedById($modelId)->restore();
     }
 
     /**
