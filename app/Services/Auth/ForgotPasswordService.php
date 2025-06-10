@@ -25,9 +25,8 @@ final readonly class ForgotPasswordService
      */
     public function sendResetLink(string $email): void
     {
-        \Log::info('Send reset password link', ['email' => $email]);
         $this->userRepository->findByEmailOrFail($email);
-
+        $frontendUrl = env('FRONTEND_URL');
         $plainToken = Str::random(64);
 
         DB::table('password_reset_tokens')->updateOrInsert(
@@ -38,7 +37,7 @@ final readonly class ForgotPasswordService
             ]
         );
 
-        $url = url("/reset-password?token={$plainToken}&email=" . urlencode($email)); // TODO: необходимо указать домен
+        $url = "{$frontendUrl}/reset-password?token={$plainToken}&email=" . urlencode($email);
         $this->mailService->sendPasswordResetLink($email, $url);
     }
 }
