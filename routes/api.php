@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
+use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
+use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -34,6 +36,8 @@ Route::prefix('v1')->group(function () {
     // Auth
     Route::post('register', RegisterController::class)->name('api.v1.auth.register');
     Route::post('login', LoginController::class)->name('api.v1.auth.login');
+    Route::post('forgot-password', ForgotPasswordController::class)->name('api.v1.auth.forgot-password');
+    Route::post('reset-password', ResetPasswordController::class)->name('api.v1.auth.reset-password');
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', LogoutController::class)->name('api.v1.auth.logout');
         Route::post('change-password', ChangePasswordController::class)->name('api.v1.auth.change-password');
