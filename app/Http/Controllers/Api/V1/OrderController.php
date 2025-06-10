@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\OrderCalculateRequest;
 use App\Http\Requests\Api\V1\OrderStoreRequest;
+use App\Http\Resources\Api\V1\OrderCalculationResource;
 use App\Http\Resources\Api\V1\OrderResource;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
@@ -51,7 +52,7 @@ final class OrderController extends ApiController
         ProductRepository $productRepository,
         PromoCodeRepository $promoCodeRepository,
         OrderCalculationService $orderCalculationService
-    ): JsonResponse {
+    ): AnonymousResourceCollection {
         $items = $request->input('items', []);
         $promoCode = null;
 
@@ -63,7 +64,7 @@ final class OrderController extends ApiController
         $products = $productRepository->getByIds($productIds)->load('categories');
         $result = $orderCalculationService->calculate($products, $items, $promoCode);
 
-        return $this->successResponse($result);
+        return OrderCalculationResource::collection($result);
     }
 
     /**
@@ -88,8 +89,8 @@ final class OrderController extends ApiController
      *
      * @authenticated
      *
-     * @queryParam page int Номер страницы. Пример: 2
-     * @queryParam per_page int Количество заказов на страницу. Пример: 15
+     * @queryParam page int Номер страницы. Example: 1
+     * @queryParam per_page int Количество заказов на страницу. Example: 15
      *
      * @response 200 scenario="Успешно" {
      *   "status": "success",

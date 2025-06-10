@@ -48,7 +48,7 @@ final class OrderRepository extends BaseRepository
     public function getByUserId(int $userId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->model->where('user_id', $userId)
-            ->with('items')
+            ->with('items', 'items.product')
             ->orderByDesc('created_at')
             ->paginate($perPage);
     }
