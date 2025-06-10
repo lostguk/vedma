@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-final class OrderService
+final readonly class OrderService
 {
     public function __construct(
-        private readonly OrderRepository $orderRepository,
-        private readonly ProductRepository $productRepository,
-        private readonly PromoCodeRepository $promoCodeRepository,
-        private readonly RegistrationService $registrationService,
-        private readonly OrderCalculationService $orderCalculationService,
+        private OrderRepository $orderRepository,
+        private ProductRepository $productRepository,
+        private PromoCodeRepository $promoCodeRepository,
+        private RegistrationService $registrationService,
+        private OrderCalculationService $orderCalculationService,
     ) {}
 
     /**

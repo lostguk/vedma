@@ -30,9 +30,9 @@
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="{{ asset("/vendor/scribe/js/tryitout-5.1.0.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/tryitout-5.2.1.js") }}"></script>
 
-    <script src="{{ asset("/vendor/scribe/js/theme-default-5.1.0.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/theme-default-5.2.1.js") }}"></script>
 
 </head>
 
@@ -46,12 +46,12 @@
 </a>
 <div class="tocify-wrapper">
             <img src="img/logo.png" alt="logo" class="logo" style="padding-top: 10px;" width="100%"/>
-
+    
             <div class="lang-selector">
                                             <button type="button" class="lang-button" data-language-name="bash">bash</button>
                                             <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
                     </div>
-
+    
     <div class="search">
         <input type="text" class="search" id="input-search" placeholder="Search">
     </div>
@@ -1715,7 +1715,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="obshhie-endpointy">Общие эндпоинты</h1>
 
-
+    
 
                                 <h2 id="obshhie-endpointy-GETapi-health">GET api/health</h2>
 
@@ -1768,7 +1768,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-10T07:52:44+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-10T14:12:21+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2091,7 +2091,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
-
+    
 
                                 <h2 id="oformlenie-zakaza-POSTapi-v1-order-calculate">Расчет стоимости заказа с учетом промокода.</h2>
 
@@ -3128,7 +3128,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="profil">Профиль</h1>
 
-
+    
 
                                 <h2 id="profil-GETapi-v1-profile">Получить профиль текущего пользователя
 
@@ -3576,7 +3576,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="stranicy">Страницы</h1>
 
-
+    
 
                                 <h2 id="stranicy-GETapi-v1-pages">Получить список всех страниц
 
@@ -3631,64 +3631,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eum consequatur et quo nemo at. Et qui sit cumque iste. Ea ipsum id magnam qui in illo placeat et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deleniti voluptatem sit aut eius tenetur ut soluta. Ut eveniet fuga et est adipisci qui. Reiciendis qui voluptas sed delectus voluptatibus.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam beatae enim voluptatem possimus tenetur tenetur. Dicta voluptatem labore suscipit rerum laudantium et fuga nulla.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deserunt totam possimus officia nemo. Blanditiis aut illum est repellendus praesentium est. Sed minima exercitationem voluptatem rerum. Est quidem aut dolores blanditiis eum assumenda aperiam.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quasi non sint aspernatur nobis veniam vel dignissimos. Non enim rerum modi alias autem harum est. Ex explicabo distinctio et enim omnis ad reiciendis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui dolorum molestiae illo non. Vel dolorem corrupti asperiores error eos quia voluptas. Sapiente ad dolorem ad nihil.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Illo amet sed soluta ex aliquam suscipit ut ea. Unde ex recusandae quia. Explicabo ducimus dignissimos magnam non. Nihil ducimus amet sunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Unde eaque perferendis quae inventore. Architecto molestias optio quas accusantium sint recusandae animi qui. Non nulla aliquid accusamus porro ad.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ut sapiente quia quisquam et voluptatem dolorum non. Tempora et et quo nisi sequi doloremque et qui. Aut ab voluptas natus ducimus reiciendis ab. Pariatur similique sed maiores qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Amet quia vero in est atque. Officiis ut voluptates pariatur illo ut quaerat. Magni vitae cumque et accusantium.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quibusdam rerum perferendis in in. Fuga et voluptas est soluta blanditiis. Sit amet odio et sunt voluptatem. Rerum qui enim quos sint corrupti.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Doloribus ipsa nam corrupti dolorem qui. Incidunt aut in totam voluptatem libero labore ut saepe. Voluptates omnis maxime necessitatibus aut est. Sit qui sunt at delectus debitis.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Sapiente autem recusandae aliquid laborum. Numquam sit aut qui accusantium vel qui non. Animi autem maxime adipisci eveniet nulla. Dolor iusto veritatis esse et quam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui atque et corrupti atque ut et saepe. Iusto voluptatem commodi delectus quasi. Est sed qui accusamus voluptatem excepturi officia.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -3988,9 +3931,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <br>
 <p>Показывать в футере</p>
         </div>
+                
 
-
-
+        
     </div>
     <div class="dark-box">
                     <div class="lang-selector">

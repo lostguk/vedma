@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 final class User extends Authenticatable implements HasName, MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -57,30 +58,12 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the user's full name.
-     */
-    public function getFullNameAttribute(): string
-    {
-        return "{$this->last_name} {$this->first_name} {$this->middle_name}";
-    }
-
     public function getFilamentName(): string
     {
         return "{$this->last_name} {$this->first_name} {$this->middle_name}";
     }
 
     public function getName(): string
-    {
-        return "{$this->last_name} {$this->first_name} {$this->middle_name}";
-    }
-
-    public function getUserName(): string
-    {
-        return $this->getFilamentName();
-    }
-
-    public function getNameForFilament(): string
     {
         return "{$this->last_name} {$this->first_name} {$this->middle_name}";
     }

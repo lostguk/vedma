@@ -33,11 +33,11 @@ final class OrderRepository extends BaseRepository
      */
     public function createOrderItems(Order $order, array $items): Collection
     {
-        $created = collect();
+        $created = [];
         foreach ($items as $item) {
-            $created->push($order->items()->create($item));
+            $created[] = $order->items()->create($item);
         }
 
-        return $created;
+        return new Collection($created);
     }
 }
