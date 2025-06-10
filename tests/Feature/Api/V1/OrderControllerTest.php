@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api\V1;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\PromoCode;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -103,5 +105,24 @@ final class OrderControllerTest extends TestCase
             'summery' => 260.0, // (150-20)*2
             'discounted' => true,
         ]);
+    }
+
+    public function test_user_can_see_only_their_orders(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        Order::factory()->count(3)->create(['user_id' => $user->id]);
+        Order::factory()->count(2)->create(['user_id' => $otherUser->id]);
+
+        $this->actingAs($user);
+        $response = $this->getJson('/api/v1/orders');
+        // $response->dump();
+        $response->assertOk();
+        $ordersArray = $response->json('data.data');
+        $this->assertIsArray($ordersArray);
+        $this->assertCount(3, $ordersArray);
+        foreach ($ordersArray as $order) {
+            $this->assertEquals($user->id, $order['user_id']);
+        }
     }
 }

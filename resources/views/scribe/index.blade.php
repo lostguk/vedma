@@ -92,6 +92,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-zakazy-polzovatelia" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="zakazy-polzovatelia">
+                    <a href="#zakazy-polzovatelia">Заказы пользователя</a>
+                </li>
+                                    <ul id="tocify-subheader-zakazy-polzovatelia" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="zakazy-polzovatelia-GETapi-v1-orders">
+                                <a href="#zakazy-polzovatelia-GETapi-v1-orders">Получить список заказов текущего пользователя</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-kategorii" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="kategorii">
                     <a href="#kategorii">Категории</a>
@@ -1335,6 +1345,179 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+                <h1 id="zakazy-polzovatelia">Заказы пользователя</h1>
+
+    
+
+                                <h2 id="zakazy-polzovatelia-GETapi-v1-orders">Получить список заказов текущего пользователя</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-orders">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/orders?page=16&amp;per_page=16" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/orders"
+);
+
+const params = {
+    "page": "16",
+    "per_page": "16",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-orders">
+            <blockquote>
+            <p>Example response (200, Успешно):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Success&quot;,
+  &quot;data&quot;: {
+    &quot;current_page&quot;: 1,
+    &quot;data&quot;: [
+      {&quot;id&quot;: 1, &quot;user_id&quot;: 2, ...}
+    ],
+    ...
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-orders" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-orders"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-orders"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-orders" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-orders">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-orders" data-method="GET"
+      data-path="api/v1/orders"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-orders', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-orders"
+                    onclick="tryItOut('GETapi-v1-orders');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-orders"
+                    onclick="cancelTryOut('GETapi-v1-orders');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-orders"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/orders</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-orders"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-orders"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-orders"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-orders"
+               value="16"
+               data-component="query">
+    <br>
+<p>Номер страницы. Пример: 2 Example: <code>16</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="per_page"                data-endpoint="GETapi-v1-orders"
+               value="16"
+               data-component="query">
+    <br>
+<p>Количество заказов на страницу. Пример: 15 Example: <code>16</code></p>
+            </div>
+                </form>
+
                 <h1 id="kategorii">Категории</h1>
 
     <p>API для работы с категориями товаров</p>
@@ -1768,7 +1951,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-10T14:12:21+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-10T16:30:58+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2636,38 +2819,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
                 <h1 id="produkty">Продукты</h1>
 
     <p>API для работы с продуктами магазина</p>
-<p>Продукты - основные товары, доступные в магазине магических товаров.
-API предоставляет возможности для получения списка продуктов с фильтрацией,
-сортировкой и пагинацией, а также детальной информации о конкретном продукте.</p>
-<h2>Структура продукта</h2>
-<p>Каждый продукт содержит следующие основные поля:</p>
-<ul>
-<li><code>id</code> - Уникальный идентификатор продукта</li>
-<li><code>name</code> - Название продукта</li>
-<li><code>slug</code> - Уникальный текстовый идентификатор для URL</li>
-<li><code>description</code> - Описание продукта</li>
-<li><code>price</code> - Текущая цена</li>
-<li><code>old_price</code> - Старая цена</li>
-<li><code>dimensions</code> - Физические характеристики (ширина, высота, глубина, вес)</li>
-<li><code>categories</code> - Категории, к которым относится продукт</li>
-<li><code>images_urls</code> - Массив URL изображений продукта</li>
-<li><code>is_new</code> - Флаг новинки</li>
-<li><code>is_bestseller</code> - Флаг хита продаж</li>
-</ul>
-<h2>Фильтрация и сортировка</h2>
-<p>API продуктов предоставляет разнообразные возможности фильтрации:</p>
-<ul>
-<li>По категории</li>
-<li>По ценовому диапазону</li>
-<li>По наличию статуса новинки или хита продаж</li>
-<li>По текстовому поиску в названии</li>
-</ul>
-<p>Доступные варианты сортировки:</p>
-<ul>
-<li>По цене (возрастание/убывание)</li>
-<li>По названию (возрастание/убывание)</li>
-<li>По дате добавления (убывание)</li>
-</ul>
 
                                 <h2 id="produkty-GETapi-v1-products--slug-">Получить детальную информацию о продукте</h2>
 
@@ -2683,14 +2834,14 @@ API предоставляет возможности для получения 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products/aromaticheskaya-svecha-lavanda" \
+    --get "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/products/aromaticheskaya-svecha-lavanda"
+    "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;"
 );
 
 const headers = {
@@ -2832,10 +2983,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="slug"                data-endpoint="GETapi-v1-products--slug-"
-               value="aromaticheskaya-svecha-lavanda"
+               value=""""
                data-component="url">
     <br>
-<p>Уникальный идентификатор продукта. Example: <code>aromaticheskaya-svecha-lavanda</code></p>
+<p>Уникальный идентификатор продукта. Example: <code>""</code></p>
             </div>
                     </form>
 
@@ -2853,7 +3004,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products?search=%D1%81%D0%B2%D0%B5%D1%87%D0%B0&amp;category=aromaticheskie-svechi&amp;price_from=100&amp;price_to=500&amp;is_new=1&amp;is_bestseller=1&amp;ids=1%2C2%2C3&amp;sort=price_asc&amp;per_page=15" \
+    --get "http://localhost:8000/api/v1/products?search=%22%22&amp;category=%22%22&amp;price_from=%22%22&amp;price_to=%22%22&amp;is_new=1&amp;is_bestseller=1&amp;ids=%22%22&amp;sort=%22%22&amp;per_page=15&amp;page=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -2864,15 +3015,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "search": "свеча",
-    "category": "aromaticheskie-svechi",
-    "price_from": "100",
-    "price_to": "500",
+    "search": """",
+    "category": """",
+    "price_from": """",
+    "price_to": """",
     "is_new": "1",
     "is_bestseller": "1",
-    "ids": "1,2,3",
-    "sort": "price_asc",
+    "ids": """",
+    "sort": """",
     "per_page": "15",
+    "page": "1",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -3011,10 +3163,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="search"                data-endpoint="GETapi-v1-products"
-               value="свеча"
+               value=""""
                data-component="query">
     <br>
-<p>Строка для поиска продуктов по названию. Example: <code>свеча</code></p>
+<p>Строка для поиска продуктов по названию. Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>category</code></b>&nbsp;&nbsp;
@@ -3022,10 +3174,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="category"                data-endpoint="GETapi-v1-products"
-               value="aromaticheskie-svechi"
+               value=""""
                data-component="query">
     <br>
-<p>Slug категории для фильтрации продуктов. Example: <code>aromaticheskie-svechi</code></p>
+<p>Slug категории для фильтрации продуктов. Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>price_from</code></b>&nbsp;&nbsp;
@@ -3033,10 +3185,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="price_from"                data-endpoint="GETapi-v1-products"
-               value="100"
+               value=""""
                data-component="query">
     <br>
-<p>numeric Минимальная цена для фильтрации. Example: <code>100</code></p>
+<p>numeric Минимальная цена для фильтрации. Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>price_to</code></b>&nbsp;&nbsp;
@@ -3044,10 +3196,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="price_to"                data-endpoint="GETapi-v1-products"
-               value="500"
+               value=""""
                data-component="query">
     <br>
-<p>numeric Максимальная цена для фильтрации. Example: <code>500</code></p>
+<p>numeric Максимальная цена для фильтрации. Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>is_new</code></b>&nbsp;&nbsp;
@@ -3097,10 +3249,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="ids"                data-endpoint="GETapi-v1-products"
-               value="1,2,3"
+               value=""""
                data-component="query">
     <br>
-<p>Список ID продуктов через запятую для фильтрации. Example: <code>1,2,3</code></p>
+<p>Список ID продуктов через запятую для фильтрации. Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>sort</code></b>&nbsp;&nbsp;
@@ -3108,10 +3260,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sort"                data-endpoint="GETapi-v1-products"
-               value="price_asc"
+               value=""""
                data-component="query">
     <br>
-<p>Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc). Example: <code>price_asc</code></p>
+<p>Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc). Example: <code>""</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -3122,7 +3274,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="15"
                data-component="query">
     <br>
-<p>Количество результатов на странице (от 1 до 100). Example: <code>15</code></p>
+<p>Количество заказов на страницу. Example: <code>15</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-products"
+               value="1"
+               data-component="query">
+    <br>
+<p>Номер страницы. Example: <code>1</code></p>
             </div>
                 </form>
 
@@ -3631,7 +3794,64 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: []
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;description&quot;: &quot;Главная страница&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sit non non aut. Unde ea necessitatibus delectus minus fugit. Incidunt eum aut nam soluta dignissimos expedita.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae at consequuntur error nobis. In corporis expedita laudantium ut. Sapiente laboriosam in sequi voluptatum quia labore. Et vitae et et.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;description&quot;: &quot;Каталог товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptates nihil dolor temporibus odit odio. Dolore tempora molestias voluptate velit placeat eum accusantium. Mollitia velit deleniti cum voluptas molestias. Ea ut perspiciatis ipsum omnis nam sit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae quas delectus omnis et. Fugit non et repellat veniam. Amet et debitis dignissimos sunt soluta. Ab quo iste consectetur culpa. Sit ut et nemo autem molestiae accusamus porro.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Accusamus sint delectus ea quas sapiente et ad. Est vitae numquam dolorem rerum at voluptates nihil.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Non temporibus modi asperiores molestias atque et. Quibusdam explicabo quisquam sit. Quod dolorum cupiditate maiores consequuntur qui eos. Excepturi eum dolorum ad tempora accusamus nobis qui.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Illo illum incidunt cupiditate soluta vitae suscipit. Commodi sint possimus non eos aut officiis. Eum voluptatem molestiae dolores.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolorem vel labore dolores. Debitis non consectetur ipsum soluta. Nemo tenetur aliquam vel provident.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;description&quot;: &quot;Контактная информация&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Possimus eos eum sint illo repellat aliquid. Unde eaque voluptas exercitationem ut. Et ut vel nisi id non. Ut commodi et aut quas possimus voluptas soluta.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsa atque sit cum. Non sunt aliquid itaque velit qui eos maxime. Molestiae quo dolores facere veniam est. Consequatur illo reiciendis totam.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Mollitia accusamus labore fugit quaerat. Consequatur soluta reiciendis cum. Commodi assumenda in mollitia cupiditate voluptatibus. Necessitatibus est aut sint sunt ut iste adipisci.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Esse et sed eos veniam veritatis. Quisquam occaecati inventore voluptatibus repellendus ut quae iste. Inventore rem quae voluptatibus cumque iste molestiae.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Fugit asperiores est soluta provident modi minima. Quia architecto omnis laudantium delectus quia. Eaque explicabo et quis doloremque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Molestias eius reprehenderit ipsam quo ab repellendus minima est. Rem repellendus et reiciendis non mollitia quae omnis est. Ipsam ut exercitationem tenetur perferendis id.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        }
+    ]
 }</code>
  </pre>
     </span>

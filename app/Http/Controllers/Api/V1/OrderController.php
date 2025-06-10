@@ -7,12 +7,15 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\OrderCalculateRequest;
 use App\Http\Requests\Api\V1\OrderStoreRequest;
-use App\Http\Resources\Api\V1\OrderResource as ApiOrderResource;
+use App\Http\Resources\Api\V1\OrderResource;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\OrderCalculationService;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 final class OrderController extends ApiController
 {
@@ -75,6 +78,37 @@ final class OrderController extends ApiController
         $order = $orderService->createOrder($request->validated());
         $order->load('items');
 
-        return $this->successResponse(new ApiOrderResource($order), 'Заказ успешно создан', 201);
+        return $this->successResponse(new OrderResource($order), 'Заказ успешно создан', 201);
+    }
+
+    /**
+     * @group Заказы пользователя
+     *
+     * Получить список заказов текущего пользователя
+     *
+     * @authenticated
+     *
+     * @queryParam page int Номер страницы. Пример: 2
+     * @queryParam per_page int Количество заказов на страницу. Пример: 15
+     *
+     * @response 200 scenario="Успешно" {
+     *   "status": "success",
+     *   "message": "Success",
+     *   "data": {
+     *     "current_page": 1,
+     *     "data": [
+     *       {"id": 1, "user_id": 2, ...}
+     *     ],
+     *     ...
+     *   }
+     * }
+     */
+    public function index(Request $request, OrderService $orderService): OrderResource|AnonymousResourceCollection
+    {
+        $user = Auth::user();
+        $perPage = (int) $request->query('per_page', '15');
+        $orders = $orderService->getUserOrders($user->id, $perPage);
+
+        return OrderResource::collection($orders);
     }
 }

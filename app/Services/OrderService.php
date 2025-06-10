@@ -12,6 +12,7 @@ use App\Services\Auth\RegistrationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final readonly class OrderService
 {
@@ -106,5 +107,13 @@ final readonly class OrderService
 
             return $order;
         });
+    }
+
+    /**
+     * Получить заказы пользователя
+     */
+    public function getUserOrders(int $userId, int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->orderRepository->getByUserId($userId, $perPage);
     }
 }

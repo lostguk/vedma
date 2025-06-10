@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\HealthController;
@@ -61,10 +62,12 @@ Route::prefix('v1')->group(function () {
     });
 
     // Order
-    Route::post('order/calculate', [\App\Http\Controllers\Api\V1\OrderController::class, 'calculate'])
+    Route::post('order/calculate', [OrderController::class, 'calculate'])
         ->name('api.v1.order.calculate');
-    Route::post('order', [\App\Http\Controllers\Api\V1\OrderController::class, 'store'])
+    Route::post('order', [OrderController::class, 'store'])
         ->name('api.v1.order.store');
+    Route::middleware('auth:sanctum')->get('orders', [OrderController::class, 'index'])
+        ->name('api.v1.orders.index');
 
     require base_path('routes/user.php');
 });

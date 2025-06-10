@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 final class OrderRepository extends BaseRepository
@@ -39,5 +40,16 @@ final class OrderRepository extends BaseRepository
         }
 
         return new Collection($created);
+    }
+
+    /**
+     * Получить заказы пользователя
+     */
+    public function getByUserId(int $userId, int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->model->where('user_id', $userId)
+            ->with('items')
+            ->orderByDesc('created_at')
+            ->paginate($perPage);
     }
 }
