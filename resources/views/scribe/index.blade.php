@@ -30,9 +30,9 @@
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="{{ asset("/vendor/scribe/js/tryitout-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/tryitout-5.1.0.js") }}"></script>
 
-    <script src="{{ asset("/vendor/scribe/js/theme-default-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/theme-default-5.1.0.js") }}"></script>
 
 </head>
 
@@ -77,6 +77,12 @@
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-login">
                                 <a href="#autentifikaciia-POSTapi-v1-login">POST api/v1/login</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-forgot-password">
+                                <a href="#autentifikaciia-POSTapi-v1-forgot-password">Запрос на сброс пароля</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-reset-password">
+                                <a href="#autentifikaciia-POSTapi-v1-reset-password">Сброс пароля</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-logout">
                                 <a href="#autentifikaciia-POSTapi-v1-logout">POST api/v1/logout</a>
@@ -182,7 +188,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 8, 2025</li>
+        <li>Last updated: June 10, 2025</li>
     </ul>
 </div>
 
@@ -675,6 +681,335 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Пароль пользователя. Example: <code>password</code></p>
+        </div>
+        </form>
+
+                    <h2 id="autentifikaciia-POSTapi-v1-forgot-password">Запрос на сброс пароля</h2>
+
+<p>
+</p>
+
+<p>Отправляет пользователю на email ссылку для сброса пароля, если пользователь существует.</p>
+
+<span id="example-requests-POSTapi-v1-forgot-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/forgot-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"user@example.com\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/forgot-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "user@example.com"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-forgot-password">
+            <blockquote>
+            <p>Example response (200, Ссылка отправлена):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Ссылка на смену пароля отправлена.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-forgot-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-forgot-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-forgot-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-forgot-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-forgot-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-forgot-password" data-method="POST"
+      data-path="api/v1/forgot-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-forgot-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-forgot-password"
+                    onclick="tryItOut('POSTapi-v1-forgot-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-forgot-password"
+                    onclick="cancelTryOut('POSTapi-v1-forgot-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-forgot-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/forgot-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-forgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-forgot-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-forgot-password"
+               value="user@example.com"
+               data-component="body">
+    <br>
+<p>Email пользователя. Example: <code>user@example.com</code></p>
+        </div>
+        </form>
+
+                    <h2 id="autentifikaciia-POSTapi-v1-reset-password">Сброс пароля</h2>
+
+<p>
+</p>
+
+<p>Позволяет установить новый пароль, используя email и временный токен.</p>
+
+<span id="example-requests-POSTapi-v1-reset-password">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/reset-password" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"user@example.com\",
+    \"token\": \"abc123\",
+    \"password\": \"NewPassword456\",
+    \"password_confirmation\": \"NewPassword456\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/reset-password"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "user@example.com",
+    "token": "abc123",
+    "password": "NewPassword456",
+    "password_confirmation": "NewPassword456"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-reset-password">
+            <blockquote>
+            <p>Example response (200, Пароль успешно изменён):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Пароль успешно изменён.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Неверный или просроченный токен):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;token&quot;: [
+            &quot;Неверный или просроченный токен&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-reset-password" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-reset-password"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-reset-password"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-reset-password" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-reset-password">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-reset-password" data-method="POST"
+      data-path="api/v1/reset-password"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-reset-password', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-reset-password"
+                    onclick="tryItOut('POSTapi-v1-reset-password');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-reset-password"
+                    onclick="cancelTryOut('POSTapi-v1-reset-password');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-reset-password"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/reset-password</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-reset-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-reset-password"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-reset-password"
+               value="user@example.com"
+               data-component="body">
+    <br>
+<p>Email пользователя. Example: <code>user@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>token</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="token"                data-endpoint="POSTapi-v1-reset-password"
+               value="abc123"
+               data-component="body">
+    <br>
+<p>Токен сброса, полученный из email. Example: <code>abc123</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password"                data-endpoint="POSTapi-v1-reset-password"
+               value="NewPassword456"
+               data-component="body">
+    <br>
+<p>Новый пароль (минимум 8 символов). Example: <code>NewPassword456</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="password_confirmation"                data-endpoint="POSTapi-v1-reset-password"
+               value="NewPassword456"
+               data-component="body">
+    <br>
+<p>Подтверждение нового пароля. Example: <code>NewPassword456</code></p>
         </div>
         </form>
 
@@ -1433,7 +1768,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-08T13:06:50+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-10T07:52:44+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3301,7 +3636,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Accusamus aperiam illum error soluta eveniet reprehenderit id. Aut quaerat est modi. Ut sapiente magnam est eveniet velit consectetur. In quo sint est soluta.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;A non eum perspiciatis possimus. Tenetur consequatur qui rerum est expedita. Totam dolor odit ut in ut dolorem magni hic. Et dolore quia aut iste deserunt.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Eum consequatur et quo nemo at. Et qui sit cumque iste. Ea ipsum id magnam qui in illo placeat et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deleniti voluptatem sit aut eius tenetur ut soluta. Ut eveniet fuga et est adipisci qui. Reiciendis qui voluptas sed delectus voluptatibus.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3309,7 +3644,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptatibus tenetur iure id facere in blanditiis. Numquam sint sit laborum accusamus in id aut. Et dolor quod voluptatum pariatur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae laboriosam sit perspiciatis aut molestias vel. Itaque placeat quo aut nulla. Dignissimos dolorum aut et sed. Sed tempora dolorem quidem natus.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam beatae enim voluptatem possimus tenetur tenetur. Dicta voluptatem labore suscipit rerum laudantium et fuga nulla.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deserunt totam possimus officia nemo. Blanditiis aut illum est repellendus praesentium est. Sed minima exercitationem voluptatem rerum. Est quidem aut dolores blanditiis eum assumenda aperiam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3317,7 +3652,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Praesentium consequatur nisi corrupti. Voluptatem velit praesentium est voluptas earum labore nisi. Optio ex asperiores sunt est magnam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Omnis autem architecto dolorem aliquam sit omnis quia magnam. Repudiandae aspernatur adipisci aut porro velit enim velit. Et commodi iusto nemo ut. Aut rerum ut a enim fugit dicta provident.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quasi non sint aspernatur nobis veniam vel dignissimos. Non enim rerum modi alias autem harum est. Ex explicabo distinctio et enim omnis ad reiciendis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui dolorum molestiae illo non. Vel dolorem corrupti asperiores error eos quia voluptas. Sapiente ad dolorem ad nihil.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3325,7 +3660,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eveniet veritatis id velit amet provident velit. Optio natus vel voluptatem consequatur rerum quia. Autem occaecati est aut repudiandae earum consequatur eum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;At quasi possimus nostrum et voluptatum qui. Voluptas voluptate quasi et non corrupti repudiandae. Dicta eos voluptas quibusdam est sit et minima esse. Dicta commodi soluta numquam a hic eius ut.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Illo amet sed soluta ex aliquam suscipit ut ea. Unde ex recusandae quia. Explicabo ducimus dignissimos magnam non. Nihil ducimus amet sunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Unde eaque perferendis quae inventore. Architecto molestias optio quas accusantium sint recusandae animi qui. Non nulla aliquid accusamus porro ad.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3333,7 +3668,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ut veritatis eligendi alias ipsa ab veniam. Amet aliquid a molestiae iure quasi explicabo fuga. Id ut itaque accusantium ipsum inventore.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Suscipit assumenda doloremque doloribus ad quo est exercitationem sed. Voluptas corporis qui sapiente dolorum. Accusamus enim quis ipsa voluptates illo. Incidunt vel harum quo odio.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ut sapiente quia quisquam et voluptatem dolorum non. Tempora et et quo nisi sequi doloremque et qui. Aut ab voluptas natus ducimus reiciendis ab. Pariatur similique sed maiores qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Amet quia vero in est atque. Officiis ut voluptates pariatur illo ut quaerat. Magni vitae cumque et accusantium.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3341,7 +3676,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Labore fuga itaque rerum culpa. Reiciendis illum accusamus corporis deleniti saepe nihil. Et commodi voluptatem aut quo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quo dolores iste facere tempore rerum et sequi. Nobis consequuntur expedita consequatur inventore. Sit quibusdam unde unde et. Ut maxime repudiandae fugit.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quibusdam rerum perferendis in in. Fuga et voluptas est soluta blanditiis. Sit amet odio et sunt voluptatem. Rerum qui enim quos sint corrupti.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Doloribus ipsa nam corrupti dolorem qui. Incidunt aut in totam voluptatem libero labore ut saepe. Voluptates omnis maxime necessitatibus aut est. Sit qui sunt at delectus debitis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3349,7 +3684,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Est qui dolores recusandae tempore. Fugit est alias dolores iste impedit error perspiciatis. Mollitia aut beatae ipsam et. Consectetur laboriosam ut ad et nemo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Doloremque odio placeat molestiae nihil exercitationem impedit commodi. Est est saepe molestias doloremque aut ut harum. Et quibusdam odit commodi numquam eveniet rem.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sapiente autem recusandae aliquid laborum. Numquam sit aut qui accusantium vel qui non. Animi autem maxime adipisci eveniet nulla. Dolor iusto veritatis esse et quam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui atque et corrupti atque ut et saepe. Iusto voluptatem commodi delectus quasi. Est sed qui accusamus voluptatem excepturi officia.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
