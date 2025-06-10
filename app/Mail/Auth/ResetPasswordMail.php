@@ -7,7 +7,6 @@ namespace App\Mail\Auth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-//TODO?? сгенерить доки
 /**
  * Письмо со ссылкой для восстановления пароля
  */
