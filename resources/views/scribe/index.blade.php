@@ -1363,7 +1363,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/orders?page=16&amp;per_page=16" \
+    --get "http://localhost:8000/api/v1/orders?page=1&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1375,8 +1375,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const params = {
-    "page": "16",
-    "per_page": "16",
+    "page": "1",
+    "per_page": "15",
 };
 Object.keys(params)
     .forEach(key =&gt; url.searchParams.append(key, params[key]));
@@ -1500,10 +1500,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="page"                data-endpoint="GETapi-v1-orders"
-               value="16"
+               value="1"
                data-component="query">
     <br>
-<p>Номер страницы. Пример: 2 Example: <code>16</code></p>
+<p>Номер страницы. Example: <code>1</code></p>
             </div>
                                     <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -1511,10 +1511,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-v1-orders"
-               value="16"
+               value="15"
                data-component="query">
     <br>
-<p>Количество заказов на страницу. Пример: 15 Example: <code>16</code></p>
+<p>Количество заказов на страницу. Example: <code>15</code></p>
             </div>
                 </form>
 
@@ -1951,7 +1951,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-10T16:30:58+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-10T17:02:21+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2296,7 +2296,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"items\": [
         \"architecto\"
     ],
-    \"promo_code\": \"architecto\"
+    \"promo_code\": \"PROMO10\"
 }"
 </code></pre></div>
 
@@ -2315,7 +2315,7 @@ let body = {
     "items": [
         "architecto"
     ],
-    "promo_code": "architecto"
+    "promo_code": "PROMO10"
 };
 
 fetch(url, {
@@ -2435,10 +2435,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="items.0.id"                data-endpoint="POSTapi-v1-order-calculate"
-               value="16"
+               value="1"
                data-component="body">
     <br>
-<p>ID товара. Пример: 1 Example: <code>16</code></p>
+<p>ID товара. Example: <code>1</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
@@ -2446,10 +2446,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="items.0.count"                data-endpoint="POSTapi-v1-order-calculate"
-               value="16"
+               value="3"
                data-component="body">
     <br>
-<p>Количество товара. Пример: 3 Example: <code>16</code></p>
+<p>Количество товара. Example: <code>3</code></p>
                     </div>
                                     </details>
         </div>
@@ -2459,10 +2459,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="promo_code"                data-endpoint="POSTapi-v1-order-calculate"
-               value="architecto"
+               value="PROMO10"
                data-component="body">
     <br>
-<p>Промокод (опционально). Пример: PROMO10 Example: <code>architecto</code></p>
+<p>Промокод (опционально). Example: <code>PROMO10</code></p>
         </div>
         </form>
 
@@ -3799,7 +3799,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Sit non non aut. Unde ea necessitatibus delectus minus fugit. Incidunt eum aut nam soluta dignissimos expedita.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae at consequuntur error nobis. In corporis expedita laudantium ut. Sapiente laboriosam in sequi voluptatum quia labore. Et vitae et et.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Provident iusto aut et iste quibusdam itaque voluptatum. Dolores nihil dolorem temporibus voluptatem aut. Aliquam occaecati sit harum. Hic aut est aspernatur corrupti tempore.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Error nihil sint quod amet nihil omnis. Alias voluptatem maiores dolorum beatae non. Sit aut aspernatur nobis et. Libero illum veritatis corrupti.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3807,7 +3807,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptates nihil dolor temporibus odit odio. Dolore tempora molestias voluptate velit placeat eum accusantium. Mollitia velit deleniti cum voluptas molestias. Ea ut perspiciatis ipsum omnis nam sit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae quas delectus omnis et. Fugit non et repellat veniam. Amet et debitis dignissimos sunt soluta. Ab quo iste consectetur culpa. Sit ut et nemo autem molestiae accusamus porro.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quo quo non facilis. Maxime quam amet aut labore minima. Eos aliquid neque sit. Quidem similique omnis ea blanditiis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sed minus eos rerum quas. Quam quae et expedita odit quibusdam. Libero autem dolorem est facere reprehenderit odio minima.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3815,7 +3815,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Accusamus sint delectus ea quas sapiente et ad. Est vitae numquam dolorem rerum at voluptates nihil.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Non temporibus modi asperiores molestias atque et. Quibusdam explicabo quisquam sit. Quod dolorum cupiditate maiores consequuntur qui eos. Excepturi eum dolorum ad tempora accusamus nobis qui.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Unde incidunt nam maiores inventore. Rerum qui eum rerum quo eos eos. Officia sit dignissimos veritatis aliquam dolor est.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Unde aliquid voluptatem aut earum ea inventore. Repudiandae ex et aut est. Tenetur et consequuntur nesciunt ducimus magnam eius necessitatibus. Consequatur quia est non expedita.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3823,7 +3823,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Illo illum incidunt cupiditate soluta vitae suscipit. Commodi sint possimus non eos aut officiis. Eum voluptatem molestiae dolores.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolorem vel labore dolores. Debitis non consectetur ipsum soluta. Nemo tenetur aliquam vel provident.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptates libero dolores et voluptatem suscipit qui repudiandae. Eum perferendis provident atque velit non cum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsam ut rerum eveniet officiis aut sit aut. Dolor qui sed aut facilis. Provident voluptates quasi ut ut aspernatur blanditiis dolor repellat. In nulla sapiente rerum et consequatur odit.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3831,7 +3831,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Possimus eos eum sint illo repellat aliquid. Unde eaque voluptas exercitationem ut. Et ut vel nisi id non. Ut commodi et aut quas possimus voluptas soluta.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsa atque sit cum. Non sunt aliquid itaque velit qui eos maxime. Molestiae quo dolores facere veniam est. Consequatur illo reiciendis totam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptates quod expedita voluptatem. Ipsa unde repellat laborum iusto. Repudiandae sed quam hic dolores. Ipsa dolorum ullam voluptates ut aut a.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ea rerum et eos ut laudantium. Impedit laudantium quo aperiam enim. Omnis dignissimos sit libero aut ipsam. Dignissimos quo et officiis neque.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3839,7 +3839,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Mollitia accusamus labore fugit quaerat. Consequatur soluta reiciendis cum. Commodi assumenda in mollitia cupiditate voluptatibus. Necessitatibus est aut sint sunt ut iste adipisci.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Esse et sed eos veniam veritatis. Quisquam occaecati inventore voluptatibus repellendus ut quae iste. Inventore rem quae voluptatibus cumque iste molestiae.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam nesciunt consequatur facere excepturi quo. Corporis modi nisi corporis dolores maxime. Aut voluptas magnam aut similique dolorem. Aliquid officia et reiciendis odio.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatibus tenetur accusantium vel ut. Corporis similique et ratione nesciunt. Labore assumenda non asperiores iure optio. Officiis eveniet quae eos enim veritatis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3847,7 +3847,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Fugit asperiores est soluta provident modi minima. Quia architecto omnis laudantium delectus quia. Eaque explicabo et quis doloremque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Molestias eius reprehenderit ipsam quo ab repellendus minima est. Rem repellendus et reiciendis non mollitia quae omnis est. Ipsam ut exercitationem tenetur perferendis id.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Impedit provident cupiditate suscipit qui officia repellat. Minima illo sint dignissimos omnis hic consequatur. Non dolorum repellendus ut ut sequi molestiae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iure quos recusandae est iure commodi. Autem voluptas cum fuga et. Exercitationem mollitia ullam veritatis omnis nostrum necessitatibus corporis. Dignissimos repudiandae velit fugiat qui aut harum.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }

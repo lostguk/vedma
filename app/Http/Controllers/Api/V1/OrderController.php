@@ -26,9 +26,9 @@ final class OrderController extends ApiController
      * Расчет стоимости заказа с учетом промокода.
      *
      * @bodyParam items array[] Список товаров для расчета. Пример: [{"id":1,"count":3}]
-     * @bodyParam items[].id int ID товара. Пример: 1
-     * @bodyParam items[].count int Количество товара. Пример: 3
-     * @bodyParam promo_code string Промокод (опционально). Пример: PROMO10
+     * @bodyParam items[].id int ID товара. Example: 1
+     * @bodyParam items[].count int Количество товара. Example: 3
+     * @bodyParam promo_code string Промокод (опционально). Example: PROMO10
      *
      * @response 200 scenario="Успешный расчет" {
      *   "data": [
