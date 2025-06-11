@@ -13,6 +13,10 @@ if [ ! -d vendor ]; then
     composer install --no-interaction --no-progress --prefer-dist
 fi
 
+# Unblock to use production in local
+#echo "Configuring Git safe.directory..."
+#git config --global --add safe.directory /var/www/html
+
 # Генерируем ключ приложения, если он не установлен
 if ! php artisan key:generate --no-interaction --force; then
     echo "Failed to generate APP_KEY"
@@ -34,6 +38,8 @@ php artisan view:clear
 php artisan route:clear
 
 composer fresh-seed
+# Unblock to use production in local
+#composer fresh-seed-force
 
 echo "Initialization completed successfully!"
 
