@@ -78,18 +78,15 @@ final class CategoryController extends ApiController
     public function index(): AnonymousResourceCollection
     {
         $query = Category::query()
-            ->with(['media', 'children.media'])
-            ->orderBy('sort_order');
+            ->root()
+            ->with([
+                'media',
+                'children.media',
+                'children.children.media',
+            ]);
 
         if (! request()->boolean('show_hidden')) {
             $query->visible();
-        }
-
-        $ids = request()->input('ids');
-
-        if ($ids) {
-            $ids = array_filter(array_map('intval', $ids), fn ($id) => $id > 0);
-            $query->whereIn('id', $ids);
         }
 
         $categories = $query->get();
