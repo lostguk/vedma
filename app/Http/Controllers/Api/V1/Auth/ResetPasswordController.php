@@ -42,6 +42,7 @@ final class ResetPasswordController extends ApiController
      *     "token": ["Неверный или просроченный токен"]
      *   }
      * }
+     *
      * @throws ValidationException
      */
     public function __invoke(ResetPasswordRequest $request): JsonResponse

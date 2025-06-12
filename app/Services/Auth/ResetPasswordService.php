@@ -22,7 +22,8 @@ final readonly class ResetPasswordService
     /**
      * Сбросить пароль пользователя по email и токену
      *
-     * @param array{email: string, token: string, password: string, password_confirmation: string} $data
+     * @param  array{email: string, token: string, password: string, password_confirmation: string}  $data
+     *
      * @throws ValidationException
      */
     public function resetPassword(array $data): void
@@ -33,7 +34,7 @@ final readonly class ResetPasswordService
             ->where('email', $data['email'])
             ->first();
 
-        if (!$record || !Hash::check($data['token'], $record->token)) {
+        if (! $record || ! Hash::check($data['token'], $record->token)) {
             throw ValidationException::withMessages([
                 'token' => ['Неверный токен'],
             ]);

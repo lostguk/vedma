@@ -37,7 +37,7 @@ final readonly class ForgotPasswordService
             ]
         );
 
-        $url = "{$frontendUrl}/reset-password?token={$plainToken}&email=" . urlencode($email);
+        $url = "{$frontendUrl}/reset-password?token={$plainToken}&email=".urlencode($email);
         $this->mailService->sendPasswordResetLink($email, $url);
     }
 }

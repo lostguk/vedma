@@ -32,6 +32,10 @@ php artisan migrate --no-interaction --force
 echo "Generating API documentation with Scribe..."
 php artisan scribe:generate
 
+# Create symbolic link for storage
+echo "Creating storage symbolic link..."
+php artisan storage:link
+
 # Очищаем кэши
 php artisan config:clear
 php artisan view:clear

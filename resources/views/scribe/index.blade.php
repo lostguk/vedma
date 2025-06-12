@@ -30,9 +30,9 @@
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="{{ asset("/vendor/scribe/js/tryitout-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/tryitout-5.1.0.js") }}"></script>
 
-    <script src="{{ asset("/vendor/scribe/js/theme-default-5.2.1.js") }}"></script>
+    <script src="{{ asset("/vendor/scribe/js/theme-default-5.1.0.js") }}"></script>
 
 </head>
 
@@ -198,7 +198,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 10, 2025</li>
+        <li>Last updated: June 12, 2025</li>
     </ul>
 </div>
 
@@ -1951,7 +1951,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-10T17:02:21+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-12T09:06:14+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3794,64 +3794,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Provident iusto aut et iste quibusdam itaque voluptatum. Dolores nihil dolorem temporibus voluptatem aut. Aliquam occaecati sit harum. Hic aut est aspernatur corrupti tempore.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Error nihil sint quod amet nihil omnis. Alias voluptatem maiores dolorum beatae non. Sit aut aspernatur nobis et. Libero illum veritatis corrupti.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quo quo non facilis. Maxime quam amet aut labore minima. Eos aliquid neque sit. Quidem similique omnis ea blanditiis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sed minus eos rerum quas. Quam quae et expedita odit quibusdam. Libero autem dolorem est facere reprehenderit odio minima.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Unde incidunt nam maiores inventore. Rerum qui eum rerum quo eos eos. Officia sit dignissimos veritatis aliquam dolor est.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Unde aliquid voluptatem aut earum ea inventore. Repudiandae ex et aut est. Tenetur et consequuntur nesciunt ducimus magnam eius necessitatibus. Consequatur quia est non expedita.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptates libero dolores et voluptatem suscipit qui repudiandae. Eum perferendis provident atque velit non cum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsam ut rerum eveniet officiis aut sit aut. Dolor qui sed aut facilis. Provident voluptates quasi ut ut aspernatur blanditiis dolor repellat. In nulla sapiente rerum et consequatur odit.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptates quod expedita voluptatem. Ipsa unde repellat laborum iusto. Repudiandae sed quam hic dolores. Ipsa dolorum ullam voluptates ut aut a.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ea rerum et eos ut laudantium. Impedit laudantium quo aperiam enim. Omnis dignissimos sit libero aut ipsam. Dignissimos quo et officiis neque.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam nesciunt consequatur facere excepturi quo. Corporis modi nisi corporis dolores maxime. Aut voluptas magnam aut similique dolorem. Aliquid officia et reiciendis odio.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatibus tenetur accusantium vel ut. Corporis similique et ratione nesciunt. Labore assumenda non asperiores iure optio. Officiis eveniet quae eos enim veritatis.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Impedit provident cupiditate suscipit qui officia repellat. Minima illo sint dignissimos omnis hic consequatur. Non dolorum repellendus ut ut sequi molestiae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iure quos recusandae est iure commodi. Autem voluptas cum fuga et. Exercitationem mollitia ullam veritatis omnis nostrum necessitatibus corporis. Dignissimos repudiandae velit fugiat qui aut harum.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
