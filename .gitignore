@@ -16,6 +16,9 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.scribe
+/public/docs
+/public/vendor/scribe
+/storage/app/scribe
 /auth.json
 /.fleet
 /.idea
