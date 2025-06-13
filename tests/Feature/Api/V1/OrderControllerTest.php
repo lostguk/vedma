@@ -117,7 +117,7 @@ final class OrderControllerTest extends TestCase
         $this->actingAs($user);
         $response = $this->getJson('/api/v1/orders');
         $response->assertOk();
-        $ordersArray = $response->json('data');
+        $ordersArray = $response->json('data.data');
         $this->assertIsArray($ordersArray);
         $this->assertCount(3, $ordersArray);
         foreach ($ordersArray as $order) {

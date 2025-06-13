@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Order;
 use App\Models\PromoCode;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
+ * @extends Factory<Order>
  */
 class OrderFactory extends Factory
 {
@@ -20,7 +21,7 @@ class OrderFactory extends Factory
     {
         $user = User::inRandomOrder()->first();
         $promo = PromoCode::inRandomOrder()->first();
-        $userData = $user ? $user->toArray() : \Database\Factories\UserFactory::new()->definition();
+        $userData = $user ? $user->toArray() : UserFactory::new()->definition();
 
         return [
             'user_id' => $user?->id,

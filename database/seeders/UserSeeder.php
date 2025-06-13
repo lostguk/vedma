@@ -48,6 +48,19 @@ class UserSeeder extends Seeder
             'postal_code' => '123456',
             'address' => 'ул. Пушкина, д. 1',
         ],
+        [
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'middle_name' => 'Иванович',
+            'email' => 'user@example.com',
+            'password' => 'password123',
+            'phone' => '+79001234567',
+            'country' => 'Россия',
+            'region' => 'Московская область',
+            'city' => 'Москва',
+            'postal_code' => '123456',
+            'address' => 'ул. Примерная, д. 1, кв. 1',
+        ],
     ];
 
     /**

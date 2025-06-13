@@ -79,4 +79,77 @@ class OrderStoreRequest extends FormRequest
             return (bool) ($input->register ?? false);
         });
     }
+
+    /**
+     * Get parameters for body documentation for Scribe
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'items' => [
+                'description' => 'Массив позиций заказа',
+                'example' => [['id' => 1, 'count' => 2]],
+            ],
+            'items.*.id' => [
+                'description' => 'ID товара',
+                'example' => 1,
+            ],
+            'items.*.count' => [
+                'description' => 'Количество',
+                'example' => 2,
+            ],
+            'promo_code' => [
+                'description' => 'Промокод',
+                'example' => 'PROMO2208',
+            ],
+            'register' => [
+                'description' => 'Зарегистрировать пользователя',
+                'example' => true,
+            ],
+            'first_name' => [
+                'description' => 'Имя пользователя',
+                'example' => 'Admin',
+            ],
+            'last_name' => [
+                'description' => 'Фамилия пользователя',
+                'example' => 'System',
+            ],
+            'middle_name' => [
+                'description' => 'Отчество пользователя',
+                'example' => 'Root',
+            ],
+            'email' => [
+                'description' => 'Email пользователя',
+                'example' => 'admin@admin.ru',
+            ],
+            'phone' => [
+                'description' => 'Телефон пользователя',
+                'example' => '+7 999 999 99 99',
+            ],
+            'country' => [
+                'description' => 'Страна',
+                'example' => 'Россия',
+            ],
+            'region' => [
+                'description' => 'Регион',
+                'example' => 'Московская область',
+            ],
+            'city' => [
+                'description' => 'Город',
+                'example' => 'Москва',
+            ],
+            'postal_code' => [
+                'description' => 'Почтовый индекс',
+                'example' => '123456',
+            ],
+            'address' => [
+                'description' => 'Адрес доставки',
+                'example' => 'ул. Администраторская, д. 1',
+            ],
+            'password' => [
+                'description' => 'Пароль (если регистрация)',
+                'example' => 'StrongPass123',
+            ],
+        ];
+    }
 }

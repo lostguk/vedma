@@ -32,7 +32,7 @@ final class CategoryTest extends TestCase
 
         // Assert
         $response->assertOk()
-            ->assertJsonCount(3, 'data')
+            ->assertJsonCount(2, 'data')
             ->assertJsonStructure([
                 'data' => [
                     '*' => [

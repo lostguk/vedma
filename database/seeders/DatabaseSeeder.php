@@ -11,6 +11,8 @@ class DatabaseSeeder extends Seeder
      */
     protected array $seeders = [
         UserSeeder::class,
+        TopicSeeder::class,
+        MessageSeeder::class,
         CategorySeeder::class,
         ProductSeeder::class,
         PromoCodeSeeder::class,

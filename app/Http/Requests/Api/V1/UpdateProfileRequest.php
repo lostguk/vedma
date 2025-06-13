@@ -36,4 +36,53 @@ final class UpdateProfileRequest extends FormRequest
             'address' => ['nullable', 'string', 'max:255'],
         ];
     }
+
+    /**
+     * Get parameters for body documentation for Scribe
+     */
+    public function bodyParameters(): array
+    {
+        return [
+            'first_name' => [
+                'description' => 'Имя пользователя',
+                'example' => 'Иван',
+            ],
+            'last_name' => [
+                'description' => 'Фамилия пользователя',
+                'example' => 'Иванов',
+            ],
+            'middle_name' => [
+                'description' => 'Отчество пользователя',
+                'example' => 'Иванович',
+            ],
+            'email' => [
+                'description' => 'Email пользователя',
+                'example' => 'user@example.com',
+            ],
+            'phone' => [
+                'description' => 'Номер телефона пользователя',
+                'example' => '+7 (999) 123-45-67',
+            ],
+            'country' => [
+                'description' => 'Страна',
+                'example' => 'Россия',
+            ],
+            'region' => [
+                'description' => 'Регион/область',
+                'example' => 'Московская область',
+            ],
+            'city' => [
+                'description' => 'Город',
+                'example' => 'Москва',
+            ],
+            'postal_code' => [
+                'description' => 'Почтовый индекс',
+                'example' => '123456',
+            ],
+            'address' => [
+                'description' => 'Адрес',
+                'example' => 'ул. Пушкина, д. 1',
+            ],
+        ];
+    }
 }

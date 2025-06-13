@@ -104,12 +104,14 @@ final class OrderController extends ApiController
      *   }
      * }
      */
-    public function index(Request $request, OrderService $orderService): OrderResource|AnonymousResourceCollection
+    public function index(Request $request, OrderService $orderService): JsonResponse
     {
         $user = Auth::user();
         $perPage = (int) $request->query('per_page', '15');
         $orders = $orderService->getUserOrders($user->id, $perPage);
 
-        return OrderResource::collection($orders);
+        $collection = OrderResource::collection($orders);
+
+        return $this->paginatedResponse($collection);
     }
 }

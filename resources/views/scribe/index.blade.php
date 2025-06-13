@@ -76,7 +76,7 @@
                                 <a href="#autentifikaciia-POSTapi-v1-register">Регистрация нового пользователя</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-login">
-                                <a href="#autentifikaciia-POSTapi-v1-login">POST api/v1/login</a>
+                                <a href="#autentifikaciia-POSTapi-v1-login">Вход в систему</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-forgot-password">
                                 <a href="#autentifikaciia-POSTapi-v1-forgot-password">Запрос на сброс пароля</a>
@@ -189,6 +189,19 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-temy-i-soobshheniia" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="temy-i-soobshheniia">
+                    <a href="#temy-i-soobshheniia">Темы и сообщения</a>
+                </li>
+                                    <ul id="tocify-subheader-temy-i-soobshheniia" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics">
+                                <a href="#temy-i-soobshheniia-GETapi-v1-topics">Получение списка тем пользователя</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics--id-">
+                                <a href="#temy-i-soobshheniia-GETapi-v1-topics--id-">Получение темы с сообщениями</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -198,7 +211,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 12, 2025</li>
+        <li>Last updated: June 13, 2025</li>
     </ul>
 </div>
 
@@ -552,12 +565,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
-                    <h2 id="autentifikaciia-POSTapi-v1-login">POST api/v1/login</h2>
+                    <h2 id="autentifikaciia-POSTapi-v1-login">Вход в систему</h2>
 
 <p>
 </p>
 
-
+<p>Позволяет получить токен доступа по email и паролю.
+После успешной аутентификации возвращается токен доступа и данные пользователя.</p>
 
 <span id="example-requests-POSTapi-v1-login">
 <blockquote>Example request:</blockquote>
@@ -569,8 +583,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"test@example.com\",
-    \"password\": \"password\"
+    \"email\": \"user@example.com\",
+    \"password\": \"password123\"
 }"
 </code></pre></div>
 
@@ -586,8 +600,8 @@ const headers = {
 };
 
 let body = {
-    "email": "test@example.com",
-    "password": "password"
+    "email": "user@example.com",
+    "password": "password123"
 };
 
 fetch(url, {
@@ -599,7 +613,57 @@ fetch(url, {
 </span>
 
 <span id="example-responses-POSTapi-v1-login">
-</span>
+            <blockquote>
+            <p>Example response (200, Успешный вход):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Login successful&quot;,
+    &quot;data&quot;: {
+        &quot;user&quot;: {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Иван&quot;,
+            &quot;last_name&quot;: &quot;Иванов&quot;,
+            &quot;middle_name&quot;: &quot;Иванович&quot;,
+            &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+            &quot;email&quot;: &quot;user@example.com&quot;,
+            &quot;phone&quot;: &quot;+79001234567&quot;,
+            &quot;address&quot;: {
+                &quot;country&quot;: &quot;Россия&quot;,
+                &quot;region&quot;: &quot;Московская область&quot;,
+                &quot;city&quot;: &quot;Москва&quot;,
+                &quot;postal_code&quot;: &quot;123456&quot;,
+                &quot;address&quot;: &quot;ул. Примерная, д. 1, кв. 1&quot;
+            },
+            &quot;email_verified&quot;: true,
+            &quot;created_at&quot;: &quot;2023-01-01T00:00:00+00:00&quot;,
+            &quot;updated_at&quot;: &quot;2023-01-01T00:00:00+00:00&quot;
+        },
+        &quot;token&quot;: &quot;1|laravel_sanctum_hashed_token_example_123456789&quot;
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Ошибка валидации):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;Указанные учетные данные не соответствуют нашим записям.&quot;
+        ],
+        &quot;password&quot;: [
+            &quot;Пароль должен содержать не менее 8 символов.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
 <span id="execution-results-POSTapi-v1-login" hidden>
     <blockquote>Received response<span
                 id="execution-response-status-POSTapi-v1-login"></span>:
@@ -676,10 +740,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-login"
-               value="test@example.com"
+               value="user@example.com"
                data-component="body">
     <br>
-<p>Email пользователя. Example: <code>test@example.com</code></p>
+<p>Email пользователя. Example: <code>user@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -687,10 +751,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-v1-login"
-               value="password"
+               value="password123"
                data-component="body">
     <br>
-<p>Пароль пользователя. Example: <code>password</code></p>
+<p>Пароль пользователя. Example: <code>password123</code></p>
         </div>
         </form>
 
@@ -1951,7 +2015,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-12T09:34:22+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-13T10:17:41+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3794,7 +3858,64 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: []
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;description&quot;: &quot;Главная страница&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Expedita qui occaecati perspiciatis dolorum id. Qui animi non quis aspernatur velit deleniti neque. Laudantium voluptas eaque qui et id dicta id. Qui a expedita laudantium. Id sequi omnis ab.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;In odio ipsa voluptates vitae molestiae reprehenderit dignissimos et. Quia reprehenderit et laboriosam. Molestias officia impedit harum et et ut sit ipsam.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;description&quot;: &quot;Каталог товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sapiente cupiditate rerum pariatur consequatur molestiae ut sunt. Officiis vel excepturi architecto at. Qui modi inventore autem et quo explicabo. Ipsa voluptatibus sint consequatur aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Commodi praesentium rem qui veritatis architecto tenetur. Consequatur magni officia quia deleniti facere assumenda iste. Occaecati ut velit perspiciatis quia a. Eius blanditiis in vel eum.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Modi modi quasi quo temporibus eos consequatur quisquam alias. Et ut ullam placeat nulla et voluptatum. Sit est sit temporibus. Id in facere et vel.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nihil fugit cupiditate enim qui voluptas. Rem ut cumque qui recusandae natus.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Eum nesciunt incidunt omnis aspernatur eos ad. Hic dolor id qui rerum. Excepturi aliquam nostrum veniam quia. Necessitatibus occaecati non assumenda.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Illum modi quisquam est aut. Dolorum officiis explicabo quas ipsa delectus aut quia. Molestias earum aperiam sint tempora eaque dignissimos veritatis.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;description&quot;: &quot;Контактная информация&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Iure vel totam sunt est mollitia tempore at. Ipsa fugiat atque sit eaque at ipsa debitis non. Officiis beatae officiis quod et facilis fuga.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Atque est et veniam velit et. Alias nisi placeat porro vitae nihil. Est impedit debitis eos hic minus quae hic. Sit qui est magni minima excepturi.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Qui quis quia dicta totam. Aperiam magni non inventore a nisi quidem. Eaque neque qui ea quidem id.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quis magni ut esse sit nihil cum itaque. Incidunt qui cumque at eos beatae dolore voluptatibus. Sunt reiciendis asperiores omnis asperiores.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Omnis eaque eveniet molestias omnis. Voluptatem autem iusto et eveniet et. Et voluptas molestiae quaerat iste. Qui vitae voluptatem ut consectetur cumque quidem fuga odit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Enim ad repudiandae omnis quia voluptatibus dolore voluptatem eaque. Illum asperiores est voluptates voluptates. Quidem temporibus ea asperiores sed cum soluta. Iure qui hic assumenda animi sit.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -4094,7 +4215,461 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <br>
 <p>Показывать в футере</p>
         </div>
-                
+                    <h1 id="temy-i-soobshheniia">Темы и сообщения</h1>
+
+    <p>API для работы с темами обращений и сообщениями пользователей</p>
+<p>Темы обращений представляют собой диалоги между пользователем и администратором.
+Каждая тема может содержать множество сообщений от пользователя и администратора.</p>
+<h2>Структура темы</h2>
+<p>Каждая тема содержит следующие основные поля:</p>
+<ul>
+<li><code>id</code> - Уникальный идентификатор темы</li>
+<li><code>title</code> - Название темы</li>
+<li><code>status</code> - Статус темы (new, resolved, requires_response)</li>
+<li><code>user_id</code> - ID пользователя, создавшего тему.</li>
+<li><code>messages</code> - Массив сообщений в теме (если запрошены)</li>
+</ul>
+<h2>Структура сообщения</h2>
+<p>Каждое сообщение содержит следующие основные поля:</p>
+<ul>
+<li><code>id</code> - Уникальный идентификатор сообщения</li>
+<li><code>content</code> - Текст сообщения</li>
+<li><code>user_id</code> - ID пользователя, отправившего сообщение.</li>
+<li><code>topic_id</code> - ID темы, к которой относится сообщение.</li>
+<li><code>attachments</code> - Массив вложений к сообщению (если есть)</li>
+</ul>
+
+                                <h2 id="temy-i-soobshheniia-GETapi-v1-topics">Получение списка тем пользователя</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Возвращает список всех тем, созданных аутентифицированным пользователем.</p>
+
+<span id="example-requests-GETapi-v1-topics">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/topics?page=1&amp;per_page=15" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/topics"
+);
+
+const params = {
+    "page": "1",
+    "per_page": "15",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-topics">
+            <blockquote>
+            <p>Example response (200, Успешный запрос):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Список тем пользователя&quot;,
+    &quot;data&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;title&quot;: &quot;Проблема с заказом&quot;,
+                &quot;status&quot;: &quot;new&quot;,
+                &quot;status_text&quot;: &quot;Новый&quot;,
+                &quot;created_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+                &quot;updated_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+                &quot;messages_count&quot;: 2
+            },
+            {
+                &quot;id&quot;: 2,
+                &quot;title&quot;: &quot;Вопрос о доставке&quot;,
+                &quot;status&quot;: &quot;requires_response&quot;,
+                &quot;status_text&quot;: &quot;Требует ответа&quot;,
+                &quot;created_at&quot;: &quot;2023-06-14 15:45:00&quot;,
+                &quot;updated_at&quot;: &quot;2023-06-14 16:20:00&quot;,
+                &quot;messages_count&quot;: 3
+            }
+        ],
+        &quot;first_page_url&quot;: &quot;http://example.com/api/v1/topics?page=1&quot;,
+        &quot;from&quot;: 1,
+        &quot;last_page&quot;: 1,
+        &quot;last_page_url&quot;: &quot;http://example.com/api/v1/topics?page=1&quot;,
+        &quot;links&quot;: [
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
+                &quot;active&quot;: false
+            },
+            {
+                &quot;url&quot;: &quot;http://example.com/api/v1/topics?page=1&quot;,
+                &quot;label&quot;: &quot;1&quot;,
+                &quot;active&quot;: true
+            },
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;Next &amp;raquo;&quot;,
+                &quot;active&quot;: false
+            }
+        ],
+        &quot;next_page_url&quot;: null,
+        &quot;path&quot;: &quot;http://example.com/api/v1/topics&quot;,
+        &quot;per_page&quot;: 15,
+        &quot;prev_page_url&quot;: null,
+        &quot;to&quot;: 2,
+        &quot;total&quot;: 2
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401, Не авторизован):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-topics" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-topics"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-topics"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-topics" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-topics">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-topics" data-method="GET"
+      data-path="api/v1/topics"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-topics', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-topics"
+                    onclick="tryItOut('GETapi-v1-topics');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-topics"
+                    onclick="cancelTryOut('GETapi-v1-topics');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-topics"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/topics</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-topics"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-topics"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-topics"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-topics"
+               value="1"
+               data-component="query">
+    <br>
+<p>Номер страницы. Example: <code>1</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="per_page"                data-endpoint="GETapi-v1-topics"
+               value="15"
+               data-component="query">
+    <br>
+<p>Количество тем на страницу. Example: <code>15</code></p>
+            </div>
+                </form>
+
+                    <h2 id="temy-i-soobshheniia-GETapi-v1-topics--id-">Получение темы с сообщениями</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Возвращает детальную информацию о теме, включая все сообщения в ней.
+Тема должна принадлежать аутентифицированному пользователю.</p>
+
+<span id="example-requests-GETapi-v1-topics--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/topics/7" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/topics/7"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-topics--id-">
+            <blockquote>
+            <p>Example response (200, Успешный запрос):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Детали темы&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;title&quot;: &quot;Проблема с заказом&quot;,
+        &quot;status&quot;: &quot;new&quot;,
+        &quot;status_text&quot;: &quot;Новый&quot;,
+        &quot;created_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+        &quot;updated_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+        &quot;messages_count&quot;: 2,
+        &quot;messages&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;content&quot;: &quot;У меня возникла проблема с последним заказом. Не получил подтверждение оплаты.&quot;,
+                &quot;user&quot;: {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Иванов Иван Иванович&quot;,
+                    &quot;email&quot;: &quot;user@example.com&quot;
+                },
+                &quot;created_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+                &quot;updated_at&quot;: &quot;2023-06-15 10:30:00&quot;,
+                &quot;attachments&quot;: [
+                    {
+                        &quot;id&quot;: 1,
+                        &quot;file_name&quot;: &quot;document.pdf&quot;,
+                        &quot;mime_type&quot;: &quot;application/pdf&quot;,
+                        &quot;size&quot;: 1024000,
+                        &quot;url&quot;: &quot;http://example.com/storage/1/document.pdf&quot;,
+                        &quot;thumbnail&quot;: &quot;http://example.com/storage/1/conversions/document-thumb.jpg&quot;,
+                        &quot;created_at&quot;: &quot;2023-06-15 10:30:00&quot;
+                    }
+                ]
+            },
+            {
+                &quot;id&quot;: 2,
+                &quot;content&quot;: &quot;Здравствуйте! Проверим информацию по вашему заказу и свяжемся с вами в ближайшее время.&quot;,
+                &quot;user&quot;: {
+                    &quot;id&quot;: 2,
+                    &quot;name&quot;: &quot;Администратор&quot;,
+                    &quot;email&quot;: &quot;admin@example.com&quot;
+                },
+                &quot;created_at&quot;: &quot;2023-06-15 11:15:00&quot;,
+                &quot;updated_at&quot;: &quot;2023-06-15 11:15:00&quot;,
+                &quot;attachments&quot;: []
+            }
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401, Не авторизован):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Тема не найдена):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Тема не найдена или не принадлежит пользователю&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-topics--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-topics--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-topics--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-topics--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-topics--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-topics--id-" data-method="GET"
+      data-path="api/v1/topics/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-topics--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-topics--id-"
+                    onclick="tryItOut('GETapi-v1-topics--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-topics--id-"
+                    onclick="cancelTryOut('GETapi-v1-topics--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-topics--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/topics/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-topics--id-"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-topics--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-topics--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-v1-topics--id-"
+               value="7"
+               data-component="url">
+    <br>
+<p>ID темы. Example: <code>7</code></p>
+            </div>
+                    </form>
+
+            
 
         
     </div>
