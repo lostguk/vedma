@@ -23,15 +23,11 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'old_price' => $this->old_price,
-            'dimensions' => [
-                'width' => $this->width,
-                'height' => $this->height,
-                'depth' => $this->depth,
-                'weight' => $this->weight,
-            ],
+            'dimensions' => $this->dimensions,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'related' => ProductResource::collection($this->whenLoaded('related')),
-            'images_urls' => $this->getMedia('images')->map(fn ($media) => $media->getUrl()),
+            'images_urls' => $this->getFirstMediaUrl('images'),
+            'thumb_url' => $this->getFirstMediaUrl('images', 'thumb'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -112,6 +112,6 @@ final class OrderController extends ApiController
 
         $collection = OrderResource::collection($orders);
 
-        return $this->paginatedResponse($collection);
+        return $this->successPaginatedResponse($collection);
     }
 }

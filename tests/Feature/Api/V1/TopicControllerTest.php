@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api\V1;
 
+use App\Models\Message;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +31,7 @@ final class TopicControllerTest extends TestCase
             'user_id' => $otherUser->id,
         ]);
 
-        $response = $this->getJson('/api/v1/topics');
+        $response = $this->getJson(route('api.v1.topics.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([
@@ -86,7 +87,7 @@ final class TopicControllerTest extends TestCase
         ]);
 
         // Create messages for the topic
-        $messages = \App\Models\Message::factory()->count(3)->create([
+        Message::factory()->count(3)->create([
             'user_id' => $user->id,
             'topic_id' => $topic->id,
         ]);
@@ -157,5 +158,44 @@ final class TopicControllerTest extends TestCase
 
         $response->assertNotFound();
         $response->assertJsonPath('status', 'error');
+    }
+
+    public function test_topics_response_includes_pagination(): void
+    {
+        // Create a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        // Create topics for the user
+        Topic::factory()->count(5)->create([
+            'user_id' => $user->id,
+        ]);
+
+        // Make the request
+        $response = $this->getJson('/api/v1/topics?page=1&per_page=2');
+
+        // Check the response structure
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'status',
+            'message',
+            'data' => [
+                'data',
+                'meta' => [
+                    'current_page',
+                    'first_page_url',
+                    'from',
+                    'last_page',
+                    'last_page_url',
+                    'links',
+                    'next_page_url',
+                    'path',
+                    'per_page',
+                    'prev_page_url',
+                    'to',
+                    'total',
+                ],
+            ],
+        ]);
     }
 }

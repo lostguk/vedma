@@ -61,6 +61,62 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $content
+ * @property int $user_id
+ * @property int $topic_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \App\Models\Topic $topic
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\MessageFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereTopicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Message whereUserId($value)
+ */
+	final class Message extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $file_path
+ * @property string $file_name
+ * @property string $mime_type
+ * @property int $file_size
+ * @property int $message_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Message $message
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereFilePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereFileSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereMessageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereMimeType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MessageAttachment whereUpdatedAt($value)
+ */
+	final class MessageAttachment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property int|null $user_id
  * @property string $first_name
  * @property string $last_name
@@ -271,6 +327,33 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $title
+ * @property string $status
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Message> $messages
+ * @property-read int|null $messages_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\TopicFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUserId($value)
+ */
+	final class Topic extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -287,7 +370,6 @@ namespace App\Models{
  * @property string|null $postal_code
  * @property string|null $address
  * @property string|null $email_verification_token
- * @property-read string $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens

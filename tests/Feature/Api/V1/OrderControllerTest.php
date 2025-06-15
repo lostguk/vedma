@@ -23,7 +23,7 @@ final class OrderControllerTest extends TestCase
                 ['id' => $product->id, 'count' => 2],
             ],
         ];
-        $response = $this->postJson('/api/v1/order/calculate', $payload);
+        $response = $this->postJson(route('api.v1.order.calculate', $payload));
         $response->assertOk();
         $response->assertJsonFragment([
             'id' => $product->id,
@@ -116,6 +116,7 @@ final class OrderControllerTest extends TestCase
 
         $this->actingAs($user);
         $response = $this->getJson('/api/v1/orders');
+
         $response->assertOk();
         $ordersArray = $response->json('data.data');
         $this->assertIsArray($ordersArray);

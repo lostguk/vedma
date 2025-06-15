@@ -7,19 +7,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
-/**
- * @OA\Info(
- *     title="Magic Shop API",
- *     version="1.0.0"
- * )
- *
- * @OA\SecurityScheme(
- *     securityScheme="bearerAuth",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT"
- * )
- */
 abstract class ApiController extends Controller
 {
     /**
@@ -62,7 +49,7 @@ abstract class ApiController extends Controller
     /**
      * Paginated Success Response
      *
-     * Returns a success response with pagination metadata preserved in meta property
+     * Returns a success response with pagination metadata preserved in meta-property
      */
     protected function successPaginatedResponse(mixed $data, string $message = 'Success', int $code = 200): JsonResponse
     {

@@ -17,6 +17,10 @@ case "$1" in
     filament-cache)
         docker-compose -f docker-compose.local.yml exec php php artisan filament:clear-cache
         ;;
+    artisan)
+        shift
+        docker-compose -f docker-compose.local.yml exec php php artisan "$@"
+        ;;
     lint)
         docker-compose -f docker-compose.local.yml exec php ./vendor/bin/pint
         ;;
@@ -25,6 +29,6 @@ case "$1" in
         docker-compose -f docker-compose.local.yml exec php php artisan ide-helper:meta
         ;;
     *)
-        echo "Usage: $0 {reset-db|docs|test|filament-cache|lint|ide-helper}"
+        echo "Usage: $0 {reset-db|docs|test|filament-cache|lint|ide-helper|artisan}"
         ;;
 esac

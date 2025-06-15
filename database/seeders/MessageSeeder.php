@@ -31,9 +31,6 @@ class MessageSeeder extends Seeder
             ]);
         }
 
-        // Ensure storage is set up for testing
-        Storage::fake('public');
-
         // Create messages for each topic
         foreach ($topics as $topic) {
             // Create 2-4 messages from the topic owner (user)
@@ -78,9 +75,6 @@ class MessageSeeder extends Seeder
      */
     private function addAttachmentsToMessage(Message $message, int $count): void
     {
-        // Make sure we're using the public disk for testing
-        Storage::fake('public');
-
         for ($i = 0; $i < $count; $i++) {
             // Create a fake image with random dimensions
             $file = UploadedFile::fake()->image(

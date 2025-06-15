@@ -32,7 +32,7 @@ Route::prefix('v1')->group(function () {
     // Health check endpoint
     Route::get('/health', function () {
         return response()->json(['status' => 'ok']);
-    });
+    })->name('api.v1.health');
 
     // Auth
     Route::post('register', RegisterController::class)->name('api.v1.auth.register');

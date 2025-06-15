@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
     /**
      * Количество продуктов для каждой категории
      */
-    private const PRODUCTS_PER_CATEGORY = 5;
+    private const int PRODUCTS_PER_CATEGORY = 5;
 
     /**
      * Run the database seeds.
@@ -26,6 +26,7 @@ class ProductSeeder extends Seeder
         $categories = Category::all();
         $categoryCount = $categories->count();
         $products = collect();
+
         // Для каждой категории создаём товары и привязываем к ней
         foreach ($categories as $i => $category) {
             $created = Product::factory(self::PRODUCTS_PER_CATEGORY)
@@ -35,6 +36,7 @@ class ProductSeeder extends Seeder
                 });
             $products = $products->merge($created);
         }
+
         // Для каждого товара добавляем ещё 1-2 случайные категории (для тестов промокодов)
         foreach ($products as $product) {
             $extraCategories = $categories->whereNotIn('id', $product->categories->pluck('id'))->random(rand(0, min(2, $categoryCount - 1)))->pluck('id')->all();
@@ -42,6 +44,7 @@ class ProductSeeder extends Seeder
                 $product->categories()->attach($extraCategories);
             }
         }
+
         // Добавляем связанные продукты
         Product::all()->each(function (Product $product) {
             $relatedProducts = Product::where('id', '!=', $product->id)
