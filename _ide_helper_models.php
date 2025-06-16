@@ -13,7 +13,7 @@
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -58,7 +58,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $content
@@ -86,7 +86,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $file_path
@@ -114,7 +114,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $user_id
@@ -178,7 +178,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $order_id
@@ -210,7 +210,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $title
@@ -238,7 +238,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -294,7 +294,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $code
@@ -324,7 +324,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $title
@@ -349,9 +349,9 @@ namespace App\Models{
 	final class Topic extends \Eloquent {}
 }
 
-namespace App\Models{
+namespace App\Models{use App\DTO\UserDTO;
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $email
@@ -396,6 +396,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  */
-	final class User extends \Eloquent implements \Filament\Models\Contracts\HasName, \Illuminate\Contracts\Auth\MustVerifyEmail {}
+	final class User extends \Eloquent implements \Filament\Models\Contracts\HasName, \Illuminate\Contracts\Auth\MustVerifyEmail {public function getDTO(): UserDTO {
+return new UserDTO(
+
+);
+}}
 }
 

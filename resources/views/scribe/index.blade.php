@@ -211,7 +211,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 14, 2025</li>
+        <li>Last updated: June 16, 2025</li>
     </ul>
 </div>
 
@@ -2015,7 +2015,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-14T13:10:26+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-16T13:40:27+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3863,7 +3863,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Facere consequatur velit sit inventore ea totam. Minus dolores necessitatibus quo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repudiandae est maxime sed assumenda veniam dolorem aspernatur. Ea omnis dolor magni dolore. Veniam laboriosam et quae magnam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quaerat excepturi libero delectus voluptas id sapiente. Harum quia mollitia voluptatum deserunt voluptas. Dolorem reprehenderit neque iure libero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nihil ut ea sequi atque ut odio blanditiis. Delectus voluptatem est quo at eius. Et beatae rem sit voluptatem quod placeat doloribus. Dolore sed nam commodi aut.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3871,7 +3871,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Delectus aut iste nihil reprehenderit reprehenderit. Fugit qui occaecati dolor eum soluta est. Nam ut impedit sapiente ducimus qui dignissimos. Illo qui sunt nam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ex praesentium delectus qui odit cupiditate nulla. Quia eos sint quisquam quas et velit. Dolore soluta consectetur et autem et.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Atque aperiam quas eos consequuntur maiores tenetur nihil. Non et et qui et distinctio ut eaque. Doloribus aut qui autem omnis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatibus voluptatum voluptates et nesciunt. Neque reiciendis consequatur dolor repellendus suscipit. Asperiores voluptatum incidunt debitis ex esse expedita.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3879,7 +3879,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ad animi et dolore sit reiciendis neque repudiandae. Modi vero eum itaque. Quas eos aut repellendus corporis qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Impedit temporibus accusamus iste dolores sint. Quia asperiores quaerat repellendus. Sunt est ducimus beatae est nihil nam. Eligendi et harum est.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Perferendis sint rem autem et mollitia delectus voluptatem doloribus. Aut ut fuga quibusdam deserunt. Nesciunt et voluptas fugit deleniti aperiam. Quos ab ea et modi.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quos iste ipsam quae. Sit consequuntur natus mollitia eveniet fugit. Rem quod tempore et dolorum quaerat non.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3887,7 +3887,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Occaecati quo veritatis dolor enim distinctio et. At fuga fugit enim magni natus rerum. Veniam est labore quam. Quibusdam magni voluptates sunt necessitatibus exercitationem quod vel.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ut laboriosam neque distinctio quod. Minus voluptatem et natus nostrum officiis. Qui et incidunt corporis esse rerum beatae quam. Voluptatem molestiae aut ut voluptatem amet ipsam nam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ab aut sint sit provident. Ipsam est inventore suscipit quis repellat.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vero aut eos eius dicta natus. Explicabo eveniet a ex odio dolor quod aspernatur. Non labore et dolores eaque. Provident asperiores odit rerum nulla optio aspernatur praesentium.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3895,7 +3895,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Consequatur et numquam modi cumque. Minima deleniti laborum et quae dolores accusantium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;A quis est repellendus. Quas omnis recusandae culpa dolores quibusdam provident corrupti. Repudiandae velit repellendus doloribus iure reiciendis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Et eos molestiae quis placeat amet autem dignissimos ipsam. Nisi dolores perspiciatis deleniti nisi dolorum. Sint minus perspiciatis eligendi aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem facere minus dolor eligendi. Aperiam quia rerum cupiditate tempora. Animi quasi eos nihil dolorum eius ex. Rerum iste occaecati et aliquam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3903,7 +3903,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quo impedit nihil voluptas quibusdam molestiae minima natus. Esse ipsum enim aperiam earum ut nulla aut. Ut necessitatibus placeat ullam porro.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Inventore est quas fugit qui. Qui est velit quidem maxime qui ut ratione. Consequatur sit est eveniet dolorem.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Optio nemo id sit molestiae accusantium. Vel in molestiae quis vel quae. Illum eum nam consectetur tempora impedit non nesciunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolor atque qui voluptas facilis. Et id praesentium molestiae qui totam. Quia est fugiat quaerat deserunt.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3911,7 +3911,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam dolores perspiciatis sit quibusdam enim voluptate expedita nulla. Voluptatem eum possimus libero aliquam incidunt. Vero aut dolorem esse quos. Ducimus provident nulla cum distinctio velit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem iste consequuntur accusantium in temporibus molestiae voluptatum. Eum eos dolorem quis nesciunt repudiandae consequatur. Et ipsum iure est.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sed doloribus molestias nihil est optio. Doloremque nihil sit enim praesentium. Nobis tenetur maiores aut sint necessitatibus.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dignissimos ut totam tenetur velit nemo aut. Voluptate earum incidunt doloremque. Rem illum velit magni consectetur perferendis aut culpa.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
