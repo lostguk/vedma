@@ -33,6 +33,9 @@ services:
       context: ./docker/php
       dockerfile: Dockerfile
     container_name: shop_php_dev
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
     volumes:
       - ./:/var/www/html
       - composer_cache:/var/www/.composer/cache

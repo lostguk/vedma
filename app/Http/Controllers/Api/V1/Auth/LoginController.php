@@ -70,10 +70,14 @@ final class LoginController extends ApiController
      */
     public function __invoke(LoginRequest $request, LoginService $service): JsonResponse
     {
+        \Log::info('LoginController');
+
         $user = $service->attemptLogin(
             $request->string('email')->toString(),
             $request->string('password')->toString()
         );
+
+        \Log::info('user', $user->toArray());
 
         $token = $user->createToken('api')->plainTextToken;
 
