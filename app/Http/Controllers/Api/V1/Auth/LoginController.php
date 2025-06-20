@@ -47,13 +47,7 @@ final class LoginController extends ApiController
      *             "full_name": "Иванов Иван Иванович",
      *             "email": "user@example.com",
      *             "phone": "+79001234567",
-     *             "address": {
-     *                 "country": "Россия",
-     *                 "region": "Московская область",
-     *                 "city": "Москва",
-     *                 "postal_code": "123456",
-     *                 "address": "ул. Примерная, д. 1, кв. 1"
-     *             },
+     *             "address": "Россия"
      *             "email_verified": true,
      *             "created_at": "2023-01-01T00:00:00+00:00",
      *             "updated_at": "2023-01-01T00:00:00+00:00"

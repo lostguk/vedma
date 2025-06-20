@@ -29,10 +29,6 @@ final class UpdateProfileRequest extends FormRequest
                 Rule::unique('users')->ignore($userId),
             ],
             'phone' => ['nullable', 'string', 'max:32'],
-            'country' => ['nullable', 'string', 'max:255'],
-            'region' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'postal_code' => ['nullable', 'string', 'max:32'],
             'address' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -62,22 +58,6 @@ final class UpdateProfileRequest extends FormRequest
             'phone' => [
                 'description' => 'Номер телефона пользователя',
                 'example' => '+7 (999) 123-45-67',
-            ],
-            'country' => [
-                'description' => 'Страна',
-                'example' => 'Россия',
-            ],
-            'region' => [
-                'description' => 'Регион/область',
-                'example' => 'Московская область',
-            ],
-            'city' => [
-                'description' => 'Город',
-                'example' => 'Москва',
-            ],
-            'postal_code' => [
-                'description' => 'Почтовый индекс',
-                'example' => '123456',
             ],
             'address' => [
                 'description' => 'Адрес',

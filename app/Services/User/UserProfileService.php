@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\User;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 
 final readonly class UserProfileService
 {
@@ -16,7 +17,7 @@ final readonly class UserProfileService
 
     public function updateProfile(User $user, array $data): User
     {
-        $repo = app(\App\Repositories\UserRepository::class);
+        $repo = app(UserRepository::class);
 
         return $repo->updateById($user->id, $data);
     }

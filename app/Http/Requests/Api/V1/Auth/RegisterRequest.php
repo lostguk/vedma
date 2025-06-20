@@ -29,10 +29,6 @@ class RegisterRequest extends ApiRequest
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'string'],
             'phone' => ['nullable', 'string', 'max:20', 'regex:/^\+7\s?\(?\d{3}\)?\s?\d{3}[-\s]?\d{2}[-\s]?\d{2}$/'],
-            'country' => ['nullable', 'string', 'max:255'],
-            'region' => ['nullable', 'string', 'max:255'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'postal_code' => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string', 'max:255'],
         ];
     }
@@ -70,22 +66,6 @@ class RegisterRequest extends ApiRequest
             'phone' => [
                 'description' => 'Номер телефона в формате +7 (XXX) XXX-XX-XX',
                 'example' => '+7 (999) 123-45-67',
-            ],
-            'country' => [
-                'description' => 'Страна',
-                'example' => 'Россия',
-            ],
-            'region' => [
-                'description' => 'Регион/область',
-                'example' => 'Московская область',
-            ],
-            'city' => [
-                'description' => 'Город',
-                'example' => 'Москва',
-            ],
-            'postal_code' => [
-                'description' => 'Почтовый индекс',
-                'example' => '123456',
             ],
             'address' => [
                 'description' => 'Адрес',

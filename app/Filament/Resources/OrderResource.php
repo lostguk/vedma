@@ -52,10 +52,6 @@ class OrderResource extends Resource
                     ])->columns(2),
                 Section::make('Адрес доставки')
                     ->schema([
-                        TextInput::make('country')->label('Страна'),
-                        TextInput::make('region')->label('Регион'),
-                        TextInput::make('city')->label('Город'),
-                        TextInput::make('postal_code')->label('Индекс'),
                         TextInput::make('address')->label('Адрес'),
                     ])->columns(2),
                 Section::make('Доставка')

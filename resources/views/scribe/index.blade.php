@@ -211,7 +211,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 16, 2025</li>
+        <li>Last updated: June 20, 2025</li>
     </ul>
 </div>
 
@@ -250,7 +250,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 <ul>
 <li><code>middle_name</code> - Отчество</li>
 <li><code>phone</code> - Номер телефона</li>
-<li><code>country</code>, <code>region</code>, <code>city</code>, <code>postal_code</code>, <code>address</code> - Адресные данные</li>
+<li><code>address</code> - Адресные данные</li>
 </ul>
 
                                 <h2 id="autentifikaciia-POSTapi-v1-register">Регистрация нового пользователя</h2>
@@ -278,10 +278,6 @@ You can switch the language used with the tabs at the top right (or from the nav
     \"password\": \"password123\",
     \"password_confirmation\": \"password123\",
     \"phone\": \"+7 (999) 123-45-67\",
-    \"country\": \"Россия\",
-    \"region\": \"Московская область\",
-    \"city\": \"Москва\",
-    \"postal_code\": \"123456\",
     \"address\": \"ул. Пушкина, д. 1\"
 }"
 </code></pre></div>
@@ -305,10 +301,6 @@ let body = {
     "password": "password123",
     "password_confirmation": "password123",
     "phone": "+7 (999) 123-45-67",
-    "country": "Россия",
-    "region": "Московская область",
-    "city": "Москва",
-    "postal_code": "123456",
     "address": "ул. Пушкина, д. 1"
 };
 
@@ -336,10 +328,6 @@ fetch(url, {
         &quot;email&quot;: &quot;user@example.com&quot;,
         &quot;email_verified_at&quot;: null,
         &quot;phone&quot;: &quot;+7 (999) 123-45-67&quot;,
-        &quot;country&quot;: &quot;Россия&quot;,
-        &quot;region&quot;: &quot;Московская область&quot;,
-        &quot;city&quot;: &quot;Москва&quot;,
-        &quot;postal_code&quot;: &quot;123456&quot;,
         &quot;address&quot;: &quot;ул. Пушкина, д. 1&quot;,
         &quot;created_at&quot;: &quot;2023-04-04T12:30:45.000000Z&quot;,
         &quot;updated_at&quot;: &quot;2023-04-04T12:30:45.000000Z&quot;
@@ -509,50 +497,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Номер телефона в формате +7 (XXX) XXX-XX-XX. Example: <code>+7 (999) 123-45-67</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="country"                data-endpoint="POSTapi-v1-register"
-               value="Россия"
-               data-component="body">
-    <br>
-<p>Страна. Example: <code>Россия</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>region</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="region"                data-endpoint="POSTapi-v1-register"
-               value="Московская область"
-               data-component="body">
-    <br>
-<p>Регион/область. Example: <code>Московская область</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="city"                data-endpoint="POSTapi-v1-register"
-               value="Москва"
-               data-component="body">
-    <br>
-<p>Город. Example: <code>Москва</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="postal_code"                data-endpoint="POSTapi-v1-register"
-               value="123456"
-               data-component="body">
-    <br>
-<p>Почтовый индекс. Example: <code>123456</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
@@ -630,13 +574,7 @@ fetch(url, {
             &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
             &quot;email&quot;: &quot;user@example.com&quot;,
             &quot;phone&quot;: &quot;+79001234567&quot;,
-            &quot;address&quot;: {
-                &quot;country&quot;: &quot;Россия&quot;,
-                &quot;region&quot;: &quot;Московская область&quot;,
-                &quot;city&quot;: &quot;Москва&quot;,
-                &quot;postal_code&quot;: &quot;123456&quot;,
-                &quot;address&quot;: &quot;ул. Примерная, д. 1, кв. 1&quot;
-            },
+            &quot;address&quot;: &quot;Россия&quot;
             &quot;email_verified&quot;: true,
             &quot;created_at&quot;: &quot;2023-01-01T00:00:00+00:00&quot;,
             &quot;updated_at&quot;: &quot;2023-01-01T00:00:00+00:00&quot;
@@ -2009,13 +1947,14 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-vary: Origin
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-16T13:40:27+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-20T12:37:19+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2135,7 +2074,8 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-vary: Origin
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -2259,7 +2199,8 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">content-type: text/html; charset=UTF-8
 cache-control: no-cache, private
-vary: Origin
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;"></code>
@@ -2559,13 +2500,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"last_name\": \"System\",
     \"middle_name\": \"Root\",
     \"email\": \"admin@admin.ru\",
-    \"phone\": \"+7 999 999 99 99\",
-    \"country\": \"Россия\",
-    \"region\": \"Московская область\",
-    \"city\": \"Москва\",
-    \"postal_code\": \"123456\",
     \"address\": \"ул. Администраторская, д. 1\",
-    \"password\": \"StrongPass123\"
+    \"password\": \"StrongPass123\",
+    \"phone\": \"+7 999 999 99 99\"
 }"
 </code></pre></div>
 
@@ -2593,13 +2530,9 @@ let body = {
     "last_name": "System",
     "middle_name": "Root",
     "email": "admin@admin.ru",
-    "phone": "+7 999 999 99 99",
-    "country": "Россия",
-    "region": "Московская область",
-    "city": "Москва",
-    "postal_code": "123456",
     "address": "ул. Администраторская, д. 1",
-    "password": "StrongPass123"
+    "password": "StrongPass123",
+    "phone": "+7 999 999 99 99"
 };
 
 fetch(url, {
@@ -2802,61 +2735,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Email пользователя. Example: <code>admin@admin.ru</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="phone"                data-endpoint="POSTapi-v1-order"
-               value="+7 999 999 99 99"
-               data-component="body">
-    <br>
-<p>Телефон пользователя. Example: <code>+7 999 999 99 99</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="country"                data-endpoint="POSTapi-v1-order"
-               value="Россия"
-               data-component="body">
-    <br>
-<p>Страна. Example: <code>Россия</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>region</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="region"                data-endpoint="POSTapi-v1-order"
-               value="Московская область"
-               data-component="body">
-    <br>
-<p>Регион. Example: <code>Московская область</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="city"                data-endpoint="POSTapi-v1-order"
-               value="Москва"
-               data-component="body">
-    <br>
-<p>Город. Example: <code>Москва</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="postal_code"                data-endpoint="POSTapi-v1-order"
-               value="123456"
-               data-component="body">
-    <br>
-<p>Почтовый индекс. Example: <code>123456</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
@@ -2877,6 +2755,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Пароль (если регистрация). Example: <code>StrongPass123</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-v1-order"
+               value="+7 999 999 99 99"
+               data-component="body">
+    <br>
+<p>Телефон пользователя. Example: <code>+7 999 999 99 99</code></p>
         </div>
         </form>
 
@@ -2937,7 +2826,7 @@ fetch(url, {
         &quot;dimensions&quot;: {
             &quot;width&quot;: 10,
             &quot;height&quot;: 12,
-            &quot;depth&quot;: 10,
+            &quot;length&quot;: 10,
             &quot;weight&quot;: 350
         },
         &quot;categories&quot;: [
@@ -3123,7 +3012,7 @@ fetch(url, {
             &quot;dimensions&quot;: {
                 &quot;width&quot;: 10,
                 &quot;height&quot;: 12,
-                &quot;depth&quot;: 10,
+                &quot;length&quot;: 10,
                 &quot;weight&quot;: 350
             },
             &quot;images_urls&quot;: [
@@ -3404,27 +3293,21 @@ fetch(url, {
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;first_name&quot;: &quot;Иван&quot;,
-        &quot;last_name&quot;: &quot;Иванов&quot;,
-        &quot;middle_name&quot;: &quot;Иванович&quot;,
-        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
-        &quot;email&quot;: &quot;ivan@example.com&quot;,
-        &quot;phone&quot;: &quot;+79999999999&quot;,
-        &quot;address&quot;: {
-            &quot;country&quot;: &quot;Россия&quot;,
-            &quot;region&quot;: &quot;Москва&quot;,
-            &quot;city&quot;: &quot;Москва&quot;,
-            &quot;postal_code&quot;: &quot;101000&quot;,
-            &quot;address&quot;: &quot;ул. Пример, д. 1&quot;
-        },
-        &quot;email_verified&quot;: true,
-        &quot;created_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;,
-        &quot;updated_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;
-    }
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Success&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: 1,
+    &quot;first_name&quot;: &quot;Иван&quot;,
+    &quot;last_name&quot;: &quot;Иванов&quot;,
+    &quot;middle_name&quot;: &quot;Иванович&quot;,
+    &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+    &quot;email&quot;: &quot;ivan@example.com&quot;,
+    &quot;phone&quot;: &quot;+79999999999&quot;,
+    &quot;address&quot;: &quot;Не дом и не улица, www ленинград&quot;
+    &quot;email_verified&quot;: true,
+    &quot;created_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;,
+    &quot;updated_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;
+  }
 }</code>
  </pre>
     </span>
@@ -3536,10 +3419,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"middle_name\": \"Иванович\",
     \"email\": \"ivan@example.com\",
     \"phone\": \"+79999999999\",
-    \"country\": \"Россия\",
-    \"region\": \"Москва\",
-    \"city\": \"Москва\",
-    \"postal_code\": \"101000\",
     \"address\": \"ул. Пример, д. 1\"
 }"
 </code></pre></div>
@@ -3562,10 +3441,6 @@ let body = {
     "middle_name": "Иванович",
     "email": "ivan@example.com",
     "phone": "+79999999999",
-    "country": "Россия",
-    "region": "Москва",
-    "city": "Москва",
-    "postal_code": "101000",
     "address": "ул. Пример, д. 1"
 };
 
@@ -3584,27 +3459,21 @@ fetch(url, {
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: {
-        &quot;id&quot;: 1,
-        &quot;first_name&quot;: &quot;Иван&quot;,
-        &quot;last_name&quot;: &quot;Иванов&quot;,
-        &quot;middle_name&quot;: &quot;Иванович&quot;,
-        &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
-        &quot;email&quot;: &quot;ivan@example.com&quot;,
-        &quot;phone&quot;: &quot;+79999999999&quot;,
-        &quot;address&quot;: {
-            &quot;country&quot;: &quot;Россия&quot;,
-            &quot;region&quot;: &quot;Москва&quot;,
-            &quot;city&quot;: &quot;Москва&quot;,
-            &quot;postal_code&quot;: &quot;101000&quot;,
-            &quot;address&quot;: &quot;ул. Пример, д. 1&quot;
-        },
-        &quot;email_verified&quot;: true,
-        &quot;created_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;,
-        &quot;updated_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;
-    }
+  &quot;status&quot;: &quot;success&quot;,
+  &quot;message&quot;: &quot;Success&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: 1,
+    &quot;first_name&quot;: &quot;Иван&quot;,
+    &quot;last_name&quot;: &quot;Иванов&quot;,
+    &quot;middle_name&quot;: &quot;Иванович&quot;,
+    &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
+    &quot;email&quot;: &quot;ivan@example.com&quot;,
+    &quot;phone&quot;: &quot;+79999999999&quot;,
+    &quot;address&quot;: &quot;Не дом и не улица, www ленинград&quot;
+    &quot;email_verified&quot;: true,
+    &quot;created_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;,
+    &quot;updated_at&quot;: &quot;2024-05-28T12:00:00+00:00&quot;
+  }
 }</code>
  </pre>
     </span>
@@ -3745,50 +3614,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Телефон пользователя. Example: <code>+79999999999</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>country</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="country"                data-endpoint="PATCHapi-v1-profile"
-               value="Россия"
-               data-component="body">
-    <br>
-<p>Страна. Example: <code>Россия</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>region</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="region"                data-endpoint="PATCHapi-v1-profile"
-               value="Москва"
-               data-component="body">
-    <br>
-<p>Регион. Example: <code>Москва</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>city</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="city"                data-endpoint="PATCHapi-v1-profile"
-               value="Москва"
-               data-component="body">
-    <br>
-<p>Город. Example: <code>Москва</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>postal_code</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="postal_code"                data-endpoint="PATCHapi-v1-profile"
-               value="101000"
-               data-component="body">
-    <br>
-<p>Почтовый индекс. Example: <code>101000</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
@@ -3852,7 +3677,8 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-vary: Origin
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -3863,7 +3689,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quaerat excepturi libero delectus voluptas id sapiente. Harum quia mollitia voluptatum deserunt voluptas. Dolorem reprehenderit neque iure libero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nihil ut ea sequi atque ut odio blanditiis. Delectus voluptatem est quo at eius. Et beatae rem sit voluptatem quod placeat doloribus. Dolore sed nam commodi aut.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Adipisci alias eum ab repudiandae autem voluptas aut. Aliquam architecto quia atque iure sit. Quis eligendi voluptatem enim. Totam occaecati expedita debitis nisi.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Enim quis cumque ab et consectetur labore maxime. Nobis ab et porro accusantium. Qui consequuntur consequatur odit eveniet autem reiciendis. Ducimus at odio totam recusandae velit aut quasi amet.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3871,7 +3697,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Atque aperiam quas eos consequuntur maiores tenetur nihil. Non et et qui et distinctio ut eaque. Doloribus aut qui autem omnis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatibus voluptatum voluptates et nesciunt. Neque reiciendis consequatur dolor repellendus suscipit. Asperiores voluptatum incidunt debitis ex esse expedita.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sint quasi veniam est harum ab impedit. Laudantium doloremque et esse voluptas consectetur fugiat. Sed eveniet debitis veniam laborum. Rem temporibus tempora optio corporis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quia officiis alias alias aut. Praesentium dolore error animi quis. Eius est et itaque labore architecto et sed. Tempora voluptatem voluptas est omnis enim in ipsam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3879,7 +3705,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Perferendis sint rem autem et mollitia delectus voluptatem doloribus. Aut ut fuga quibusdam deserunt. Nesciunt et voluptas fugit deleniti aperiam. Quos ab ea et modi.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quos iste ipsam quae. Sit consequuntur natus mollitia eveniet fugit. Rem quod tempore et dolorum quaerat non.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Rerum corporis odio quia eos voluptatum nesciunt pariatur. Rem ullam quaerat voluptatem expedita veritatis sed dolore. Cupiditate dignissimos ipsam distinctio rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Laborum dolorem praesentium eligendi natus dolore id. Expedita reprehenderit accusantium ut qui. Dolorem quia iure assumenda dolor. Quasi est consequuntur delectus voluptatem.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3887,7 +3713,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ab aut sint sit provident. Ipsam est inventore suscipit quis repellat.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vero aut eos eius dicta natus. Explicabo eveniet a ex odio dolor quod aspernatur. Non labore et dolores eaque. Provident asperiores odit rerum nulla optio aspernatur praesentium.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Cupiditate aspernatur tenetur mollitia est. Molestiae enim expedita quo doloribus dolor sit. Qui ut consequatur eligendi optio veniam laboriosam voluptas.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Officiis est cumque fuga unde facilis et modi nobis. Molestiae tenetur aut expedita et. Exercitationem totam quis tempore eos. Voluptatum eligendi illo aspernatur perspiciatis velit quidem quod.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3895,7 +3721,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Et eos molestiae quis placeat amet autem dignissimos ipsam. Nisi dolores perspiciatis deleniti nisi dolorum. Sint minus perspiciatis eligendi aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem facere minus dolor eligendi. Aperiam quia rerum cupiditate tempora. Animi quasi eos nihil dolorum eius ex. Rerum iste occaecati et aliquam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Consequatur tempora vel expedita porro facilis nemo quisquam facilis. Quam et veritatis ipsa rem id.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolorum et repellat adipisci libero. Qui neque veniam rerum ipsam consequatur dolores provident. Molestias eos cupiditate omnis. Facere sit non incidunt repudiandae suscipit molestias eos voluptas.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3903,7 +3729,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Optio nemo id sit molestiae accusantium. Vel in molestiae quis vel quae. Illum eum nam consectetur tempora impedit non nesciunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolor atque qui voluptas facilis. Et id praesentium molestiae qui totam. Quia est fugiat quaerat deserunt.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Rerum labore ut aut qui accusantium et debitis. Quas perspiciatis et in est corporis sunt. Eveniet doloremque itaque ab perferendis. Laudantium quo voluptate dolorum neque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Reiciendis est reprehenderit rerum. Voluptatem alias similique et aut. Quam repudiandae quo alias iusto velit ipsum numquam ipsa. Excepturi enim nostrum corrupti eum.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3911,7 +3737,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Sed doloribus molestias nihil est optio. Doloremque nihil sit enim praesentium. Nobis tenetur maiores aut sint necessitatibus.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dignissimos ut totam tenetur velit nemo aut. Voluptate earum incidunt doloremque. Rem illum velit magni consectetur perferendis aut culpa.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Nemo nihil placeat reiciendis explicabo ea. Amet velit itaque quaerat aut quo. Tempora laborum labore aliquid odio laborum neque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sint quo et autem dolor accusamus quos odit dolor. Sunt aliquid dolor quia asperiores accusantium omnis. Corporis corporis nam voluptatibus necessitatibus.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4079,7 +3905,8 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-vary: Origin
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{

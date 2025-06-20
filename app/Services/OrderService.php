@@ -43,10 +43,6 @@ final readonly class OrderService
                     'password' => $data['password'],
                     'password_confirmation' => $data['password'],
                     'phone' => $data['phone'] ?? null,
-                    'country' => $data['country'] ?? null,
-                    'region' => $data['region'] ?? null,
-                    'city' => $data['city'] ?? null,
-                    'postal_code' => $data['postal_code'] ?? null,
                     'address' => $data['address'] ?? null,
                 ]);
             }
@@ -71,10 +67,6 @@ final readonly class OrderService
                 'middle_name' => $data['middle_name'] ?? null,
                 'email' => $data['email'],
                 'phone' => $data['phone'] ?? null,
-                'country' => $data['country'] ?? null,
-                'region' => $data['region'] ?? null,
-                'city' => $data['city'] ?? null,
-                'postal_code' => $data['postal_code'] ?? null,
                 'address' => $data['address'] ?? null,
                 'promo_code_id' => $promo?->id,
                 'total_price' => $total,

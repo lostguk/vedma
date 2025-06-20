@@ -18,10 +18,6 @@ use Illuminate\Support\Carbon;
  * @property string|null $middle_name
  * @property string $email
  * @property string|null $phone
- * @property string|null $country
- * @property string|null $region
- * @property string|null $city
- * @property string|null $postal_code
  * @property string|null $address
  * @property int|null $promo_code_id
  * @property float $total_price
@@ -45,7 +41,7 @@ final class Order extends Model
 
     protected $fillable = [
         'user_id', 'first_name', 'last_name', 'middle_name', 'email', 'phone',
-        'country', 'region', 'city', 'postal_code', 'address', 'promo_code_id',
+        'address', 'promo_code_id',
         'total_price', 'status', 'payment_type', 'paid_at', 'comment',
         'delivery_type', 'delivery_price', 'delivery_status', 'delivery_data',
     ];

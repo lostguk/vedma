@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
     /**
      * Количество продуктов для каждой категории
      */
-    private const int PRODUCTS_PER_CATEGORY = 5;
+    private const PRODUCTS_PER_CATEGORY = 5;
 
     /**
      * Run the database seeds.

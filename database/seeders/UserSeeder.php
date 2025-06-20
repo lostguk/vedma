@@ -23,10 +23,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.ru',
             'password' => 'admin',
             'phone' => '+7 999 999 99 99',
-            'country' => 'Россия',
-            'region' => 'Московская область',
-            'city' => 'Москва',
-            'postal_code' => '123456',
             'address' => 'ул. Администраторская, д. 1',
         ],
     ];
@@ -42,10 +38,6 @@ class UserSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => 'password',
             'phone' => '+7 999 123 45 67',
-            'country' => 'Россия',
-            'region' => 'Московская область',
-            'city' => 'Москва',
-            'postal_code' => '123456',
             'address' => 'ул. Пушкина, д. 1',
         ],
         [
@@ -54,11 +46,7 @@ class UserSeeder extends Seeder
             'middle_name' => 'Иванович',
             'email' => 'user@example.com',
             'password' => 'password123',
-            'phone' => '+79001234567',
-            'country' => 'Россия',
-            'region' => 'Московская область',
-            'city' => 'Москва',
-            'postal_code' => '123456',
+            'phone' => '+7 999 123 45 67',
             'address' => 'ул. Примерная, д. 1, кв. 1',
         ],
     ];
@@ -97,10 +85,6 @@ class UserSeeder extends Seeder
             'email' => $userData['email'],
             'password' => bcrypt($userData['password']),
             'phone' => $userData['phone'],
-            'country' => $userData['country'],
-            'region' => $userData['region'],
-            'city' => $userData['city'],
-            'postal_code' => $userData['postal_code'],
             'address' => $userData['address'],
         ]);
     }

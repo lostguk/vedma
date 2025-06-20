@@ -19,7 +19,7 @@ final class Message extends Model implements HasMedia
     /**
      * Название коллекции файлов сообщения
      */
-    public const string ATTACHMENTS_COLLECTION = 'attachments';
+    public const ATTACHMENTS_COLLECTION = 'attachments';
 
     /**
      * The attributes that are mass assignable.

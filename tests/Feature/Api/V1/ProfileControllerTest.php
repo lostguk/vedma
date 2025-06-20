@@ -32,13 +32,7 @@ class ProfileControllerTest extends TestCase
                 'full_name',
                 'email',
                 'phone',
-                'address' => [
-                    'country',
-                    'region',
-                    'city',
-                    'postal_code',
-                    'address',
-                ],
+                'address',
                 'email_verified',
                 'created_at',
                 'updated_at',
@@ -63,10 +57,6 @@ class ProfileControllerTest extends TestCase
             'middle_name' => 'Петрович',
             'email' => 'petr@example.com',
             'phone' => '+79998887766',
-            'country' => 'Россия',
-            'region' => 'СПб',
-            'city' => 'Санкт-Петербург',
-            'postal_code' => '190000',
             'address' => 'ул. Новая, д. 2',
         ];
 

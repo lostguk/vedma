@@ -29,10 +29,6 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
         'email',
         'password',
         'phone',
-        'country',
-        'region',
-        'city',
-        'postal_code',
         'address',
         'email_verification_token',
     ];

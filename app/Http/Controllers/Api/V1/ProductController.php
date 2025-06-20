@@ -49,7 +49,7 @@ final class ProductController extends ApiController
      *       "dimensions": {
      *         "width": 10,
      *         "height": 12,
-     *         "depth": 10,
+     *         "length": 10,
      *         "weight": 350
      *       },
      *       "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
@@ -108,7 +108,7 @@ final class ProductController extends ApiController
      *     "dimensions": {
      *       "width": 10,
      *       "height": 12,
-     *       "depth": 10,
+     *       "length": 10,
      *       "weight": 350
      *     },
      *     "categories": [

@@ -5,6 +5,9 @@
 # Доступные команды: reset-db, docs, test, filament-cache, lint, ide-helper
 
 case "$1" in
+    docker-up)
+        docker-compose -f docker-compose.local.yml up -d --build
+        ;;
     reset-db)
         docker-compose -f docker-compose.local.yml exec php php artisan migrate:fresh --seed
         ;;
@@ -29,6 +32,6 @@ case "$1" in
         docker-compose -f docker-compose.local.yml exec php php artisan ide-helper:meta
         ;;
     *)
-        echo "Usage: $0 {reset-db|docs|test|filament-cache|lint|ide-helper|artisan}"
+        echo "Usage: $0 {docker-up|reset-db|docs|test|filament-cache|lint|ide-helper|artisan}"
         ;;
 esac

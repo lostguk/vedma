@@ -36,7 +36,7 @@ class ProductControllerTest extends TestCase
                     'dimensions' => [
                         'width',
                         'height',
-                        'depth',
+                        'length',
                         'weight',
                     ],
                     'categories',

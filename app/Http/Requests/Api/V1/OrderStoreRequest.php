@@ -15,10 +15,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @bodyParam middle_name string required Отчество пользователя. Example: Root
  * @bodyParam email string required Email пользователя. Example: admin@admin.ru
  * @bodyParam phone string Телефон пользователя. Example: +7 999 999 99 99
- * @bodyParam country string required Страна. Example: Россия
- * @bodyParam region string required Регион. Example: Московская область
- * @bodyParam city string required Город. Example: Москва
- * @bodyParam postal_code string required Почтовый индекс. Example: 123456
  * @bodyParam address string required Адрес доставки. Example: ул. Администраторская, д. 1
  * @bodyParam password string Пароль (если регистрация). Example: StrongPass123
  */
@@ -49,11 +45,6 @@ class OrderStoreRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],
             'email' => ['required', 'email', 'max:128'],
-            'phone' => ['nullable', 'string', 'max:32'],
-            'country' => ['nullable', 'string', 'max:64'],
-            'region' => ['nullable', 'string', 'max:64'],
-            'city' => ['nullable', 'string', 'max:64'],
-            'postal_code' => ['nullable', 'string', 'max:16'],
             'address' => ['nullable', 'string', 'max:255'],
             'password' => ['required_if:register,true', 'string', 'min:8', 'max:64'],
         ];
@@ -125,22 +116,6 @@ class OrderStoreRequest extends FormRequest
             'phone' => [
                 'description' => 'Телефон пользователя',
                 'example' => '+7 999 999 99 99',
-            ],
-            'country' => [
-                'description' => 'Страна',
-                'example' => 'Россия',
-            ],
-            'region' => [
-                'description' => 'Регион',
-                'example' => 'Московская область',
-            ],
-            'city' => [
-                'description' => 'Город',
-                'example' => 'Москва',
-            ],
-            'postal_code' => [
-                'description' => 'Почтовый индекс',
-                'example' => '123456',
             ],
             'address' => [
                 'description' => 'Адрес доставки',

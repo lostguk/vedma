@@ -31,7 +31,7 @@ final class TopicControllerTest extends TestCase
             'user_id' => $otherUser->id,
         ]);
 
-        $response = $this->getJson(route('api.v1.topics.index'));
+        $response = $this->getJson(route('user.topics.index'));
 
         $response->assertOk();
         $response->assertJsonStructure([

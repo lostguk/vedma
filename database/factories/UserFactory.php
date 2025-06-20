@@ -33,10 +33,6 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'phone' => fake()->numerify('+7 ### ### ## ##'),
-            'country' => 'Россия',
-            'region' => fake()->state(),
-            'city' => fake()->city(),
-            'postal_code' => fake()->postcode(),
             'address' => fake()->streetAddress(),
         ];
     }

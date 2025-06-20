@@ -19,10 +19,6 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('email');
             $table->string('phone')->nullable();
-            $table->string('country')->nullable();
-            $table->string('region')->nullable();
-            $table->string('city')->nullable();
-            $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
             $table->foreignId('promo_code_id')->nullable()->constrained('promo_codes')->nullOnDelete();
             $table->decimal('total_price', 10, 2);

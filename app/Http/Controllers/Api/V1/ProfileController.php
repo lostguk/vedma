@@ -31,13 +31,7 @@ final class ProfileController extends ApiController
      *     "full_name": "Иванов Иван Иванович",
      *     "email": "ivan@example.com",
      *     "phone": "+79999999999",
-     *     "address": {
-     *       "country": "Россия",
-     *       "region": "Москва",
-     *       "city": "Москва",
-     *       "postal_code": "101000",
-     *       "address": "ул. Пример, д. 1"
-     *     },
+     *     "address": "Не дом и не улица, www ленинград"
      *     "email_verified": true,
      *     "created_at": "2024-05-28T12:00:00+00:00",
      *     "updated_at": "2024-05-28T12:00:00+00:00"
@@ -68,10 +62,6 @@ final class ProfileController extends ApiController
      * @bodyParam middle_name string Отчество пользователя. Example: Иванович
      * @bodyParam email string required Email пользователя. Example: ivan@example.com
      * @bodyParam phone string Телефон пользователя. Example: +79999999999
-     * @bodyParam country string Страна. Example: Россия
-     * @bodyParam region string Регион. Example: Москва
-     * @bodyParam city string Город. Example: Москва
-     * @bodyParam postal_code string Почтовый индекс. Example: 101000
      * @bodyParam address string Адрес. Example: ул. Пример, д. 1
      *
      * @response 200 {
@@ -85,13 +75,7 @@ final class ProfileController extends ApiController
      *     "full_name": "Иванов Иван Иванович",
      *     "email": "ivan@example.com",
      *     "phone": "+79999999999",
-     *     "address": {
-     *       "country": "Россия",
-     *       "region": "Москва",
-     *       "city": "Москва",
-     *       "postal_code": "101000",
-     *       "address": "ул. Пример, д. 1"
-     *     },
+     *     "address": "Не дом и не улица, www ленинград"
      *     "email_verified": true,
      *     "created_at": "2024-05-28T12:00:00+00:00",
      *     "updated_at": "2024-05-28T12:00:00+00:00"
