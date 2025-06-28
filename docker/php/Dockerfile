@@ -29,23 +29,31 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Установка Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Создаём пользователя без root-доступа
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
+# Создаём непривилегированного пользователя
+RUN addgroup --system appgroup && adduser --system --ingroup appgroup --uid 1000 appuser
 
-# Рабочая директория и права
+# Рабочая директория проекта
 WORKDIR /var/www/html
-RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
-    && chown -R appuser:appgroup /var/www/html \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Безопасные php.ini настройки (опционально подключи volume или копируй сюда)
+# Копируем php.ini
 COPY php.ini /usr/local/etc/php/conf.d/security.ini
 
-# Docker entrypoint
+# Копируем docker-entrypoint.sh
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
+# Копируем исходники (если ты это делаешь здесь)
+COPY . .
+
+# Настройка прав после копирования проекта
+RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
+    && touch .env \
+    && chown -R appuser:appgroup /var/www/html \
+    && chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
+
+# Переходим на безопасного пользователя
 USER appuser
 
+# Запуск
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]
