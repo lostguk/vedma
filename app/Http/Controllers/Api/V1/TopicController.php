@@ -6,9 +6,14 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\Api\V1\TopicResource;
+use App\Http\Requests\Api\V1\TopicStoreRequest;
 use App\Services\TopicService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Throwable;
+use App\Http\Requests\Api\V1\MessageStoreRequest;
+use App\Http\Resources\Api\V1\MessageResource;
+use App\Models\Topic;
 
 /**
  * @group Темы и сообщения
@@ -134,7 +139,7 @@ final class TopicController extends ApiController
      *
      * @authenticated
      *
-     * @urlParam id integer required ID темы. Example: 7
+     * @urlParam topicId integer required ID темы. Example: 1
      *
      * @response 200 scenario="Успешный запрос" {
      *     "status": "success",
@@ -193,18 +198,184 @@ final class TopicController extends ApiController
      *     "message": "Тема не найдена или не принадлежит пользователю"
      * }
      */
-    public function show(Request $request, int $id): JsonResponse
+    public function show(Request $request, int $topicId): JsonResponse
     {
-        $user = $request->user();
-        $topic = $this->topicService->getUserTopic($id, $user->id);
+        // First try to find the topic by ID and user ID
+        $topic = $this->topicService->getUserTopic($topicId, $request->user()->id);
 
-        if (! $topic) {
-            return $this->errorResponse('Тема не найдена или не принадлежит пользователю', 404);
+        // If not found, try to find the topic by ID only
+        if (!$topic) {
+            $topic = Topic::with(['messages' => function ($query) {
+                $query->orderBy('created_at', 'asc');
+            }, 'messages.user', 'messages.media'])->find($topicId);
+
+            if (!$topic) {
+                return $this->errorResponse('Тема не найдена', 404);
+            }
+
+            // Check if the user is authorized to view this topic
+            if (!$request->user()->is_admin && $topic->user_id !== $request->user()->id) {
+                return $this->errorResponse('У вас нет доступа к этой теме', 403);
+            }
         }
 
         return $this->successResponse(
             new TopicResource($topic),
             'Детали темы'
         );
+    }
+
+    /**
+     * Создание новой темы
+     *
+     * Создает новую тему обращения от имени аутентифицированного пользователя,
+     * а также первое сообщение в этой теме.
+     *
+     * @authenticated
+     *
+     * @response 201 scenario="Тема успешно создана" {
+     *     "status": "success",
+     *     "message": "Тема успешно создана",
+     *     "data": {
+     *         "id": 3,
+     *         "title": "Проблема с отображением заказа",
+     *         "status": "new",
+     *         "status_text": "Новый",
+     *         "created_at": "2023-06-16 12:00:00",
+     *         "updated_at": "2023-06-16 12:00:00",
+     *         "messages_count": 1,
+     *         "messages": [
+     *             {
+     *                 "id": 3,
+     *                 "content": "Здравствуйте, у меня не отображается мой последний заказ.",
+     *                 "user": {
+     *                     "id": 1,
+     *                     "name": "Иванов Иван Иванович",
+     *                     "email": "user@example.com"
+     *                 },
+     *                 "created_at": "2023-06-16 12:00:00",
+     *                 "updated_at": "2023-06-16 12:00:00",
+     *                 "attachments": [
+     *                      {
+     *                         "id": 2,
+     *                         "file_name": "screenshot.png",
+     *                         "mime_type": "image/png",
+     *                         "size": 512000,
+     *                         "url": "http://example.com/storage/2/screenshot.png",
+     *                         "thumbnail": "http://example.com/storage/2/conversions/screenshot-thumb.jpg",
+     *                         "created_at": "2023-06-16 12:00:00"
+     *                      }
+     *                 ]
+     *             }
+     *         ]
+     *     }
+     * }
+     *
+     * @response 422 scenario="Ошибка валидации" {
+     *     "status": "error",
+     *     "message": "The given data was invalid.",
+     *     "errors": {
+     *         "title": [
+     *             "The title field is required."
+     *         ]
+     *     }
+     * }
+     */
+    public function store(TopicStoreRequest $request): JsonResponse
+    {
+        $validatedData = $request->safe()->merge(['user_id' => request()->user()->id]);
+        $attachments = request()->file('attachments');
+
+        try {
+            $topic = $this->topicService->createTopic($validatedData->all(), $attachments);
+
+            return $this->successResponse(
+                new TopicResource($topic->load('messages.media', 'messages.user')),
+                'Тема успешно создана',
+                201
+            );
+        } catch (Throwable $e) {
+            // Log the error
+            report($e);
+
+            return $this->errorResponse('Произошла ошибка при создании темы.', 500);
+        }
+    }
+
+    /**
+     * Добавление сообщения в тему
+     *
+     * Добавляет новое сообщение от имени аутентифицированного пользователя
+     * в существующую тему. Пользователь должен быть владельцем темы.
+     *
+     * @authenticated
+     *
+     * @urlParam topic_id integer required ID темы. Example: 1
+     *
+     * @response 201 scenario="Сообщение успешно добавлено" {
+     *     "status": "success",
+     *     "message": "Сообщение успешно добавлено",
+     *     "data": {
+     *         "id": 4,
+     *         "content": "Вот скриншот моей проблемы.",
+     *         "user": {
+     *             "id": 1,
+     *             "name": "Иванов Иван Иванович",
+     *             "email": "user@example.com"
+     *         },
+     *         "created_at": "2023-06-16 12:30:00",
+     *         "updated_at": "2023-06-16 12:30:00",
+     *         "attachments": [
+     *              {
+     *                 "id": 3,
+     *                 "file_name": "screenshot-2.png",
+     *                 "mime_type": "image/png",
+     *                 "size": 612000,
+     *                 "url": "http://example.com/storage/3/screenshot-2.png",
+     *                 "thumbnail": "http://example.com/storage/3/conversions/screenshot-2-thumb.jpg",
+     *                 "created_at": "2023-06-16 12:30:00"
+     *              }
+     *         ]
+     *     }
+     * }
+     * @response 403 scenario="Доступ запрещен" {
+     *     "status": "error",
+     *     "message": "This action is unauthorized."
+     * }
+     * @response 404 scenario="Тема не найдена" {
+     *     "status": "error",
+     *     "message": "Тема не найдена или не принадлежит пользователю"
+     * }
+     */
+    public function addMessage(MessageStoreRequest $request, int $topicId): JsonResponse
+    {
+        // Find the topic by ID
+        $topic = Topic::find($topicId);
+
+        if (!$topic) {
+            return $this->errorResponse('Тема не найдена', 404);
+        }
+
+        // Check if the user is authorized to update this topic
+        if (!$request->user()->is_admin && $topic->user_id !== $request->user()->id) {
+            return $this->errorResponse('У вас нет доступа к этой теме', 403);
+        }
+
+        $validatedData = $request->safe()->merge(['user_id' => request()->user()->id]);
+        $attachments = request()->file('attachments');
+
+        try {
+            $message = $this->topicService->addMessageToTopic($topic, $validatedData->all(), $attachments);
+
+            return $this->successResponse(
+                new MessageResource($message),
+                'Сообщение успешно добавлено',
+                201
+            );
+        } catch (Throwable $e) {
+            report($e);
+
+            return $this->errorResponse('Произошла ошибка при добавлении сообщения.', 500);
+        }
     }
 }

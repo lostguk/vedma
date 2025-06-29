@@ -197,8 +197,14 @@
                                                     <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics">
                                 <a href="#temy-i-soobshheniia-GETapi-v1-topics">Получение списка тем пользователя</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics--id-">
-                                <a href="#temy-i-soobshheniia-GETapi-v1-topics--id-">Получение темы с сообщениями</a>
+                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-POSTapi-v1-topics">
+                                <a href="#temy-i-soobshheniia-POSTapi-v1-topics">Создание новой темы</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics--topicId-">
+                                <a href="#temy-i-soobshheniia-GETapi-v1-topics--topicId-">Получение темы с сообщениями</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">
+                                <a href="#temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">Добавление сообщения в тему</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -1954,7 +1960,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-29T13:51:06+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-29T16:20:49+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3689,7 +3695,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Qui laboriosam molestiae qui excepturi qui incidunt. Sint inventore vitae quo ipsa odit. Consequatur nihil quia id error vel dicta molestiae. Soluta unde quia labore omnis minima laborum quisquam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsa perspiciatis earum eos doloremque qui occaecati. Ut et et amet facilis. Expedita nihil commodi aperiam ipsum eos tenetur libero.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Earum commodi recusandae dolorum. Sed ea eaque inventore eligendi. Impedit rerum ratione accusamus officia harum amet molestiae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dignissimos sit quasi omnis eveniet. Ea reiciendis omnis ea. Vero impedit est aut quo nihil soluta distinctio quod. Cupiditate quia temporibus repellendus reiciendis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3697,7 +3703,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Omnis cum nihil eos consequuntur. Quasi ea recusandae blanditiis sunt. Iste quisquam saepe voluptas exercitationem molestiae. Illo omnis et nulla sed quae aspernatur vero rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Autem tenetur vel nam in impedit provident. Atque eveniet illum sint harum repellendus sed. Dolores cum est nemo.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Temporibus aut modi nostrum non sint molestiae autem. Consequatur a et esse totam ipsa excepturi. Consequatur porro quod doloremque optio quo necessitatibus dolor.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sit neque unde ut consectetur eaque consequatur qui. Et necessitatibus asperiores recusandae. Possimus voluptas aliquam corporis illo ab quis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3705,7 +3711,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Odit aut eligendi quisquam sit cum. Iure quae hic praesentium minima. Sint at veniam atque qui iste mollitia.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Explicabo saepe et laborum veritatis omnis. Modi officiis aut voluptas sit ea eum quo aliquid.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quidem commodi nam voluptas corrupti et illo. Et a ipsa animi aperiam. Blanditiis hic et recusandae magnam eaque numquam nulla provident.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Non exercitationem ullam quaerat non consectetur. Sapiente ullam quisquam adipisci quisquam amet qui. Neque vitae voluptatum expedita explicabo minima cupiditate quaerat.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3713,7 +3719,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eos ut ad quod vel dolorem voluptas. Dolorem dolorem sint pariatur ipsa impedit omnis sed. Cum delectus cupiditate ad consequatur mollitia voluptates qui nostrum. Id amet eos eius inventore optio.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et id magni accusamus ea explicabo quisquam. Debitis ut dignissimos necessitatibus nihil qui possimus rerum.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Modi est quidem est beatae. Dolor fugit necessitatibus eos voluptates voluptatem assumenda. Aliquam eos quos dolorem perspiciatis. Culpa quia et facilis eveniet unde unde saepe vero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repellendus aut dolores qui sunt magnam quidem porro. Quod ipsum ut perspiciatis assumenda. Qui non nesciunt quam voluptates repellendus natus et.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3721,7 +3727,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Sunt laborum neque minima eaque quia rem fugit corrupti. Non fugit vel et eveniet dolorem. Voluptas amet quia qui mollitia similique.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ut adipisci incidunt ab id ipsum. Praesentium aperiam et quidem velit aut. Consequatur tempore in recusandae fuga.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Nihil nemo debitis voluptatibus fugit. Molestiae dolorem iste aliquid at qui tenetur. Eum modi alias dicta dolores non.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aliquid dolores exercitationem hic quisquam. Aut tempora molestiae voluptatem eaque ea in voluptatum. Temporibus sequi sint fugiat. Quia dolor animi voluptates accusantium.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3729,7 +3735,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Enim natus illo vel sunt delectus. Magni ipsam vitae odit nisi alias quia qui placeat. Omnis quo laudantium libero est quia illo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Doloremque et aut hic qui. Et veniam eum nemo sequi ut facere iure. Excepturi impedit debitis aut deleniti maiores.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Porro non temporibus autem corrupti. Magni placeat quas quas sit. Beatae quasi distinctio sint perspiciatis explicabo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Esse architecto aut sed. Suscipit est omnis architecto praesentium. Repellat hic veniam et perferendis nihil molestias.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3737,7 +3743,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eos rerum pariatur error perspiciatis et voluptatem illum. Suscipit in nihil sed ipsa tempora. Et veniam est quia.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sed ut autem exercitationem facere et consequatur ut. Autem quo consectetur debitis nihil odit. Sunt itaque et ipsum architecto autem nesciunt ut aliquam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Velit debitis molestiae velit nulla saepe. Fuga voluptatem ipsa facere necessitatibus et culpa veniam. Rerum quis amet placeat laudantium maxime dignissimos veritatis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsum quae possimus quia impedit velit. Enim et libero explicabo ut quis dolorem aut. Voluptates quaerat ut cumque corporis nam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4287,7 +4293,233 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                 </form>
 
-                    <h2 id="temy-i-soobshheniia-GETapi-v1-topics--id-">Получение темы с сообщениями</h2>
+                    <h2 id="temy-i-soobshheniia-POSTapi-v1-topics">Создание новой темы</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Создает новую тему обращения от имени аутентифицированного пользователя,
+а также первое сообщение в этой теме.</p>
+
+<span id="example-requests-POSTapi-v1-topics">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/topics" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "title=Проблема с отображением заказа"\
+    --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
+    --form "attachments[]=@/tmp/phpbettcB" </code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/topics"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "multipart/form-data",
+    "Accept": "application/json",
+};
+
+const body = new FormData();
+body.append('title', 'Проблема с отображением заказа');
+body.append('content', 'Здравствуйте, у меня не отображается мой последний заказ.');
+body.append('attachments[]', document.querySelector('input[name="attachments[]"]').files[0]);
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-topics">
+            <blockquote>
+            <p>Example response (201, Тема успешно создана):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Тема успешно создана&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 3,
+        &quot;title&quot;: &quot;Проблема с отображением заказа&quot;,
+        &quot;status&quot;: &quot;new&quot;,
+        &quot;status_text&quot;: &quot;Новый&quot;,
+        &quot;created_at&quot;: &quot;2023-06-16 12:00:00&quot;,
+        &quot;updated_at&quot;: &quot;2023-06-16 12:00:00&quot;,
+        &quot;messages_count&quot;: 1,
+        &quot;messages&quot;: [
+            {
+                &quot;id&quot;: 3,
+                &quot;content&quot;: &quot;Здравствуйте, у меня не отображается мой последний заказ.&quot;,
+                &quot;user&quot;: {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Иванов Иван Иванович&quot;,
+                    &quot;email&quot;: &quot;user@example.com&quot;
+                },
+                &quot;created_at&quot;: &quot;2023-06-16 12:00:00&quot;,
+                &quot;updated_at&quot;: &quot;2023-06-16 12:00:00&quot;,
+                &quot;attachments&quot;: [
+                    {
+                        &quot;id&quot;: 2,
+                        &quot;file_name&quot;: &quot;screenshot.png&quot;,
+                        &quot;mime_type&quot;: &quot;image/png&quot;,
+                        &quot;size&quot;: 512000,
+                        &quot;url&quot;: &quot;http://example.com/storage/2/screenshot.png&quot;,
+                        &quot;thumbnail&quot;: &quot;http://example.com/storage/2/conversions/screenshot-thumb.jpg&quot;,
+                        &quot;created_at&quot;: &quot;2023-06-16 12:00:00&quot;
+                    }
+                ]
+            }
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Ошибка валидации):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;errors&quot;: {
+        &quot;title&quot;: [
+            &quot;The title field is required.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-topics" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-topics"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-topics"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-topics" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-topics">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-topics" data-method="POST"
+      data-path="api/v1/topics"
+      data-authed="1"
+      data-hasfiles="1"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-topics', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-topics"
+                    onclick="tryItOut('POSTapi-v1-topics');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-topics"
+                    onclick="cancelTryOut('POSTapi-v1-topics');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-topics"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/topics</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-topics"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-topics"
+               value="multipart/form-data"
+               data-component="header">
+    <br>
+<p>Example: <code>multipart/form-data</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-topics"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="POSTapi-v1-topics"
+               value="Проблема с отображением заказа"
+               data-component="body">
+    <br>
+<p>Заголовок темы. Example: <code>Проблема с отображением заказа</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="content"                data-endpoint="POSTapi-v1-topics"
+               value="Здравствуйте, у меня не отображается мой последний заказ."
+               data-component="body">
+    <br>
+<p>Текст первого сообщения. Example: <code>Здравствуйте, у меня не отображается мой последний заказ.</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>attachments</code></b>&nbsp;&nbsp;
+<small>file[]</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="attachments[0]"                data-endpoint="POSTapi-v1-topics"
+               data-component="body">
+        <input type="file" style="display: none"
+               name="attachments[1]"                data-endpoint="POSTapi-v1-topics"
+               data-component="body">
+    <br>
+<p>Массив вложений (скриншоты). Максимум 5 файлов, каждый до 2MB.</p>
+        </div>
+        </form>
+
+                    <h2 id="temy-i-soobshheniia-GETapi-v1-topics--topicId-">Получение темы с сообщениями</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -4296,13 +4528,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Возвращает детальную информацию о теме, включая все сообщения в ней.
 Тема должна принадлежать аутентифицированному пользователю.</p>
 
-<span id="example-requests-GETapi-v1-topics--id-">
+<span id="example-requests-GETapi-v1-topics--topicId-">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/topics/7" \
+    --get "http://localhost:8000/api/v1/topics/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4310,7 +4542,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics/7"
+    "http://localhost:8000/api/v1/topics/1"
 );
 
 const headers = {
@@ -4326,7 +4558,7 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-GETapi-v1-topics--id-">
+<span id="example-responses-GETapi-v1-topics--topicId-">
             <blockquote>
             <p>Example response (200, Успешный запрос):</p>
         </blockquote>
@@ -4402,43 +4634,43 @@ fetch(url, {
 }</code>
  </pre>
     </span>
-<span id="execution-results-GETapi-v1-topics--id-" hidden>
+<span id="execution-results-GETapi-v1-topics--topicId-" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-topics--id-"></span>:
+                id="execution-response-status-GETapi-v1-topics--topicId-"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-topics--id-"
+    <pre class="json"><code id="execution-response-content-GETapi-v1-topics--topicId-"
       data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
 </span>
-<span id="execution-error-GETapi-v1-topics--id-" hidden>
+<span id="execution-error-GETapi-v1-topics--topicId-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-topics--id-">
+    <pre><code id="execution-error-message-GETapi-v1-topics--topicId-">
 
 Tip: Check that you&#039;re properly connected to the network.
 If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
 You can check the Dev Tools console for debugging information.</code></pre>
 </span>
-<form id="form-GETapi-v1-topics--id-" data-method="GET"
-      data-path="api/v1/topics/{id}"
+<form id="form-GETapi-v1-topics--topicId-" data-method="GET"
+      data-path="api/v1/topics/{topicId}"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-topics--id-', this);">
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-topics--topicId-', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-topics--id-"
-                    onclick="tryItOut('GETapi-v1-topics--id-');">Try it out ⚡
+                    id="btn-tryout-GETapi-v1-topics--topicId-"
+                    onclick="tryItOut('GETapi-v1-topics--topicId-');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-topics--id-"
-                    onclick="cancelTryOut('GETapi-v1-topics--id-');" hidden>Cancel 🛑
+                    id="btn-canceltryout-GETapi-v1-topics--topicId-"
+                    onclick="cancelTryOut('GETapi-v1-topics--topicId-');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-topics--id-"
+                    id="btn-executetryout-GETapi-v1-topics--topicId-"
                     data-initial-text="Send Request 💥"
                     data-loading-text="⏱ Sending..."
                     hidden>Send Request 💥
@@ -4446,7 +4678,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </h3>
             <p>
             <small class="badge badge-green">GET</small>
-            <b><code>api/v1/topics/{id}</code></b>
+            <b><code>api/v1/topics/{topicId}</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
@@ -4454,7 +4686,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-topics--id-"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-topics--topicId-"
                value="Bearer {YOUR_AUTH_KEY}"
                data-component="header">
     <br>
@@ -4465,7 +4697,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-topics--id-"
+                              name="Content-Type"                data-endpoint="GETapi-v1-topics--topicId-"
                value="application/json"
                data-component="header">
     <br>
@@ -4476,7 +4708,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-topics--id-"
+                              name="Accept"                data-endpoint="GETapi-v1-topics--topicId-"
                value="application/json"
                data-component="header">
     <br>
@@ -4484,17 +4716,240 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+                <b style="line-height: 2;"><code>topicId</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="id"                data-endpoint="GETapi-v1-topics--id-"
-               value="7"
+               step="any"               name="topicId"                data-endpoint="GETapi-v1-topics--topicId-"
+               value="1"
                data-component="url">
     <br>
-<p>ID темы. Example: <code>7</code></p>
+<p>ID темы. Example: <code>1</code></p>
             </div>
                     </form>
+
+                    <h2 id="temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">Добавление сообщения в тему</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Добавляет новое сообщение от имени аутентифицированного пользователя
+в существующую тему. Пользователь должен быть владельцем темы.</p>
+
+<span id="example-requests-POSTapi-v1-topics--topic_id--messages">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/topics/1/messages" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"content\": \"Вот дополнительная информация по моему вопросу.\",
+    \"attachments\": null
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/topics/1/messages"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "content": "Вот дополнительная информация по моему вопросу.",
+    "attachments": null
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-topics--topic_id--messages">
+            <blockquote>
+            <p>Example response (201, Сообщение успешно добавлено):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Сообщение успешно добавлено&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: 4,
+        &quot;content&quot;: &quot;Вот скриншот моей проблемы.&quot;,
+        &quot;user&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Иванов Иван Иванович&quot;,
+            &quot;email&quot;: &quot;user@example.com&quot;
+        },
+        &quot;created_at&quot;: &quot;2023-06-16 12:30:00&quot;,
+        &quot;updated_at&quot;: &quot;2023-06-16 12:30:00&quot;,
+        &quot;attachments&quot;: [
+            {
+                &quot;id&quot;: 3,
+                &quot;file_name&quot;: &quot;screenshot-2.png&quot;,
+                &quot;mime_type&quot;: &quot;image/png&quot;,
+                &quot;size&quot;: 612000,
+                &quot;url&quot;: &quot;http://example.com/storage/3/screenshot-2.png&quot;,
+                &quot;thumbnail&quot;: &quot;http://example.com/storage/3/conversions/screenshot-2-thumb.jpg&quot;,
+                &quot;created_at&quot;: &quot;2023-06-16 12:30:00&quot;
+            }
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403, Доступ запрещен):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;This action is unauthorized.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Тема не найдена):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Тема не найдена или не принадлежит пользователю&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-topics--topic_id--messages" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-topics--topic_id--messages"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-topics--topic_id--messages"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-topics--topic_id--messages" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-topics--topic_id--messages">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-topics--topic_id--messages" data-method="POST"
+      data-path="api/v1/topics/{topic_id}/messages"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-topics--topic_id--messages', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-topics--topic_id--messages"
+                    onclick="tryItOut('POSTapi-v1-topics--topic_id--messages');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-topics--topic_id--messages"
+                    onclick="cancelTryOut('POSTapi-v1-topics--topic_id--messages');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-topics--topic_id--messages"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/topics/{topic_id}/messages</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               value="Bearer {YOUR_AUTH_KEY}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_AUTH_KEY}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>topic_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="topic_id"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID темы. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="content"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               value="Вот дополнительная информация по моему вопросу."
+               data-component="body">
+    <br>
+<p>Текст сообщения. Example: <code>Вот дополнительная информация по моему вопросу.</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>attachments</code></b>&nbsp;&nbsp;
+<small>file[]</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="attachments[0]"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               data-component="body">
+        <input type="file" style="display: none"
+               name="attachments[1]"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               data-component="body">
+    <br>
+<p>Массив вложений (скриншоты). Каждый файл до 2MB.</p>
+        </div>
+        </form>
 
             
 

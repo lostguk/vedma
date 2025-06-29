@@ -8,6 +8,8 @@ use App\Models\Message;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -197,5 +199,131 @@ final class TopicControllerTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    public function test_user_can_create_topic_with_message_and_attachments(): void
+    {
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $postData = [
+            'title' => 'Новый тикет о проблеме',
+            'content' => 'Подробное описание проблемы с заказом.',
+            'attachments' => [
+                UploadedFile::fake()->image('screenshot1.jpg'),
+                UploadedFile::fake()->image('screenshot2.png'),
+            ],
+        ];
+
+        $response = $this->postJson(route('user.topics.store'), $postData);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => [
+                    'id',
+                    'title',
+                    'messages' => [
+                        '*' => [
+                            'id',
+                            'content',
+                            'attachments' => [
+                                '*' => ['id', 'url'],
+                            ],
+                        ],
+                    ],
+                ],
+            ])
+            ->assertJsonFragment(['title' => 'Новый тикет о проблеме']);
+
+        $this->assertDatabaseHas('topics', [
+            'title' => 'Новый тикет о проблеме',
+            'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseHas('messages', [
+            'content' => 'Подробное описание проблемы с заказом.',
+        ]);
+
+        $topic = Topic::first();
+        $message = $topic->messages()->first();
+        $this->assertCount(2, $message->getMedia('attachments'));
+    }
+
+    public function test_create_topic_unauthenticated_fails(): void
+    {
+        $response = $this->postJson(route('user.topics.store'), [
+            'title' => 'Несанкционированный тикет',
+            'content' => 'Это не должно сработать',
+        ]);
+
+        $response->assertUnauthorized();
+    }
+
+    public function test_create_topic_validation_fails(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $response = $this->postJson(route('user.topics.store'), [
+            'title' => '', // Invalid title
+            'content' => 'Сообщение без темы',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors('title');
+    }
+
+    public function test_user_can_add_message_to_own_topic(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $topic = Topic::factory()->create(['user_id' => $user->id]);
+
+        $postData = [
+            'content' => 'Это новое сообщение в существующей теме.',
+            'attachments' => [UploadedFile::fake()->image('attachment.jpg')],
+        ];
+
+        $response = $this->postJson(route('user.topics.messages.store', $topic->id), $postData);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'status',
+                'message',
+                'data' => ['id', 'content', 'attachments'],
+            ])
+            ->assertJsonFragment(['content' => 'Это новое сообщение в существующей теме.']);
+
+        $this->assertDatabaseHas('messages', [
+            'topic_id' => $topic->id,
+            'content' => 'Это новое сообщение в существующей теме.',
+        ]);
+
+        $message = Message::first();
+        $this->assertCount(1, $message->getMedia('attachments'));
+    }
+
+    public function test_user_cannot_add_message_to_others_topic(): void
+    {
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        // Topic owned by another user
+        $otherUser = User::factory()->create();
+        $topic = Topic::factory()->create(['user_id' => $otherUser->id]);
+
+        $postData = [
+            'content' => 'Попытка вторжения!',
+        ];
+
+        $response = $this->postJson(route('user.topics.messages.store', $topic->id), $postData);
+
+        $response->assertForbidden();
     }
 }

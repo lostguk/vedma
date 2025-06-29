@@ -19,8 +19,8 @@ class TopicResource extends JsonResource
             'title' => $this->title,
             'status' => $this->status,
             'status_text' => $this->getStatusText(),
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
             'messages_count' => $this->messages_count ?? $this->messages->count(),
             'messages' => $this->whenLoaded('messages', function () {
                 return MessageResource::collection($this->messages);
@@ -37,7 +37,7 @@ class TopicResource extends JsonResource
             'new' => 'Новый',
             'resolved' => 'Решен',
             'requires_response' => 'Требует ответа',
-            default => $this->status,
+            default => (string) $this->status,
         };
     }
 }

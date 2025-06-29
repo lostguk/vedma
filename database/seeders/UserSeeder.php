@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
     {
         // Создаем администраторов (в любом окружении)
         foreach ($this->administrators as $adminData) {
-            $this->createUser($adminData);
+            $this->createUser($adminData, true);
         }
 
         // В dev-окружении создаем тестовых пользователей
@@ -76,9 +76,10 @@ class UserSeeder extends Seeder
     /**
      * Создает пользователя с заданными данными
      */
-    private function createUser(array $userData): User
+    private function createUser(array $userData, bool $isAdmin = false): User
     {
         return User::factory()->create([
+            'is_admin' => $isAdmin,
             'first_name' => $userData['first_name'],
             'last_name' => $userData['last_name'],
             'middle_name' => $userData['middle_name'],

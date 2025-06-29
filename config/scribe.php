@@ -234,4 +234,36 @@ return [
         // If you are using a custom serializer with league/fractal, you can specify it here.
         'serializer' => null,
     ],
+
+    /**
+     * Settings for extracting body parameters from FormRequest classes.
+     */
+    'form_requests' => [
+        'enabled' => true,
+
+        /**
+         * Add custom FormRequest rules.
+         *
+         * If you are using custom validation rules, you can add them here,
+         * so Scribe can generate a description and example for them.
+         *
+         * For instance, if you have a `strong_password` rule, you can add a rule like this:
+         *   'strong_password' => [
+         *       'description' => 'The password must be at least 8 characters long, containing numbers, letters and symbols.',
+         *       'example' => 'johndoe-123!',
+         *    ],
+         *
+         * The key is the name of the rule, and the value is an array with 'description' and 'example' keys.
+         */
+        'rules' => [
+            // 'strong_password' => [
+            //    'description' => 'The password must be at least 8 characters long, containing numbers, letters and symbols.',
+            //    'example' => 'johndoe-123!',
+            // ],
+        ],
+        'skip' => [
+            'attachments',
+            'attachments.*',
+        ],
+    ],
 ];

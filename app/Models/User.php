@@ -23,6 +23,7 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'is_admin',
         'first_name',
         'last_name',
         'middle_name',
@@ -50,6 +51,7 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
      * @return array<string, string>
      */
     protected $casts = [
+        'is_admin' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
