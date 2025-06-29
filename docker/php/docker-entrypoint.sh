@@ -62,5 +62,5 @@ chmod -R 775 /var/www/html/storage/app/public/tmp
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 # fi
 
-# Запускаем основную команду от имени appuser
-exec gosu appuser "$@"
+# Запускаем основную команду
+exec "$@"

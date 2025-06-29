@@ -2,7 +2,6 @@ FROM php:8.3-fpm
 
 # Устанавливаем необходимые зависимости и gosu
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gosu \
     git \
     zip \
     unzip \
@@ -38,6 +37,7 @@ WORKDIR /var/www/html
 
 # Копируем php.ini
 COPY php.ini /usr/local/etc/php/conf.d/security.ini
+COPY fpm-pool.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # Копируем docker-entrypoint.sh
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
