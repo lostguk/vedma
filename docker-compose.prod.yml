@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
     image: ${DOCKER_HUB_USERNAME}/shop-php:latest
     container_name: shop_php
+    environment:
+      COMPOSER_HOME: /var/www/html/.composer
     volumes:
       - ./:/var/www/html
     networks:

@@ -1,110 +1,112 @@
 services:
-    nginx:
-        build:
-            context: ./docker/nginx
-            dockerfile: Dockerfile
-        container_name: shop_nginx_dev
-        ports:
-            - "8000:80"
-        volumes:
-            - ./:/var/www/html
-            - ./docker/nginx/dev/conf.d:/etc/nginx/conf.d
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: shop_nginx_dev
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/dev/conf.d:/etc/nginx/conf.d
 
-        depends_on:
-            php:
-                condition: service_healthy
-            mysql:
-                condition: service_healthy
-        networks:
-            - shop_network
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost"]
-            interval: 30s
-            timeout: 10s
-            retries: 3
+    depends_on:
+      php:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+    networks:
+      - shop_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-    php:
-        build:
-            context: ./docker/php
-            dockerfile: Dockerfile
-        container_name: shop_php_dev
-        volumes:
-            - ./:/var/www/html
-            - composer_cache:/var/www/.composer/cache
-            - npm_cache:/var/www/.npm
-        ports:
-            - "9001:9000"
-        networks:
-            - shop_network
-        healthcheck:
-            test: ["CMD", "php-fpm", "-t"]
-            interval: 30s
-            timeout: 10s
-            retries: 3
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: shop_php_dev
+    environment:
+      COMPOSER_HOME: /var/www/html/.composer
+    volumes:
+      - ./:/var/www/html
+      - composer_cache:/var/www/html/.composer/cache
+      - npm_cache:/var/www/.npm
+    ports:
+      - "9001:9000"
+    networks:
+      - shop_network
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-    mysql:
-        image: mysql:8.0
-        container_name: shop_mysql_dev
-        restart: unless-stopped
-        environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
-        ports:
-            - "3307:3306"
-        volumes:
-            - mysql_data:/var/lib/mysql
-            - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
-        networks:
-            - shop_network
-        healthcheck:
-            test:
-                [
-                    "CMD",
-                    "mysqladmin",
-                    "ping",
-                    "-h",
-                    "localhost",
-                    "-u",
-                    "root",
-                    "-p${DB_PASSWORD}",
-                ]
-            interval: 30s
-            timeout: 10s
-            retries: 3
+  mysql:
+    image: mysql:8.0
+    container_name: shop_mysql_dev
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - shop_network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${DB_PASSWORD}",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-    redis:
-        image: redis:alpine
-        container_name: shop_redis_dev
-        ports:
-            - "6378:6379"
-        networks:
-            - shop_network
-        healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
-            interval: 30s
-            timeout: 10s
-            retries: 3
+  redis:
+    image: redis:alpine
+    container_name: shop_redis_dev
+    ports:
+      - "6378:6379"
+    networks:
+      - shop_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
-    adminer:
-        image: adminer:latest
-        container_name: shop_adminer_dev
-        ports:
-            - "8081:8080"
-        environment:
-            ADMINER_DEFAULT_SERVER: mysql
-        networks:
-            - shop_network
-        depends_on:
-            mysql:
-                condition: service_healthy
+  adminer:
+    image: adminer:latest
+    container_name: shop_adminer_dev
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    networks:
+      - shop_network
+    depends_on:
+      mysql:
+        condition: service_healthy
 
 networks:
-    shop_network:
-        driver: bridge
+  shop_network:
+    driver: bridge
 
 volumes:
-    mysql_data:
-    composer_cache:
-    npm_cache:
+  mysql_data:
+  composer_cache:
+  npm_cache:
