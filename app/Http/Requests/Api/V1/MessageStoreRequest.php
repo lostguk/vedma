@@ -38,14 +38,10 @@ final class MessageStoreRequest extends ApiRequest
             'attachments.*' => [
                 'file',
                 'mimes:jpeg,jpg,png,webp,pdf',
-                'max:' . (2 * 1024), // 2MB
+//                'max:' . (2 * 1024), // 2MB
             ],
         ];
     }
-
-    /**
-     * Define the body parameters for Scribe documentation.
-     */
     public function bodyParameters(): array
     {
         return [
@@ -54,7 +50,7 @@ final class MessageStoreRequest extends ApiRequest
                 'example' => 'Вот дополнительная информация по моему вопросу.',
             ],
             'attachments' => [
-                'description' => 'Массив вложений (скриншоты). Каждый файл до 2MB.',
+                'description' => 'Массив вложений (скриншоты). Максимум 5 файлов, каждый до 2MB.',
                 'example' => null,
             ],
         ];

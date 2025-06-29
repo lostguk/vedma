@@ -203,8 +203,8 @@
                                                                                 <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-GETapi-v1-topics--topicId-">
                                 <a href="#temy-i-soobshheniia-GETapi-v1-topics--topicId-">Получение темы с сообщениями</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">
-                                <a href="#temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">Добавление сообщения в тему</a>
+                                                                                <li class="tocify-item level-2" data-unique="temy-i-soobshheniia-POSTapi-v1-topics--topicId--messages">
+                                <a href="#temy-i-soobshheniia-POSTapi-v1-topics--topicId--messages">Добавление сообщения в тему</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -1960,7 +1960,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-29T16:20:49+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-29T16:59:49+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4314,7 +4314,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpbettcB" </code></pre></div>
+    --form "attachments[]=@/tmp/phpqK1BR3" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -4728,7 +4728,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                    <h2 id="temy-i-soobshheniia-POSTapi-v1-topics--topic_id--messages">Добавление сообщения в тему</h2>
+                    <h2 id="temy-i-soobshheniia-POSTapi-v1-topics--topicId--messages">Добавление сообщения в тему</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -4737,7 +4737,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Добавляет новое сообщение от имени аутентифицированного пользователя
 в существующую тему. Пользователь должен быть владельцем темы.</p>
 
-<span id="example-requests-POSTapi-v1-topics--topic_id--messages">
+<span id="example-requests-POSTapi-v1-topics--topicId--messages">
 <blockquote>Example request:</blockquote>
 
 
@@ -4778,7 +4778,7 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-POSTapi-v1-topics--topic_id--messages">
+<span id="example-responses-POSTapi-v1-topics--topicId--messages">
             <blockquote>
             <p>Example response (201, Сообщение успешно добавлено):</p>
         </blockquote>
@@ -4832,43 +4832,43 @@ fetch(url, {
 }</code>
  </pre>
     </span>
-<span id="execution-results-POSTapi-v1-topics--topic_id--messages" hidden>
+<span id="execution-results-POSTapi-v1-topics--topicId--messages" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-POSTapi-v1-topics--topic_id--messages"></span>:
+                id="execution-response-status-POSTapi-v1-topics--topicId--messages"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-v1-topics--topic_id--messages"
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-topics--topicId--messages"
       data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
 </span>
-<span id="execution-error-POSTapi-v1-topics--topic_id--messages" hidden>
+<span id="execution-error-POSTapi-v1-topics--topicId--messages" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-v1-topics--topic_id--messages">
+    <pre><code id="execution-error-message-POSTapi-v1-topics--topicId--messages">
 
 Tip: Check that you&#039;re properly connected to the network.
 If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
 You can check the Dev Tools console for debugging information.</code></pre>
 </span>
-<form id="form-POSTapi-v1-topics--topic_id--messages" data-method="POST"
-      data-path="api/v1/topics/{topic_id}/messages"
+<form id="form-POSTapi-v1-topics--topicId--messages" data-method="POST"
+      data-path="api/v1/topics/{topicId}/messages"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-topics--topic_id--messages', this);">
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-topics--topicId--messages', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-v1-topics--topic_id--messages"
-                    onclick="tryItOut('POSTapi-v1-topics--topic_id--messages');">Try it out ⚡
+                    id="btn-tryout-POSTapi-v1-topics--topicId--messages"
+                    onclick="tryItOut('POSTapi-v1-topics--topicId--messages');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-v1-topics--topic_id--messages"
-                    onclick="cancelTryOut('POSTapi-v1-topics--topic_id--messages');" hidden>Cancel 🛑
+                    id="btn-canceltryout-POSTapi-v1-topics--topicId--messages"
+                    onclick="cancelTryOut('POSTapi-v1-topics--topicId--messages');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-v1-topics--topic_id--messages"
+                    id="btn-executetryout-POSTapi-v1-topics--topicId--messages"
                     data-initial-text="Send Request 💥"
                     data-loading-text="⏱ Sending..."
                     hidden>Send Request 💥
@@ -4876,7 +4876,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </h3>
             <p>
             <small class="badge badge-black">POST</small>
-            <b><code>api/v1/topics/{topic_id}/messages</code></b>
+            <b><code>api/v1/topics/{topicId}/messages</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
@@ -4884,7 +4884,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-topics--topic_id--messages"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-topics--topicId--messages"
                value="Bearer {YOUR_AUTH_KEY}"
                data-component="header">
     <br>
@@ -4895,7 +4895,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                value="application/json"
                data-component="header">
     <br>
@@ -4906,7 +4906,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+                              name="Accept"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                value="application/json"
                data-component="header">
     <br>
@@ -4914,11 +4914,11 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
                     <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>topic_id</code></b>&nbsp;&nbsp;
+                <b style="line-height: 2;"><code>topicId</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="topic_id"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               step="any"               name="topicId"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                value="1"
                data-component="url">
     <br>
@@ -4930,7 +4930,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>string</small>&nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="content"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+                              name="content"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                value="Вот дополнительная информация по моему вопросу."
                data-component="body">
     <br>
@@ -4941,10 +4941,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>file[]</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="file" style="display: none"
-                              name="attachments[0]"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+                              name="attachments[0]"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                data-component="body">
         <input type="file" style="display: none"
-               name="attachments[1]"                data-endpoint="POSTapi-v1-topics--topic_id--messages"
+               name="attachments[1]"                data-endpoint="POSTapi-v1-topics--topicId--messages"
                data-component="body">
     <br>
 <p>Массив вложений (скриншоты). Каждый файл до 2MB.</p>

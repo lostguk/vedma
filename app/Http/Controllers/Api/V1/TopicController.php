@@ -215,7 +215,7 @@ final class TopicController extends ApiController
 
             // Check if the user is authorized to view this topic
             if (!$request->user()->is_admin && $topic->user_id !== $request->user()->id) {
-                return $this->errorResponse('У вас нет доступа к этой теме', 403);
+                return $this->errorResponse('Тема не найдена', 404);
             }
         }
 
@@ -310,7 +310,7 @@ final class TopicController extends ApiController
      *
      * @authenticated
      *
-     * @urlParam topic_id integer required ID темы. Example: 1
+     * @urlParam topicId integer required ID темы. Example: 1
      *
      * @response 201 scenario="Сообщение успешно добавлено" {
      *     "status": "success",

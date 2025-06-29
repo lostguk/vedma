@@ -40,7 +40,7 @@ final class TopicStoreRequest extends ApiRequest
             'attachments.*' => [
                 'file',
                 'mimes:jpeg,jpg,png,webp,pdf',
-                'max:' . (2 * 1024), // 2MB
+//                'max:' . (2 * 1024), // 2MB
             ],
         ];
     }
