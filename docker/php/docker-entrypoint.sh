@@ -54,13 +54,13 @@ echo "Fixing permissions..."
 # Create tmp directory for media library if it doesn't exist
 echo "Creating tmp directory for media library..."
 mkdir -p /var/www/html/storage/app/public/tmp
-chown -R www-data:www-data /var/www/html/storage/app/public/tmp
+chown -R appuser:appgroup /var/www/html/storage/app/public/tmp
 chmod -R 775 /var/www/html/storage/app/public/tmp
 
 # if [ "$APP_ENV" = "production" ] || [ "$APP_ENV" = "dev" ]; then
-    chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+    chown -R appuser:appgroup /var/www/html/storage /var/www/html/bootstrap/cache
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 # fi
 
-# Запускаем основную команду
-exec "$@"
+# Запускаем основную команду от имени appuser
+exec su-exec appuser "$@"

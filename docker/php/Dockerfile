@@ -1,5 +1,8 @@
 FROM php:8.3-fpm
 
+# Устанавливаем su-exec для смены пользователя
+RUN apt-get update && apt-get install -y --no-install-recommends su-exec
+
 # Устанавливаем необходимые зависимости
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -52,7 +55,6 @@ RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
     && chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
 
 # Переходим на безопасного пользователя
-USER appuser
 
 # Запуск
 ENTRYPOINT ["docker-entrypoint.sh"]
