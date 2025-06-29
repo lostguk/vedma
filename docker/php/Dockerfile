@@ -56,4 +56,4 @@ RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
 
 # Запуск
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]
+CMD ["php-fpm", "--nodaemonize"]
