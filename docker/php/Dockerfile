@@ -1,10 +1,8 @@
 FROM php:8.3-fpm
 
-# Устанавливаем su-exec для смены пользователя
-RUN apt-get update && apt-get install -y --no-install-recommends su-exec
-
-# Устанавливаем необходимые зависимости
+# Устанавливаем необходимые зависимости и gosu
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    gosu \
     git \
     zip \
     unzip \

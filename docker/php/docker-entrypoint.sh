@@ -63,4 +63,4 @@ chmod -R 775 /var/www/html/storage/app/public/tmp
 # fi
 
 # Запускаем основную команду от имени appuser
-exec su-exec appuser "$@"
+exec gosu appuser "$@"
