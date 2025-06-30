@@ -53,7 +53,7 @@ Route::prefix('v1')->group(function () {
         ->name('api.v1.products.show');
     Route::get('products', [ProductController::class, 'index'])->name('api.v1.products.index');
 
-    Route::get('mail/test', [MailController::class, 'testMail'])->name('mail.test');
+    Route::get('mail/test', [MailController::class, 'sendTestMail'])->name('mail.test');
 
     // Pages
     Route::name('pages.')->group(function () {

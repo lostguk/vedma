@@ -126,9 +126,6 @@
                                                                                 <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-health">
                                 <a href="#obshhie-endpointy-GETapi-v1-health">GET api/v1/health</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-mail-test">
-                                <a href="#obshhie-endpointy-GETapi-v1-mail-test">GET api/v1/mail/test</a>
-                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-oformlenie-zakaza" class="tocify-header">
@@ -171,6 +168,16 @@
                                 <a href="#profil-PATCHapi-v1-profile">Редактировать профиль текущего пользователя
 
 Этот эндпоинт позволяет обновить данные профиля аутентифицированного пользователя.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-sistemnye" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="sistemnye">
+                    <a href="#sistemnye">Системные</a>
+                </li>
+                                    <ul id="tocify-subheader-sistemnye" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="sistemnye-GETapi-v1-mail-test">
+                                <a href="#sistemnye-GETapi-v1-mail-test">Отправка тестового письма на email администратора.</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -217,7 +224,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 29, 2025</li>
+        <li>Last updated: June 30, 2025</li>
     </ul>
 </div>
 
@@ -1960,7 +1967,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-29T16:59:49+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-06-30T05:02:43+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2153,129 +2160,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Accept"                data-endpoint="GETapi-v1-health"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-                    <h2 id="obshhie-endpointy-GETapi-v1-mail-test">GET api/v1/mail/test</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-v1-mail-test">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/mail/test" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/mail/test"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-v1-mail-test">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">content-type: text/html; charset=UTF-8
-cache-control: no-cache, private
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;"></code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-v1-mail-test" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-mail-test"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-mail-test"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-v1-mail-test" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-mail-test">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-v1-mail-test" data-method="GET"
-      data-path="api/v1/mail/test"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-mail-test', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-mail-test"
-                    onclick="tryItOut('GETapi-v1-mail-test');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-mail-test"
-                    onclick="cancelTryOut('GETapi-v1-mail-test');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-mail-test"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/v1/mail/test</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-mail-test"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-mail-test"
                value="application/json"
                data-component="header">
     <br>
@@ -3632,6 +3516,127 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+                <h1 id="sistemnye">Системные</h1>
+
+    <p>Этот endpoint отправляет тестовое письмо на указанный email для проверки работоспособности почтовой системы.</p>
+
+                                <h2 id="sistemnye-GETapi-v1-mail-test">Отправка тестового письма на email администратора.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-mail-test">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/mail/test" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/mail/test"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-mail-test">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Письмо отправлено&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-mail-test" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-mail-test"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-mail-test"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-mail-test" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-mail-test">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-mail-test" data-method="GET"
+      data-path="api/v1/mail/test"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-mail-test', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-mail-test"
+                    onclick="tryItOut('GETapi-v1-mail-test');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-mail-test"
+                    onclick="cancelTryOut('GETapi-v1-mail-test');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-mail-test"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/mail/test</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-mail-test"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-mail-test"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
                 <h1 id="stranicy">Страницы</h1>
 
     
@@ -3695,7 +3700,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Earum commodi recusandae dolorum. Sed ea eaque inventore eligendi. Impedit rerum ratione accusamus officia harum amet molestiae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dignissimos sit quasi omnis eveniet. Ea reiciendis omnis ea. Vero impedit est aut quo nihil soluta distinctio quod. Cupiditate quia temporibus repellendus reiciendis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quam quisquam enim sit autem perferendis. Est cumque omnis a. Odit inventore odio ut blanditiis rem quam. Dolorem placeat magnam odio. Aliquam omnis temporibus aut in est voluptate omnis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Occaecati aut quae quia exercitationem odio recusandae. Doloribus quia nisi sit et deserunt sunt explicabo et. Quidem aut impedit tempore et vero.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3703,7 +3708,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Temporibus aut modi nostrum non sint molestiae autem. Consequatur a et esse totam ipsa excepturi. Consequatur porro quod doloremque optio quo necessitatibus dolor.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sit neque unde ut consectetur eaque consequatur qui. Et necessitatibus asperiores recusandae. Possimus voluptas aliquam corporis illo ab quis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Officia iure atque eos saepe architecto. Quibusdam molestiae eius et veritatis cumque dolorem. Officiis aut totam numquam quos sapiente. Nihil eos atque est reiciendis dolores maxime.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Perferendis ut quo iure eos aspernatur officiis quia. Ut id delectus libero iure. Commodi placeat nemo iure laborum doloremque ut.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3711,7 +3716,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quidem commodi nam voluptas corrupti et illo. Et a ipsa animi aperiam. Blanditiis hic et recusandae magnam eaque numquam nulla provident.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Non exercitationem ullam quaerat non consectetur. Sapiente ullam quisquam adipisci quisquam amet qui. Neque vitae voluptatum expedita explicabo minima cupiditate quaerat.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Officiis qui provident qui. Et sed mollitia veniam praesentium molestiae consectetur. Enim tempora consequatur quia illo et voluptatum est tenetur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et esse laborum quis odit. Aut rerum qui error omnis. Sit et id beatae nobis necessitatibus veritatis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3719,7 +3724,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Modi est quidem est beatae. Dolor fugit necessitatibus eos voluptates voluptatem assumenda. Aliquam eos quos dolorem perspiciatis. Culpa quia et facilis eveniet unde unde saepe vero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Repellendus aut dolores qui sunt magnam quidem porro. Quod ipsum ut perspiciatis assumenda. Qui non nesciunt quam voluptates repellendus natus et.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Omnis consequatur sint est animi itaque qui qui. Rerum officiis illo similique necessitatibus odio quisquam. Magni est dolorem facere.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deleniti mollitia illum et architecto. Consectetur quaerat nulla eligendi ab sint veniam. Ea facilis quis earum nobis consequatur placeat.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3727,7 +3732,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Nihil nemo debitis voluptatibus fugit. Molestiae dolorem iste aliquid at qui tenetur. Eum modi alias dicta dolores non.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aliquid dolores exercitationem hic quisquam. Aut tempora molestiae voluptatem eaque ea in voluptatum. Temporibus sequi sint fugiat. Quia dolor animi voluptates accusantium.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Dolor alias voluptatum iste similique debitis dolores. Quam ex nesciunt nulla qui. Doloribus animi quae quibusdam est perferendis iste velit. Rerum rerum et fugiat magni et commodi eligendi.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Accusamus vel ex delectus quibusdam quia. Et iusto ipsum similique nulla quia quia voluptas. Dolor deleniti sunt facilis dolores quod ut cum.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3735,7 +3740,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Porro non temporibus autem corrupti. Magni placeat quas quas sit. Beatae quasi distinctio sint perspiciatis explicabo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Esse architecto aut sed. Suscipit est omnis architecto praesentium. Repellat hic veniam et perferendis nihil molestias.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Eligendi fugit corporis in dolorem eum temporibus est. Quidem est quia non quod. Voluptatem nobis dolor asperiores sit vitae ut. Culpa nam aut quia quae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ad dolor placeat ab quo recusandae. Vitae ut architecto ipsam. Assumenda quis possimus aperiam temporibus facilis qui hic.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3743,7 +3748,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Velit debitis molestiae velit nulla saepe. Fuga voluptatem ipsa facere necessitatibus et culpa veniam. Rerum quis amet placeat laudantium maxime dignissimos veritatis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ipsum quae possimus quia impedit velit. Enim et libero explicabo ut quis dolorem aut. Voluptates quaerat ut cumque corporis nam.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Laborum in expedita aperiam et sed voluptas ipsam. Fugit est deleniti illum ducimus accusantium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iusto et architecto corporis molestiae rerum rerum qui. Fugit sunt sed distinctio omnis molestiae consequatur maiores.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4314,7 +4319,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpqK1BR3" </code></pre></div>
+    --form "attachments[]=@/tmp/php8H4aR1" </code></pre></div>
 
 
 <div class="javascript-example">

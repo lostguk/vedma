@@ -7,12 +7,21 @@ use App\Services\Mail\MailService;
 
 class MailController extends Controller
 {
-    public function testMail(MailService $mailService): void
+    /**
+     * Отправка тестового письма на email администратора.
+     *
+     * @group Системные
+     *
+     * Этот endpoint отправляет тестовое письмо на указанный email для проверки работоспособности почтовой системы.
+     *
+     * @response 200 {"message": "Письмо отправлено"}
+     */
+    public function sendTestMail(MailService $mailService): void
     {
         \Log::info('Отправка тестового письма');
 
         try {
-            $mailService->send('vitalii.it.88@gmail.com', new TestMail);
+            $mailService->send('admin@row-dev.com', new TestMail);
 
             $this->success(['message' => 'Письмо отправлено']);
 

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailService extends Mailable
+class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -26,7 +26,7 @@ class MailService extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Проверка SMTP Яндекс',
+            subject: 'Проверка SMTP Mail',
         );
     }
 
@@ -36,7 +36,7 @@ class MailService extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.test',
         );
     }
 
