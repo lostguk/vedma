@@ -56,6 +56,7 @@ RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
     && chmod -R ug+rwX /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/.env
 
 # Переходим на безопасного пользователя
+ENV HOME=/home/appuser
 
 # Запуск
 ENTRYPOINT ["docker-entrypoint.sh"]
