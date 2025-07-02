@@ -61,3 +61,5 @@ ENV HOME=/home/appuser
 # Запуск
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm", "--nodaemonize"]
+
+RUN mkdir -p /home/appuser && chown appuser:appgroup /home/appuser
