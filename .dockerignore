@@ -1,11 +1,74 @@
-.git
-.idea
-.vscode
-node_modules
-*.log
-.env.example
-.env.testing
-*.md
+# Игнорировать файлы для оптимизации сборки Docker
+
+# Git
+.git/
 .gitignore
 .gitattributes
-storage/*.key
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Laravel specific
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+bootstrap/cache/*
+
+# Node modules
+node_modules/
+npm-debug.log
+
+# Composer
+/vendor/
+
+# Environment files
+.env.local
+.env.*.local
+
+# Test files
+/tests/
+phpunit.xml
+
+# Documentation
+README.md
+docs/
+
+# Docker
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Cache files
+*.cache
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Log files
+*.log
+logs/
+
+# Backup files
+*.bak
+*.backup
+
+# Development tools
+.phpunit.result.cache
+.php_cs.cache
