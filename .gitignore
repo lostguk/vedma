@@ -26,3 +26,53 @@ yarn-error.log
 /.vscode
 /.zed
 /.cursor
+
+# Security files
+/secrets/
+*.pem
+*.key
+*.crt
+*.cert
+/data/
+backup_*.sql
+
+# Docker specific
+docker-compose.override.yml
+.dockerignore
+
+# IDE
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+# Laravel specific
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+!/storage/framework/cache/.gitkeep
+!/storage/framework/sessions/.gitkeep
+!/storage/framework/views/.gitkeep
+!/storage/logs/.gitkeep
+
+# Media library temp files
+/storage/media-library/temp/*
+
+# Build files
+/public/build/
+/public/css/filament/
+/public/js/filament/
+
+# Testing
+/coverage/
+/coverage.xml
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.swp
+*~
