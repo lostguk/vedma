@@ -33,6 +33,9 @@ RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Копируем конфигурацию PHP-FPM
+COPY fpm-pool.conf /usr/local/etc/php-fpm.d/www.conf
+
 # Создаем скрипт для инициализации проекта, если он нужен
 # Но лучше делать инициализацию через docker-compose.yml или вручную
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh

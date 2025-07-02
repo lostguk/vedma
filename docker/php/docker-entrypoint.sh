@@ -19,10 +19,25 @@ if ! php artisan key:generate --no-interaction --force; then
     exit 1
 fi
 
-# Ждем пока база поднимется 20 секунд
-sleep 20
+# Ждем пока база поднимется
+echo "Waiting for database..."
+until php artisan db:show --database=mysql > /dev/null 2>&1; do
+    echo "Database not ready, waiting..."
+    sleep 5
+done
+
 # Запускаем миграции, если таблицы не существуют
+echo "Running migrations..."
 php artisan migrate --no-interaction --force
+
+# Запускаем сиды только если база пустая (проверяем наличие пользователей)
+USER_COUNT=$(php artisan tinker --execute="echo App\\Models\\User::count();" 2>/dev/null | tail -1)
+if [ "$USER_COUNT" = "0" ]; then
+    echo "Database is empty, seeding..."
+    php artisan db:seed --force
+else
+    echo "Database already has data, skipping seeding"
+fi
 
 # Генерируем API документацию с помощью Scribe
 echo "Generating API documentation with Scribe..."
@@ -32,8 +47,6 @@ php artisan scribe:generate
 php artisan config:clear
 php artisan view:clear
 php artisan route:clear
-
-composer fresh-seed
 
 echo "Initialization completed successfully!"
 
