@@ -13,9 +13,16 @@ if [ ! -d vendor ]; then
     composer install --no-interaction --no-progress --prefer-dist
 fi
 
-# Unblock to use production in local
-#echo "Configuring Git safe.directory..."
-#git config --global --add safe.directory /var/www/html
+# Проверяем, совпадает ли uid/gid владельца /var/www/html с текущим пользователем
+HOST_UID=$(stat -c "%u" /var/www/html)
+HOST_GID=$(stat -c "%g" /var/www/html)
+CUR_UID=$(id -u)
+CUR_GID=$(id -g)
+
+if [ "$HOST_UID" != "$CUR_UID" ] || [ "$HOST_GID" != "$CUR_GID" ]; then
+    echo "Configuring Git safe.directory for /var/www/html due to UID/GID mismatch..."
+    git config --global --add safe.directory /var/www/html
+fi
 
 # Генерируем ключ приложения, если он не установлен
 if ! php artisan key:generate --no-interaction --force; then

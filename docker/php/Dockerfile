@@ -30,7 +30,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Создаём непривилегированного пользователя
-RUN addgroup --system appgroup && adduser --system --ingroup appgroup --uid 1000 appuser
+ARG UID=1000
+ARG GID=1000
+
+RUN addgroup --system --gid $GID appgroup && adduser --system --uid $UID --ingroup appgroup appuser
 
 # Рабочая директория проекта
 WORKDIR /var/www/html
@@ -44,7 +47,7 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Копируем исходники (если ты это делаешь здесь)
-COPY . .
+# COPY . .  # Не копируем исходники, если используется volume
 
 # Настройка прав после копирования проекта
 RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
