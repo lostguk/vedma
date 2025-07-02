@@ -126,6 +126,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-health">
                                 <a href="#obshhie-endpointy-GETapi-v1-health">GET api/v1/health</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">
+                                <a href="#obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">GET api/v1/verify-registration/{user}/{hash}</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-oformlenie-zakaza" class="tocify-header">
@@ -224,7 +227,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 30, 2025</li>
+        <li>Last updated: July 2, 2025</li>
     </ul>
 </div>
 
@@ -1967,7 +1970,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-06-30T05:02:43+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-07-02T03:30:33+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2166,6 +2169,154 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                    <h2 id="obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">GET api/v1/verify-registration/{user}/{hash}</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-verify-registration--user---hash-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/verify-registration/architecto/architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/verify-registration/architecto/architecto"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-verify-registration--user---hash-">
+            <blockquote>
+            <p>Example response (500):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: http://localhost:3005
+access-control-allow-credentials: true
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Server Error&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-verify-registration--user---hash-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-verify-registration--user---hash-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-verify-registration--user---hash-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-verify-registration--user---hash-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-verify-registration--user---hash-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-verify-registration--user---hash-" data-method="GET"
+      data-path="api/v1/verify-registration/{user}/{hash}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-verify-registration--user---hash-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-verify-registration--user---hash-"
+                    onclick="tryItOut('GETapi-v1-verify-registration--user---hash-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-verify-registration--user---hash-"
+                    onclick="cancelTryOut('GETapi-v1-verify-registration--user---hash-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-verify-registration--user---hash-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/verify-registration/{user}/{hash}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="user"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>Example: <code>architecto</code></p>
+            </div>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>hash</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="hash"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>Example: <code>architecto</code></p>
+            </div>
+                    </form>
 
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
@@ -3700,7 +3851,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quam quisquam enim sit autem perferendis. Est cumque omnis a. Odit inventore odio ut blanditiis rem quam. Dolorem placeat magnam odio. Aliquam omnis temporibus aut in est voluptate omnis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Occaecati aut quae quia exercitationem odio recusandae. Doloribus quia nisi sit et deserunt sunt explicabo et. Quidem aut impedit tempore et vero.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Veniam voluptatem sunt culpa quod. Autem optio et nostrum est rerum cumque. Voluptatem eveniet incidunt pariatur quam ea facilis quis. Quaerat laudantium sed quaerat ducimus.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Placeat voluptates reiciendis magnam. Error quam deserunt et quos. Veniam ut ipsum non non. Aliquid provident in unde quod.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3708,7 +3859,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Officia iure atque eos saepe architecto. Quibusdam molestiae eius et veritatis cumque dolorem. Officiis aut totam numquam quos sapiente. Nihil eos atque est reiciendis dolores maxime.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Perferendis ut quo iure eos aspernatur officiis quia. Ut id delectus libero iure. Commodi placeat nemo iure laborum doloremque ut.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Non laboriosam illo architecto cumque molestias illo. Nostrum tempora aut ut optio qui. Autem ratione consequatur amet.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Eum vitae eum fuga qui aliquam aliquid modi ex. Ut velit officiis ipsum velit. Hic occaecati autem iusto sequi id sed natus tempora.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3716,7 +3867,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Officiis qui provident qui. Et sed mollitia veniam praesentium molestiae consectetur. Enim tempora consequatur quia illo et voluptatum est tenetur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et esse laborum quis odit. Aut rerum qui error omnis. Sit et id beatae nobis necessitatibus veritatis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Aperiam mollitia vel saepe natus saepe quaerat. Officia pariatur recusandae officiis distinctio ipsa corporis. Accusantium numquam cumque et voluptates ut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ratione laborum labore amet. Molestias reiciendis et accusantium sed labore quas. Numquam nesciunt rem quae.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3724,7 +3875,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Omnis consequatur sint est animi itaque qui qui. Rerum officiis illo similique necessitatibus odio quisquam. Magni est dolorem facere.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deleniti mollitia illum et architecto. Consectetur quaerat nulla eligendi ab sint veniam. Ea facilis quis earum nobis consequatur placeat.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ducimus consequatur aliquid et magnam cumque accusantium animi sunt. Aut qui eum velit minima eos quisquam. Non ut tenetur quia harum blanditiis. Et blanditiis aut eos velit cum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Amet soluta eos et quod quis. Voluptatum quisquam qui sit autem eos nulla. Ex quod vel sint non unde sint enim cumque. Maiores quia aliquid inventore commodi illum sit alias cupiditate.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3732,7 +3883,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Dolor alias voluptatum iste similique debitis dolores. Quam ex nesciunt nulla qui. Doloribus animi quae quibusdam est perferendis iste velit. Rerum rerum et fugiat magni et commodi eligendi.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Accusamus vel ex delectus quibusdam quia. Et iusto ipsum similique nulla quia quia voluptas. Dolor deleniti sunt facilis dolores quod ut cum.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Beatae dignissimos facilis fugit earum qui adipisci est. Optio et ut laboriosam iusto.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Laudantium aut quia error. Iure nulla unde dolor sit vel illum recusandae. Sit odit facilis qui veritatis qui.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3740,7 +3891,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Eligendi fugit corporis in dolorem eum temporibus est. Quidem est quia non quod. Voluptatem nobis dolor asperiores sit vitae ut. Culpa nam aut quia quae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ad dolor placeat ab quo recusandae. Vitae ut architecto ipsam. Assumenda quis possimus aperiam temporibus facilis qui hic.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Et omnis enim laborum velit voluptatem eos dolore. Repellendus sed quia quis quas esse sed. A et ut dolor quasi sed.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Necessitatibus et quaerat dolore quidem non quod. Officiis optio tempore recusandae consequatur beatae unde illo est. Est excepturi sequi nemo laborum. Non provident rerum voluptatem quam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3748,7 +3899,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Laborum in expedita aperiam et sed voluptas ipsam. Fugit est deleniti illum ducimus accusantium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iusto et architecto corporis molestiae rerum rerum qui. Fugit sunt sed distinctio omnis molestiae consequatur maiores.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Nisi quis dolorem dolore id dolorem laborum est aliquam. Rerum reiciendis nostrum ut facere repellat id.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Perferendis non quasi dolores inventore qui. Earum non dignissimos exercitationem vero. Repudiandae minus qui explicabo laudantium ullam. Perferendis animi hic similique veniam.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4319,7 +4470,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/php8H4aR1" </code></pre></div>
+    --form "attachments[]=@/tmp/php8wqIom" </code></pre></div>
 
 
 <div class="javascript-example">

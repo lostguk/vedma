@@ -112,3 +112,24 @@ docker exec shop_php_dev php artisan scribe:generate
 ```bash
 docker exec shop_php_dev php artisan test
 ```
+
+## Настройка UID/GID для Docker (важно для macOS/Linux)
+
+Для корректной работы прав и git внутри контейнера, добавьте в .env:
+
+```
+HOST_UID=1000  # id -u на вашей машине
+HOST_GID=1000  # id -g на вашей машине
+```
+
+-   На macOS обычно UID=501, GID=20 (проверьте через терминал: `id -u`, `id -g`).
+-   На Linux обычно UID=1000, GID=1000.
+
+Это обеспечит правильные права на volume и отсутствие ошибок git/composer.
+
+После изменения переменных пересоберите контейнер:
+
+```
+docker-compose -f docker-compose.dev.yml build --no-cache php
+docker-compose -f docker-compose.dev.yml up -d
+```
