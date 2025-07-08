@@ -22,7 +22,7 @@ chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 # Проверяем доступность MySQL
 log "Waiting for MySQL connection..."
 for i in {1..30}; do
-    if gosu appuser php artisan tinker --execute="DB::connection()->getPdo();" >/dev/null 2>&1; then
+    if gosu appuser php artisan migrate:status --database=mysql >/dev/null 2>&1; then
         log "MySQL connection established"
         break
     fi
@@ -47,11 +47,11 @@ log "Configuring Git safe.directory for /var/www/html..."
 gosu appuser git config --global --add safe.directory /var/www/html
 
 # Генерируем ключ приложения, если он не установлен
-log "Generating application key..."
-if ! gosu appuser php artisan key:generate --no-interaction --force; then
-    log "ERROR: Failed to generate APP_KEY"
-    exit 1
-fi
+# log "Generating application key..."
+# if ! gosu appuser php artisan key:generate --no-interaction --force; then
+#     log "ERROR: Failed to generate APP_KEY"
+#     exit 1
+# fi
 
 # Запускаем миграции
 log "Running migrations..."

@@ -133,3 +133,9 @@ HOST_GID=1000  # id -g на вашей машине
 docker-compose -f docker-compose.dev.yml build --no-cache php
 docker-compose -f docker-compose.dev.yml up -d
 ```
+
+## Особенности Docker для Mac и dev/prod
+
+-   Для Mac (local) окружения nginx запускается под root, используются хаки с правами и tmpfs (см. docs/docker/MAC_SETUP.md).
+-   Для dev/prod окружения nginx запускается под непривилегированным пользователем, все best practices соблюдены.
+-   Не смешивайте хаки для Mac с dev/prod окружением!

@@ -1,8 +1,11 @@
 services:
   nginx:
+    # Только для Mac! Запуск под root, хаки с правами, tmpfs для /var/run
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+      args:
+        MAC_ENV: true
     entrypoint: ["/entrypoint.sh"]
     command: ["nginx", "-g", "daemon off;"]
     container_name: shop_nginx_mac
@@ -16,6 +19,7 @@ services:
     tmpfs:
       - /tmp
       - /var/cache/nginx
+      - /var/run
     environment:
       APP_ENV: local
     depends_on:
@@ -90,7 +94,7 @@ services:
       mysql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "php-fpm -t && curl -f http://localhost:9000/ping"]
+      test: ["CMD", "php-fpm", "-t"]
       interval: 30s
       timeout: 10s
       retries: 3

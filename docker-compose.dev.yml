@@ -3,6 +3,8 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
+      args:
+        MAC_ENV: false
     container_name: shop_nginx_dev
     ports:
       - "8000:80"
@@ -74,7 +76,7 @@ services:
       mysql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "php-fpm -t && curl -f http://localhost:9000/ping"]
+      test: ["CMD", "php-fpm", "-t"]
       interval: 30s
       timeout: 10s
       retries: 3

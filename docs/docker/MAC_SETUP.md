@@ -40,6 +40,22 @@
     - Обработка прав доступа для Mac
     - Совместимость с Docker Desktop for Mac
 
+## Особенности запуска nginx на Mac
+
+-   Контейнер nginx запускается под root (без USER appuser), чтобы избежать проблем с volume и правами.
+-   В Dockerfile используется аргумент MAC_ENV: true, чтобы не создавать пользователя appuser.
+-   В entrypoint (localMac/entrypoint.sh) выставляются права на /var/run, /var/cache/nginx и другие директории.
+-   Используется tmpfs для /var/run, чтобы nginx мог создавать pid-файл.
+-   Все эти хаки только для Mac! В dev/prod окружении используется best practice (см. ниже).
+
+## Для dev/prod окружения
+
+-   Контейнер nginx собирается с созданием пользователя appuser (или nginx).
+-   В Dockerfile используется MAC_ENV: false, создаётся пользователь и используется USER appuser.
+-   В nginx.conf директива user appuser; (или user nginx;).
+-   Все права выставляются на этапе билда, запуск не под root.
+-   Не используйте хаки с root и tmpfs для /var/run в dev/prod!
+
 ## Быстрый старт
 
 ### 1. Установка зависимостей
