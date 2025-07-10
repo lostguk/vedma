@@ -36,6 +36,10 @@ if [ "${APP_ENV:-local}" = "local" ]; then
     chown -R nginx:nginx /var/run 2>/dev/null || true
     chmod -R 755 /var/run 2>/dev/null || true
 
+    # Выравниваем владельца и права для storage (важно для загрузки/отдачи файлов)
+    chown -R nginx:nginx /var/www/html/storage/app/public 2>/dev/null || true
+    chmod -R 775 /var/www/html/storage/app/public 2>/dev/null || true
+
     log "Permissions set successfully"
 else
     log "Production environment detected, skipping permission changes"
