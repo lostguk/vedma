@@ -1,5 +1,23 @@
 # Игнорировать файлы для оптимизации сборки Docker
 
+# Folders that are unnecessary or unsafe to ship into the image
+.git
+node_modules
+vendor
+.env
+.DS_Store
+.idea
+.vscode
+
+# Tests & tooling
+phpunit.xml*
+tests
+coverage
+
+# Docker artefacts
+docker-compose*
+docker/
+
 # Git
 .git/
 .gitignore

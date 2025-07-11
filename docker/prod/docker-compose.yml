@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+  # PHP-FPM + application
+  app:
+    build:
+      context: ..
+      dockerfile: docker/prod/php/Dockerfile
+    image: ${CI_REGISTRY_IMAGE:-laravel-app}:latest
+    restart: unless-stopped
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      - laravel
+
+  # Webserver
+  web:
+    build:
+      context: ..
+      dockerfile: docker/prod/nginx/Dockerfile
+    image: ${CI_REGISTRY_IMAGE:-laravel-web}:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - laravel
+
+  # MySQL database
+  db:
+    image: mysql:8.3
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - laravel
+
+  # Redis cache
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - laravel
+
+volumes:
+  db-data:
+
+networks:
+  laravel:
+    driver: bridge
