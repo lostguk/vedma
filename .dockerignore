@@ -1,74 +1,98 @@
-# Игнорировать файлы для оптимизации сборки Docker
+# Development files
+.env
+.env.*
+!.env.example
+!.env.production
 
 # Git
-.git/
+.git
 .gitignore
 .gitattributes
 
 # IDE
-.vscode/
-.idea/
+.vscode
+.idea
 *.swp
 *.swo
 *~
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
-# Laravel specific
-storage/logs/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/app/public/*
-bootstrap/cache/*
-
-# Node modules
-node_modules/
+# Node.js
+node_modules
 npm-debug.log
+yarn-error.log
 
 # Composer
-/vendor/
+/vendor
+composer.phar
 
-# Environment files
-.env.local
-.env.*.local
+# Laravel
+/storage/*.key
+/storage/logs/*
+!/storage/logs/.gitkeep
+/storage/framework/cache/*
+!/storage/framework/cache/.gitkeep
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitkeep
+/storage/framework/views/*
+!/storage/framework/views/.gitkeep
+/bootstrap/cache/*
+!/bootstrap/cache/.gitkeep
 
-# Test files
-/tests/
+# Testing
+/tests
 phpunit.xml
+.phpunit.result.cache
+/coverage
 
 # Documentation
+/docs
 README.md
-docs/
+CHANGELOG.md
+workflow.md
+background-agent-guide.md
+recommendations*.md
 
-# Docker
-docker-compose*.yml
+# Docker files (exclude from build context)
 Dockerfile*
-.dockerignore
+docker-compose*.yml
+!docker-compose.prod.yml
 
-# CI/CD
-.github/
-.gitlab-ci.yml
-
-# Cache files
-*.cache
-.cache/
+# Logs
+*.log
 
 # Temporary files
 *.tmp
 *.temp
-.tmp/
 
-# Log files
-*.log
-logs/
+# Archives
+*.zip
+*.tar
+*.gz
 
-# Backup files
+# Backups
 *.bak
 *.backup
 
-# Development tools
-.phpunit.result.cache
-.php_cs.cache
+# Database
+*.sqlite
+*.db
+
+# Cache files
+.cache
+*.cache
+
+# Build artifacts
+/public/build
+/public/hot
+/public/storage
+
+# Old dev files
+dev.sh.old
+DOCKER_FIXES.md
+
+# Telescope
+/storage/telescope

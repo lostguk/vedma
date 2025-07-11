@@ -1,75 +1,131 @@
-FROM php:8.3-fpm
+# ===============================
+# Этап 1: Composer dependencies
+# ===============================
+FROM composer:2.8 AS composer
 
-# Устанавливаем необходимые зависимости и gosu
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
+WORKDIR /app
+
+# Копируем только файлы composer для кэширования
+COPY composer.json composer.lock ./
+
+# Устанавливаем зависимости без dev пакетов
+RUN composer install \
+    --no-dev \
+    --no-scripts \
+    --no-autoloader \
+    --ignore-platform-reqs \
+    --prefer-dist
+
+# ===============================
+# Этап 2: Production image
+# ===============================
+FROM php:8.3-fpm-alpine AS production
+
+LABEL maintainer="VedmaShop"
+LABEL version="1.0"
+
+# Устанавливаем системные зависимости
+RUN apk add --no-cache \
+    supervisor \
+    nginx \
+    mysql-client \
     zip \
     unzip \
-    iputils-ping \
-    dnsutils \
-    telnet \
-    openssl \
-    libzip-dev \
-    libicu-dev \
-    libssl-dev \
+    curl \
+    git \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    gosu \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libzip-dev \
+    icu-dev \
+    imagemagick-dev \
+    && rm -rf /var/cache/apk/*
+
+# Устанавливаем PHP расширения
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
-        zip \
         pdo_mysql \
+        zip \
+        gd \
         intl \
         exif \
-        gd \
         sockets \
-    && apt-get purge -y --auto-remove \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* /var/tmp/*
+        opcache \
+    && pecl install redis imagemagick \
+    && docker-php-ext-enable redis imagick
 
-# Установка Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Создаем непривилегированного пользователя
+RUN addgroup -g 1000 -S appgroup \
+    && adduser -u 1000 -S appuser -G appgroup -h /var/www -s /bin/sh
 
-# Создаём непривилегированного пользователя
-ARG UID=1000
-ARG GID=1000
-
-RUN addgroup --system --gid $GID appgroup && \
-    adduser --system --uid $UID --ingroup appgroup --home /home/appuser --shell /bin/bash appuser && \
-    mkdir -p /home/appuser && \
-    chown appuser:appgroup /home/appuser
-
-# Рабочая директория проекта
+# Устанавливаем рабочую директорию
 WORKDIR /var/www/html
 
+# Копируем composer зависимости из первого этапа
+COPY --from=composer --chown=appuser:appgroup /app/vendor ./vendor
+
+# Копируем код приложения
+COPY --chown=appuser:appgroup . .
+
+# Копируем зависимости composer и генерируем autoloader
+COPY --from=composer --chown=appuser:appgroup /app/composer.json /app/composer.lock ./
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction \
+    --no-progress \
+    --no-scripts \
+    && composer clear-cache
+
+# Создаем необходимые директории и устанавливаем права
+RUN mkdir -p \
+        storage/app/public \
+        storage/framework/cache/data \
+        storage/framework/sessions \
+        storage/framework/views \
+        storage/logs \
+        bootstrap/cache \
+    && chown -R appuser:appgroup \
+        storage \
+        bootstrap/cache \
+    && chmod -R 755 storage bootstrap/cache
+
 # Копируем конфигурационные файлы
-COPY php.ini /usr/local/etc/php/conf.d/security.ini
-COPY fpm-pool.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini
+COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Копируем docker-entrypoint.sh
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Создаем директории для nginx и устанавливаем права
+RUN mkdir -p \
+        /var/run/nginx \
+        /var/log/nginx \
+        /var/log/supervisor \
+    && chown -R appuser:appgroup \
+        /var/run/nginx \
+        /var/log/nginx \
+        /var/log/supervisor \
+        /etc/nginx \
+        /etc/supervisor
 
-# Создаем необходимые директории и файлы с правильными правами
-RUN mkdir -p storage/framework/{cache,sessions,views} bootstrap/cache \
-    && touch .env \
-    && chown -R appuser:appgroup /var/www/html \
-    && chmod -R ug+rwX /var/www/html
+# Переключаемся на непривилегированного пользователя
+USER appuser
 
-# Переходим на безопасного пользователя для запуска
-ENV HOME=/home/appuser
+# Кэшируем конфигурацию Laravel
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
-# Создаем точку монтирования для tmp
-RUN mkdir -p /tmp/php && chown appuser:appgroup /tmp/php
+# Возвращаемся к root для финальных настроек
+USER root
 
-# Expose порт
-EXPOSE 9000
+# Экспонируем порт
+EXPOSE 80
 
-# Health check
+# Проверка здоровья
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD php-fpm -t || exit 1
+    CMD curl -f http://localhost:80/health || exit 1
 
-# Запуск через entrypoint
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm", "--nodaemonize"]
+# Запускаем supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
