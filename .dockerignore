@@ -47,6 +47,8 @@ docs/
 docker-compose*.yml
 Dockerfile*
 .dockerignore
+docker/sail/
+sail
 
 # CI/CD
 .github/
@@ -68,6 +70,7 @@ logs/
 # Backup files
 *.bak
 *.backup
+backups/
 
 # Development tools
 .phpunit.result.cache

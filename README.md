@@ -18,16 +18,19 @@
 
 ### Требования
 
--   Docker и Docker Compose
+-   Docker Desktop 4.0+ или Docker Engine 20.10+
+-   Docker Compose 2.0+
 -   Git
 
-### Шаги по установке
+### Быстрый старт (рекомендуется)
+
+Проект использует Laravel Sail для локальной разработки:
 
 1. Клонируйте репозиторий:
 
-    ```md
-    git clone git@github.com:username/shop.git
-    cd shop
+    ```bash
+    git clone <repository-url>
+    cd vedma
     ```
 
 2. Скопируйте файл окружения:
@@ -36,24 +39,42 @@
     cp .env.example .env
     ```
 
-3. Запустите Docker-контейнеры:
+3. Запустите приложение:
 
     ```bash
-    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+    ./dev.sh up        # Запустить контейнеры
+    ./dev.sh install   # Установить зависимости
+    ./sail artisan key:generate  # Сгенерировать ключ
+    ./dev.sh reset-db  # Выполнить миграции и сиды
+    ./sail artisan storage:link  # Создать символическую ссылку
     ```
 
-4. Веб-приложение будет доступно по адресу:
+4. Приложение будет доступно:
+    - **Веб-приложение**: http://localhost
+    - **Админ-панель**: http://localhost/admin
+    - **API документация**: http://localhost/docs
+    - **Mailpit (почта)**: http://localhost:8025
 
-    ```text
-    http://localhost:8000
-    ```
+### Основные команды разработки
+
+```bash
+./dev.sh up        # Запустить контейнеры
+./dev.sh down      # Остановить контейнеры
+./dev.sh bash      # Войти в контейнер
+./dev.sh test      # Запустить тесты
+./dev.sh lint      # Форматировать код
+./dev.sh docs      # Обновить API документацию
+./dev.sh help      # Все доступные команды
+```
+
+Подробная документация: [Docker Setup Guide](docs/docker/DOCKER_SETUP.md)
 
 ### API Документация
 
 Документация API автоматически генерируется с помощью Scribe и доступна по адресу:
 
 ```text
-http://localhost:8000/docs
+http://localhost/docs
 ```
 
 API документация организована в следующие группы для удобной навигации:
@@ -67,7 +88,7 @@ API документация организована в следующие гр
 Для обновления документации после внесения изменений в API выполните:
 
 ```bash
-docker exec shop_php php artisan scribe:generate
+./dev.sh docs
 ```
 
 ### Группировка эндпоинтов в API
@@ -94,7 +115,7 @@ class OrderController extends ApiController
 Админ-панель построена на основе Filament и доступна по адресу:
 
 ```text
-http://localhost:8000/admin
+http://localhost/admin
 ```
 
 ## Разработка
@@ -104,38 +125,43 @@ http://localhost:8000/admin
 При запуске контейнеров документация API генерируется автоматически. Если вы внесли изменения в API и хотите обновить документацию, выполните:
 
 ```bash
-docker exec shop_php_dev php artisan scribe:generate
+./dev.sh docs
 ```
 
 ### Запуск тестов
 
 ```bash
-docker exec shop_php_dev php artisan test
+./dev.sh test
 ```
 
-## Настройка UID/GID для Docker (важно для macOS/Linux)
+### Продакшн развертывание
 
-Для корректной работы прав и git внутри контейнера, добавьте в .env:
+Для продакшн окружения используется отдельная Docker конфигурация:
 
-```
-HOST_UID=1000  # id -u на вашей машине
-HOST_GID=1000  # id -g на вашей машине
-```
-
--   На macOS обычно UID=501, GID=20 (проверьте через терминал: `id -u`, `id -g`).
--   На Linux обычно UID=1000, GID=1000.
-
-Это обеспечит правильные права на volume и отсутствие ошибок git/composer.
-
-После изменения переменных пересоберите контейнер:
-
-```
-docker-compose -f docker-compose.dev.yml build --no-cache php
-docker-compose -f docker-compose.dev.yml up -d
+```bash
+ENV=production ./dev.sh build   # Собрать образ
+ENV=production ./dev.sh deploy  # Развернуть приложение
+ENV=production ./dev.sh backup  # Создать бэкап БД
 ```
 
-## Особенности Docker для Mac и dev/prod
+Подробнее в [Docker Setup Guide](docs/docker/DOCKER_SETUP.md#продакшн-развертывание)
 
--   Для Mac (local) окружения nginx запускается под root, используются хаки с правами и tmpfs (см. docs/docker/MAC_SETUP.md).
--   Для dev/prod окружения nginx запускается под непривилегированным пользователем, все best practices соблюдены.
--   Не смешивайте хаки для Mac с dev/prod окружением!
+## Особенности платформ
+
+Laravel Sail автоматически определяет вашу операционную систему и настраивает соответствующие права доступа. Дополнительная настройка обычно не требуется.
+
+Если возникают проблемы с правами доступа:
+- На macOS/Linux: права настраиваются автоматически через переменные окружения WWWUSER и WWWGROUP
+- На Windows: используйте WSL2 для лучшей совместимости
+
+## Структура проекта
+
+- `app/` - основной код приложения
+- `database/` - миграции, фабрики и сиды
+- `docker/` - конфигурация Docker
+- `docs/` - документация проекта
+- `public/` - публичные файлы
+- `resources/` - представления и ресурсы
+- `routes/` - маршруты приложения
+- `storage/` - кеш, логи и загруженные файлы
+- `tests/` - тесты приложения
