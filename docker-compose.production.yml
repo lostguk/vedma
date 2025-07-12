@@ -28,26 +28,26 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-    read_only: false  # Laravel требует запись в некоторые директории
-    tmpfs:
-      - /tmp
-      - /var/cache/nginx
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
+    # security_opt:
+    #   - no-new-privileges:true
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
+    # read_only: false  # Laravel требует запись в некоторые директории
+    # tmpfs:
+    #   - /tmp
+    #   - /var/cache/nginx
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2.0'
+    #       memory: 1G
+    #     reservations:
+    #       cpus: '0.5'
+    #       memory: 512M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -69,30 +69,30 @@ services:
       MYSQL_ROOT_HOST: "%"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      # - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     networks:
       - vedma_network
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-    read_only: false
-    tmpfs:
-      - /tmp
-      - /var/run/mysqld
-    deploy:
-      resources:
-        limits:
-          cpus: '1.5'
-          memory: 2G
-        reservations:
-          cpus: '0.5'
-          memory: 1G
+    # security_opt:
+    #   - no-new-privileges:true
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - CHOWN
+    #   - SETGID
+    #   - SETUID
+    #   - DAC_OVERRIDE
+    # read_only: false
+    # tmpfs:
+    #   - /tmp
+    #   - /var/run/mysqld
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1.5'
+    #       memory: 2G
+    #     reservations:
+    #       cpus: '0.5'
+    #       memory: 1G
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
       interval: 30s
@@ -112,24 +112,24 @@ services:
     command: redis-server /etc/redis/redis.conf
     networks:
       - vedma_network
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETGID
-      - SETUID
-    read_only: true
-    tmpfs:
-      - /tmp
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.1'
-          memory: 128M
+    # security_opt:
+    #   - no-new-privileges:true
+    # cap_drop:
+    #   - ALL
+    # cap_add:
+    #   - SETGID
+    #   - SETUID
+    # read_only: true
+    # tmpfs:
+    #   - /tmp
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5'
+    #       memory: 512M
+    #     reservations:
+    #       cpus: '0.1'
+    #       memory: 128M
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 30s

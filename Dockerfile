@@ -1,6 +1,10 @@
 # Многоэтапная сборка для продакшна
 FROM composer:2.7 AS composer
 
+# Устанавливаем расширения PHP в контейнере composer
+RUN apk add --no-cache icu-dev \
+    && docker-php-ext-install intl exif
+
 # Копируем файлы composer
 COPY composer.json composer.lock ./
 
@@ -30,6 +34,7 @@ RUN apk add --no-cache \
     mysql-client \
     nginx \
     supervisor \
+    icu-dev \
     && docker-php-ext-install \
     pdo_mysql \
     mbstring \
@@ -37,6 +42,9 @@ RUN apk add --no-cache \
     pcntl \
     bcmath \
     gd \
+    intl \
+    && docker-php-ext-configure opcache --enable-opcache \
+    && docker-php-ext-install opcache \
     && rm -rf /var/cache/apk/*
 
 # Создание пользователя www

@@ -91,7 +91,7 @@ prod_build() {
     check_docker
     
     log "Сборка продакшн образа..."
-    docker-compose -f docker-compose.production.yml build --no-cache
+    docker compose -f docker-compose.production.yml build --no-cache
 }
 
 prod_up() {
@@ -99,7 +99,7 @@ prod_up() {
     check_docker
     
     log "Запуск продакшн окружения..."
-    docker-compose -f docker-compose.production.yml up -d
+            docker compose -f docker-compose.production.yml up -d
     
     info "✅ Продакшн запущен:"
     info "🌐 Web: http://localhost:8080"
@@ -109,12 +109,12 @@ prod_up() {
 
 prod_down() {
     log "Остановка продакшн окружения..."
-    docker-compose -f docker-compose.production.yml down
+            docker compose -f docker-compose.production.yml down
 }
 
 prod_logs() {
     local service=${1:-app}
-    docker-compose -f docker-compose.production.yml logs -f "$service"
+            docker compose -f docker-compose.production.yml logs -f "$service"
 }
 
 # ===== ОБЩИЕ КОМАНДЫ =====
@@ -160,7 +160,7 @@ status() {
     ./vendor/bin/sail ps 2>/dev/null || echo "Не запущен"
     
     echo -e "\n${YELLOW}=== PRODUCTION ===${NC}"
-    docker-compose -f docker-compose.production.yml ps 2>/dev/null || echo "Не запущен"
+    docker compose -f docker-compose.production.yml ps 2>/dev/null || echo "Не запущен"
 }
 
 # Логи
