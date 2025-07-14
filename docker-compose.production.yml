@@ -147,9 +147,6 @@ services:
 networks:
   vedma_network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
 
 volumes:
   mysql_data:
