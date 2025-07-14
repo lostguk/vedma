@@ -96,7 +96,6 @@ final class Category extends Model implements HasMedia
     public function scopeRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id')
-            ->where('is_visible', true)
             ->orderBy('sort_order');
     }
 

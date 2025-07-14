@@ -9,6 +9,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @mixin \Illuminate\Http\Request
+ */
 abstract class ApiRequest extends FormRequest
 {
     /**

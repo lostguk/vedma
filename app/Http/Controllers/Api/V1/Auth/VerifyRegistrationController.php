@@ -10,11 +10,11 @@ use Illuminate\Http\JsonResponse;
 
 final class VerifyRegistrationController extends ApiController
 {
-    const string ERROR_INVALID_VERIFICATION_LINK = 'Неверная ссылка';
+    const ERROR_INVALID_VERIFICATION_LINK = 'Неверная ссылка';
 
-    const string ERROR_EMAIL_ALREADY_VERIFIED = 'Адрес уже подтвержден';
+    const ERROR_EMAIL_ALREADY_VERIFIED = 'Адрес уже подтвержден';
 
-    const string SUCCESS_TEXT = 'Почта успешно подтверждена';
+    const SUCCESS_TEXT = 'Почта успешно подтверждена';
 
     public function __invoke(int $user, string $hash): JsonResponse
     {

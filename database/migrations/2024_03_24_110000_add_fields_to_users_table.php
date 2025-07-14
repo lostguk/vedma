@@ -19,10 +19,6 @@ return new class extends Migration
 
             // Необязательные поля
             $table->string('phone')->nullable();
-            $table->string('country')->nullable();
-            $table->string('region')->nullable();
-            $table->string('city')->nullable();
-            $table->string('postal_code')->nullable();
             $table->string('address')->nullable();
 
             // Поле для верификации email
@@ -44,12 +40,8 @@ return new class extends Migration
             $table->dropColumn([
                 'last_name',
                 'first_name',
-                'middle_name',
                 'phone',
-                'country',
-                'region',
-                'city',
-                'postal_code',
+                'middle_name',
                 'address',
                 'email_verification_token',
             ]);

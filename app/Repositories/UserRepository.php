@@ -46,4 +46,54 @@ final class UserRepository extends BaseRepository
 
         return $user;
     }
+
+    /**
+     * Найти пользователя по ID
+     */
+    public function findById(
+        int $modelId,
+        array $columns = ['*'],
+        array $relations = [],
+        array $appends = [],
+    ): ?User {
+        /** @var User|null $user */
+        $user = $this->model->select($columns)->with($relations)->find($modelId);
+        if ($user && $appends) {
+            $user->append($appends);
+        }
+
+        return $user;
+    }
+
+    /**
+     * Найти пользователя по email
+     */
+    public function findByEmailOrFail(string $email): ?User
+    {
+        return $this->model->where('email', $email)->firstOrFail();
+    }
+
+    /**
+     * Обновить пользователя по ID
+     */
+    public function updateById(int $id, array $data): User
+    {
+        /** @var User $user */
+        $user = $this->findById($id);
+        $user->update($data);
+
+        return $user->fresh();
+    }
+
+    /**
+     * Обновить пароль пользователя
+     */
+    public function updatePassword(User $user, string $hashedPassword): User
+    {
+        $user->update([
+            'password' => $hashedPassword,
+        ]);
+
+        return $user->fresh();
+    }
 }

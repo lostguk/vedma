@@ -42,7 +42,7 @@ jobs:
             sudo chown -R $USER:$USER . || true
             git stash
             git pull origin dev
-            docker-compose down -f docker-compose.dev.yml
-            docker-compose build -f docker-compose.dev.yml
-            docker-compose up -d -f docker-compose.dev.yml
+            docker-compose -f docker-compose.production.yml down
+            docker-compose -f docker-compose.production.yml build
+            docker-compose -f docker-compose.production.yml up -d
           EOF

@@ -45,4 +45,30 @@ abstract class ApiController extends Controller
     {
         return response()->json(null, 204);
     }
+
+    /**
+     * Paginated Success Response
+     *
+     * Returns a success response with pagination metadata preserved in meta-property
+     */
+    protected function successPaginatedResponse(mixed $data, string $message = 'Success', int $code = 200): JsonResponse
+    {
+        $resource = $data->resource;
+        $paginationData = $resource->toArray();
+
+        // Extract the actual data items
+        $items = $paginationData['data'] ?? [];
+
+        // Remove data from pagination metadata
+        unset($paginationData['data']);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $message,
+            'data' => [
+                'data' => $items,
+                'meta' => $paginationData,
+            ],
+        ], $code);
+    }
 }

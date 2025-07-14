@@ -17,37 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
  * @group Продукты
  *
  * API для работы с продуктами магазина
- *
- * Продукты - основные товары, доступные в магазине магических товаров.
- * API предоставляет возможности для получения списка продуктов с фильтрацией,
- * сортировкой и пагинацией, а также детальной информации о конкретном продукте.
- *
- * ## Структура продукта
- *
- * Каждый продукт содержит следующие основные поля:
- * - `id` - Уникальный идентификатор продукта
- * - `name` - Название продукта
- * - `slug` - Уникальный текстовый идентификатор для URL
- * - `description` - Описание продукта
- * - `price` - Текущая цена
- * - `dimensions` - Физические характеристики (ширина, высота, глубина, вес)
- * - `categories` - Категории, к которым относится продукт
- * - `images_urls` - Массив URL изображений продукта
- * - `is_new` - Флаг новинки
- * - `is_bestseller` - Флаг хита продаж
- *
- * ## Фильтрация и сортировка
- *
- * API продуктов предоставляет разнообразные возможности фильтрации:
- * - По категории
- * - По ценовому диапазону
- * - По наличию статуса новинки или хита продаж
- * - По текстовому поиску в названии
- *
- * Доступные варианты сортировки:
- * - По цене (возрастание/убывание)
- * - По названию (возрастание/убывание)
- * - По дате добавления (убывание)
  */
 final class ProductController extends ApiController
 {
@@ -57,14 +26,16 @@ final class ProductController extends ApiController
      * Этот эндпоинт возвращает пагинированный список продуктов с возможностью фильтрации
      * по различным параметрам, включая категорию, ценовой диапазон и статус "новинка".
      *
-     * @queryParam search string Строка для поиска продуктов по названию. Example: свеча
-     * @queryParam category string Slug категории для фильтрации продуктов. Example: aromaticheskie-svechi
-     * @queryParam price_from numeric Минимальная цена для фильтрации. Example: 100
-     * @queryParam price_to numeric Максимальная цена для фильтрации. Example: 500
-     * @queryParam is_new boolean Фильтр для отображения только новых продуктов. Example: true
-     * @queryParam is_bestseller boolean Фильтр для отображения только хитов продаж. Example: true
-     * @queryParam sort string Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc). Example: price_asc
-     * @queryParam per_page integer Количество результатов на странице (от 1 до 100). Example: 15
+     * @queryParam search string Строка для поиска продуктов по названию. Example: ""
+     * @queryParam category string Slug категории для фильтрации продуктов. Example: ""
+     * @queryParam price_from numeric Минимальная цена для фильтрации. Example: ""
+     * @queryParam price_to numeric Максимальная цена для фильтрации. Example: ""
+     * @queryParam is_new boolean Фильтр для отображения только новых продуктов. Example: ""
+     * @queryParam is_bestseller boolean Фильтр для отображения только хитов продаж. Example: ""
+     * @queryParam sort string Сортировка результатов (price_asc, price_desc, name_asc, name_desc, created_at_desc). Example: ""
+     * @queryParam ids string Список ID продуктов через запятую для фильтрации. Example: ""
+     * @queryParam page int Номер страницы. Example: 1
+     * @queryParam per_page int Количество заказов на страницу. Example: 15
      *
      * @response 200 scenario="Успешный запрос" {
      *   "data": [
@@ -74,10 +45,11 @@ final class ProductController extends ApiController
      *       "slug": "aromaticheskaya-svecha-lavanda",
      *       "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *       "price": 1200.99,
+     *       "old_price": 1500.00,
      *       "dimensions": {
      *         "width": 10,
      *         "height": 12,
-     *         "depth": 10,
+     *         "length": 10,
      *         "weight": 350
      *       },
      *       "images_urls": ["http://localhost:8000/storage/1/images/candle1.jpg"],
@@ -123,7 +95,7 @@ final class ProductController extends ApiController
      * Этот эндпоинт возвращает детальную информацию о конкретном продукте, включая его категории,
      * связанные товары и медиафайлы. Продукт идентифицируется по его уникальному slug.
      *
-     * @urlParam slug string required Уникальный идентификатор продукта. Example: aromaticheskaya-svecha-lavanda
+     * @urlParam slug string required Уникальный идентификатор продукта. Example: ""
      *
      * @response 200 scenario="Успешный запрос" {
      *   "data": {
@@ -132,10 +104,11 @@ final class ProductController extends ApiController
      *     "slug": "aromaticheskaya-svecha-lavanda",
      *     "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *     "price": 1200.99,
+     *     "old_price": 1500.00,
      *     "dimensions": {
      *       "width": 10,
      *       "height": 12,
-     *       "depth": 10,
+     *       "length": 10,
      *       "weight": 350
      *     },
      *     "categories": [

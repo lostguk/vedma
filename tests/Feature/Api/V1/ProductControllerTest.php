@@ -15,9 +15,8 @@ class ProductControllerTest extends TestCase
 
     /**
      * Тест успешного получения продукта по slug
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function test_can_get_product_by_slug(): void
     {
         $product = Product::factory()->create();
@@ -33,10 +32,11 @@ class ProductControllerTest extends TestCase
                     'slug',
                     'description',
                     'price',
+                    'old_price',
                     'dimensions' => [
                         'width',
                         'height',
-                        'depth',
+                        'length',
                         'weight',
                     ],
                     'categories',
@@ -50,9 +50,8 @@ class ProductControllerTest extends TestCase
 
     /**
      * Тест получения 404 ошибки при запросе несуществующего продукта
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function test_returns_404_when_product_not_found(): void
     {
         $response = $this->getJson(route('api.v1.products.show', ['slug' => 'non-existent-product']));
@@ -69,9 +68,8 @@ class ProductControllerTest extends TestCase
 
     /**
      * Тест проверки правильного формата данных в ответе
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function test_product_response_has_correct_data_types(): void
     {
         $product = Product::factory()->create([
@@ -88,19 +86,20 @@ class ProductControllerTest extends TestCase
                     'name',
                     'slug',
                     'price',
+                    'old_price',
                 ],
             ])
             ->assertJsonPath('data.id', $product->id)
             ->assertJsonPath('data.name', $product->name)
             ->assertJsonPath('data.slug', $product->slug)
-            ->assertJsonPath('data.price', 99.99);
+            ->assertJsonPath('data.price', 99.99)
+            ->assertJsonPath('data.old_price', $product->old_price);
     }
 
     /**
      * Тест проверки загрузки связанных данных (категории и рекомендуемые товары)
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function test_product_includes_related_data(): void
     {
         $product = Product::factory()
@@ -138,9 +137,8 @@ class ProductControllerTest extends TestCase
 
     /**
      * Тест получения списка продуктов с пагинацией по умолчанию.
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_paginated_products_without_params(): void
     {
         Product::factory(20)->create();
@@ -157,6 +155,7 @@ class ProductControllerTest extends TestCase
                         'slug',
                         'description',
                         'price',
+                        'old_price',
                         'dimensions',
                         'categories',
                         'related',
@@ -189,9 +188,8 @@ class ProductControllerTest extends TestCase
 
     /**
      * Тест получения списка продуктов с фильтрами, сортировкой и кастомной пагинацией.
-     *
-     * @test
      */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_filtered_sorted_paginated_products_with_params(): void
     {
         $category1 = Category::factory()->create(['slug' => 'category-a']);

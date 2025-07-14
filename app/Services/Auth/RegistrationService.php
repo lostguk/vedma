@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Hash;
 /**
  * Сервис для регистрации новых пользователей
  */
-final class RegistrationService
+final readonly class RegistrationService
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
+        private UserRepository $userRepository,
     ) {}
 
     /**
@@ -35,11 +35,8 @@ final class RegistrationService
         $data['password'] = Hash::make($data['password']);
 
         // Создаем пользователя
-        /** @var User $user */
-        $user = $this->userRepository->createWithVerification($data);
-
         // TODO: Отправка email для верификации будет добавлена позже
 
-        return $user;
+        return $this->userRepository->createWithVerification($data);
     }
 }

@@ -23,10 +23,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@admin.ru',
             'password' => 'admin',
             'phone' => '+7 999 999 99 99',
-            'country' => 'Россия',
-            'region' => 'Московская область',
-            'city' => 'Москва',
-            'postal_code' => '123456',
             'address' => 'ул. Администраторская, д. 1',
         ],
     ];
@@ -42,11 +38,16 @@ class UserSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => 'password',
             'phone' => '+7 999 123 45 67',
-            'country' => 'Россия',
-            'region' => 'Московская область',
-            'city' => 'Москва',
-            'postal_code' => '123456',
             'address' => 'ул. Пушкина, д. 1',
+        ],
+        [
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'middle_name' => 'Иванович',
+            'email' => 'user@example.com',
+            'password' => 'password123',
+            'phone' => '+7 999 123 45 67',
+            'address' => 'ул. Примерная, д. 1, кв. 1',
         ],
     ];
 
@@ -57,7 +58,7 @@ class UserSeeder extends Seeder
     {
         // Создаем администраторов (в любом окружении)
         foreach ($this->administrators as $adminData) {
-            $this->createUser($adminData);
+            $this->createUser($adminData, true);
         }
 
         // В dev-окружении создаем тестовых пользователей
@@ -75,19 +76,16 @@ class UserSeeder extends Seeder
     /**
      * Создает пользователя с заданными данными
      */
-    private function createUser(array $userData): User
+    private function createUser(array $userData, bool $isAdmin = false): User
     {
         return User::factory()->create([
+            'is_admin' => $isAdmin,
             'first_name' => $userData['first_name'],
             'last_name' => $userData['last_name'],
             'middle_name' => $userData['middle_name'],
             'email' => $userData['email'],
             'password' => bcrypt($userData['password']),
             'phone' => $userData['phone'],
-            'country' => $userData['country'],
-            'region' => $userData['region'],
-            'city' => $userData['city'],
-            'postal_code' => $userData['postal_code'],
             'address' => $userData['address'],
         ]);
     }

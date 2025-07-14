@@ -55,7 +55,7 @@ class ProductFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'old_price' => $attributes['price'] * 1.2,
+                'old_price' => $attributes['price'] * 1.3,
             ];
         });
     }
@@ -69,35 +69,25 @@ class ProductFactory extends Factory
             'width' => fake()->randomFloat(2, 1, 100),
             'height' => fake()->randomFloat(2, 1, 100),
             'length' => fake()->randomFloat(2, 1, 100),
+            'weight' => fake()->randomFloat(2, 1, 100),
         ]);
     }
 
     public function configure(): static
     {
         return $this->afterCreating(function (Product $product) {
-            // Создаем тестовое изображение
-            $path = storage_path('app/public/test-images/product.jpg');
-
-            // Если файл не существует, создаем его
-            if (! file_exists($path)) {
-                if (! file_exists(dirname($path))) {
-                    mkdir(dirname($path), 0755, true);
-                }
-                // Создаем простое изображение
-                $image = imagecreatetruecolor(800, 600);
-                $bgColor = imagecolorallocate($image, 200, 200, 200);
-                imagefill($image, 0, 0, $bgColor);
-                $textColor = imagecolorallocate($image, 0, 0, 0);
-                imagestring($image, 5, 350, 280, "Product {$product->id}", $textColor);
-                imagejpeg($image, $path);
-                imagedestroy($image);
+            $path = public_path('images/test-images/product.png');
+            // Проверка файла
+            if (file_exists($path)) {
+                $product
+                    ->addMedia($path)
+                    ->preservingOriginal()
+                    // ->withResponsiveImages() // временно вырубить с этим сидом
+                    ->toMediaCollection(Product::IMAGES_COLLECTION, 'public');
+            } else {
+                // Для отладки:
+                logger("Test image not found at {$path}");
             }
-
-            // Добавляем изображение к продукту
-            $product
-                ->addMedia($path)
-                ->preservingOriginal()
-                ->toMediaCollection(Product::IMAGES_COLLECTION);
         });
     }
 }

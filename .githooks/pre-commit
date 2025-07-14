@@ -1,0 +1,8 @@
+#!/bin/bash
+
+./dev.sh lint
+
+if [ $? -ne 0 ]; then
+  echo "\n[pre-commit] Pint/Lint check failed. Fix formatting before commit."
+  exit 1
+fi

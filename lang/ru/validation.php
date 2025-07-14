@@ -20,10 +20,6 @@ return [
         'last_name' => 'Фамилия',
         'middle_name' => 'Отчество',
         'phone' => 'Телефон',
-        'country' => 'Страна',
-        'region' => 'Регион',
-        'city' => 'Город',
-        'postal_code' => 'Почтовый индекс',
         'address' => 'Адрес',
     ],
 ];

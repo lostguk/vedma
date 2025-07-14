@@ -63,23 +63,11 @@ class UserResource extends Resource
 
                 Forms\Components\Section::make('Адрес')
                     ->schema([
-                        Forms\Components\TextInput::make('country')
-                            ->label('Страна')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('region')
-                            ->label('Регион/Область')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('city')
-                            ->label('Город')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('postal_code')
-                            ->label('Почтовый индекс')
-                            ->maxLength(255),
                         Forms\Components\Textarea::make('address')
-                            ->label('Адрес')
+                            ->label(label: 'Адрес')
                             ->columnSpanFull()
-                            ->maxLength(65535),
-                    ])->columns(2),
+                            ->maxLength(length: 65535),
+                    ])->columns(columns: 2),
             ]);
     }
 
@@ -106,10 +94,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('phone')
                     ->label('Телефон')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('city')
-                    ->label('Город')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата регистрации')
                     ->dateTime('d.m.Y H:i')

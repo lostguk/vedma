@@ -30,7 +30,7 @@ use Illuminate\Http\JsonResponse;
  * Остальные поля являются опциональными:
  * - `middle_name` - Отчество
  * - `phone` - Номер телефона
- * - `country`, `region`, `city`, `postal_code`, `address` - Адресные данные
+ * - `address` - Адресные данные
  */
 final class RegisterController extends ApiController
 {
@@ -57,10 +57,6 @@ final class RegisterController extends ApiController
      * @bodyParam password string required Пароль (минимум 8 символов). Example: password123
      * @bodyParam password_confirmation string required Пароль (минимум 8 символов). Example: password123
      * @bodyParam phone string Номер телефона в формате +7 (XXX) XXX-XX-XX. Example: +7 (999) 123-45-67
-     * @bodyParam country string Страна. Example: Россия
-     * @bodyParam region string Регион/область. Example: Московская область
-     * @bodyParam city string Город. Example: Москва
-     * @bodyParam postal_code string Почтовый индекс. Example: 123456
      * @bodyParam address string Адрес. Example: ул. Пушкина, д. 1
      *
      * @response 201 scenario="Успешная регистрация" {
@@ -73,10 +69,6 @@ final class RegisterController extends ApiController
      *         "email": "user@example.com",
      *         "email_verified_at": null,
      *         "phone": "+7 (999) 123-45-67",
-     *         "country": "Россия",
-     *         "region": "Московская область",
-     *         "city": "Москва",
-     *         "postal_code": "123456",
      *         "address": "ул. Пушкина, д. 1",
      *         "created_at": "2023-04-04T12:30:45.000000Z",
      *         "updated_at": "2023-04-04T12:30:45.000000Z"

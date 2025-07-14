@@ -98,6 +98,16 @@ class ProductResource extends Resource
                             ->numeric()
                             ->default(0),
                     ])->columns(3),
+
+                Forms\Components\Section::make('Категории')
+                    ->schema([
+                        Forms\Components\Select::make('categories')
+                            ->label('Категории')
+                            ->relationship('categories', 'name')
+                            ->multiple()
+                            ->preload()
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -159,7 +169,7 @@ class ProductResource extends Resource
                         ->label(__('filament.actions.delete.label')),
                 ]),
             ])
-            ->defaultSort('sort_order', 'asc');
+            ->defaultSort('created_at', direction: 'desc');
     }
 
     public static function getRelations(): array

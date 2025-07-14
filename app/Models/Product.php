@@ -23,7 +23,7 @@ final class Product extends Model implements HasMedia
     /**
      * Название коллекции изображений продукта
      */
-    public const string IMAGES_COLLECTION = 'images';
+    public const IMAGES_COLLECTION = 'images';
 
     /**
      * Атрибуты, которые можно массово присваивать.

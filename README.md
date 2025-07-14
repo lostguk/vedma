@@ -25,25 +25,26 @@
 
 1. Клонируйте репозиторий:
 
-    ```
+    ```md
     git clone git@github.com:username/shop.git
     cd shop
     ```
 
 2. Скопируйте файл окружения:
 
-    ```
+    ```bash
     cp .env.example .env
     ```
 
 3. Запустите Docker-контейнеры:
 
-    ```
-    docker-compose up -d
+    ```bash
+    docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
     ```
 
 4. Веб-приложение будет доступно по адресу:
-    ```
+
+    ```text
     http://localhost:8000
     ```
 
@@ -51,7 +52,7 @@
 
 Документация API автоматически генерируется с помощью Scribe и доступна по адресу:
 
-```
+```text
 http://localhost:8000/docs
 ```
 
@@ -65,7 +66,7 @@ API документация организована в следующие гр
 
 Для обновления документации после внесения изменений в API выполните:
 
-```
+```bash
 docker exec shop_php php artisan scribe:generate
 ```
 
@@ -92,7 +93,7 @@ class OrderController extends ApiController
 
 Админ-панель построена на основе Filament и доступна по адресу:
 
-```
+```text
 http://localhost:8000/admin
 ```
 
@@ -102,12 +103,39 @@ http://localhost:8000/admin
 
 При запуске контейнеров документация API генерируется автоматически. Если вы внесли изменения в API и хотите обновить документацию, выполните:
 
-```
-docker exec shop_php php artisan scribe:generate
+```bash
+docker exec shop_php_dev php artisan scribe:generate
 ```
 
 ### Запуск тестов
 
+```bash
+docker exec shop_php_dev php artisan test
 ```
-docker exec shop_php php artisan test
+
+## Настройка UID/GID для Docker (важно для macOS/Linux)
+
+Для корректной работы прав и git внутри контейнера, добавьте в .env:
+
 ```
+HOST_UID=1000  # id -u на вашей машине
+HOST_GID=1000  # id -g на вашей машине
+```
+
+-   На macOS обычно UID=501, GID=20 (проверьте через терминал: `id -u`, `id -g`).
+-   На Linux обычно UID=1000, GID=1000.
+
+Это обеспечит правильные права на volume и отсутствие ошибок git/composer.
+
+После изменения переменных пересоберите контейнер:
+
+```
+docker-compose -f docker-compose.dev.yml build --no-cache php
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+## Особенности Docker для Mac и dev/prod
+
+-   Для Mac (local) окружения nginx запускается под root, используются хаки с правами и tmpfs (см. docs/docker/MAC_SETUP.md).
+-   Для dev/prod окружения nginx запускается под непривилегированным пользователем, все best practices соблюдены.
+-   Не смешивайте хаки для Mac с dev/prod окружением!
