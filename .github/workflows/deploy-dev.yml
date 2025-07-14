@@ -16,11 +16,6 @@ jobs:
 
       - name: Check available secrets
         run: |
-          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "SSH_PRIVATE_KEY is not set"
-          else
-            echo "SSH_PRIVATE_KEY is set"
-          fi
           if [ -z "${{ secrets.DEPLOY }}" ]; then
             echo "DEPLOY is not set"
           else
