@@ -4,6 +4,16 @@
 .git/
 .gitignore
 .gitattributes
+.githooks/
+.github/
+
+# Documentation
+*.md
+README*
+docs/
+background-agent-guide.md
+workflow.md
+recommendations*.md
 
 # IDE
 .vscode/
@@ -11,64 +21,68 @@
 *.swp
 *.swo
 *~
+.cursor/
+.phpstorm.meta.php
+_ide_helper*
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# Laravel specific
-storage/logs/*
-storage/framework/cache/*
-storage/framework/sessions/*
-storage/framework/views/*
-storage/app/public/*
-bootstrap/cache/*
-
-# Node modules
+# Laravel
 node_modules/
 npm-debug.log
+yarn-error.log
+.env*
+!.env.example
+storage/app/*
+!storage/app/.gitignore
+!storage/app/public/
+storage/framework/cache/*
+!storage/framework/cache/.gitignore
+storage/framework/sessions/*
+!storage/framework/sessions/.gitignore
+storage/framework/testing/*
+!storage/framework/testing/.gitignore
+storage/framework/views/*
+!storage/framework/views/.gitignore
+storage/logs/*
+!storage/logs/.gitignore
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
+public/storage
 
-# Composer
-/vendor/
+# Dependencies (будут установлены в контейнере)
+vendor/
 
-# Environment files
-.env.local
-.env.*.local
+# Build artifacts
+public/css/
+public/js/
+public/mix-manifest.json
+public/hot
 
-# Test files
-/tests/
+# Testing
+tests/
 phpunit.xml
+.phpunit.result.cache
+coverage/
 
-# Documentation
-README.md
-docs/
+# Tools
+pint.json
+.cursorignore
 
-# Docker
-docker-compose*.yml
-Dockerfile*
-.dockerignore
-
-# CI/CD
-.github/
-.gitlab-ci.yml
-
-# Cache files
-*.cache
-.cache/
+# Development tools
+dev.sh
+docker-compose.yml
+docker-compose.*.yml
+!docker-compose.production.yml
 
 # Temporary files
 *.tmp
-*.temp
-.tmp/
-
-# Log files
 *.log
-logs/
-
-# Backup files
-*.bak
-*.backup
-
-# Development tools
-.phpunit.result.cache
-.php_cs.cache
+*.cache

@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost:8000";
+        var tryItOutBaseUrl = "http://localhost:8181";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -115,22 +115,6 @@
                             </li>
                                                                         </ul>
                             </ul>
-                    <ul id="tocify-header-obshhie-endpointy" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="obshhie-endpointy">
-                    <a href="#obshhie-endpointy">Общие эндпоинты</a>
-                </li>
-                                    <ul id="tocify-subheader-obshhie-endpointy" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-health">
-                                <a href="#obshhie-endpointy-GETapi-health">GET api/health</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-health">
-                                <a href="#obshhie-endpointy-GETapi-v1-health">GET api/v1/health</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">
-                                <a href="#obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">GET api/v1/verify-registration/{user}/{hash}</a>
-                            </li>
-                                                                        </ul>
-                            </ul>
                     <ul id="tocify-header-oformlenie-zakaza" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="oformlenie-zakaza">
                     <a href="#oformlenie-zakaza">Оформление заказа</a>
@@ -184,21 +168,6 @@
                             </li>
                                                                         </ul>
                             </ul>
-                    <ul id="tocify-header-stranicy" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="stranicy">
-                    <a href="#stranicy">Страницы</a>
-                </li>
-                                    <ul id="tocify-subheader-stranicy" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="stranicy-GETapi-v1-pages">
-                                <a href="#stranicy-GETapi-v1-pages">Получить список всех страниц
-
-Возвращает массив всех страниц.</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="stranicy-GETapi-v1-pages--id-">
-                                <a href="#stranicy-GETapi-v1-pages--id-">Получить страницу по ID</a>
-                            </li>
-                                                                        </ul>
-                            </ul>
                     <ul id="tocify-header-temy-i-soobshheniia" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="temy-i-soobshheniia">
                     <a href="#temy-i-soobshheniia">Темы и сообщения</a>
@@ -227,7 +196,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: July 10, 2025</li>
+        <li>Last updated: July 12, 2025</li>
     </ul>
 </div>
 
@@ -237,7 +206,7 @@
         <h1 id="introduction">Introduction</h1>
 <p>API для интеграции с магазином магических товаров. Позволяет просматривать категории и товары, а также регистрировать новых пользователей.</p>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+    <strong>Base URL</strong>: <code>http://localhost:8181</code>
 </aside>
 <pre><code>This documentation aims to provide all the information you need to work with our API.
 
@@ -283,7 +252,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/register" \
+    "http://localhost:8181/api/v1/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -301,7 +270,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/register"
+    "http://localhost:8181/api/v1/register"
 );
 
 const headers = {
@@ -539,7 +508,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/login" \
+    "http://localhost:8181/api/v1/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -551,7 +520,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/login"
+    "http://localhost:8181/api/v1/login"
 );
 
 const headers = {
@@ -725,7 +694,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/forgot-password" \
+    "http://localhost:8181/api/v1/forgot-password" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -736,7 +705,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/forgot-password"
+    "http://localhost:8181/api/v1/forgot-password"
 );
 
 const headers = {
@@ -863,7 +832,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/reset-password" \
+    "http://localhost:8181/api/v1/reset-password" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -877,7 +846,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/reset-password"
+    "http://localhost:8181/api/v1/reset-password"
 );
 
 const headers = {
@@ -1055,7 +1024,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/logout" \
+    "http://localhost:8181/api/v1/logout" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1063,7 +1032,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/logout"
+    "http://localhost:8181/api/v1/logout"
 );
 
 const headers = {
@@ -1178,7 +1147,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/change-password" \
+    "http://localhost:8181/api/v1/change-password" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -1192,7 +1161,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/change-password"
+    "http://localhost:8181/api/v1/change-password"
 );
 
 const headers = {
@@ -1381,7 +1350,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/orders?page=1&amp;per_page=15" \
+    --get "http://localhost:8181/api/v1/orders?page=1&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1389,7 +1358,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/orders"
+    "http://localhost:8181/api/v1/orders"
 );
 
 const params = {
@@ -1574,14 +1543,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/categories?show_hidden=&amp;ids[]=1&amp;ids[]=2&amp;ids[]=3" \
+    --get "http://localhost:8181/api/v1/categories?show_hidden=&amp;ids[]=1&amp;ids[]=2&amp;ids[]=3" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/categories"
+    "http://localhost:8181/api/v1/categories"
 );
 
 const params = {
@@ -1758,14 +1727,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/categories/ritualnye-svechi" \
+    --get "http://localhost:8181/api/v1/categories/ritualnye-svechi" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/categories/ritualnye-svechi"
+    "http://localhost:8181/api/v1/categories/ritualnye-svechi"
 );
 
 const headers = {
@@ -1914,410 +1883,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
-                <h1 id="obshhie-endpointy">Общие эндпоинты</h1>
-
-    
-
-                                <h2 id="obshhie-endpointy-GETapi-health">GET api/health</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-health">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/health" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/health"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-health">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;ok&quot;,
-    &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-07-10T05:19:33+00:00&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-health" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-health"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-health"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-health" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-health">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-health" data-method="GET"
-      data-path="api/health"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-health', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-health"
-                    onclick="tryItOut('GETapi-health');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-health"
-                    onclick="cancelTryOut('GETapi-health');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-health"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/health</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-health"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-health"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-                    <h2 id="obshhie-endpointy-GETapi-v1-health">GET api/v1/health</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-v1-health">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/health" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/health"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-v1-health">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;ok&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-v1-health" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-health"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-health"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-v1-health" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-health">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-v1-health" data-method="GET"
-      data-path="api/v1/health"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-health', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-health"
-                    onclick="tryItOut('GETapi-v1-health');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-health"
-                    onclick="cancelTryOut('GETapi-v1-health');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-health"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/v1/health</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-health"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-health"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-                    <h2 id="obshhie-endpointy-GETapi-v1-verify-registration--user---hash-">GET api/v1/verify-registration/{user}/{hash}</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-v1-verify-registration--user---hash-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/verify-registration/architecto/architecto" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/verify-registration/architecto/architecto"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-v1-verify-registration--user---hash-">
-            <blockquote>
-            <p>Example response (500):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Server Error&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-v1-verify-registration--user---hash-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-verify-registration--user---hash-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-verify-registration--user---hash-"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-v1-verify-registration--user---hash-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-verify-registration--user---hash-">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-v1-verify-registration--user---hash-" data-method="GET"
-      data-path="api/v1/verify-registration/{user}/{hash}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-verify-registration--user---hash-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-verify-registration--user---hash-"
-                    onclick="tryItOut('GETapi-v1-verify-registration--user---hash-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-verify-registration--user---hash-"
-                    onclick="cancelTryOut('GETapi-v1-verify-registration--user---hash-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-verify-registration--user---hash-"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/v1/verify-registration/{user}/{hash}</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="user"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
-               value="architecto"
-               data-component="url">
-    <br>
-<p>Example: <code>architecto</code></p>
-            </div>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>hash</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="hash"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
-               value="architecto"
-               data-component="url">
-    <br>
-<p>Example: <code>architecto</code></p>
-            </div>
-                    </form>
-
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
     
@@ -2335,7 +1900,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/order/calculate" \
+    "http://localhost:8181/api/v1/order/calculate" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2349,7 +1914,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/order/calculate"
+    "http://localhost:8181/api/v1/order/calculate"
 );
 
 const headers = {
@@ -2525,7 +2090,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/order" \
+    "http://localhost:8181/api/v1/order" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2550,7 +2115,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/order"
+    "http://localhost:8181/api/v1/order"
 );
 
 const headers = {
@@ -2828,14 +2393,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;" \
+    --get "http://localhost:8181/api/v1/products/&amp;quot;&amp;quot;" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;"
+    "http://localhost:8181/api/v1/products/&amp;quot;&amp;quot;"
 );
 
 const headers = {
@@ -2998,14 +2563,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products?search=%22%22&amp;category=%22%22&amp;price_from=%22%22&amp;price_to=%22%22&amp;is_new=1&amp;is_bestseller=1&amp;ids=%22%22&amp;sort=%22%22&amp;per_page=15&amp;page=1" \
+    --get "http://localhost:8181/api/v1/products?search=%22%22&amp;category=%22%22&amp;price_from=%22%22&amp;price_to=%22%22&amp;is_new=1&amp;is_bestseller=1&amp;ids=%22%22&amp;sort=%22%22&amp;per_page=15&amp;page=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/products"
+    "http://localhost:8181/api/v1/products"
 );
 
 const params = {
@@ -3303,7 +2868,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/profile" \
+    --get "http://localhost:8181/api/v1/profile" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3311,7 +2876,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/profile"
+    "http://localhost:8181/api/v1/profile"
 );
 
 const headers = {
@@ -3450,7 +3015,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PATCH \
-    "http://localhost:8000/api/v1/profile" \
+    "http://localhost:8181/api/v1/profile" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -3467,7 +3032,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/profile"
+    "http://localhost:8181/api/v1/profile"
 );
 
 const headers = {
@@ -3684,14 +3249,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/mail/test" \
+    --get "http://localhost:8181/api/v1/mail/test" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/mail/test"
+    "http://localhost:8181/api/v1/mail/test"
 );
 
 const headers = {
@@ -3788,423 +3353,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                <h1 id="stranicy">Страницы</h1>
-
-    
-
-                                <h2 id="stranicy-GETapi-v1-pages">Получить список всех страниц
-
-Возвращает массив всех страниц.</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-v1-pages">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/pages" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/pages"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-v1-pages">
-            <blockquote>
-            <p>Example response (200):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ut similique aut aliquid. Dolore cupiditate molestias praesentium est. Dolor consequatur similique reprehenderit nam quo repellat. Sed qui voluptate harum suscipit dicta cupiditate non.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Temporibus quo delectus quidem numquam ducimus. Quidem soluta nobis porro quibusdam. Autem aut quas cum eveniet et natus repellendus et. Ut voluptas voluptatem dicta quo accusamus.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Temporibus reiciendis officia modi architecto voluptas. Ut sit qui quo blanditiis. Autem consequatur id quos facilis quisquam excepturi expedita. Corrupti rem omnis quae perferendis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quam et et fugiat minima dicta. Voluptatum repellendus odit qui nesciunt molestias. Consequuntur in consectetur cumque tenetur animi. Ea reprehenderit in quasi necessitatibus accusamus consequatur.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ad non molestiae voluptates ut hic. Corrupti qui at libero natus dolores omnis sint nam. Tempore rerum qui provident soluta est eaque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Animi aspernatur eum et quia iure et eum. Enim quia aut vitae ullam. Modi non explicabo culpa aspernatur. Animi repellendus eligendi quia eos.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ad vero dolore tempore deserunt ut. Harum optio officia voluptatem saepe quas. Deleniti est earum quo. Ut eos est dicta et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Natus rerum ducimus velit corporis esse vel et. Velit ut nesciunt iure nesciunt unde blanditiis ab. Aliquid sunt dolorem blanditiis.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Aut qui optio doloremque inventore quae. Est omnis non qui. Odio similique maxime voluptatem perferendis laudantium. Voluptatem doloremque sed est amet sit provident.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Fuga deleniti aliquid qui eos inventore. Pariatur sapiente ut quaerat eum consequatur. Nesciunt itaque doloribus et modi alias. Non nemo possimus voluptatem consectetur ducimus et velit.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Perspiciatis at cupiditate blanditiis quis incidunt distinctio at. Ipsa aut tenetur et doloribus. Fuga sunt iure aut ratione ab harum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatum fugit quo et laborum et quos unde sunt. Sunt porro omnis aut consectetur.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Nisi et numquam architecto consequatur quo culpa est dolor. Qui cupiditate aut quod. Molestiae impedit cumque fugit. Incidunt tempore mollitia libero qui beatae rem deserunt.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ducimus quo ea ut saepe recusandae. Sint omnis ipsam in nihil ipsam. Voluptates debitis iste delectus deleniti reiciendis dolores in.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-v1-pages" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-pages"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-pages"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-v1-pages" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-pages">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-v1-pages" data-method="GET"
-      data-path="api/v1/pages"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-pages', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-pages"
-                    onclick="tryItOut('GETapi-v1-pages');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-pages"
-                    onclick="cancelTryOut('GETapi-v1-pages');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-pages"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/v1/pages</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-pages"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-pages"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-    <h3>Response</h3>
-    <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
-    <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
-<br>
-<p>ID страницы</p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>text</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>is_visible_in_header</code></b>&nbsp;&nbsp;
-<small>boolean</small>&nbsp;
- &nbsp;
-<br>
-<p>Показывать в шапке</p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>is_visible_in_footer</code></b>&nbsp;&nbsp;
-<small>boolean</small>&nbsp;
- &nbsp;
-<br>
-<p>Показывать в футере</p>
-        </div>
-                        <h2 id="stranicy-GETapi-v1-pages--id-">Получить страницу по ID</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-v1-pages--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/pages/16" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/pages/16"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-v1-pages--id-">
-            <blockquote>
-            <p>Example response (404):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Resource not found.&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-v1-pages--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-v1-pages--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-v1-pages--id-"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-v1-pages--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-v1-pages--id-">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-v1-pages--id-" data-method="GET"
-      data-path="api/v1/pages/{id}"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-pages--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-v1-pages--id-"
-                    onclick="tryItOut('GETapi-v1-pages--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-v1-pages--id-"
-                    onclick="cancelTryOut('GETapi-v1-pages--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-v1-pages--id-"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/v1/pages/{id}</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-v1-pages--id-"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-v1-pages--id-"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="id"                data-endpoint="GETapi-v1-pages--id-"
-               value="16"
-               data-component="url">
-    <br>
-<p>ID страницы. Пример: 1 Example: <code>16</code></p>
-            </div>
-                    </form>
-
-    <h3>Response</h3>
-    <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
-    <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
-<br>
-<p>ID страницы</p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>text</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
- &nbsp;
-<br>
-
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>is_visible_in_header</code></b>&nbsp;&nbsp;
-<small>boolean</small>&nbsp;
- &nbsp;
-<br>
-<p>Показывать в шапке</p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>is_visible_in_footer</code></b>&nbsp;&nbsp;
-<small>boolean</small>&nbsp;
- &nbsp;
-<br>
-<p>Показывать в футере</p>
-        </div>
-                    <h1 id="temy-i-soobshheniia">Темы и сообщения</h1>
+                <h1 id="temy-i-soobshheniia">Темы и сообщения</h1>
 
     <p>API для работы с темами обращений и сообщениями пользователей</p>
 <p>Темы обращений представляют собой диалоги между пользователем и администратором.
@@ -4242,7 +3391,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/topics?page=1&amp;per_page=15" \
+    --get "http://localhost:8181/api/v1/topics?page=1&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4250,7 +3399,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics"
+    "http://localhost:8181/api/v1/topics"
 );
 
 const params = {
@@ -4464,18 +3613,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/topics" \
+    "http://localhost:8181/api/v1/topics" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpnaSrfj" </code></pre></div>
+    --form "attachments[]=@/tmp/phpcWdGU4" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics"
+    "http://localhost:8181/api/v1/topics"
 );
 
 const headers = {
@@ -4690,7 +3839,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/topics/1" \
+    --get "http://localhost:8181/api/v1/topics/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4698,7 +3847,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics/1"
+    "http://localhost:8181/api/v1/topics/1"
 );
 
 const headers = {
@@ -4899,7 +4048,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/topics/1/messages" \
+    "http://localhost:8181/api/v1/topics/1/messages" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -4912,7 +4061,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics/1/messages"
+    "http://localhost:8181/api/v1/topics/1/messages"
 );
 
 const headers = {
