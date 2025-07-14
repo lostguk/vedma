@@ -144,6 +144,23 @@ services:
       timeout: 5s
       retries: 3
 
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: vedma-shop:dev
+    depends_on:
+      - app
+      - mysql_dev
+      - redis_dev
+    env_file:
+      - .env
+    command: >
+      sh -c "php artisan migrate:fresh --seed --force"
+    networks:
+      - vedma_dev_network
+
 networks:
   vedma_dev_network:
     driver: bridge
