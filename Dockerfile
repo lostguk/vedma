@@ -23,7 +23,7 @@ LABEL maintainer="Vedma Shop Team"
 LABEL version="1.0"
 LABEL description="Laravel Vedma Shop Production Image"
 
-# Установка системных зависимостей
+# Установка системных зависимостей и сборочных инструментов для pecl redis
 RUN apk add --no-cache \
     curl \
     libpng-dev \
@@ -35,6 +35,14 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     icu-dev \
+    autoconf \
+    g++ \
+    make \
+    gcc \
+    libc-dev \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del autoconf g++ make gcc libc-dev \
     && docker-php-ext-install \
     pdo_mysql \
     mbstring \
