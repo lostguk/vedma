@@ -27,6 +27,8 @@ LABEL description="Laravel Vedma Shop Production Image"
 RUN apk add --no-cache \
     curl \
     libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
     oniguruma-dev \
     libxml2-dev \
     zip \
@@ -43,6 +45,7 @@ RUN apk add --no-cache \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del autoconf g++ make gcc libc-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install \
     pdo_mysql \
     mbstring \
