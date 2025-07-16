@@ -17,11 +17,23 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Временный debug-лог
+        Log::debug('Filament panel access', [
+            'user_email' => Auth::check() ? Auth::user()->email : null,
+            'is_admin' => Auth::check() ? (Auth::user()->is_admin ?? null) : null,
+            'env' => app()->environment(),
+            'session_id' => session()->getId(),
+            'session' => session()->all(),
+            'guard' => config('auth.defaults.guard'),
+        ]);
+
         return $panel
             ->default()
             ->id('admin')
