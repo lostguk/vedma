@@ -12,7 +12,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-final class User extends Authenticatable implements HasName, MustVerifyEmail
+#[\AllowDynamicProperties]
+final class User extends Authenticatable implements HasName, MustVerifyEmail, \Filament\Models\Contracts\FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -64,5 +65,13 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
     public function getName(): string
     {
         return "{$this->last_name} {$this->first_name} {$this->middle_name}";
+    }
+
+    /**
+     * Определяет, имеет ли пользователь доступ к панели Filament.
+     */
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return (bool) $this->is_admin;
     }
 }
