@@ -227,7 +227,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: July 16, 2025</li>
+        <li>Last updated: July 19, 2025</li>
     </ul>
 </div>
 
@@ -1970,7 +1970,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-07-16T07:09:20+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-07-19T06:16:39+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4470,7 +4470,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpGdaolC" </code></pre></div>
+    --form "attachments[]=@/tmp/phpDiipcC" </code></pre></div>
 
 
 <div class="javascript-example">

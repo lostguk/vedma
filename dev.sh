@@ -42,7 +42,7 @@ check_docker() {
     if ! command -v docker &> /dev/null; then
         error "Docker не установлен!"
     fi
-    
+
     if ! docker info &> /dev/null; then
         error "Docker daemon не запущен!"
     fi
@@ -53,15 +53,15 @@ check_docker() {
 sail_up() {
     check_env
     check_docker
-    
+
     log "Запуск Laravel Sail (разработка)..."
-    
+
     # Устанавливаем переменные для Sail
     export WWWUSER=$(id -u)
     export WWWGROUP=$(id -g)
-    
+
     ./vendor/bin/sail up -d
-    
+
     info "✅ Приложение запущено:"
     info "🌐 Web: http://localhost"
     info "🗄️ MySQL: localhost:3306"
@@ -89,7 +89,7 @@ sail_build() {
 prod_build() {
     check_env
     check_docker
-    
+
     log "Сборка продакшн образа..."
     docker compose -f docker-compose.production.yml build --no-cache
 }
@@ -97,10 +97,10 @@ prod_build() {
 prod_up() {
     check_env
     check_docker
-    
+
     log "Запуск продакшн окружения..."
             docker compose -f docker-compose.production.yml up -d
-    
+
     info "✅ Продакшн запущен:"
     info "🌐 Web: http://localhost:8080"
     info "🗄️ MySQL: localhost:3306"
@@ -158,7 +158,7 @@ generate_ide_helpers() {
 status() {
     echo -e "${YELLOW}=== SAIL (Разработка) ===${NC}"
     ./vendor/bin/sail ps 2>/dev/null || echo "Не запущен"
-    
+
     echo -e "\n${YELLOW}=== PRODUCTION ===${NC}"
     docker compose -f docker-compose.production.yml ps 2>/dev/null || echo "Не запущен"
 }
@@ -201,6 +201,71 @@ docker_clean() {
     fi
 }
 
+# ===== DEV-ОКРУЖЕНИЕ =====
+
+dev_up() {
+    check_env
+    check_docker
+    log "Запуск DEV окружения..."
+    docker compose -f docker-compose.dev.yml up -d
+    info "✅ DEV окружение запущено:"
+    info "🌐 Web: http://localhost:8000"
+    info "🗄️ MySQL: localhost:3307"
+    info "📚 Redis: localhost:6380"
+}
+
+dev_down() {
+    log "Остановка DEV окружения..."
+    docker compose -f docker-compose.dev.yml down
+}
+
+dev_restart() {
+    log "Перезапуск DEV окружения..."
+    dev_down
+    dev_up
+}
+
+dev_build() {
+    log "Пересборка DEV образов..."
+    docker compose -f docker-compose.dev.yml build --no-cache
+}
+
+dev_logs() {
+    local service=${1:-app}
+    docker compose -f docker-compose.dev.yml logs -f "$service"
+}
+
+dev_shell() {
+    docker compose -f docker-compose.dev.yml exec app bash
+}
+
+dev_artisan() {
+    docker compose -f docker-compose.dev.yml exec app php artisan "$@"
+}
+
+dev_composer() {
+    docker compose -f docker-compose.dev.yml exec app composer "$@"
+}
+
+dev_npm() {
+    docker compose -f docker-compose.dev.yml exec app npm "$@"
+}
+
+gen_docs_dev() {
+    log "Генерация документации (DEV)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan scribe:generate
+}
+
+migrate_fresh_dev() {
+    log "Миграции + сиды (DEV, fresh, force)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan migrate:fresh --seed --force
+}
+
+test_dev() {
+    log "Запуск тестов (DEV)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan test
+}
+
 # Помощь
 help() {
     echo -e "${GREEN}🐳 Laravel Vedma Shop - Docker Management${NC}"
@@ -210,6 +275,8 @@ help() {
     echo "  down            Остановка Sail"
     echo "  restart         Перезапуск Sail"
     echo "  build           Пересборка Sail образов"
+    echo "  gen-docs-local  Генерация документации (локально)"
+    echo "  migrate-fresh-local  Миграции + сиды (fresh, force, локально)"
     echo ""
     echo -e "${YELLOW}ПРОДАКШН:${NC}"
     echo "  prod-build      Сборка продакшн образа"
@@ -233,7 +300,19 @@ help() {
     echo "  composer [cmd]  Выполнить composer команду"
     echo "  npm [cmd]       Выполнить npm команду"
     echo "  docker-clean    Очистка Docker ресурсов"
-    echo "  help            Показать справку"
+    echo ""
+    echo -e "${YELLOW}DEV-ОКРУЖЕНИЕ:${NC}"
+    echo "  dev-up           Запуск DEV окружения"
+    echo "  dev-down         Остановка DEV окружения"
+    echo "  dev-restart      Перезапуск DEV окружения"
+    echo "  dev-build        Пересборка DEV образов"
+    echo "  dev-logs [srv]   Логи DEV (app, mysql_dev, redis_dev)"
+    echo "  dev-shell        Консоль в DEV app"
+    echo "  dev-artisan [c]  Artisan в DEV"
+    echo "  dev-composer [c] Composer в DEV"
+    echo "  docs-dev     Генерация документации (DEV)"
+    echo "  freshdb-dev  Миграции + сиды (fresh, force, DEV)"
+    echo "  test-dev         Запуск тестов (DEV)"
     echo ""
     echo -e "${YELLOW}ПРИМЕРЫ:${NC}"
     echo "  ./dev.sh up                    # Запуск разработки"
@@ -261,7 +340,7 @@ case "${1:-help}" in
     build)
         sail_build
         ;;
-    
+
     # Продакшн
     prod-build)
         prod_build
@@ -275,7 +354,7 @@ case "${1:-help}" in
     prod-logs)
         prod_logs "${2:-app}"
         ;;
-    
+
     # Разработка
     reset-db)
         reset_db
@@ -295,7 +374,7 @@ case "${1:-help}" in
     ide-helper)
         generate_ide_helpers
         ;;
-    
+
     # Утилиты
     status)
         status
@@ -321,7 +400,46 @@ case "${1:-help}" in
     docker-clean)
         docker_clean
         ;;
+
+    # DEV-Окружение
+    dev-up)
+        dev_up
+        ;;
+    dev-down)
+        dev_down
+        ;;
+    dev-restart)
+        dev_restart
+        ;;
+    dev-build)
+        dev_build
+        ;;
+    dev-logs)
+        dev_logs "${2:-app}"
+        ;;
+    dev-shell)
+        dev_shell
+        ;;
+    dev-artisan)
+        shift
+        dev_artisan "$@"
+        ;;
+    dev-composer)
+        shift
+        dev_composer "$@"
+        ;;
+    docs-dev)
+        gen_docs_dev
+        ;;
+    freshdb-dev)
+        migrate_fresh_dev
+        ;;
+    test-dev)
+        test_dev
+        ;;
     help|*)
         help
         ;;
 esac
+
+
