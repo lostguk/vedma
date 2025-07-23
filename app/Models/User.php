@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Panel;
 
-final class User extends Authenticatable implements HasName, MustVerifyEmail
+final class User extends Authenticatable implements HasName, MustVerifyEmail, FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
@@ -64,5 +66,10 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail
     public function getName(): string
     {
         return "{$this->last_name} {$this->first_name} {$this->middle_name}";
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->is_admin;
     }
 }
