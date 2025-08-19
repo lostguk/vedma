@@ -227,7 +227,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: July 19, 2025</li>
+        <li>Last updated: August 19, 2025</li>
     </ul>
 </div>
 
@@ -1970,7 +1970,7 @@ access-control-allow-credentials: true
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-07-19T06:16:39+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-08-19T07:20:24+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3851,7 +3851,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quis eaque a similique mollitia omnis. Deleniti sint labore debitis tenetur autem beatae. Qui perferendis eos perspiciatis earum. Enim et dolorem omnis ut impedit praesentium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Non et aut dolores similique. Sint culpa aliquid non voluptas. Harum aspernatur eius soluta quis fugit quia alias. Est velit ea earum qui vel.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Id repellat ducimus eius molestiae temporibus expedita. Rerum cum quia aliquam et optio consequatur et. Asperiores modi ut voluptates culpa. Et sapiente eius et molestiae et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quidem reprehenderit consequatur est esse repudiandae. Magni ad rerum veritatis porro eaque dolor et aliquam. Id nam repudiandae vero id unde velit itaque.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3859,7 +3859,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ea earum sunt itaque est repellat soluta. Aut sint voluptas omnis qui quidem eligendi ex. Laboriosam omnis quam in alias aut aut id. Perferendis consequatur aut exercitationem et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ut quasi aliquam voluptas sit aspernatur ducimus blanditiis. Voluptas eveniet possimus ut praesentium distinctio.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ea ipsam nisi eius ea. Aliquam sed repellat corporis id incidunt voluptas. Quidem velit animi praesentium ut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Impedit et accusantium delectus non in quos est. Deserunt sit dolore perspiciatis vel. Rerum aut provident voluptatem ab quos. Aspernatur rerum dignissimos voluptatem unde.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3867,7 +3867,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Occaecati dolores quod asperiores possimus eveniet. Velit autem voluptatem facere omnis dolor. Sunt debitis repellat eum praesentium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nihil doloremque consectetur rerum rerum. Perferendis provident magnam quia dolorem. Adipisci incidunt voluptatem et consequuntur soluta consequuntur ut. Vel molestiae cumque voluptates ratione ut.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Pariatur quia qui assumenda dicta et. Nihil est ut est quia est tenetur nihil. Ut et minima beatae veritatis nihil quod.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Perspiciatis quia quae dolor nihil voluptatum molestias explicabo voluptatibus. Eius autem hic voluptatem molestias. Rerum error quia consequatur quis qui officia quae.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3875,7 +3875,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Vel vel praesentium a veritatis dolorem ullam et quod. Voluptatum aut eligendi eius accusamus aut quis. Repellendus sunt eum ullam ut earum sint. Voluptas minima necessitatibus omnis.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aspernatur eum sed voluptatem non autem debitis labore. Repellat voluptas eligendi corporis corporis. Sunt voluptate vel ut alias et quae.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptates nemo vitae sunt quidem harum velit. Quod in nostrum et corporis ut et quisquam ut. Ducimus ea autem voluptate fuga. Voluptatum quam porro natus praesentium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Veritatis ratione nam iusto aut consequuntur odio fugiat. Reprehenderit id alias vel aliquid voluptatibus. Aspernatur quibusdam eos deserunt nisi.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3883,7 +3883,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Nisi omnis necessitatibus tempora voluptates sunt. Incidunt facere similique natus dolor nihil est. Quis fugiat repudiandae eum natus possimus. Sed sint vitae natus porro non aut doloremque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ullam aut impedit ad nulla natus. Aut et omnis voluptas dolor cupiditate aut in. Nobis consequatur dolores voluptatem est. Fuga et assumenda ut totam illum fugit est voluptatem.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Debitis ut totam porro necessitatibus. Non adipisci qui dolore omnis reiciendis qui. Ducimus ab est voluptas aspernatur culpa quisquam. Voluptatem dolores dolorem blanditiis ratione.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iste ut voluptatem labore fuga aperiam beatae. Tempora in et magni autem quidem aut. Unde nesciunt molestiae non quibusdam reprehenderit enim.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3891,7 +3891,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Tempore laudantium voluptas optio. Vel laboriosam voluptas quis id. Explicabo aliquid vel enim accusantium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Possimus amet cumque est architecto aut assumenda. Iure dolorum molestiae et ut repudiandae. Consequatur voluptas harum quaerat odit esse doloribus numquam. Hic rerum magnam aut expedita ea.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam minima eum rem aut. Quibusdam velit ut esse mollitia aliquam blanditiis voluptatem voluptates. Illum voluptatem provident laboriosam. Laudantium blanditiis magni quia tempora soluta non.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aspernatur nostrum neque dolorem accusamus eveniet aperiam sequi qui. Dolor quia non minima maxime. Aut occaecati veritatis modi explicabo. Qui qui illo consequatur quia.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3899,7 +3899,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Quisquam minus qui accusamus ducimus error fugiat omnis. Perferendis dolores ea enim aut voluptatibus. Rerum est sit officiis eveniet neque. Voluptas aut sed blanditiis quidem.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et et doloribus non quam sed quaerat assumenda ipsa. Nam ut id nihil ducimus cumque. Et optio voluptatum error consectetur consectetur magni. Qui deleniti dolor corrupti blanditiis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Est magnam est sapiente est. Voluptatem commodi tenetur ipsa ut iure animi. Excepturi sunt corrupti placeat qui aut veritatis delectus. Id iusto cumque et excepturi qui fugit iusto.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vero assumenda reprehenderit qui laboriosam. Eum et eos et odio. Et ab consequuntur in voluptatum repudiandae esse iusto.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4470,7 +4470,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpDiipcC" </code></pre></div>
+    --form "attachments[]=@/tmp/phpFjoJcn" </code></pre></div>
 
 
 <div class="javascript-example">
