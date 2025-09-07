@@ -73,5 +73,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->get('orders', [OrderController::class, 'index'])
         ->name('api.v1.orders.index');
 
+    // Shipping calculation
+    Route::post('shipping/calculate', [\App\Http\Controllers\Api\V1\ShippingController::class, 'calculate'])
+        ->name('api.v1.shipping.calculate');
+
     require base_path('routes/user.php');
 });

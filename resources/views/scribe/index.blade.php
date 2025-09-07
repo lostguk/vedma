@@ -92,6 +92,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-dostavka" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="dostavka">
+                    <a href="#dostavka">Доставка</a>
+                </li>
+                                    <ul id="tocify-subheader-dostavka" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="dostavka-POSTapi-v1-shipping-calculate">
+                                <a href="#dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship)</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-zakazy-polzovatelia" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="zakazy-polzovatelia">
                     <a href="#zakazy-polzovatelia">Заказы пользователя</a>
@@ -227,7 +237,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: August 19, 2025</li>
+        <li>Last updated: September 7, 2025</li>
     </ul>
 </div>
 
@@ -1363,6 +1373,212 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+                <h1 id="dostavka">Доставка</h1>
+
+    <p>Позволяет рассчитать стоимость доставки на основе списка товаров и адреса доставки.</p>
+
+                                <h2 id="dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship)</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-shipping-calculate">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/shipping/calculate" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"products\": [
+        {
+            \"id\": 1,
+            \"quantity\": 2
+        },
+        {
+            \"id\": 5,
+            \"quantity\": 1
+        }
+    ],
+    \"address\": \"191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/shipping/calculate"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "products": [
+        {
+            "id": 1,
+            "quantity": 2
+        },
+        {
+            "id": 5,
+            "quantity": 1
+        }
+    ],
+    "address": "191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-shipping-calculate">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data&quot;: {
+        &quot;price&quot;: 350,
+        &quot;options&quot;: [
+            {
+                &quot;carrier&quot;: &quot;CDEK&quot;,
+                &quot;service&quot;: &quot;Курьер&quot;,
+                &quot;price&quot;: 350
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-shipping-calculate" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-shipping-calculate"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-shipping-calculate"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-shipping-calculate" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-shipping-calculate">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-shipping-calculate" data-method="POST"
+      data-path="api/v1/shipping/calculate"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-shipping-calculate', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-shipping-calculate"
+                    onclick="tryItOut('POSTapi-v1-shipping-calculate');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-shipping-calculate"
+                    onclick="cancelTryOut('POSTapi-v1-shipping-calculate');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-shipping-calculate"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/shipping/calculate</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-shipping-calculate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-shipping-calculate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b style="line-height: 2;"><code>products</code></b>&nbsp;&nbsp;
+<small>object[]</small>&nbsp;
+ &nbsp;
+<br>
+<p>Список товаров для расчёта. Каждый элемент содержит id товара и количество.</p>
+            </summary>
+                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="products.0.id"                data-endpoint="POSTapi-v1-shipping-calculate"
+               value="1"
+               data-component="body">
+    <br>
+<p>ID товара из каталога. The <code>id</code> of an existing record in the products table. Example: <code>1</code></p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>quantity</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="products.0.quantity"                data-endpoint="POSTapi-v1-shipping-calculate"
+               value="2"
+               data-component="body">
+    <br>
+<p>Количество единиц товара (не менее 1). Example: <code>2</code></p>
+                    </div>
+                                    </details>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="address"                data-endpoint="POSTapi-v1-shipping-calculate"
+               value="191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106"
+               data-component="body">
+    <br>
+<p>Адрес доставки в формате с индексом (пример из доков Metaship). Поле value должно быть не меньше 5 символов. Поле value не может быть больше 255 символов. Example: <code>191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106</code></p>
+        </div>
+        </form>
+
                 <h1 id="zakazy-polzovatelia">Заказы пользователя</h1>
 
     
@@ -1963,14 +2179,13 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
+vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-08-19T07:20:24+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-09-07T07:14:05+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2090,8 +2305,7 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
+vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -2215,8 +2429,7 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
+vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -3839,8 +4052,7 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
+vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -3851,7 +4063,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Id repellat ducimus eius molestiae temporibus expedita. Rerum cum quia aliquam et optio consequatur et. Asperiores modi ut voluptates culpa. Et sapiente eius et molestiae et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quidem reprehenderit consequatur est esse repudiandae. Magni ad rerum veritatis porro eaque dolor et aliquam. Id nam repudiandae vero id unde velit itaque.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Consequatur est repudiandae cupiditate. Est aperiam harum veniam tempora harum illum. Nam facere voluptatem consequatur non maiores eos.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nulla adipisci soluta accusantium corporis rerum ex. Aperiam nam aut sunt perspiciatis. Illo sit alias et modi cupiditate. Quas assumenda molestiae quae molestias ut animi reiciendis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3859,7 +4071,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Ea ipsam nisi eius ea. Aliquam sed repellat corporis id incidunt voluptas. Quidem velit animi praesentium ut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Impedit et accusantium delectus non in quos est. Deserunt sit dolore perspiciatis vel. Rerum aut provident voluptatem ab quos. Aspernatur rerum dignissimos voluptatem unde.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptatem a inventore enim minima repellat. Quaerat soluta nihil quis qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ratione magnam rerum in mollitia ullam adipisci. Blanditiis fugiat et eos voluptatum.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3867,7 +4079,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Pariatur quia qui assumenda dicta et. Nihil est ut est quia est tenetur nihil. Ut et minima beatae veritatis nihil quod.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Perspiciatis quia quae dolor nihil voluptatum molestias explicabo voluptatibus. Eius autem hic voluptatem molestias. Rerum error quia consequatur quis qui officia quae.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Et velit assumenda eum ipsa illum voluptatem. Voluptatem in et id accusamus magnam autem. Dolor quidem nobis sit excepturi. Sequi totam facilis soluta eum aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Alias temporibus quae voluptatem quo sed ipsam non. Quas rerum ipsum qui id distinctio sed ut. Natus vitae et iure molestiae voluptas omnis officiis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3875,7 +4087,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptates nemo vitae sunt quidem harum velit. Quod in nostrum et corporis ut et quisquam ut. Ducimus ea autem voluptate fuga. Voluptatum quam porro natus praesentium.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Veritatis ratione nam iusto aut consequuntur odio fugiat. Reprehenderit id alias vel aliquid voluptatibus. Aspernatur quibusdam eos deserunt nisi.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Magnam nihil totam modi quia quis. Numquam nulla exercitationem enim voluptas maxime. Quasi quis maxime occaecati et nobis quis qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quasi quis suscipit eveniet adipisci. Incidunt repudiandae labore neque aliquam nam maxime. Esse placeat blanditiis et est et ut dolor.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3883,7 +4095,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Debitis ut totam porro necessitatibus. Non adipisci qui dolore omnis reiciendis qui. Ducimus ab est voluptas aspernatur culpa quisquam. Voluptatem dolores dolorem blanditiis ratione.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iste ut voluptatem labore fuga aperiam beatae. Tempora in et magni autem quidem aut. Unde nesciunt molestiae non quibusdam reprehenderit enim.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Provident dolor omnis maiores veritatis. Vel assumenda optio placeat itaque deleniti. Omnis est est nobis quo rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Eaque inventore perspiciatis harum molestias. Voluptatum a aperiam ab sapiente quia consectetur quisquam. Eveniet soluta rerum occaecati non.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3891,7 +4103,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Laboriosam minima eum rem aut. Quibusdam velit ut esse mollitia aliquam blanditiis voluptatem voluptates. Illum voluptatem provident laboriosam. Laudantium blanditiis magni quia tempora soluta non.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aspernatur nostrum neque dolorem accusamus eveniet aperiam sequi qui. Dolor quia non minima maxime. Aut occaecati veritatis modi explicabo. Qui qui illo consequatur quia.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Consequatur sapiente ab quis libero at ab dolorum. Voluptatum cum minus et velit nulla quod quisquam odit. Id consequuntur repellat asperiores sed et consequatur vero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem aut quos neque illum. Eaque dolor est quia. Enim aliquam adipisci esse beatae ut.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -3899,7 +4111,7 @@ access-control-allow-credentials: true
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Est magnam est sapiente est. Voluptatem commodi tenetur ipsa ut iure animi. Excepturi sunt corrupti placeat qui aut veritatis delectus. Id iusto cumque et excepturi qui fugit iusto.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vero assumenda reprehenderit qui laboriosam. Eum et eos et odio. Et ab consequuntur in voluptatum repudiandae esse iusto.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Modi et est similique beatae eaque. Eum modi dolorem in earum aut libero. Unde voluptate asperiores blanditiis quasi nihil ipsam. Voluptas beatae nihil et qui autem minus rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ea tenetur consectetur perferendis dolor est deleniti vel. At consequatur quae iusto eum vel eligendi. Aut quia reprehenderit qui. Ut aut quia deserunt dolor tenetur qui quia saepe.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4067,8 +4279,7 @@ fetch(url, {
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
-access-control-allow-origin: http://localhost:3005
-access-control-allow-credentials: true
+vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
@@ -4470,7 +4681,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpFjoJcn" </code></pre></div>
+    --form "attachments[]=@/tmp/phpDpOChA" </code></pre></div>
 
 
 <div class="javascript-example">

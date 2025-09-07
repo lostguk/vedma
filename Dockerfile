@@ -33,6 +33,7 @@ RUN apk add --no-cache \
     libxml2-dev \
     zip \
     unzip \
+    libzip-dev \
     mysql-client \
     nginx \
     supervisor \
@@ -54,6 +55,7 @@ RUN apk add --no-cache \
     bcmath \
     gd \
     intl \
+    zip \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
     && rm -rf /var/cache/apk/*

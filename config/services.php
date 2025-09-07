@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'metaship' => [
+        'api_key' => env('METASHIP_API_KEY'),
+        'api_secret' => env('METASHIP_API_SECRET'),
+        'shop_id' => env('METASHIP_SHOP_ID'),
+        'warehouse_id' => env('METASHIP_WAREHOUSE_ID'),
+    ],
+
 ];
