@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\ShippingCalculateRequest;
+use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Http\JsonResponse;
 
 final class ShippingController extends ApiController
@@ -21,11 +22,12 @@ final class ShippingController extends ApiController
      */
     public function calculate(ShippingCalculateRequest $request): JsonResponse
     {
-        $service = app(\App\Services\Shipping\ShippingCalculationService::class);
+        $service = app(ShippingCalculationService::class);
         $result = $service->calculate(
             $request->validated('products'),
             $request->validated('address')
         );
+
         return $this->successResponse($result);
     }
 }

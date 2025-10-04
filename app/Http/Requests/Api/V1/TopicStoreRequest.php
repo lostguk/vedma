@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\V1;
 
 use App\Http\Requests\Api\ApiRequest;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\Rules\File;
 
 /**
@@ -29,7 +30,7 @@ final class TopicStoreRequest extends ApiRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -40,7 +41,6 @@ final class TopicStoreRequest extends ApiRequest
             'attachments.*' => [
                 'file',
                 'mimes:jpeg,jpg,png,webp,pdf',
-//                'max:' . (2 * 1024), // 2MB
             ],
         ];
     }
