@@ -41,12 +41,14 @@ final class ProfileController extends ApiController
      *   }
      * }
      */
-    public function show(Request $request, UserProfileService $service): JsonResponse
+    public function show(UserProfileService $service): JsonResponse
     {
         $user = Auth::user();
+
         if (! ($user instanceof User)) {
             abort(401, 'Unauthorized');
         }
+
         $profile = $service->getProfile($user);
 
         return $this->successResponse(new UserResource($profile));
