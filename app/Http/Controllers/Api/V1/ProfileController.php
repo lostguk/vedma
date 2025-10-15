@@ -10,7 +10,6 @@ use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use App\Services\User\UserProfileService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class ProfileController extends ApiController
