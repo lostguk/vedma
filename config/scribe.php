@@ -11,7 +11,7 @@ use function Knuckles\Scribe\Config\removeStrategies;
 
 return [
     // The HTML <title> for the generated documentation.
-    'title' => 'API Магазина Магических Товаров',
+    'title' => 'API Магических Товаров',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
     'description' => 'API для интеграции с магазином магических товаров. Позволяет просматривать категории и товары, а также регистрировать новых пользователей.',
