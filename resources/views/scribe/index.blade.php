@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Магазина Магических Товаров</title>
+    <title>API Магических Товаров</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -98,7 +98,7 @@
                 </li>
                                     <ul id="tocify-subheader-dostavka" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="dostavka-POSTapi-v1-shipping-calculate">
-                                <a href="#dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship)</a>
+                                <a href="#dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship) adfsd</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -237,7 +237,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: September 7, 2025</li>
+        <li>Last updated: October 17, 2025</li>
     </ul>
 </div>
 
@@ -1377,7 +1377,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>Позволяет рассчитать стоимость доставки на основе списка товаров и адреса доставки.</p>
 
-                                <h2 id="dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship)</h2>
+                                <h2 id="dostavka-POSTapi-v1-shipping-calculate">Расчёт стоимости доставки (Metaship) adfsd</h2>
 
 <p>
 </p>
@@ -2185,7 +2185,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-09-07T07:14:05+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-10-17T06:52:10+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4063,7 +4063,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Consequatur est repudiandae cupiditate. Est aperiam harum veniam tempora harum illum. Nam facere voluptatem consequatur non maiores eos.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nulla adipisci soluta accusantium corporis rerum ex. Aperiam nam aut sunt perspiciatis. Illo sit alias et modi cupiditate. Quas assumenda molestiae quae molestias ut animi reiciendis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Numquam facilis perferendis est commodi sit id iste. Quibusdam vel dicta ex dolores possimus. Temporibus quisquam iste unde aut a. Corporis sapiente id recusandae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Similique qui mollitia et et. Saepe quisquam temporibus voluptatem debitis consequatur ea. Cum culpa omnis distinctio. Magnam et sint veniam repellat perspiciatis.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4071,7 +4071,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Voluptatem a inventore enim minima repellat. Quaerat soluta nihil quis qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ratione magnam rerum in mollitia ullam adipisci. Blanditiis fugiat et eos voluptatum.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Repellendus quo id sed libero illum sit aut. Nemo nihil possimus quas excepturi dolores inventore. Itaque autem ut ad aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Architecto vitae sit ipsum consequatur id corrupti porro corrupti. Dolor eveniet deleniti dignissimos repellat rem quia itaque quia. Perspiciatis aut deserunt aspernatur quae.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4079,7 +4079,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Et velit assumenda eum ipsa illum voluptatem. Voluptatem in et id accusamus magnam autem. Dolor quidem nobis sit excepturi. Sequi totam facilis soluta eum aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Alias temporibus quae voluptatem quo sed ipsam non. Quas rerum ipsum qui id distinctio sed ut. Natus vitae et iure molestiae voluptas omnis officiis.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Aliquid ratione assumenda beatae iste voluptate voluptas dolor ut. Sit velit et qui quia et nulla. Enim voluptates deleniti sint perferendis eum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iure quasi enim voluptatem iure similique. Ab dolor autem quibusdam at est. Voluptatem sapiente corrupti non illum commodi sint sit. Rerum nihil et aut mollitia aut necessitatibus.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4087,7 +4087,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Magnam nihil totam modi quia quis. Numquam nulla exercitationem enim voluptas maxime. Quasi quis maxime occaecati et nobis quis qui.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quasi quis suscipit eveniet adipisci. Incidunt repudiandae labore neque aliquam nam maxime. Esse placeat blanditiis et est et ut dolor.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Et dolor quam libero nam eum. Voluptates reiciendis cupiditate aut saepe dolor odit. Occaecati temporibus pariatur minima blanditiis laboriosam. Nemo asperiores aut et excepturi doloremque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Cupiditate odit eveniet autem assumenda aut sit. Cum quis eum totam laborum atque. Aut inventore facere a tempora et commodi similique.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4095,7 +4095,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Provident dolor omnis maiores veritatis. Vel assumenda optio placeat itaque deleniti. Omnis est est nobis quo rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Eaque inventore perspiciatis harum molestias. Voluptatum a aperiam ab sapiente quia consectetur quisquam. Eveniet soluta rerum occaecati non.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Molestias explicabo nihil sit odio excepturi. Facilis temporibus itaque et molestiae. Odit voluptatum facere autem asperiores quidem ut. Natus voluptate eligendi omnis harum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et hic nam nisi. Voluptatem assumenda sed omnis laborum qui iure. Repellendus autem et neque sit. Est sint vel quam cumque exercitationem iusto.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4103,7 +4103,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Consequatur sapiente ab quis libero at ab dolorum. Voluptatum cum minus et velit nulla quod quisquam odit. Id consequuntur repellat asperiores sed et consequatur vero.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem aut quos neque illum. Eaque dolor est quia. Enim aliquam adipisci esse beatae ut.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Enim occaecati dicta dolores eos id consequatur necessitatibus. Enim consequatur est ex dolores porro delectus eius. Labore quae sed iure iusto.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Odio ullam laboriosam saepe laborum esse quidem. Officiis pariatur facere pariatur. Ad vel recusandae quia cumque ut. Libero consequatur quae architecto.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4111,7 +4111,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Modi et est similique beatae eaque. Eum modi dolorem in earum aut libero. Unde voluptate asperiores blanditiis quasi nihil ipsam. Voluptas beatae nihil et qui autem minus rerum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Ea tenetur consectetur perferendis dolor est deleniti vel. At consequatur quae iusto eum vel eligendi. Aut quia reprehenderit qui. Ut aut quia deserunt dolor tenetur qui quia saepe.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Aut amet autem ad molestiae. Qui accusantium non qui dignissimos.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et amet eum veritatis aut. Fuga officia veritatis enim quia expedita. Aliquid aut et et sint architecto.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4681,7 +4681,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpDpOChA" </code></pre></div>
+    --form "attachments[]=@/tmp/phpNMNLdF" </code></pre></div>
 
 
 <div class="javascript-example">
