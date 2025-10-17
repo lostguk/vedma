@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 final class ShippingController extends ApiController
 {
     /**
-     * Расчёт стоимости доставки (Metaship)
+     * Расчёт стоимости доставки (Metaship) adfsd
      *
      * @group Доставка
      *
