@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Dev
 
 on:
   push:
@@ -54,6 +54,10 @@ jobs:
             # docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
 
             # Generate API docs
+            echo "Generating Scribe docs..."
             docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --no-interaction --force
+            echo "Scribe generation finished. Verifying outputs..."
+            docker-compose -f docker-compose.dev.yml exec -T app sh -lc 'ls -lah resources/views/scribe || true'
+            docker-compose -f docker-compose.dev.yml exec -T app sh -lc 'ls -lah storage/app/scribe || true'
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
           EOF
