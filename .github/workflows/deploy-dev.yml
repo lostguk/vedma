@@ -30,8 +30,7 @@ jobs:
       - name: Deploy over SSH with Debugging
         run: |
           ssh deploy@213.189.201.167 -i ~/.ssh/server_key << 'EOF'
-            set -euo pipefail
-            set -x
+            set -e
             cd /opt/vedma-dev
             sudo rm -rf .scribe/endpoints.cache || true
             sudo chown -R $USER:$USER . || true
@@ -56,16 +55,9 @@ jobs:
 
             # Generate API docs
             echo "Generating Scribe docs..."
-            if docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate -vvv --no-interaction --force; then
-              echo "Scribe generation OK"
-            else
-              echo "Scribe generation FAILED"
-            fi
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --no-interaction --force
             echo "Scribe generation finished. Verifying outputs..."
             docker-compose -f docker-compose.dev.yml exec -T app sh -lc 'ls -lah resources/views/scribe || true'
             docker-compose -f docker-compose.dev.yml exec -T app sh -lc 'ls -lah storage/app/scribe || true'
-            # Verify docs route exists and is reachable
-            docker-compose -f docker-compose.dev.yml exec -T app php artisan route:list | grep -i docs || true
-            docker-compose -f docker-compose.dev.yml exec -T app sh -lc 'curl -s -o /dev/null -w "HTTP:%{http_code}\n" http://localhost:8080/docs || true'
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
           EOF
