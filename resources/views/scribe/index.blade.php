@@ -2354,7 +2354,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-10-18T07:18:51+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-10-18T07:45:04+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4080,64 +4080,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Numquam facilis perferendis est commodi sit id iste. Quibusdam vel dicta ex dolores possimus. Temporibus quisquam iste unde aut a. Corporis sapiente id recusandae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Similique qui mollitia et et. Saepe quisquam temporibus voluptatem debitis consequatur ea. Cum culpa omnis distinctio. Magnam et sint veniam repellat perspiciatis.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Repellendus quo id sed libero illum sit aut. Nemo nihil possimus quas excepturi dolores inventore. Itaque autem ut ad aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Architecto vitae sit ipsum consequatur id corrupti porro corrupti. Dolor eveniet deleniti dignissimos repellat rem quia itaque quia. Perspiciatis aut deserunt aspernatur quae.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Aliquid ratione assumenda beatae iste voluptate voluptas dolor ut. Sit velit et qui quia et nulla. Enim voluptates deleniti sint perferendis eum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Iure quasi enim voluptatem iure similique. Ab dolor autem quibusdam at est. Voluptatem sapiente corrupti non illum commodi sint sit. Rerum nihil et aut mollitia aut necessitatibus.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Et dolor quam libero nam eum. Voluptates reiciendis cupiditate aut saepe dolor odit. Occaecati temporibus pariatur minima blanditiis laboriosam. Nemo asperiores aut et excepturi doloremque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Cupiditate odit eveniet autem assumenda aut sit. Cum quis eum totam laborum atque. Aut inventore facere a tempora et commodi similique.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Molestias explicabo nihil sit odio excepturi. Facilis temporibus itaque et molestiae. Odit voluptatum facere autem asperiores quidem ut. Natus voluptate eligendi omnis harum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et hic nam nisi. Voluptatem assumenda sed omnis laborum qui iure. Repellendus autem et neque sit. Est sint vel quam cumque exercitationem iusto.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Enim occaecati dicta dolores eos id consequatur necessitatibus. Enim consequatur est ex dolores porro delectus eius. Labore quae sed iure iusto.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Odio ullam laboriosam saepe laborum esse quidem. Officiis pariatur facere pariatur. Ad vel recusandae quia cumque ut. Libero consequatur quae architecto.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Aut amet autem ad molestiae. Qui accusantium non qui dignissimos.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et amet eum veritatis aut. Fuga officia veritatis enim quia expedita. Aliquid aut et et sint architecto.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -4703,7 +4646,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpmiIEJp" </code></pre></div>
+    --form "attachments[]=@/tmp/phpgagaeH" </code></pre></div>
 
 
 <div class="javascript-example">

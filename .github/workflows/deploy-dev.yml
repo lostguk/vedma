@@ -42,6 +42,8 @@ jobs:
             docker-compose -f docker-compose.dev.yml up -d
             docker-compose -f docker-compose.dev.yml exec -T app php artisan migrate:fresh --seed --force
             docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --force
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan vendor:publish --tag=scribe-config
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
             docker-compose -f docker-compose.dev.yml exec -T app php artisan config:cache
+
           EOF
