@@ -24,7 +24,6 @@ jobs:
       - name: Setup SSH and Add Key to ssh-agent
         run: |
           mkdir -p ~/.ssh
-          echo "${{secrets}}"
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 213.189.201.167 >> ~/.ssh/known_hosts
@@ -40,8 +39,21 @@ jobs:
             docker-compose -f docker-compose.dev.yml down
             docker-compose -f docker-compose.dev.yml build
             docker-compose -f docker-compose.dev.yml up -d
-            docker-compose -f docker-compose.dev.yml exec -T app php artisan migrate:fresh --seed --force
-            docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --force
+            # wait for app container to become healthy (max ~60s)
+            i=0; until [ "$i" -ge 30 ]; do
+              STATUS=$(docker ps --filter "name=vedma_dev_app" --format "{{.Status}}")
+              echo "App status: $STATUS"
+              echo "$STATUS" | grep -qi "healthy" && break
+              i=$((i+1))
+              sleep 2
+            done
+
+            # Run migrations without dropping the database
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan migrate --force
+            # Optionally seed if needed
+            # docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
+
+            # Generate API docs
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --no-interaction --force
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
-            docker-compose -f docker-compose.dev.yml exec -T app php artisan config:cache
           EOF
