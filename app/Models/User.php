@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Notifications\VerifyEmailNotification;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
@@ -33,7 +34,6 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail, Fi
         'password',
         'phone',
         'address',
-        'email_verification_token',
     ];
 
     /**
@@ -44,7 +44,6 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail, Fi
     protected $hidden = [
         'password',
         'remember_token',
-        'email_verification_token',
     ];
 
     /**
@@ -71,5 +70,16 @@ final class User extends Authenticatable implements HasName, MustVerifyEmail, Fi
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->is_admin;
+    }
+
+    /**
+     * Отправка нотификации для подтверждения email
+     *
+     * Переопределяем метод из MustVerifyEmail для использования
+     * кастомной нотификации с правильным роутом
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailNotification);
     }
 }

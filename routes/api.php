@@ -40,15 +40,17 @@ Route::prefix('v1')->group(function () {
     Route::post('login', LoginController::class)->name('api.v1.auth.login');
     Route::post('forgot-password', ForgotPasswordController::class)->name('api.v1.auth.forgot-password');
     Route::post('reset-password', ResetPasswordController::class)->name('api.v1.auth.reset-password');
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', LogoutController::class)->name('api.v1.auth.logout');
         Route::post('change-password', ChangePasswordController::class)->name('api.v1.auth.change-password');
     });
 
-    // Categories
     Route::get('verify-registration/{user}/{hash}', VerifyRegistrationController::class)
+        ->middleware('signed')
         ->name('api.v1.auth.verify-registration');
 
+    // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
     Route::get('categories/{slug}', [CategoryController::class, 'show'])->name('api.v1.categories.show');
 
