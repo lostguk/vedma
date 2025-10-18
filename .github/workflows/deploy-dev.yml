@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Dev
 
 on:
   push:
@@ -49,11 +49,19 @@ jobs:
             done
 
             # Run migrations without dropping the database
+            echo "Running migrations..."
             docker-compose -f docker-compose.dev.yml exec -T app php artisan migrate --force
-            # Optionally seed if needed
+
+            echo "Seeding database..."
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
+
+            echo "Database seeded..."
             # docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
 
             # Generate API docs
+            echo "Generating API docs..."
             docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --no-interaction --force
+
+            echo "API docs generated..."
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
           EOF
