@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -78,16 +80,18 @@ class UserSeeder extends Seeder
      */
     private function createUser(array $userData, bool $isAdmin = false): User
     {
-        return User::factory()->create([
-            'is_admin' => $isAdmin,
-            'first_name' => $userData['first_name'],
-            'last_name' => $userData['last_name'],
-            'middle_name' => $userData['middle_name'],
-            'email' => $userData['email'],
-            'password' => bcrypt($userData['password']),
-            'phone' => $userData['phone'],
-            'address' => $userData['address'],
-        ]);
+        return User::query()->updateOrCreate(
+            ['email' => $userData['email']],
+            [
+                'is_admin' => $isAdmin,
+                'first_name' => $userData['first_name'],
+                'last_name' => $userData['last_name'],
+                'middle_name' => $userData['middle_name'],
+                'password' => bcrypt($userData['password']),
+                'phone' => $userData['phone'],
+                'address' => $userData['address'],
+            ]
+        );
     }
 
     /**
@@ -95,7 +99,12 @@ class UserSeeder extends Seeder
      */
     private function createRandomUsers(): void
     {
-        User::factory(self::DEV_USERS_COUNT)->create();
+        $existingCount = User::query()->count();
+        $remainingToCreate = max(0, self::DEV_USERS_COUNT - $existingCount);
+
+        if ($remainingToCreate > 0) {
+            User::factory($remainingToCreate)->create();
+        }
     }
 
     /**
