@@ -55,14 +55,14 @@ jobs:
             MIGRATE_RC=$?
             set -e
             echo "Migrate exit code: $MIGRATE_RC"
-            
+
             echo "Seeding database..."
             set +e
             docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
             SEED_RC=$?
             set -e
             echo "Seed exit code: $SEED_RC"
-            
+
             echo "Database seeded..."
             # docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
 
