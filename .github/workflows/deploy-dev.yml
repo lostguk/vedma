@@ -50,18 +50,29 @@ jobs:
 
             # Run migrations without dropping the database
             echo "Running migrations..."
+            set +e
             docker-compose -f docker-compose.dev.yml exec -T app php artisan migrate --force
-
+            MIGRATE_RC=$?
+            set -e
+            echo "Migrate exit code: $MIGRATE_RC"
+            
             echo "Seeding database..."
+            set +e
             docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
-
+            SEED_RC=$?
+            set -e
+            echo "Seed exit code: $SEED_RC"
+            
             echo "Database seeded..."
             # docker-compose -f docker-compose.dev.yml exec -T app php artisan db:seed --force
 
             # Generate API docs
             echo "Generating API docs..."
-            docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate --no-interaction --force
-
+            set +e
+            docker-compose -f docker-compose.dev.yml exec -T app php artisan scribe:generate -vvv --no-interaction --force
+            SCRIBE_RC=$?
+            set -e
+            echo "Scribe exit code: $SCRIBE_RC"
             echo "API docs generated..."
             docker-compose -f docker-compose.dev.yml exec -T app php artisan optimize:clear
           EOF
