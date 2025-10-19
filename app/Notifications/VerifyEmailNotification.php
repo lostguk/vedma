@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
@@ -32,12 +31,13 @@ final class VerifyEmailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $verificationUrl = $this->verificationUrl($notifiable);
+        // $verificationUrl = $this->verificationUrl($notifiable);
+        $verificationUrl = 'https://vedminozelie.ru/verify-registration/'.$notifiable->getKey().'/'.sha1($notifiable->getEmailForVerification());
 
         return (new MailMessage)
-            ->subject('Подтверждение регистрации на Vedma Shop')
+            ->subject('Подтверждение регистрации на Ведьмино зелье')
             ->greeting('Здравствуйте!')
-            ->line('Спасибо за регистрацию на Vedma Shop.')
+            ->line('Спасибо за регистрацию на Ведьмино зелье.')
             ->line('Пожалуйста, подтвердите ваш email адрес, нажав на кнопку ниже:')
             ->action('Подтвердить Email', $verificationUrl)
             ->line('Эта ссылка действительна в течение 60 минут.')
