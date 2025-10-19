@@ -35,9 +35,9 @@ final class VerifyEmailNotification extends Notification
         $verificationUrl = 'https://vedminozelie.ru/verify-registration/'.$notifiable->getKey().'/'.sha1($notifiable->getEmailForVerification());
 
         return (new MailMessage)
-            ->subject('Подтверждение регистрации на Ведьмино зелье')
+            ->subject('Подтверждение регистрации на сайте Ведьмино зелье')
             ->greeting('Здравствуйте!')
-            ->line('Спасибо за регистрацию на Ведьмино зелье.')
+            ->line('Спасибо за регистрацию на сайте Ведьмино зелье.')
             ->line('Пожалуйста, подтвердите ваш email адрес, нажав на кнопку ниже:')
             ->action('Подтвердить Email', $verificationUrl)
             ->line('Эта ссылка действительна в течение 60 минут.')
