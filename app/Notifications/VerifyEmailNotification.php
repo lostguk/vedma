@@ -7,6 +7,7 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
 
 /**
@@ -31,8 +32,15 @@ final class VerifyEmailNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        // $verificationUrl = $this->verificationUrl($notifiable);
-        $verificationUrl = 'https://vedminozelie.ru/verify-registration/'.$notifiable->getKey().'/'.sha1($notifiable->getEmailForVerification());
+        // Сгенерировать подписанный API-URL и конвертировать его в фронтовую ссылку
+        $signedApiUrl = $this->verificationUrl($notifiable);
+
+        $frontendUrl = rtrim(Config::get('app.frontend_url'), '/');
+        $frontendPath = '/'.ltrim(Config::get('app.frontend_verify_path'), '/');
+
+        // Переносим все query-параметры из подписанного URL на фронт
+        $query = parse_url($signedApiUrl, PHP_URL_QUERY) ?: '';
+        $verificationUrl = $frontendUrl.$frontendPath.($query ? ('?'.$query) : '');
 
         return (new MailMessage)
             ->subject('Подтверждение регистрации на сайте Ведьмино зелье')

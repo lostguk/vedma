@@ -237,7 +237,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: October 18, 2025</li>
+        <li>Last updated: October 23, 2025</li>
     </ul>
 </div>
 
@@ -2354,7 +2354,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-10-18T07:45:04+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-10-23T08:56:37+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4646,7 +4646,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpgagaeH" </code></pre></div>
+    --form "attachments[]=@/tmp/phpnEJHEO" </code></pre></div>
 
 
 <div class="javascript-example">
