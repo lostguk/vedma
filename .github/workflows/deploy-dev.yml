@@ -56,8 +56,6 @@ jobs:
               echo "MIGRATE_OK"
               echo "Seeding database..."
               php artisan db:seed --force || echo "SEED_FAILED"
-              echo "Generating API docs..."
-              php artisan scribe:generate --no-interaction --force || echo "SCRIBE_FAILED"
               echo "Listing Scribe outputs..."
               ls -lah resources/views/scribe || true
               ls -lah storage/app/scribe || true
