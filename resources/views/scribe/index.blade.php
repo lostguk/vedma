@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost:8000";
+        var tryItOutBaseUrl = "{{ config("app.url") }}";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -247,7 +247,7 @@
         <h1 id="introduction">Introduction</h1>
 <p>API для интеграции с магазином магических товаров. Позволяет просматривать категории и товары, а также регистрировать новых пользователей.</p>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost:8000</code>
+    <strong>Base URL</strong>: <code>{{ config("app.url") }}</code>
 </aside>
 <pre><code>This documentation aims to provide all the information you need to work with our API.
 
@@ -293,7 +293,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/register" \
+    "{{ config("app.url") }}/api/v1/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -311,7 +311,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/register"
+    "{{ config("app.url") }}/api/v1/register"
 );
 
 const headers = {
@@ -549,7 +549,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/login" \
+    "{{ config("app.url") }}/api/v1/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -561,7 +561,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/login"
+    "{{ config("app.url") }}/api/v1/login"
 );
 
 const headers = {
@@ -735,7 +735,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/forgot-password" \
+    "{{ config("app.url") }}/api/v1/forgot-password" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -746,7 +746,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/forgot-password"
+    "{{ config("app.url") }}/api/v1/forgot-password"
 );
 
 const headers = {
@@ -873,7 +873,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/reset-password" \
+    "{{ config("app.url") }}/api/v1/reset-password" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -887,7 +887,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/reset-password"
+    "{{ config("app.url") }}/api/v1/reset-password"
 );
 
 const headers = {
@@ -1065,7 +1065,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/logout" \
+    "{{ config("app.url") }}/api/v1/logout" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1073,7 +1073,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/logout"
+    "{{ config("app.url") }}/api/v1/logout"
 );
 
 const headers = {
@@ -1188,7 +1188,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/change-password" \
+    "{{ config("app.url") }}/api/v1/change-password" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -1202,7 +1202,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/change-password"
+    "{{ config("app.url") }}/api/v1/change-password"
 );
 
 const headers = {
@@ -1388,14 +1388,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" \
+    --get "{{ config("app.url") }}/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
+    "{{ config("app.url") }}/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
 );
 
 const headers = {
@@ -1559,7 +1559,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/shipping/calculate" \
+    "{{ config("app.url") }}/api/v1/shipping/calculate" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -1580,7 +1580,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/shipping/calculate"
+    "{{ config("app.url") }}/api/v1/shipping/calculate"
 );
 
 const headers = {
@@ -1766,7 +1766,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/orders?page=1&amp;per_page=15" \
+    --get "{{ config("app.url") }}/api/v1/orders?page=1&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -1774,7 +1774,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/orders"
+    "{{ config("app.url") }}/api/v1/orders"
 );
 
 const params = {
@@ -1959,14 +1959,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/categories?show_hidden=&amp;ids[]=1&amp;ids[]=2&amp;ids[]=3" \
+    --get "{{ config("app.url") }}/api/v1/categories?show_hidden=&amp;ids[]=1&amp;ids[]=2&amp;ids[]=3" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/categories"
+    "{{ config("app.url") }}/api/v1/categories"
 );
 
 const params = {
@@ -2143,14 +2143,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/categories/ritualnye-svechi" \
+    --get "{{ config("app.url") }}/api/v1/categories/ritualnye-svechi" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/categories/ritualnye-svechi"
+    "{{ config("app.url") }}/api/v1/categories/ritualnye-svechi"
 );
 
 const headers = {
@@ -2316,14 +2316,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/health" \
+    --get "{{ config("app.url") }}/api/health" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/health"
+    "{{ config("app.url") }}/api/health"
 );
 
 const headers = {
@@ -2354,7 +2354,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-10-23T09:28:50+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-10-23T09:58:59+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2442,14 +2442,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/health" \
+    --get "{{ config("app.url") }}/api/v1/health" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/health"
+    "{{ config("app.url") }}/api/v1/health"
 );
 
 const headers = {
@@ -2570,7 +2570,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/order/calculate" \
+    "{{ config("app.url") }}/api/v1/order/calculate" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2584,7 +2584,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/order/calculate"
+    "{{ config("app.url") }}/api/v1/order/calculate"
 );
 
 const headers = {
@@ -2760,7 +2760,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/order" \
+    "{{ config("app.url") }}/api/v1/order" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2785,7 +2785,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/order"
+    "{{ config("app.url") }}/api/v1/order"
 );
 
 const headers = {
@@ -3063,14 +3063,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;" \
+    --get "{{ config("app.url") }}/api/v1/products/&amp;quot;&amp;quot;" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/products/&amp;quot;&amp;quot;"
+    "{{ config("app.url") }}/api/v1/products/&amp;quot;&amp;quot;"
 );
 
 const headers = {
@@ -3233,14 +3233,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/products?search=%22%22&amp;category=%22%22&amp;price_from=%22%22&amp;price_to=%22%22&amp;is_new=1&amp;is_bestseller=1&amp;ids=%22%22&amp;sort=%22%22&amp;per_page=15&amp;page=1" \
+    --get "{{ config("app.url") }}/api/v1/products?search=%22%22&amp;category=%22%22&amp;price_from=%22%22&amp;price_to=%22%22&amp;is_new=1&amp;is_bestseller=1&amp;ids=%22%22&amp;sort=%22%22&amp;per_page=15&amp;page=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/products"
+    "{{ config("app.url") }}/api/v1/products"
 );
 
 const params = {
@@ -3538,7 +3538,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/profile" \
+    --get "{{ config("app.url") }}/api/v1/profile" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3546,7 +3546,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/profile"
+    "{{ config("app.url") }}/api/v1/profile"
 );
 
 const headers = {
@@ -3685,7 +3685,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PATCH \
-    "http://localhost:8000/api/v1/profile" \
+    "{{ config("app.url") }}/api/v1/profile" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -3702,7 +3702,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/profile"
+    "{{ config("app.url") }}/api/v1/profile"
 );
 
 const headers = {
@@ -3919,14 +3919,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/mail/test" \
+    --get "{{ config("app.url") }}/api/v1/mail/test" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/mail/test"
+    "{{ config("app.url") }}/api/v1/mail/test"
 );
 
 const headers = {
@@ -4042,14 +4042,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/pages" \
+    --get "{{ config("app.url") }}/api/v1/pages" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/pages"
+    "{{ config("app.url") }}/api/v1/pages"
 );
 
 const headers = {
@@ -4269,14 +4269,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/pages/16" \
+    --get "{{ config("app.url") }}/api/v1/pages/16" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/pages/16"
+    "{{ config("app.url") }}/api/v1/pages/16"
 );
 
 const headers = {
@@ -4475,7 +4475,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/topics?page=1&amp;per_page=15" \
+    --get "{{ config("app.url") }}/api/v1/topics?page=1&amp;per_page=15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4483,7 +4483,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics"
+    "{{ config("app.url") }}/api/v1/topics"
 );
 
 const params = {
@@ -4697,18 +4697,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/topics" \
+    "{{ config("app.url") }}/api/v1/topics" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpmMBJII" </code></pre></div>
+    --form "attachments[]=@/tmp/phpNFjPkJ" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics"
+    "{{ config("app.url") }}/api/v1/topics"
 );
 
 const headers = {
@@ -4923,7 +4923,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/v1/topics/1" \
+    --get "{{ config("app.url") }}/api/v1/topics/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4931,7 +4931,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics/1"
+    "{{ config("app.url") }}/api/v1/topics/1"
 );
 
 const headers = {
@@ -5132,7 +5132,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/v1/topics/1/messages" \
+    "{{ config("app.url") }}/api/v1/topics/1/messages" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -5145,7 +5145,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/v1/topics/1/messages"
+    "{{ config("app.url") }}/api/v1/topics/1/messages"
 );
 
 const headers = {
