@@ -1,0 +1,1329 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8080"
+        }
+    ],
+    "info": {
+        "name": "API \u041c\u0430\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0422\u043e\u0432\u0430\u0440\u043e\u0432",
+        "_postman_id": "d10db2d4-1020-426c-ad23-3b37dcae7575",
+        "description": "API \u0434\u043b\u044f \u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u0438 \u0441 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u043e\u043c \u043c\u0430\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0442\u043e\u0432\u0430\u0440\u043e\u0432. \u041f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u043f\u0440\u043e\u0441\u043c\u0430\u0442\u0440\u0438\u0432\u0430\u0442\u044c \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0438 \u0442\u043e\u0432\u0430\u0440\u044b, \u0430 \u0442\u0430\u043a\u0436\u0435 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043d\u043e\u0432\u044b\u0445 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "\u0410\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f",
+            "description": "\nAPI \u0434\u043b\u044f \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0438 \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439\n\n\u0414\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441 API \u0432\u0430\u043c \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0447\u0435\u0440\u0435\u0437 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 `POST \/api\/v1\/register`.\n\u041f\u043e\u0441\u043b\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e\u0439 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0432\u044b \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u0435 \u0434\u043e\u0441\u0442\u0443\u043f \u043a\u043e \u0432\u0441\u0435\u043c \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442\u0430\u043c API.\n\n## \u0424\u043e\u0440\u043c\u0430\u0442 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445\n\n\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u0434\u043e\u043b\u0436\u043d\u044b \u0431\u044b\u0442\u044c \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u044b \u0432 \u0444\u043e\u0440\u043c\u0430\u0442\u0435 JSON \u0441 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u043c\u0438 \u043f\u043e\u043b\u044f\u043c\u0438:\n- `first_name` - \u0418\u043c\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\n- `last_name` - \u0424\u0430\u043c\u0438\u043b\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\n- `email` - \u042d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u044b\u0439 \u0430\u0434\u0440\u0435\u0441 (\u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u043c)\n- `password` - \u041f\u0430\u0440\u043e\u043b\u044c (\u043c\u0438\u043d\u0438\u043c\u0443\u043c 8 \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432)\n\n\u041e\u0441\u0442\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u043e\u043b\u044f \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f \u043e\u043f\u0446\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u043c\u0438:\n- `middle_name` - \u041e\u0442\u0447\u0435\u0441\u0442\u0432\u043e\n- `phone` - \u041d\u043e\u043c\u0435\u0440 \u0442\u0435\u043b\u0435\u0444\u043e\u043d\u0430\n- `address` - \u0410\u0434\u0440\u0435\u0441\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435",
+            "item": [
+                {
+                    "name": "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"first_name\":\"\u0418\u0432\u0430\u043d\",\"last_name\":\"\u0418\u0432\u0430\u043d\u043e\u0432\",\"middle_name\":\"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\"email\":\"user@example.com\",\"password\":\"password123\",\"password_confirmation\":\"password123\",\"phone\":\"+7 (999) 123-45-67\",\"address\":\"\u0443\u043b. \u041f\u0443\u0448\u043a\u0438\u043d\u0430, \u0434. 1\"}"
+                        },
+                        "description": "\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0441\u043e\u0437\u0434\u0430\u0442\u044c \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f. \u041f\u043e\u0441\u043b\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e\u0439 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044f \u0442\u043e\u043a\u0435\u043d \u0434\u043e\u0441\u0442\u0443\u043f\u0430\n\u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f. \u041e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u043c\u0438 \u043f\u043e\u043b\u044f\u043c\u0438 \u044f\u0432\u043b\u044f\u044e\u0442\u0441\u044f first_name, last_name, email \u0438 password.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n    \"token\": \"9|MfOSV0Iqv4yGIJZGMhUZpzb4Yjs24rGhQHZJ7zOY\",\n    \"user\": {\n        \"id\": 11,\n        \"first_name\": \"\u0418\u0432\u0430\u043d\",\n        \"last_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\",\n        \"middle_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n        \"email\": \"user@example.com\",\n        \"email_verified_at\": null,\n        \"phone\": \"+7 (999) 123-45-67\",\n        \"address\": \"\u0443\u043b. \u041f\u0443\u0448\u043a\u0438\u043d\u0430, \u0434. 1\",\n        \"created_at\": \"2023-04-04T12:30:45.000000Z\",\n        \"updated_at\": \"2023-04-04T12:30:45.000000Z\"\n    }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u0430\u044f \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"The email has already been taken.\"\n        ]\n    }\n}",
+                            "name": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0412\u0445\u043e\u0434 \u0432 \u0441\u0438\u0441\u0442\u0435\u043c\u0443",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"user@example.com\",\"password\":\"password123\"}"
+                        },
+                        "description": "\u041f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0442\u043e\u043a\u0435\u043d \u0434\u043e\u0441\u0442\u0443\u043f\u0430 \u043f\u043e email \u0438 \u043f\u0430\u0440\u043e\u043b\u044e.\n\u041f\u043e\u0441\u043b\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e\u0439 \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044f \u0442\u043e\u043a\u0435\u043d \u0434\u043e\u0441\u0442\u0443\u043f\u0430 \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"status\": \"success\",\n    \"message\": \"Login successful\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"first_name\": \"\u0418\u0432\u0430\u043d\",\n            \"last_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\",\n            \"middle_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n            \"full_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n            \"email\": \"user@example.com\",\n            \"phone\": \"+79001234567\",\n            \"address\": \"\u0420\u043e\u0441\u0441\u0438\u044f\"\n            \"email_verified\": true,\n            \"created_at\": \"2023-01-01T00:00:00+00:00\",\n            \"updated_at\": \"2023-01-01T00:00:00+00:00\"\n        },\n        \"token\": \"1|laravel_sanctum_hashed_token_example_123456789\"\n    }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0432\u0445\u043e\u0434"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"status\": \"error\",\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"email\": [\n            \"\u0423\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0435 \u0443\u0447\u0435\u0442\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u043d\u0435 \u0441\u043e\u043e\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0443\u044e\u0442 \u043d\u0430\u0448\u0438\u043c \u0437\u0430\u043f\u0438\u0441\u044f\u043c.\"\n        ],\n        \"password\": [\n            \"\u041f\u0430\u0440\u043e\u043b\u044c \u0434\u043e\u043b\u0436\u0435\u043d \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043d\u0435 \u043c\u0435\u043d\u0435\u0435 8 \u0441\u0438\u043c\u0432\u043e\u043b\u043e\u0432.\"\n        ]\n    }\n}",
+                            "name": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0417\u0430\u043f\u0440\u043e\u0441 \u043d\u0430 \u0441\u0431\u0440\u043e\u0441 \u043f\u0430\u0440\u043e\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/forgot-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/forgot-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"user@example.com\"}"
+                        },
+                        "description": "\u041e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043d\u0430 email \u0441\u0441\u044b\u043b\u043a\u0443 \u0434\u043b\u044f \u0441\u0431\u0440\u043e\u0441\u0430 \u043f\u0430\u0440\u043e\u043b\u044f, \u0435\u0441\u043b\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"\u0421\u0441\u044b\u043b\u043a\u0430 \u043d\u0430 \u0441\u043c\u0435\u043d\u0443 \u043f\u0430\u0440\u043e\u043b\u044f \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0430.\"\n}",
+                            "name": "\u0421\u0441\u044b\u043b\u043a\u0430 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0430"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0421\u0431\u0440\u043e\u0441 \u043f\u0430\u0440\u043e\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/reset-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/reset-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"user@example.com\",\"token\":\"abc123\",\"password\":\"NewPassword456\",\"password_confirmation\":\"NewPassword456\"}"
+                        },
+                        "description": "\u041f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u043d\u043e\u0432\u044b\u0439 \u043f\u0430\u0440\u043e\u043b\u044c, \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044f email \u0438 \u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0439 \u0442\u043e\u043a\u0435\u043d.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"\u041f\u0430\u0440\u043e\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0451\u043d.\"\n}",
+                            "name": "\u041f\u0430\u0440\u043e\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0451\u043d"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"message\": \"The given data was invalid.\",\n  \"errors\": {\n    \"token\": [\"\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u0440\u043e\u0441\u0440\u043e\u0447\u0435\u043d\u043d\u044b\u0439 \u0442\u043e\u043a\u0435\u043d\"]\n  }\n}",
+                            "name": "\u041d\u0435\u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u0440\u043e\u0441\u0440\u043e\u0447\u0435\u043d\u043d\u044b\u0439 \u0442\u043e\u043a\u0435\u043d"
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/v1\/logout",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": []
+                },
+                {
+                    "name": "\u0421\u043c\u0435\u043d\u0430 \u043f\u0430\u0440\u043e\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/change-password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/change-password"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"current_password\":\"oldpassword123\",\"new_password\":\"newpassword456\",\"new_password_confirmation\":\"newpassword456\"}"
+                        },
+                        "description": "\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0441\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u0430\u0440\u043e\u043b\u044c \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.\n\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u043f\u0430\u0440\u043e\u043b\u044c \u043f\u0440\u043e\u0432\u0435\u0440\u044f\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u043d\u0430 \u0432\u0430\u043b\u0438\u0434\u043d\u043e\u0441\u0442\u044c."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"\u041f\u0430\u0440\u043e\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043e\u0431\u043d\u043e\u0432\u043b\u0451\u043d.\",\n  \"user\": {\n    \"id\": 1,\n    \"first_name\": \"\u0418\u0432\u0430\u043d\",\n    \"last_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\",\n    \"email\": \"user@example.com\",\n    ...\n  }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u0430\u044f \u0441\u043c\u0435\u043d\u0430 \u043f\u0430\u0440\u043e\u043b\u044f"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"message\": \"The given data was invalid.\",\n  \"errors\": {\n    \"current_password\": [\"\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u043f\u0430\u0440\u043e\u043b\u044c \u0443\u043a\u0430\u0437\u0430\u043d \u043d\u0435\u0432\u0435\u0440\u043d\u043e.\"]\n  }\n}",
+                            "name": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 email \u0430\u0434\u0440\u0435\u0441\u0430",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/verify-registration\/:user\/:hash",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/verify-registration\/:user\/:hash",
+                            "variable": [
+                                {
+                                    "id": "user",
+                                    "key": "user",
+                                    "value": "1",
+                                    "description": "ID \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f."
+                                },
+                                {
+                                    "id": "hash",
+                                    "key": "hash",
+                                    "value": "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8",
+                                    "description": "\u0425\u0435\u0448 email \u0430\u0434\u0440\u0435\u0441\u0430 (sha1)."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442\u0441\u044f \u0434\u043b\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f email \u0430\u0434\u0440\u0435\u0441\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.\n\u0421\u0441\u044b\u043b\u043a\u0430 \u0433\u0435\u043d\u0435\u0440\u0438\u0440\u0443\u0435\u0442\u0441\u044f \u0430\u0432\u0442\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438 \u043f\u0440\u0438 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0438 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u043d\u0430 email.\n\u0421\u0441\u044b\u043b\u043a\u0430 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u0430 \u0432 \u0442\u0435\u0447\u0435\u043d\u0438\u0435 60 \u043c\u0438\u043d\u0443\u0442 \u0438 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u0446\u0438\u0444\u0440\u043e\u0432\u0443\u044e \u043f\u043e\u0434\u043f\u0438\u0441\u044c \u0434\u043b\u044f \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"message\": \"Email \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\"\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u043e\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435"
+                        },
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"message\": \"Email \u0430\u0434\u0440\u0435\u0441 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\"\n}",
+                            "name": "Email \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n    \"message\": \"\u041d\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u0438\u043b\u0438 \u0438\u0441\u0442\u0435\u043a\u0448\u0430\u044f \u0441\u0441\u044b\u043b\u043a\u0430 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f\"\n}",
+                            "name": "\u041d\u0435\u0432\u0435\u0440\u043d\u0430\u044f \u0441\u0441\u044b\u043b\u043a\u0430"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"User not found\"\n}",
+                            "name": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u0414\u043e\u0441\u0442\u0430\u0432\u043a\u0430",
+            "description": "\u041f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0440\u0430\u0441\u0441\u0447\u0438\u0442\u0430\u0442\u044c \u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u044c \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u0441\u043f\u0438\u0441\u043a\u0430 \u0442\u043e\u0432\u0430\u0440\u043e\u0432 \u0438 \u0430\u0434\u0440\u0435\u0441\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438.",
+            "item": [
+                {
+                    "name": "\u0420\u0430\u0441\u0447\u0451\u0442 \u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u0438 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 (Metaship) 4444444",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/shipping\/calculate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/shipping\/calculate"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"products\":[{\"id\":1,\"quantity\":2},{\"id\":5,\"quantity\":1}],\"address\":\"191025, \u0433 \u0421\u0430\u043d\u043a\u0442-\u041f\u0435\u0442\u0435\u0440\u0431\u0443\u0440\u0433, \u0426\u0435\u043d\u0442\u0440\u0430\u043b\u044c\u043d\u044b\u0439 \u0440-\u043d, \u041d\u0435\u0432\u0441\u043a\u0438\u0439 \u043f\u0440-\u043a\u0442, \u0434 106\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"Success\",\"data\":{\"price\":350,\"options\":[{\"carrier\":\"CDEK\",\"service\":\"\u041a\u0443\u0440\u044c\u0435\u0440\",\"price\":350}]}}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u0417\u0430\u043a\u0430\u0437\u044b \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+            "description": "",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a \u0437\u0430\u043a\u0430\u0437\u043e\u0432 \u0442\u0435\u043a\u0443\u0449\u0435\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/orders",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "\u041d\u043e\u043c\u0435\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "15",
+                                    "description": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0437\u0430\u043a\u0430\u0437\u043e\u0432 \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/orders?page=1&per_page=15"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"status\": \"success\",\n  \"message\": \"Success\",\n  \"data\": {\n    \"current_page\": 1,\n    \"data\": [\n      {\"id\": 1, \"user_id\": 2, ...}\n    ],\n    ...\n  }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u043e"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438",
+            "description": "\nAPI \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u043e\u0432\n\n\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u044e\u0442 \u0438\u0435\u0440\u0430\u0440\u0445\u0438\u0447\u0435\u0441\u043a\u0443\u044e \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0443 \u0442\u0438\u043f\u043e\u0432 \u0442\u043e\u0432\u0430\u0440\u043e\u0432 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430.\n\u041a\u0430\u0436\u0434\u0430\u044f \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f \u043c\u043e\u0436\u0435\u0442 \u0438\u043c\u0435\u0442\u044c \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u0441\u043a\u0443\u044e \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044e \u0438 \u0434\u043e\u0447\u0435\u0440\u043d\u0438\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438,\n\u0447\u0442\u043e \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u0441\u0442\u0440\u043e\u0438\u0442\u044c \u043c\u043d\u043e\u0433\u043e\u0443\u0440\u043e\u0432\u043d\u0435\u0432\u043e\u0435 \u0434\u0435\u0440\u0435\u0432\u043e \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439.\n\n## \u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n\n\u041a\u0430\u0436\u0434\u0430\u044f \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0435 \u043e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043f\u043e\u043b\u044f:\n- `id` - \u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n- `name` - \u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n- `slug` - \u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u0434\u043b\u044f URL\n- `description` - \u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n- `icon` - URL \u0438\u043a\u043e\u043d\u043a\u0438 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n- `parent_id` - ID \u0440\u043e\u0434\u0438\u0442\u0435\u043b\u044c\u0441\u043a\u043e\u0439 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 (null \u0434\u043b\u044f \u043a\u043e\u0440\u043d\u0435\u0432\u044b\u0445 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439)\n- `sort_order` - \u041f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u043a\u0438\n- `is_visible` - \u0424\u043b\u0430\u0433 \u0432\u0438\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438\n- `children` - \u041c\u0430\u0441\u0441\u0438\u0432 \u0434\u043e\u0447\u0435\u0440\u043d\u0438\u0445 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439 (\u0435\u0441\u043b\u0438 \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d\u044b)\n\n## \u0418\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u043d\u0438\u0435 API \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439\n\nAPI \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u043f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043a\u0430\u043a \u043f\u043e\u043b\u043d\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439 \u0441 \u0438\u0445 \u0438\u0435\u0440\u0430\u0440\u0445\u0438\u0435\u0439,\n\u0442\u0430\u043a \u0438 \u0434\u0435\u0442\u0430\u043b\u044c\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043f\u043e \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0439 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438. \u0414\u043b\u044f \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u043e\u0439\n\u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442\u0441\u044f \u0435\u0451 slug (\u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440, \"ritualnye-svechi\").",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0441\u043f\u0438\u0441\u043a\u0430 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories",
+                            "query": [
+                                {
+                                    "key": "show_hidden",
+                                    "value": "",
+                                    "description": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c \u0441\u043a\u0440\u044b\u0442\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438.",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "ids[0]",
+                                    "value": "1",
+                                    "description": "\u0421\u043f\u0438\u0441\u043e\u043a \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "ids[1]",
+                                    "value": "2",
+                                    "description": "\u0421\u043f\u0438\u0441\u043e\u043a \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "ids[2]",
+                                    "value": "3",
+                                    "description": "\u0421\u043f\u0438\u0441\u043e\u043a \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u043e\u0432 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories?show_hidden=&ids[0]=1&ids[1]=2&ids[2]=3"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0432\u0441\u0435\u0445 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430. \u041f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0432\u0441\u0435 \u0432\u0438\u0434\u0438\u043c\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438.\n\u0412\u044b \u043c\u043e\u0436\u0435\u0442\u0435 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440 `show_hidden` \u0434\u043b\u044f \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0441\u043a\u0440\u044b\u0442\u044b\u0445 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0439.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"\u0412\u0441\u0435 \u0441\u0432\u0435\u0447\u0438\",\n            \"slug\": \"vse-svechi\",\n            \"description\": \"\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f, \u0432\u043a\u043b\u044e\u0447\u0430\u044e\u0449\u0430\u044f \u0432\u0441\u0435 \u0442\u0438\u043f\u044b \u0441\u0432\u0435\u0447\u0435\u0439\",\n            \"icon\": \"http:\/\/localhost:8000\/storage\/1\/candle2.svg\",\n            \"parent_id\": null,\n            \"sort_order\": 1,\n            \"is_visible\": true,\n            \"children\": [\n                {\n                    \"id\": 2,\n                    \"name\": \"\u0420\u0438\u0442\u0443\u0430\u043b\u044c\u043d\u044b\u0435 \u0421\u0432\u0435\u0447\u0438\",\n                    \"slug\": \"ritualnye-svechi\",\n                    \"description\": \"\u0421\u0432\u0435\u0447\u0438 \u0434\u043b\u044f \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u0445 \u0440\u0438\u0442\u0443\u0430\u043b\u043e\u0432 \u0438 \u0446\u0435\u0440\u0435\u043c\u043e\u043d\u0438\u0439\",\n                    \"icon\": \"http:\/\/localhost:8000\/storage\/2\/candle3.svg\",\n                    \"parent_id\": 1,\n                    \"sort_order\": 1,\n                    \"is_visible\": true\n                }\n            ]\n        }\n    ]\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u043f\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440\u0443 (slug)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/categories\/:slug",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/categories\/:slug",
+                            "variable": [
+                                {
+                                    "id": "slug",
+                                    "key": "slug",
+                                    "value": "ritualnye-svechi",
+                                    "description": "\u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0434\u0435\u0442\u0430\u043b\u044c\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0432\u043a\u043b\u044e\u0447\u0430\u044f \u0434\u043e\u0447\u0435\u0440\u043d\u0438\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"\u0420\u0438\u0442\u0443\u0430\u043b\u044c\u043d\u044b\u0435 \u0421\u0432\u0435\u0447\u0438\",\n        \"slug\": \"ritualnye-svechi\",\n        \"description\": \"\u0421\u0432\u0435\u0447\u0438 \u0434\u043b\u044f \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u0445 \u0440\u0438\u0442\u0443\u0430\u043b\u043e\u0432 \u0438 \u0446\u0435\u0440\u0435\u043c\u043e\u043d\u0438\u0439\",\n        \"icon\": \"http:\/\/localhost:8000\/storage\/2\/candle3.svg\",\n        \"parent_id\": 1,\n        \"sort_order\": 1,\n        \"is_visible\": true,\n        \"children\": [\n            {\n                \"id\": 5,\n                \"name\": \"\u0421\u0432\u0435\u0447\u0438 \u0434\u043b\u044f \u043f\u0440\u0438\u0432\u043b\u0435\u0447\u0435\u043d\u0438\u044f \u0434\u0435\u043d\u0435\u0433\",\n                \"slug\": \"svechi-dlya-privlecheniya-deneg\",\n                \"description\": \"\u0421\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0435 \u0441\u0432\u0435\u0447\u0438 \u0434\u043b\u044f \u0434\u0435\u043d\u0435\u0436\u043d\u044b\u0445 \u0440\u0438\u0442\u0443\u0430\u043b\u043e\u0432\",\n                \"icon\": \"http:\/\/localhost:8000\/storage\/5\/candle2.svg\",\n                \"parent_id\": 2,\n                \"sort_order\": 1,\n                \"is_visible\": true\n            },\n            {\n                \"id\": 6,\n                \"name\": \"\u041b\u044e\u0431\u043e\u0432\u043d\u044b\u0435 \u0441\u0432\u0435\u0447\u0438\",\n                \"slug\": \"lyubovnye-svechi\",\n                \"description\": \"\u0421\u0432\u0435\u0447\u0438 \u0434\u043b\u044f \u043f\u0440\u0438\u0432\u043b\u0435\u0447\u0435\u043d\u0438\u044f \u043b\u044e\u0431\u0432\u0438 \u0438 \u0443\u043a\u0440\u0435\u043f\u043b\u0435\u043d\u0438\u044f \u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0439\",\n                \"icon\": \"http:\/\/localhost:8000\/storage\/6\/candle2.svg\",\n                \"parent_id\": 2,\n                \"sort_order\": 2,\n                \"is_visible\": true\n            }\n        ]\n    }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Category].\"\n}",
+                            "name": "\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u041e\u0431\u0449\u0438\u0435 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442\u044b",
+            "description": "",
+            "item": [
+                {
+                    "name": "GET api\/health",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/health",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/health"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":\"ok\",\"message\":\"Service is healthy\",\"timestamp\":\"2025-10-23T09:19:01+00:00\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/v1\/health",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/health",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/health"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":\"ok\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 \u0437\u0430\u043a\u0430\u0437\u0430",
+            "description": "",
+            "item": [
+                {
+                    "name": "\u0420\u0430\u0441\u0447\u0435\u0442 \u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u0438 \u0437\u0430\u043a\u0430\u0437\u0430 \u0441 \u0443\u0447\u0435\u0442\u043e\u043c \u043f\u0440\u043e\u043c\u043e\u043a\u043e\u0434\u0430.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/order\/calculate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/order\/calculate"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"items\":[\"architecto\"],\"promo_code\":\"PROMO10\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"\u0422\u043e\u0432\u0430\u0440 1\",\n      \"price\": 100,\n      \"old_price\": 120,\n      \"count\": 2,\n      \"summery\": 200,\n      \"summery_old\": 240,\n      \"discounted\": true\n    }\n  ],\n  \"status\": \"success\",\n  \"message\": \"Success\"\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0440\u0430\u0441\u0447\u0435\u0442"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435 \u0437\u0430\u043a\u0430\u0437\u0430 (\u0441\u043e\u0437\u0434\u0430\u043d\u0438\u0435)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/order",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/order"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"items\":[{\"id\":1,\"count\":2}],\"promo_code\":\"PROMO2208\",\"register\":true,\"first_name\":\"Admin\",\"last_name\":\"System\",\"middle_name\":\"Root\",\"email\":\"admin@admin.ru\",\"address\":\"\u0443\u043b. \u0410\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440\u0441\u043a\u0430\u044f, \u0434. 1\",\"password\":\"StrongPass123\",\"phone\":\"+7 999 999 99 99\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\"status\":\"success\",\"message\":\"Order created\"}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u043e\u0435 \u043e\u0444\u043e\u0440\u043c\u043b\u0435\u043d\u0438\u0435"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u041f\u0440\u043e\u0434\u0443\u043a\u0442\u044b",
+            "description": "\nAPI \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0430\u043c\u0438 \u043c\u0430\u0433\u0430\u0437\u0438\u043d\u0430",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0434\u0435\u0442\u0430\u043b\u044c\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0435",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/products\/:slug",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/products\/:slug",
+                            "variable": [
+                                {
+                                    "id": "slug",
+                                    "key": "slug",
+                                    "value": "%22%22",
+                                    "description": "\u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0430."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0434\u0435\u0442\u0430\u043b\u044c\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u043e\u043c \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0435, \u0432\u043a\u043b\u044e\u0447\u0430\u044f \u0435\u0433\u043e \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438,\n\u0441\u0432\u044f\u0437\u0430\u043d\u043d\u044b\u0435 \u0442\u043e\u0432\u0430\u0440\u044b \u0438 \u043c\u0435\u0434\u0438\u0430\u0444\u0430\u0439\u043b\u044b. \u041f\u0440\u043e\u0434\u0443\u043a\u0442 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u0443\u0435\u0442\u0441\u044f \u043f\u043e \u0435\u0433\u043e \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u043c\u0443 slug.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"\u0410\u0440\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0432\u0435\u0447\u0430 \u041b\u0430\u0432\u0430\u043d\u0434\u0430\",\n    \"slug\": \"aromaticheskaya-svecha-lavanda\",\n    \"description\": \"\u0423\u0441\u043f\u043e\u043a\u0430\u0438\u0432\u0430\u044e\u0449\u0438\u0439 \u0430\u0440\u043e\u043c\u0430\u0442 \u043b\u0430\u0432\u0430\u043d\u0434\u044b \u0434\u043b\u044f \u0431\u0435\u0437\u043c\u044f\u0442\u0435\u0436\u043d\u043e\u0433\u043e \u043e\u0442\u0434\u044b\u0445\u0430\",\n    \"price\": 1200.99,\n    \"old_price\": 1500.00,\n    \"dimensions\": {\n      \"width\": 10,\n      \"height\": 12,\n      \"length\": 10,\n      \"weight\": 350\n    },\n    \"categories\": [\n      {\n        \"id\": 1,\n        \"name\": \"\u0410\u0440\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0441\u0432\u0435\u0447\u0438\",\n        \"slug\": \"aromaticheskie-svechi\",\n        \"description\": \"\u0421\u0432\u0435\u0447\u0438 \u0441 \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u043c\u0438 \u0430\u0440\u043e\u043c\u0430\u0442\u0430\u043c\u0438\",\n        \"icon\": \"http:\/\/localhost:8000\/storage\/7\/candle4.svg\",\n        \"parent_id\": null,\n        \"sort_order\": 4,\n        \"is_visible\": true\n      }\n    ],\n    \"related\": [],\n    \"images_urls\": [\"http:\/\/localhost:8000\/storage\/1\/images\/candle1.jpg\"],\n    \"created_at\": \"2023-01-01T12:00:00.000000Z\",\n    \"updated_at\": \"2023-01-01T12:00:00.000000Z\"\n  }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"message\": \"\u0417\u0430\u043f\u0440\u0430\u0448\u0438\u0432\u0430\u0435\u043c\u044b\u0439 \u0440\u0435\u0441\u0443\u0440\u0441 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\"\n}",
+                            "name": "\u041f\u0440\u043e\u0434\u0443\u043a\u0442 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432 \u0441 \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0435\u0439, \u0441\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u043a\u043e\u0439 \u0438 \u043f\u0430\u0433\u0438\u043d\u0430\u0446\u0438\u0435\u0439.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/products",
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "%22%22",
+                                    "description": "\u0421\u0442\u0440\u043e\u043a\u0430 \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432 \u043f\u043e \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u044e.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "%22%22",
+                                    "description": "Slug \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0434\u043b\u044f \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0438 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "price_from",
+                                    "value": "%22%22",
+                                    "description": "numeric \u041c\u0438\u043d\u0438\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0446\u0435\u043d\u0430 \u0434\u043b\u044f \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0438.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "price_to",
+                                    "value": "%22%22",
+                                    "description": "numeric \u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0446\u0435\u043d\u0430 \u0434\u043b\u044f \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0438.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "is_new",
+                                    "value": "1",
+                                    "description": "\u0424\u0438\u043b\u044c\u0442\u0440 \u0434\u043b\u044f \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u043d\u043e\u0432\u044b\u0445 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "is_bestseller",
+                                    "value": "1",
+                                    "description": "\u0424\u0438\u043b\u044c\u0442\u0440 \u0434\u043b\u044f \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0445\u0438\u0442\u043e\u0432 \u043f\u0440\u043e\u0434\u0430\u0436.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "ids",
+                                    "value": "%22%22",
+                                    "description": "\u0421\u043f\u0438\u0441\u043e\u043a ID \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432 \u0447\u0435\u0440\u0435\u0437 \u0437\u0430\u043f\u044f\u0442\u0443\u044e \u0434\u043b\u044f \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0438.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "sort",
+                                    "value": "%22%22",
+                                    "description": "\u0421\u043e\u0440\u0442\u0438\u0440\u043e\u0432\u043a\u0430 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u043e\u0432 (price_asc, price_desc, name_asc, name_desc, created_at_desc).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "15",
+                                    "description": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0437\u0430\u043a\u0430\u0437\u043e\u0432 \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "\u041d\u043e\u043c\u0435\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/products?search=%22%22&category=%22%22&price_from=%22%22&price_to=%22%22&is_new=1&is_bestseller=1&ids=%22%22&sort=%22%22&per_page=15&page=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u043f\u0430\u0433\u0438\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u0441\u043f\u0438\u0441\u043e\u043a \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u043e\u0432 \u0441 \u0432\u043e\u0437\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u044c\u044e \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u0446\u0438\u0438\n\u043f\u043e \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u043c \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u0430\u043c, \u0432\u043a\u043b\u044e\u0447\u0430\u044f \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044e, \u0446\u0435\u043d\u043e\u0432\u043e\u0439 \u0434\u0438\u0430\u043f\u0430\u0437\u043e\u043d \u0438 \u0441\u0442\u0430\u0442\u0443\u0441 \"\u043d\u043e\u0432\u0438\u043d\u043a\u0430\".",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"\u0410\u0440\u043e\u043c\u0430\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0432\u0435\u0447\u0430 \u041b\u0430\u0432\u0430\u043d\u0434\u0430\",\n      \"slug\": \"aromaticheskaya-svecha-lavanda\",\n      \"description\": \"\u0423\u0441\u043f\u043e\u043a\u0430\u0438\u0432\u0430\u044e\u0449\u0438\u0439 \u0430\u0440\u043e\u043c\u0430\u0442 \u043b\u0430\u0432\u0430\u043d\u0434\u044b \u0434\u043b\u044f \u0431\u0435\u0437\u043c\u044f\u0442\u0435\u0436\u043d\u043e\u0433\u043e \u043e\u0442\u0434\u044b\u0445\u0430\",\n      \"price\": 1200.99,\n      \"old_price\": 1500.00,\n      \"dimensions\": {\n        \"width\": 10,\n        \"height\": 12,\n        \"length\": 10,\n        \"weight\": 350\n      },\n      \"images_urls\": [\"http:\/\/localhost:8000\/storage\/1\/images\/candle1.jpg\"],\n      \"created_at\": \"2023-01-01T12:00:00.000000Z\",\n      \"updated_at\": \"2023-01-01T12:00:00.000000Z\"\n    }\n  ],\n  \"links\": {\n    \"first\": \"\/api\/v1\/products?page=1\",\n    \"last\": \"\/api\/v1\/products?page=5\",\n    \"prev\": null,\n    \"next\": \"\/api\/v1\/products?page=2\"\n  },\n  \"meta\": {\n    \"current_page\": 1,\n    \"from\": 1,\n    \"last_page\": 5,\n    \"path\": \"\/api\/v1\/products\",\n    \"per_page\": 15,\n    \"to\": 15,\n    \"total\": 75\n  }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u041f\u0440\u043e\u0444\u0438\u043b\u044c",
+            "description": "",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043f\u0440\u043e\u0444\u0438\u043b\u044c \u0442\u0435\u043a\u0443\u0449\u0435\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\n\n\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0435 \u043f\u0440\u043e\u0444\u0438\u043b\u044f \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/profile",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/profile"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"status\": \"success\",\n  \"message\": \"Success\",\n  \"data\": {\n    \"id\": 1,\n    \"first_name\": \"\u0418\u0432\u0430\u043d\",\n    \"last_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\",\n    \"middle_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n    \"full_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n    \"email\": \"ivan@example.com\",\n    \"phone\": \"+79999999999\",\n    \"address\": \"\u041d\u0435 \u0434\u043e\u043c \u0438 \u043d\u0435 \u0443\u043b\u0438\u0446\u0430, www \u043b\u0435\u043d\u0438\u043d\u0433\u0440\u0430\u0434\"\n    \"email_verified\": true,\n    \"created_at\": \"2024-05-28T12:00:00+00:00\",\n    \"updated_at\": \"2024-05-28T12:00:00+00:00\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u043f\u0440\u043e\u0444\u0438\u043b\u044c \u0442\u0435\u043a\u0443\u0449\u0435\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\n\n\u042d\u0442\u043e\u0442 \u044d\u043d\u0434\u043f\u043e\u0438\u043d\u0442 \u043f\u043e\u0437\u0432\u043e\u043b\u044f\u0435\u0442 \u043e\u0431\u043d\u043e\u0432\u0438\u0442\u044c \u0434\u0430\u043d\u043d\u044b\u0435 \u043f\u0440\u043e\u0444\u0438\u043b\u044f \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/profile",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/profile"
+                        },
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"first_name\":\"\u0418\u0432\u0430\u043d\",\"last_name\":\"\u0418\u0432\u0430\u043d\u043e\u0432\",\"middle_name\":\"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\"email\":\"ivan@example.com\",\"phone\":\"+79999999999\",\"address\":\"\u0443\u043b. \u041f\u0440\u0438\u043c\u0435\u0440, \u0434. 1\"}"
+                        },
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"status\": \"success\",\n  \"message\": \"Success\",\n  \"data\": {\n    \"id\": 1,\n    \"first_name\": \"\u0418\u0432\u0430\u043d\",\n    \"last_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\",\n    \"middle_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n    \"full_name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n    \"email\": \"ivan@example.com\",\n    \"phone\": \"+79999999999\",\n    \"address\": \"\u041d\u0435 \u0434\u043e\u043c \u0438 \u043d\u0435 \u0443\u043b\u0438\u0446\u0430, www \u043b\u0435\u043d\u0438\u043d\u0433\u0440\u0430\u0434\"\n    \"email_verified\": true,\n    \"created_at\": \"2024-05-28T12:00:00+00:00\",\n    \"updated_at\": \"2024-05-28T12:00:00+00:00\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u0421\u0438\u0441\u0442\u0435\u043c\u043d\u044b\u0435",
+            "description": "\u042d\u0442\u043e\u0442 endpoint \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442 \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0435 \u043f\u0438\u0441\u044c\u043c\u043e \u043d\u0430 \u0443\u043a\u0430\u0437\u0430\u043d\u043d\u044b\u0439 email \u0434\u043b\u044f \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0438 \u0440\u0430\u0431\u043e\u0442\u043e\u0441\u043f\u043e\u0441\u043e\u0431\u043d\u043e\u0441\u0442\u0438 \u043f\u043e\u0447\u0442\u043e\u0432\u043e\u0439 \u0441\u0438\u0441\u0442\u0435\u043c\u044b.",
+            "item": [
+                {
+                    "name": "\u041e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u0442\u0435\u0441\u0442\u043e\u0432\u043e\u0433\u043e \u043f\u0438\u0441\u044c\u043c\u0430 \u043d\u0430 email \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440\u0430.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/mail\/test",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/mail\/test"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"message\": \"\u041f\u0438\u0441\u044c\u043c\u043e \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u0421\u0442\u0440\u0430\u043d\u0438\u0446\u044b",
+            "description": "",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0441\u043f\u0438\u0441\u043e\u043a \u0432\u0441\u0435\u0445 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\n\n\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u043c\u0430\u0441\u0441\u0438\u0432 \u0432\u0441\u0435\u0445 \u0441\u0442\u0440\u0430\u043d\u0438\u0446.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/pages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/pages"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"Success\",\"data\":[{\"id\":1,\"title\":\"\\u0413\\u043b\\u0430\\u0432\\u043d\\u0430\\u044f\",\"description\":\"\\u0413\\u043b\\u0430\\u0432\\u043d\\u0430\\u044f \\u0441\\u0442\\u0440\\u0430\\u043d\\u0438\\u0446\\u0430\",\"text\":\"<p>Repudiandae at dolorem autem et alias ut iste. Ut laudantium at autem et porro. Incidunt placeat dolorem doloremque ad et reiciendis. Non tenetur cum et delectus expedita.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Voluptatem neque quis vel omnis praesentium nam in. Necessitatibus reiciendis facilis quam beatae ipsum sunt accusantium. Ducimus blanditiis aut suscipit deserunt laudantium consequuntur.<\\\/p>\",\"is_visible_in_header\":true,\"is_visible_in_footer\":true},{\"id\":2,\"title\":\"\\u041a\\u0430\\u0442\\u0430\\u043b\\u043e\\u0433\",\"description\":\"\\u041a\\u0430\\u0442\\u0430\\u043b\\u043e\\u0433 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\",\"text\":\"<p>Amet temporibus labore facilis quia architecto. Sed laudantium et blanditiis. Dolores ut culpa itaque voluptas aut officiis illo.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Eum rem nostrum molestiae non. Placeat eos fuga repellat consequatur alias et.<\\\/p>\",\"is_visible_in_header\":true,\"is_visible_in_footer\":true},{\"id\":3,\"title\":\"\\u0414\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0430 \\u0438 \\u043e\\u043f\\u043b\\u0430\\u0442\\u0430\",\"description\":\"\\u0418\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f \\u043e \\u0434\\u043e\\u0441\\u0442\\u0430\\u0432\\u043a\\u0435 \\u0438 \\u043e\\u043f\\u043b\\u0430\\u0442\\u0435\",\"text\":\"<p>Veritatis sed libero enim cumque ratione aliquid. Voluptas illo libero ut et ullam. Eum voluptatem distinctio et quia quisquam.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Quam eligendi et ex magnam exercitationem repellat alias voluptatibus. Optio omnis consequatur vel vitae et animi.<\\\/p>\",\"is_visible_in_header\":true,\"is_visible_in_footer\":true},{\"id\":4,\"title\":\"\\u041e\\u0431\\u043c\\u0435\\u043d \\u0438 \\u0432\\u043e\\u0437\\u0432\\u0440\\u0430\\u0442\",\"description\":\"\\u041e\\u0431\\u043c\\u0435\\u043d \\u0438 \\u0432\\u043e\\u0437\\u0432\\u0440\\u0430\\u0442 \\u0442\\u043e\\u0432\\u0430\\u0440\\u043e\\u0432\",\"text\":\"<p>A ut ut commodi in voluptate non dolores. Sapiente voluptas voluptatem dolor non. Laboriosam delectus quibusdam eos aut eligendi non. Hic voluptatem doloribus ipsam et atque.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Accusantium laudantium incidunt suscipit reprehenderit. Ut ex necessitatibus aut. Illo quia officiis voluptas excepturi.<\\\/p>\",\"is_visible_in_header\":true,\"is_visible_in_footer\":true},{\"id\":5,\"title\":\"\\u041a\\u043e\\u043d\\u0442\\u0430\\u043a\\u0442\\u044b\",\"description\":\"\\u041a\\u043e\\u043d\\u0442\\u0430\\u043a\\u0442\\u043d\\u0430\\u044f \\u0438\\u043d\\u0444\\u043e\\u0440\\u043c\\u0430\\u0446\\u0438\\u044f\",\"text\":\"<p>Dolorum assumenda at et reiciendis qui repellat autem. Tempora aut fugiat animi nemo velit necessitatibus. Dolor neque modi quia eligendi deleniti. Iste ut quaerat a minus pariatur illo.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Aspernatur nesciunt dolor omnis. Explicabo blanditiis eaque tempore blanditiis amet. Repellendus sed dolor et et excepturi. Ad vitae ipsam dolore fugit.<\\\/p>\",\"is_visible_in_header\":true,\"is_visible_in_footer\":true},{\"id\":6,\"title\":\"\\u041e\\u0444\\u0435\\u0440\\u0442\\u0430\",\"description\":\"\\u041f\\u0443\\u0431\\u043b\\u0438\\u0447\\u043d\\u0430\\u044f \\u043e\\u0444\\u0435\\u0440\\u0442\\u0430\",\"text\":\"<p>Est earum adipisci minus consequatur praesentium ut. Necessitatibus at magnam id consequatur. Consequuntur vel deleniti et velit et molestiae.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Molestiae nam amet doloribus fuga amet deleniti. Est et voluptatibus rerum id quasi nam laborum. Nulla id quos consequatur neque minima laudantium nihil.<\\\/p>\",\"is_visible_in_header\":false,\"is_visible_in_footer\":true},{\"id\":7,\"title\":\"\\u041f\\u043e\\u043b\\u0438\\u0442\\u0438\\u043a\\u0430 \\u043a\\u043e\\u043d\\u0444\\u0438\\u0434\\u0435\\u043d\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u043e\\u0441\\u0442\\u0438\",\"description\":\"\\u041f\\u043e\\u043b\\u0438\\u0442\\u0438\\u043a\\u0430 \\u043a\\u043e\\u043d\\u0444\\u0438\\u0434\\u0435\\u043d\\u0446\\u0438\\u0430\\u043b\\u044c\\u043d\\u043e\\u0441\\u0442\\u0438\",\"text\":\"<p>Consectetur porro rem voluptate facilis optio. Autem provident ab qui quo voluptate repellat sunt aut.<\\\/p><h2>\\u0417\\u0430\\u0433\\u043e\\u043b\\u043e\\u0432\\u043e\\u043a<\\\/h2><p>Et rerum ea et. Corporis eum et ab. Magni reprehenderit et ut incidunt facilis. Consectetur labore beatae molestias qui.<\\\/p>\",\"is_visible_in_header\":false,\"is_visible_in_footer\":true}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443 \u043f\u043e ID",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/pages\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/pages\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "16",
+                                    "description": "ID \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b. \u041f\u0440\u0438\u043c\u0435\u0440: 1"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "vary",
+                                    "value": "Origin"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\"status\":\"error\",\"message\":\"Resource not found.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "\u0422\u0435\u043c\u044b \u0438 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f",
+            "description": "\nAPI \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441 \u0442\u0435\u043c\u0430\u043c\u0438 \u043e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u0439 \u0438 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f\u043c\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439\n\n\u0422\u0435\u043c\u044b \u043e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u0439 \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u044e\u0442 \u0441\u043e\u0431\u043e\u0439 \u0434\u0438\u0430\u043b\u043e\u0433\u0438 \u043c\u0435\u0436\u0434\u0443 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u043c \u0438 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440\u043e\u043c.\n\u041a\u0430\u0436\u0434\u0430\u044f \u0442\u0435\u043c\u0430 \u043c\u043e\u0436\u0435\u0442 \u0441\u043e\u0434\u0435\u0440\u0436\u0430\u0442\u044c \u043c\u043d\u043e\u0436\u0435\u0441\u0442\u0432\u043e \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0439 \u043e\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0438 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440\u0430.\n\n## \u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u0442\u0435\u043c\u044b\n\n\u041a\u0430\u0436\u0434\u0430\u044f \u0442\u0435\u043c\u0430 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0435 \u043e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043f\u043e\u043b\u044f:\n- `id` - \u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u0442\u0435\u043c\u044b\n- `title` - \u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0442\u0435\u043c\u044b\n- `status` - \u0421\u0442\u0430\u0442\u0443\u0441 \u0442\u0435\u043c\u044b (new, resolved, requires_response)\n- `user_id` - ID \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f, \u0441\u043e\u0437\u0434\u0430\u0432\u0448\u0435\u0433\u043e \u0442\u0435\u043c\u0443.\n- `messages` - \u041c\u0430\u0441\u0441\u0438\u0432 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0439 \u0432 \u0442\u0435\u043c\u0435 (\u0435\u0441\u043b\u0438 \u0437\u0430\u043f\u0440\u043e\u0448\u0435\u043d\u044b)\n\n## \u0421\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f\n\n\u041a\u0430\u0436\u0434\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0441\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u0441\u043b\u0435\u0434\u0443\u044e\u0449\u0438\u0435 \u043e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043f\u043e\u043b\u044f:\n- `id` - \u0423\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0439 \u0438\u0434\u0435\u043d\u0442\u0438\u0444\u0438\u043a\u0430\u0442\u043e\u0440 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f\n- `content` - \u0422\u0435\u043a\u0441\u0442 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f\n- `user_id` - ID \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f, \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u0432\u0448\u0435\u0433\u043e \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435.\n- `topic_id` - ID \u0442\u0435\u043c\u044b, \u043a \u043a\u043e\u0442\u043e\u0440\u043e\u0439 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435.\n- `attachments` - \u041c\u0430\u0441\u0441\u0438\u0432 \u0432\u043b\u043e\u0436\u0435\u043d\u0438\u0439 \u043a \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044e (\u0435\u0441\u043b\u0438 \u0435\u0441\u0442\u044c)",
+            "item": [
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0441\u043f\u0438\u0441\u043a\u0430 \u0442\u0435\u043c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/topics",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "\u041d\u043e\u043c\u0435\u0440 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "15",
+                                    "description": "\u041a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0442\u0435\u043c \u043d\u0430 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/topics?page=1&per_page=15"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0441\u043f\u0438\u0441\u043e\u043a \u0432\u0441\u0435\u0445 \u0442\u0435\u043c, \u0441\u043e\u0437\u0434\u0430\u043d\u043d\u044b\u0445 \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u043c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u043c."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"status\": \"success\",\n    \"message\": \"\u0421\u043f\u0438\u0441\u043e\u043a \u0442\u0435\u043c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\",\n    \"data\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 1,\n                \"title\": \"\u041f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u0437\u0430\u043a\u0430\u0437\u043e\u043c\",\n                \"status\": \"new\",\n                \"status_text\": \"\u041d\u043e\u0432\u044b\u0439\",\n                \"created_at\": \"2023-06-15 10:30:00\",\n                \"updated_at\": \"2023-06-15 10:30:00\",\n                \"messages_count\": 2\n            },\n            {\n                \"id\": 2,\n                \"title\": \"\u0412\u043e\u043f\u0440\u043e\u0441 \u043e \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0435\",\n                \"status\": \"requires_response\",\n                \"status_text\": \"\u0422\u0440\u0435\u0431\u0443\u0435\u0442 \u043e\u0442\u0432\u0435\u0442\u0430\",\n                \"created_at\": \"2023-06-14 15:45:00\",\n                \"updated_at\": \"2023-06-14 16:20:00\",\n                \"messages_count\": 3\n            }\n        ],\n        \"first_page_url\": \"http:\/\/example.com\/api\/v1\/topics?page=1\",\n        \"from\": 1,\n        \"last_page\": 1,\n        \"last_page_url\": \"http:\/\/example.com\/api\/v1\/topics?page=1\",\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http:\/\/example.com\/api\/v1\/topics?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"next_page_url\": null,\n        \"path\": \"http:\/\/example.com\/api\/v1\/topics\",\n        \"per_page\": 15,\n        \"prev_page_url\": null,\n        \"to\": 2,\n        \"total\": 2\n    }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n    \"message\": \"Unauthenticated.\"\n}",
+                            "name": "\u041d\u0435 \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043d"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u043d\u043e\u0432\u043e\u0439 \u0442\u0435\u043c\u044b",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/topics",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/topics"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "title",
+                                    "value": "\u041f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435\u043c \u0437\u0430\u043a\u0430\u0437\u0430",
+                                    "type": "text",
+                                    "description": "\u0417\u0430\u0433\u043e\u043b\u043e\u0432\u043e\u043a \u0442\u0435\u043c\u044b."
+                                },
+                                {
+                                    "key": "content",
+                                    "value": "\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435, \u0443 \u043c\u0435\u043d\u044f \u043d\u0435 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0430\u0435\u0442\u0441\u044f \u043c\u043e\u0439 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0437\u0430\u043a\u0430\u0437.",
+                                    "type": "text",
+                                    "description": "\u0422\u0435\u043a\u0441\u0442 \u043f\u0435\u0440\u0432\u043e\u0433\u043e \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f."
+                                },
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "\u0421\u043e\u0437\u0434\u0430\u0435\u0442 \u043d\u043e\u0432\u0443\u044e \u0442\u0435\u043c\u0443 \u043e\u0431\u0440\u0430\u0449\u0435\u043d\u0438\u044f \u043e\u0442 \u0438\u043c\u0435\u043d\u0438 \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f,\n\u0430 \u0442\u0430\u043a\u0436\u0435 \u043f\u0435\u0440\u0432\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0432 \u044d\u0442\u043e\u0439 \u0442\u0435\u043c\u0435."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n    \"status\": \"success\",\n    \"message\": \"\u0422\u0435\u043c\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430\",\n    \"data\": {\n        \"id\": 3,\n        \"title\": \"\u041f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435\u043c \u0437\u0430\u043a\u0430\u0437\u0430\",\n        \"status\": \"new\",\n        \"status_text\": \"\u041d\u043e\u0432\u044b\u0439\",\n        \"created_at\": \"2023-06-16 12:00:00\",\n        \"updated_at\": \"2023-06-16 12:00:00\",\n        \"messages_count\": 1,\n        \"messages\": [\n            {\n                \"id\": 3,\n                \"content\": \"\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435, \u0443 \u043c\u0435\u043d\u044f \u043d\u0435 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0430\u0435\u0442\u0441\u044f \u043c\u043e\u0439 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0437\u0430\u043a\u0430\u0437.\",\n                \"user\": {\n                    \"id\": 1,\n                    \"name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n                    \"email\": \"user@example.com\"\n                },\n                \"created_at\": \"2023-06-16 12:00:00\",\n                \"updated_at\": \"2023-06-16 12:00:00\",\n                \"attachments\": [\n                     {\n                        \"id\": 2,\n                        \"file_name\": \"screenshot.png\",\n                        \"mime_type\": \"image\/png\",\n                        \"size\": 512000,\n                        \"url\": \"http:\/\/example.com\/storage\/2\/screenshot.png\",\n                        \"thumbnail\": \"http:\/\/example.com\/storage\/2\/conversions\/screenshot-thumb.jpg\",\n                        \"created_at\": \"2023-06-16 12:00:00\"\n                     }\n                ]\n            }\n        ]\n    }\n}",
+                            "name": "\u0422\u0435\u043c\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u0430"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n    \"status\": \"error\",\n    \"message\": \"The given data was invalid.\",\n    \"errors\": {\n        \"title\": [\n            \"The title field is required.\"\n        ]\n    }\n}",
+                            "name": "\u041e\u0448\u0438\u0431\u043a\u0430 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0442\u0435\u043c\u044b \u0441 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f\u043c\u0438",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/topics\/:topicId",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/topics\/:topicId",
+                            "variable": [
+                                {
+                                    "id": "topicId",
+                                    "key": "topicId",
+                                    "value": "1",
+                                    "description": "ID \u0442\u0435\u043c\u044b."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0434\u0435\u0442\u0430\u043b\u044c\u043d\u0443\u044e \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u0442\u0435\u043c\u0435, \u0432\u043a\u043b\u044e\u0447\u0430\u044f \u0432\u0441\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f \u0432 \u043d\u0435\u0439.\n\u0422\u0435\u043c\u0430 \u0434\u043e\u043b\u0436\u043d\u0430 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0430\u0442\u044c \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u043c\u0443 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n    \"status\": \"success\",\n    \"message\": \"\u0414\u0435\u0442\u0430\u043b\u0438 \u0442\u0435\u043c\u044b\",\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"\u041f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u0437\u0430\u043a\u0430\u0437\u043e\u043c\",\n        \"status\": \"new\",\n        \"status_text\": \"\u041d\u043e\u0432\u044b\u0439\",\n        \"created_at\": \"2023-06-15 10:30:00\",\n        \"updated_at\": \"2023-06-15 10:30:00\",\n        \"messages_count\": 2,\n        \"messages\": [\n            {\n                \"id\": 1,\n                \"content\": \"\u0423 \u043c\u0435\u043d\u044f \u0432\u043e\u0437\u043d\u0438\u043a\u043b\u0430 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u043c \u0437\u0430\u043a\u0430\u0437\u043e\u043c. \u041d\u0435 \u043f\u043e\u043b\u0443\u0447\u0438\u043b \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u043e\u043f\u043b\u0430\u0442\u044b.\",\n                \"user\": {\n                    \"id\": 1,\n                    \"name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n                    \"email\": \"user@example.com\"\n                },\n                \"created_at\": \"2023-06-15 10:30:00\",\n                \"updated_at\": \"2023-06-15 10:30:00\",\n                \"attachments\": [\n                    {\n                        \"id\": 1,\n                        \"file_name\": \"document.pdf\",\n                        \"mime_type\": \"application\/pdf\",\n                        \"size\": 1024000,\n                        \"url\": \"http:\/\/example.com\/storage\/1\/document.pdf\",\n                        \"thumbnail\": \"http:\/\/example.com\/storage\/1\/conversions\/document-thumb.jpg\",\n                        \"created_at\": \"2023-06-15 10:30:00\"\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"content\": \"\u0417\u0434\u0440\u0430\u0432\u0441\u0442\u0432\u0443\u0439\u0442\u0435! \u041f\u0440\u043e\u0432\u0435\u0440\u0438\u043c \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043f\u043e \u0432\u0430\u0448\u0435\u043c\u0443 \u0437\u0430\u043a\u0430\u0437\u0443 \u0438 \u0441\u0432\u044f\u0436\u0435\u043c\u0441\u044f \u0441 \u0432\u0430\u043c\u0438 \u0432 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0435\u0435 \u0432\u0440\u0435\u043c\u044f.\",\n                \"user\": {\n                    \"id\": 2,\n                    \"name\": \"\u0410\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u043e\u0440\",\n                    \"email\": \"admin@example.com\"\n                },\n                \"created_at\": \"2023-06-15 11:15:00\",\n                \"updated_at\": \"2023-06-15 11:15:00\",\n                \"attachments\": []\n            }\n        ]\n    }\n}",
+                            "name": "\u0423\u0441\u043f\u0435\u0448\u043d\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441"
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n    \"message\": \"Unauthenticated.\"\n}",
+                            "name": "\u041d\u0435 \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043d"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"status\": \"error\",\n    \"message\": \"\u0422\u0435\u043c\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430 \u0438\u043b\u0438 \u043d\u0435 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0438\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e\"\n}",
+                            "name": "\u0422\u0435\u043c\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"
+                        }
+                    ]
+                },
+                {
+                    "name": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f \u0432 \u0442\u0435\u043c\u0443",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/topics\/:topicId\/messages",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/topics\/:topicId\/messages",
+                            "variable": [
+                                {
+                                    "id": "topicId",
+                                    "key": "topicId",
+                                    "value": "1",
+                                    "description": "ID \u0442\u0435\u043c\u044b."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"content\":\"\u0412\u043e\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u043f\u043e \u043c\u043e\u0435\u043c\u0443 \u0432\u043e\u043f\u0440\u043e\u0441\u0443.\",\"attachments\":null}"
+                        },
+                        "description": "\u0414\u043e\u0431\u0430\u0432\u043b\u044f\u0435\u0442 \u043d\u043e\u0432\u043e\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u043e\u0442 \u0438\u043c\u0435\u043d\u0438 \u0430\u0443\u0442\u0435\u043d\u0442\u0438\u0444\u0438\u0446\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f\n\u0432 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044e\u0449\u0443\u044e \u0442\u0435\u043c\u0443. \u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u0434\u043e\u043b\u0436\u0435\u043d \u0431\u044b\u0442\u044c \u0432\u043b\u0430\u0434\u0435\u043b\u044c\u0446\u0435\u043c \u0442\u0435\u043c\u044b."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n    \"status\": \"success\",\n    \"message\": \"\u0421\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e\",\n    \"data\": {\n        \"id\": 4,\n        \"content\": \"\u0412\u043e\u0442 \u0441\u043a\u0440\u0438\u043d\u0448\u043e\u0442 \u043c\u043e\u0435\u0439 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u044b.\",\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"\u0418\u0432\u0430\u043d\u043e\u0432 \u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447\",\n            \"email\": \"user@example.com\"\n        },\n        \"created_at\": \"2023-06-16 12:30:00\",\n        \"updated_at\": \"2023-06-16 12:30:00\",\n        \"attachments\": [\n             {\n                \"id\": 3,\n                \"file_name\": \"screenshot-2.png\",\n                \"mime_type\": \"image\/png\",\n                \"size\": 612000,\n                \"url\": \"http:\/\/example.com\/storage\/3\/screenshot-2.png\",\n                \"thumbnail\": \"http:\/\/example.com\/storage\/3\/conversions\/screenshot-2-thumb.jpg\",\n                \"created_at\": \"2023-06-16 12:30:00\"\n             }\n        ]\n    }\n}",
+                            "name": "\u0421\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e"
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\n    \"status\": \"error\",\n    \"message\": \"This action is unauthorized.\"\n}",
+                            "name": "\u0414\u043e\u0441\u0442\u0443\u043f \u0437\u0430\u043f\u0440\u0435\u0449\u0435\u043d"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n    \"status\": \"error\",\n    \"message\": \"\u0422\u0435\u043c\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430 \u0438\u043b\u0438 \u043d\u0435 \u043f\u0440\u0438\u043d\u0430\u0434\u043b\u0435\u0436\u0438\u0442 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e\"\n}",
+                            "name": "\u0422\u0435\u043c\u0430 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "Authorization",
+                "type": "string"
+            }
+        ]
+    }
+}

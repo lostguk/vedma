@@ -18,7 +18,6 @@ yarn-error.log
 /.scribe
 /public/docs
 /storage/app/scribe
-/resources/views/scribe
 /auth.json
 /.fleet
 /.idea
