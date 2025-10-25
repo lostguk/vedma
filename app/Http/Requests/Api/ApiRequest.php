@@ -7,10 +7,11 @@ namespace App\Http\Requests\Api;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @mixin \Illuminate\Http\Request
+ * @mixin Request
  */
 abstract class ApiRequest extends FormRequest
 {
