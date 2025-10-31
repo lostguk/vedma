@@ -17,6 +17,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 final class OrderController extends ApiController
 {
@@ -76,10 +77,13 @@ final class OrderController extends ApiController
      */
     public function store(OrderStoreRequest $request, OrderService $orderService): JsonResponse
     {
+
         $order = $orderService->createOrder($request->validated());
         $order->load('items');
 
-        return $this->successResponse(new OrderResource($order), 'Заказ успешно создан', 201);
+        Log::info('order controller user', context: ['user' => Auth::guard('sanctum')->user()]);
+
+        return $this->successResponse(new OrderResource(resource: $order), 'Заказ успешно создан', 201);
     }
 
     /**

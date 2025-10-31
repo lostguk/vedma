@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\ShippingController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
@@ -70,13 +71,15 @@ Route::prefix('v1')->group(function () {
     // Order
     Route::post('order/calculate', [OrderController::class, 'calculate'])
         ->name('api.v1.order.calculate');
-    Route::post('order', [OrderController::class, 'store'])
-        ->name('api.v1.order.store');
+
     Route::middleware('auth:sanctum')->get('orders', [OrderController::class, 'index'])
         ->name('api.v1.orders.index');
 
+    Route::post('order', [OrderController::class, 'store'])
+        ->name('api.v1.order.store');
+
     // Shipping calculation
-    Route::post('shipping/calculate', [\App\Http\Controllers\Api\V1\ShippingController::class, 'calculate'])
+    Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
         ->name('api.v1.shipping.calculate');
 
     require base_path('routes/user.php');

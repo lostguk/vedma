@@ -31,9 +31,11 @@ final readonly class OrderService
      */
     public function createOrder(array $data): Order
     {
+
         return DB::transaction(function () use ($data) {
             // 1. Определяем пользователя
-            $user = Auth::user();
+            $user = Auth::guard('sanctum')->user();
+
             if (! $user && ($data['register'] ?? false)) {
                 $user = $this->registrationService->register([
                     'first_name' => $data['first_name'],
