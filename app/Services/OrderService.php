@@ -34,7 +34,7 @@ final readonly class OrderService
 
         return DB::transaction(function () use ($data) {
             // 1. Определяем пользователя
-            $user = Auth::guard('sanctum')->user();
+            $user = Auth::user();
 
             if (! $user && ($data['register'] ?? false)) {
                 $user = $this->registrationService->register([
