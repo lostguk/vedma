@@ -1,12 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
-use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
-use App\Http\Controllers\Api\V1\Auth\LoginController;
-use App\Http\Controllers\Api\V1\Auth\LogoutController;
-use App\Http\Controllers\Api\V1\Auth\RegisterController;
-use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
-use App\Http\Controllers\Api\V1\Auth\VerifyRegistrationController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
@@ -37,19 +30,10 @@ Route::prefix('v1')->group(function () {
     })->name('api.v1.health');
 
     // Auth
-    Route::post('register', RegisterController::class)->name('api.v1.auth.register');
-    Route::post('login', LoginController::class)->name('api.v1.auth.login');
-    Route::post('forgot-password', ForgotPasswordController::class)->name('api.v1.auth.forgot-password');
-    Route::post('reset-password', ResetPasswordController::class)->name('api.v1.auth.reset-password');
+    require base_path('routes/auth.php');
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', LogoutController::class)->name('api.v1.auth.logout');
-        Route::post('change-password', ChangePasswordController::class)->name('api.v1.auth.change-password');
-    });
-
-    Route::get('verify-registration/{user}/{hash}', VerifyRegistrationController::class)
-        ->middleware('signed')
-        ->name('api.v1.auth.verify-registration');
+    // User
+    require base_path('routes/user.php');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
@@ -82,5 +66,4 @@ Route::prefix('v1')->group(function () {
     Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
         ->name('api.v1.shipping.calculate');
 
-    require base_path('routes/user.php');
 });
