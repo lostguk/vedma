@@ -262,8 +262,7 @@ return [
             // ],
         ],
         'skip' => [
-            'attachments',
-            'attachments.*',
+            // Убрали attachments и attachments.* из skip, чтобы Scribe правильно определял форму с файлами
         ],
     ],
 ];

@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Services\User\UserProfileService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 final class ProfileController extends ApiController
 {
@@ -44,8 +43,6 @@ final class ProfileController extends ApiController
     public function show(UserProfileService $service): JsonResponse
     {
         $user = Auth::user();
-
-        Log::info('profile', ['user' => $user]);
 
         if (! ($user instanceof User)) {
             abort(401, 'Unauthorized');

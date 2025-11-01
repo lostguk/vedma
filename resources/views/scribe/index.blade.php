@@ -237,7 +237,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: October 23, 2025</li>
+        <li>Last updated: October 31, 2025</li>
     </ul>
 </div>
 
@@ -2354,7 +2354,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-10-23T09:58:59+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-10-31T08:10:24+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4703,7 +4703,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpNFjPkJ" </code></pre></div>
+    --form "attachments[]=@/tmp/phpCFpAPm" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -5198,26 +5198,6 @@ fetch(url, {
             }
         ]
     }
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (403, Доступ запрещен):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;This action is unauthorized.&quot;
-}</code>
- </pre>
-            <blockquote>
-            <p>Example response (404, Тема не найдена):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;error&quot;,
-    &quot;message&quot;: &quot;Тема не найдена или не принадлежит пользователю&quot;
 }</code>
  </pre>
     </span>

@@ -44,6 +44,7 @@ Route::prefix('v1')->group(function () {
         ->name('api.v1.products.show');
     Route::get('products', [ProductController::class, 'index'])->name('api.v1.products.index');
 
+    // Mail test
     Route::get('mail/test', [MailController::class, 'sendTestMail'])->name('mail.test');
 
     // Pages
@@ -65,5 +66,4 @@ Route::prefix('v1')->group(function () {
     // Shipping calculation
     Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
         ->name('api.v1.shipping.calculate');
-
 });
