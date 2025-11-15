@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\HomePageContentController;
 use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
@@ -66,4 +67,8 @@ Route::prefix('v1')->group(function () {
     // Shipping calculation
     Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
         ->name('api.v1.shipping.calculate');
+
+    // Home page
+    Route::get('home', [HomePageContentController::class, 'show'])
+        ->name('api.v1.home.show');
 });
