@@ -34,7 +34,7 @@ jobs:
             cd /opt/vedma-dev
             sudo rm -rf .scribe/endpoints.cache || true
             sudo chown -R $USER:$USER . || true
-            # git stash
+            git stash
             git pull origin dev
             docker-compose -f docker-compose.dev.yml down
             docker-compose -f docker-compose.dev.yml build
