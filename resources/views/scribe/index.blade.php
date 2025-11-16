@@ -95,6 +95,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-glavnaia-stranica" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="glavnaia-stranica">
+                    <a href="#glavnaia-stranica">Главная страница</a>
+                </li>
+                                    <ul id="tocify-subheader-glavnaia-stranica" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="glavnaia-stranica-GETapi-v1-home">
+                                <a href="#glavnaia-stranica-GETapi-v1-home">Получить данные главной страницы</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-dostavka" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="dostavka">
                     <a href="#dostavka">Доставка</a>
@@ -237,7 +247,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: October 31, 2025</li>
+        <li>Last updated: November 16, 2025</li>
     </ul>
 </div>
 
@@ -1542,6 +1552,136 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                     </form>
 
+                <h1 id="glavnaia-stranica">Главная страница</h1>
+
+    <p>API для получения контента главной страницы</p>
+
+                                <h2 id="glavnaia-stranica-GETapi-v1-home">Получить данные главной страницы</h2>
+
+<p>
+</p>
+
+<p>Возвращает два блока: первый экран и блок &quot;Наша магия — ваша сила&quot;.</p>
+
+<span id="example-requests-GETapi-v1-home">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "{{ config("app.url") }}/api/v1/home" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/home"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-home">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;data&quot;: {
+        &quot;hero&quot;: {
+            &quot;title&quot;: &quot;МАГИЯ ЖИВЕТ В КАЖДОМ ИЗ НАС&quot;,
+            &quot;...&quot;: &quot;...&quot;
+        },
+        &quot;about&quot;: {
+            &quot;title&quot;: &quot;НАША МАГИЯ &ndash; ВАША СИЛА&quot;,
+            &quot;...&quot;: &quot;...&quot;
+        }
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-home" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-home"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-home"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-home" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-home">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-home" data-method="GET"
+      data-path="api/v1/home"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-home', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-home"
+                    onclick="tryItOut('GETapi-v1-home');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-home"
+                    onclick="cancelTryOut('GETapi-v1-home');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-home"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/home</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-home"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-home"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
                 <h1 id="dostavka">Доставка</h1>
 
     <p>Позволяет рассчитать стоимость доставки на основе списка товаров и адреса доставки.</p>
@@ -2354,7 +2494,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-10-31T08:10:24+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-11-16T16:38:47+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4085,7 +4225,7 @@ vary: Origin
             &quot;id&quot;: 1,
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Repudiandae at dolorem autem et alias ut iste. Ut laudantium at autem et porro. Incidunt placeat dolorem doloremque ad et reiciendis. Non tenetur cum et delectus expedita.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptatem neque quis vel omnis praesentium nam in. Necessitatibus reiciendis facilis quam beatae ipsum sunt accusantium. Ducimus blanditiis aut suscipit deserunt laudantium consequuntur.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;At ducimus sunt eos ut aut expedita. Nulla quidem et quam esse. Et ex ipsum dolore. Excepturi quisquam placeat nulla fugit. Labore ut unde tenetur ipsa vel soluta.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et ex dolore rerum id. Delectus alias aut sequi. Magnam distinctio sunt omnis vero eveniet non.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4093,7 +4233,7 @@ vary: Origin
             &quot;id&quot;: 2,
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Amet temporibus labore facilis quia architecto. Sed laudantium et blanditiis. Dolores ut culpa itaque voluptas aut officiis illo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Eum rem nostrum molestiae non. Placeat eos fuga repellat consequatur alias et.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Expedita dolorem quia et non est iure praesentium. Enim quo possimus nobis natus. Fugit et magni doloremque est quam voluptas adipisci.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Sequi dolor et quo aperiam earum. Perferendis quaerat impedit veniam numquam laboriosam. Nostrum fugiat aut rerum rerum quibusdam vel non.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4101,7 +4241,7 @@ vary: Origin
             &quot;id&quot;: 3,
             &quot;title&quot;: &quot;Доставка и оплата&quot;,
             &quot;description&quot;: &quot;Информация о доставке и оплате&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Veritatis sed libero enim cumque ratione aliquid. Voluptas illo libero ut et ullam. Eum voluptatem distinctio et quia quisquam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Quam eligendi et ex magnam exercitationem repellat alias voluptatibus. Optio omnis consequatur vel vitae et animi.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Quos illum sed cumque assumenda explicabo. Aut vitae sed quo libero cupiditate voluptates quidem. Eaque praesentium fuga consequatur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nam omnis odio quos cumque repellat amet. Eum qui inventore inventore suscipit vel ducimus. Omnis architecto qui totam quis quis alias cumque et.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4109,7 +4249,7 @@ vary: Origin
             &quot;id&quot;: 4,
             &quot;title&quot;: &quot;Обмен и возврат&quot;,
             &quot;description&quot;: &quot;Обмен и возврат товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;A ut ut commodi in voluptate non dolores. Sapiente voluptas voluptatem dolor non. Laboriosam delectus quibusdam eos aut eligendi non. Hic voluptatem doloribus ipsam et atque.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Accusantium laudantium incidunt suscipit reprehenderit. Ut ex necessitatibus aut. Illo quia officiis voluptas excepturi.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Beatae nisi qui nemo et dolores sunt. Nesciunt adipisci illum laboriosam qui. Error debitis molestias sunt sequi. Unde ut sunt ea dolorem.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Eum rem quo et adipisci. Sit dignissimos est aperiam est voluptatem consectetur inventore. Ea nostrum in recusandae quod nulla culpa molestias. Et nobis est dolorem aut quis animi et.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4117,7 +4257,7 @@ vary: Origin
             &quot;id&quot;: 5,
             &quot;title&quot;: &quot;Контакты&quot;,
             &quot;description&quot;: &quot;Контактная информация&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Dolorum assumenda at et reiciendis qui repellat autem. Tempora aut fugiat animi nemo velit necessitatibus. Dolor neque modi quia eligendi deleniti. Iste ut quaerat a minus pariatur illo.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Aspernatur nesciunt dolor omnis. Explicabo blanditiis eaque tempore blanditiis amet. Repellendus sed dolor et et excepturi. Ad vitae ipsam dolore fugit.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Voluptatem omnis qui at aliquid mollitia. Error placeat aspernatur occaecati animi. Molestiae repudiandae voluptas sint alias sunt quia.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Nisi molestiae eos laudantium atque qui. Tempore dicta ut omnis ea. Et eum fugit aut iste.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4125,7 +4265,7 @@ vary: Origin
             &quot;id&quot;: 6,
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Est earum adipisci minus consequatur praesentium ut. Necessitatibus at magnam id consequatur. Consequuntur vel deleniti et velit et molestiae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Molestiae nam amet doloribus fuga amet deleniti. Est et voluptatibus rerum id quasi nam laborum. Nulla id quos consequatur neque minima laudantium nihil.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ducimus cum consequatur rerum dolorem aut similique laborum sit. Est harum ut aut porro et eos. Corporis dolorem expedita cum aspernatur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Omnis rem optio praesentium reprehenderit. A repellat quia culpa ducimus quia. Aut omnis quidem recusandae consequatur voluptatem magni quia. Pariatur corporis est libero harum aut aliquid delectus.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4133,7 +4273,7 @@ vary: Origin
             &quot;id&quot;: 7,
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Consectetur porro rem voluptate facilis optio. Autem provident ab qui quo voluptate repellat sunt aut.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et rerum ea et. Corporis eum et ab. Magni reprehenderit et ut incidunt facilis. Consectetur labore beatae molestias qui.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Sit ab fugiat pariatur minus veniam. Totam asperiores est et quia voluptatem. Voluptatem illum fugiat id voluptatem tempore minus ipsam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Rerum consectetur omnis id sit. Rerum distinctio illum dolor. Facilis voluptatum itaque unde. Ipsa non et tenetur sed unde fuga.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4703,7 +4843,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpCFpAPm" </code></pre></div>
+    --form "attachments[]=@/tmp/phpejEObD" </code></pre></div>
 
 
 <div class="javascript-example">
