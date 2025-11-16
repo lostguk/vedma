@@ -37,7 +37,7 @@ class OrderFactory extends Factory
             'payment_type' => $this->faker->randomElement(['card', 'cash', 'online']),
             'paid_at' => null,
             'comment' => $this->faker->optional()->sentence(),
-            'delivery_type' => $this->faker->randomElement(['pickup', 'courier', 'post']),
+            'delivery_type' => $this->faker->randomElement(['post', 'cdek']),
             'delivery_price' => $this->faker->randomFloat(2, 0, 500),
             'delivery_status' => $this->faker->randomElement(['pending', 'shipped', 'delivered']),
             'delivery_data' => null,

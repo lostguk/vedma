@@ -41,6 +41,7 @@ class OrderStoreRequest extends FormRequest
             'items.*.count' => ['required', 'integer', 'gte:1'],
             'promo_code' => ['nullable', 'string', 'max:32'],
             'register' => ['required', 'boolean'],
+            'delivery_type' => ['required', 'in:cdek,post'],
             'first_name' => ['required', 'string', 'max:64'],
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],
@@ -60,6 +61,7 @@ class OrderStoreRequest extends FormRequest
             'last_name.required' => 'Фамилия обязательна.',
             'email.required' => 'Email обязателен.',
             'email.email' => 'Некорректный email.',
+            'delivery_type' => 'Некорректный тип доставки',
             'password.required_if' => 'Пароль обязателен при регистрации.',
         ];
     }
@@ -121,6 +123,12 @@ class OrderStoreRequest extends FormRequest
                 'description' => 'Адрес доставки',
                 'example' => 'ул. Администраторская, д. 1',
             ],
+            'delivery_type' => [
+                'description' => 'Тип доставки',
+                'example' => 'post',
+                'type' => 'string',
+            ],
+            // Варианты: post | cdek
             'password' => [
                 'description' => 'Пароль (если регистрация)',
                 'example' => 'StrongPass123',
