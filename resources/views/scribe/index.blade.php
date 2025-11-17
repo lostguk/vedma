@@ -247,7 +247,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 16, 2025</li>
+        <li>Last updated: November 17, 2025</li>
     </ul>
 </div>
 
@@ -2494,7 +2494,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-11-16T17:36:10+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-11-17T06:29:01+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2911,15 +2911,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
         }
     ],
     \"promo_code\": \"PROMO2208\",
-    \"register\": true,
+    \"register\": false,
     \"delivery_type\": \"post\",
     \"first_name\": \"Admin\",
     \"last_name\": \"System\",
     \"middle_name\": \"Root\",
     \"email\": \"admin@admin.ru\",
     \"address\": \"ул. Администраторская, д. 1\",
-    \"password\": \"StrongPass123\",
-    \"phone\": \"+7 999 999 99 99\"
+    \"password\": \"StrongPass123\"
 }"
 </code></pre></div>
 
@@ -2942,15 +2941,14 @@ let body = {
         }
     ],
     "promo_code": "PROMO2208",
-    "register": true,
+    "register": false,
     "delivery_type": "post",
     "first_name": "Admin",
     "last_name": "System",
     "middle_name": "Root",
     "email": "admin@admin.ru",
     "address": "ул. Администраторская, д. 1",
-    "password": "StrongPass123",
-    "phone": "+7 999 999 99 99"
+    "password": "StrongPass123"
 };
 
 fetch(url, {
@@ -3061,7 +3059,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="1"
                data-component="body">
     <br>
-<p>ID товара. Example: <code>1</code></p>
+<p>ID товара. The <code>id</code> of an existing record in the products table. Example: <code>1</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
@@ -3085,7 +3083,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="PROMO2208"
                data-component="body">
     <br>
-<p>Промокод. Example: <code>PROMO2208</code></p>
+<p>Промокод. Поле value не может быть больше 32 символов. Example: <code>PROMO2208</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>register</code></b>&nbsp;&nbsp;
@@ -3106,7 +3104,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             <code>false</code>
         </label>
     <br>
-<p>Зарегистрировать пользователя. Example: <code>true</code></p>
+<p>Зарегистрировать пользователя. Example: <code>false</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>delivery_type</code></b>&nbsp;&nbsp;
@@ -3130,7 +3128,7 @@ Must be one of:
                value="Admin"
                data-component="body">
     <br>
-<p>Имя пользователя. Example: <code>Admin</code></p>
+<p>Имя пользователя. Поле value не может быть больше 64 символов. Example: <code>Admin</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
@@ -3141,18 +3139,18 @@ Must be one of:
                value="System"
                data-component="body">
     <br>
-<p>Фамилия пользователя. Example: <code>System</code></p>
+<p>Фамилия пользователя. Поле value не может быть больше 64 символов. Example: <code>System</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>middle_name</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
- &nbsp;
+<i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="middle_name"                data-endpoint="POSTapi-v1-order"
                value="Root"
                data-component="body">
     <br>
-<p>Отчество пользователя. Example: <code>Root</code></p>
+<p>Отчество пользователя. Поле value не может быть больше 64 символов. Example: <code>Root</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -3163,7 +3161,7 @@ Must be one of:
                value="admin@admin.ru"
                data-component="body">
     <br>
-<p>Email пользователя. Example: <code>admin@admin.ru</code></p>
+<p>Email пользователя. Поле value должно быть действительным электронным адресом. Поле value не может быть больше 128 символов. Example: <code>admin@admin.ru</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
@@ -3174,7 +3172,7 @@ Must be one of:
                value="ул. Администраторская, д. 1"
                data-component="body">
     <br>
-<p>Адрес доставки. Example: <code>ул. Администраторская, д. 1</code></p>
+<p>Адрес доставки. Поле value не может быть больше 255 символов. Example: <code>ул. Администраторская, д. 1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -3185,18 +3183,7 @@ Must be one of:
                value="StrongPass123"
                data-component="body">
     <br>
-<p>Пароль (если регистрация). Example: <code>StrongPass123</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
-<i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="phone"                data-endpoint="POSTapi-v1-order"
-               value="+7 999 999 99 99"
-               data-component="body">
-    <br>
-<p>Телефон пользователя. Example: <code>+7 999 999 99 99</code></p>
+<p>Пароль (если регистрация). This field is required when <code>register</code> is <code>true</code>. Поле value должно быть не меньше 8 символов. Поле value не может быть больше 64 символов. Example: <code>StrongPass123</code></p>
         </div>
         </form>
 
@@ -4858,7 +4845,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpChhJkL" </code></pre></div>
+    --form "attachments[]=@/tmp/phpoLgPPO" </code></pre></div>
 
 
 <div class="javascript-example">
