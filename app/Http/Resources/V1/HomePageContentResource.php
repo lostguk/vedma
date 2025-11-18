@@ -15,18 +15,16 @@ final class HomePageContentResource extends JsonResource
     {
         $heroImage = $this->hero_image_path ? Storage::url($this->hero_image_path) : null;
 
-        $heroFeature1Image = $this->hero_feature_1_image_path
-            ? Storage::url($this->hero_feature_1_image_path)
-            : null;
-        $heroFeature2Image = $this->hero_feature_2_image_path
-            ? Storage::url($this->hero_feature_2_image_path)
-            : null;
-        $heroFeature3Image = $this->hero_feature_3_image_path
-            ? Storage::url($this->hero_feature_3_image_path)
-            : null;
-
-        $aboutLeftImage = $this->about_left_image_path ? Storage::url($this->about_left_image_path) : null;
-        $aboutRightImage = $this->about_right_image_path ? Storage::url($this->about_right_image_path) : null;
+// Temporary commented
+//        $heroFeature1Image = $this->hero_feature_1_image_path
+//            ? Storage::url($this->hero_feature_1_image_path)
+//            : null;
+//        $heroFeature2Image = $this->hero_feature_2_image_path
+//            ? Storage::url($this->hero_feature_2_image_path)
+//            : null;
+//        $heroFeature3Image = $this->hero_feature_3_image_path
+//            ? Storage::url($this->hero_feature_3_image_path)
+//            : null;
 
         $trust1Image = $this->about_trust_feature_1_image_path
             ? Storage::url($this->about_trust_feature_1_image_path)
@@ -37,6 +35,9 @@ final class HomePageContentResource extends JsonResource
         $trust3Image = $this->about_trust_feature_3_image_path
             ? Storage::url($this->about_trust_feature_3_image_path)
             : null;
+
+        $aboutLeftImage = $this->about_left_image_path ? Storage::url($this->about_left_image_path) : null;
+        $aboutRightImage = $this->about_right_image_path ? Storage::url($this->about_right_image_path) : null;
 
         return [
             'hero' => [
@@ -50,15 +51,15 @@ final class HomePageContentResource extends JsonResource
                 'features' => [
                     [
                         'text' => $this->hero_feature_1_text,
-                        'icon' => $heroFeature1Image,
+//                        'icon' => $heroFeature1Image,
                     ],
                     [
                         'text' => $this->hero_feature_2_text,
-                        'icon' => $heroFeature2Image,
+//                        'icon' => $heroFeature2Image,
                     ],
                     [
                         'text' => $this->hero_feature_3_text,
-                        'icon' => $heroFeature3Image,
+//                        'icon' => $heroFeature3Image,
                     ],
                 ],
             ],
