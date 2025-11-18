@@ -16,5 +16,3 @@ Route::get('/health', function () {
     return response('healthy', 200)
         ->header('Content-Type', 'text/plain');
 });
-
-// Scribe routes will be auto-registered when type = 'laravel'

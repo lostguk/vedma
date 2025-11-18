@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\HomePageContentController;
-use App\Http\Controllers\Api\V1\OrderController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
 use App\Http\Controllers\Api\V1\ShippingController;
@@ -35,6 +34,7 @@ Route::prefix('v1')->group(function () {
 
     // User
     require base_path('routes/user.php');
+    require base_path('routes/orders.php');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
@@ -53,16 +53,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/pages', [PageController::class, 'index'])->name('index');
         Route::get('/pages/{id}', [PageController::class, 'show'])->name('show');
     });
-
-    // Order
-    Route::post('order/calculate', [OrderController::class, 'calculate'])
-        ->name('api.v1.order.calculate');
-
-    Route::middleware('auth:sanctum')->get('orders', [OrderController::class, 'index'])
-        ->name('api.v1.orders.index');
-
-    Route::post('order', [OrderController::class, 'store'])
-        ->name('api.v1.order.store');
 
     // Shipping calculation
     Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
