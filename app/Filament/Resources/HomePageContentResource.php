@@ -69,11 +69,11 @@ class HomePageContentResource extends Resource
                                                             ->label('Карточка 1 — текст')
                                                             ->maxLength(255),
 
-                                                        Forms\Components\FileUpload::make('hero_feature_1_image_path')
-                                                            ->label('Карточка 1 — иконка')
-                                                            ->directory('home')
-                                                            ->image()
-                                                            ->previewable(),
+//                                                        Forms\Components\FileUpload::make('hero_feature_1_image_path')
+//                                                            ->label('Карточка 1 — иконка')
+//                                                            ->directory('home')
+//                                                            ->image()
+//                                                            ->previewable(),
                                                     ]),
 
                                                 // Карточка 2
@@ -83,11 +83,11 @@ class HomePageContentResource extends Resource
                                                             ->label('Карточка 2 — текст')
                                                             ->maxLength(255),
 
-                                                        Forms\Components\FileUpload::make('hero_feature_2_image_path')
-                                                            ->label('Карточка 2 — иконка')
-                                                            ->directory('home')
-                                                            ->image()
-                                                            ->previewable(),
+//                                                        Forms\Components\FileUpload::make('hero_feature_2_image_path')
+//                                                            ->label('Карточка 2 — иконка')
+//                                                            ->directory('home')
+//                                                            ->image()
+//                                                            ->previewable(),
                                                     ]),
 
                                                 // Карточка 3
@@ -97,11 +97,11 @@ class HomePageContentResource extends Resource
                                                             ->label('Карточка 3 — текст')
                                                             ->maxLength(255),
 
-                                                        Forms\Components\FileUpload::make('hero_feature_3_image_path')
-                                                            ->label('Карточка 3 — иконка')
-                                                            ->directory('home')
-                                                            ->image()
-                                                            ->previewable(),
+//                                                        Forms\Components\FileUpload::make('hero_feature_3_image_path')
+//                                                            ->label('Карточка 3 — иконка')
+//                                                            ->directory('home')
+//                                                            ->image()
+//                                                            ->previewable(),
                                                     ]),
                                             ]),
                                     ]),
