@@ -303,8 +303,8 @@ help() {
     echo "  dev-artisan [c]  Artisan в DEV"
     echo "  dev-composer [c] Composer в DEV"
     echo "  docs-dev     Генерация документации (DEV)"
-    echo "  freshdb-dev  Миграции + сиды (fresh, force, DEV)"
-    echo "  test-dev         Запуск тестов (DEV)"
+    echo "  dev-freshdb  Миграции + сиды (fresh, force, DEV)"
+    echo "  dev-test         Запуск тестов (DEV)"
     echo ""
     echo -e "${YELLOW}ПРИМЕРЫ:${NC}"
     echo "  ./dev.sh up                    # Запуск разработки"
@@ -420,13 +420,13 @@ case "${1:-help}" in
         shift
         dev_composer "$@"
         ;;
-    docs-dev)
+    dev-docs)
         gen_docs_dev
         ;;
-    freshdb-dev)
+    dev-freshdb)
         migrate_fresh_dev
         ;;
-    test-dev)
+    dev-test)
         test_dev
         ;;
     help|*)
