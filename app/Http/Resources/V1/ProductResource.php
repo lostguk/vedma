@@ -26,8 +26,13 @@ class ProductResource extends JsonResource
             'dimensions' => $this->dimensions,
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'related' => ProductResource::collection($this->whenLoaded('related')),
-            'images_urls' => $this->getFirstMediaUrl('images'),
-            'thumb_url' => $this->getFirstMediaUrl('images', 'thumb'),
+            'images_urls' => $this->getMedia(Product::IMAGES_COLLECTION)
+                ->map(fn ($media) => $media->getUrl())
+                ->all(),
+            'image_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION),
+            'preview_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'preview'),
+            'thumb_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'preview'),
+            'thumb_small_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'thumb'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

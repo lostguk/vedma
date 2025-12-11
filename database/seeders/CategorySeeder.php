@@ -95,6 +95,17 @@ final class CategorySeeder extends Seeder
         ]);
         $this->addIconToCategory($colorCandles, $icons->random());
 
+        $thinCandles = Category::factory()->create([
+            'name' => 'Тонкие свечи',
+            'slug' => 'tonkie-svechi',
+            'sort_order' => 4,
+            'is_visible' => true,
+            'meta_title' => 'Тонкие свечи - Магазин свечей',
+            'meta_description' => 'Тонкие восковые свечи для ритуалов, медитаций и повседневных практик.',
+            'parent_id' => $allCandles->id,
+        ]);
+        $this->addIconToCategory($thinCandles, $icons->random());
+
         // 3. Дети "Ритуальных свечей"
         $moneyCandles = Category::factory()->create([
             'name' => 'Свечи для привлечения денег',
