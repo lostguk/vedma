@@ -27,6 +27,21 @@ class ProductSeeder extends Seeder
         $categoryCount = $categories->count();
         $products = collect();
 
+        $product1 = Product::create([
+            'name' => 'Свеча Горные вершины',
+            'price' => 990,
+            'old_price' => 1200,
+            'weight' => 250, // граммы
+            'width' => 250,
+            'length' => 250,
+            'height' => 250,
+            'is_new' => true,
+            'is_bestseller' => false,
+            'description' => '',
+        ]);
+
+        $product1->categories()->attach(1);
+
         // Для каждой категории создаём товары и привязываем к ней
         foreach ($categories as $i => $category) {
             $created = Product::factory(self::PRODUCTS_PER_CATEGORY)

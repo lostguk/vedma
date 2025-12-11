@@ -41,6 +41,15 @@ final class CategorySeeder extends Seeder
         // ЯВНАЯ СТРУКТУРА КАТЕГОРИЙ
         // =========================
 
+        Category::create([
+            'id' => 1,
+            'name' => 'Горные вершины',
+            'slug' => 'gornie-vershini',
+            'sort_order' => 1,
+            'is_visible' => true,
+            'meta_title' => 'Горные вершины',
+        ]);
+
         // 1. Корневая категория
         $allCandles = Category::factory()->create([
             'name' => 'Все свечи',
