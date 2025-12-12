@@ -27,7 +27,7 @@ final class RegisterTest extends TestCase
     {
         $response = $this->postJson(route('api.v1.auth.register'), $this->validData);
 
-        $response->assertStatus(200)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'status',
                 'message',
@@ -128,7 +128,7 @@ final class RegisterTest extends TestCase
 
         $response = $this->postJson(route('api.v1.auth.register'), $data);
 
-        $response->assertStatus(200)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'status',
                 'message',

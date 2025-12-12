@@ -25,6 +25,8 @@ class OrderStoreTest extends TestCase
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test1@example.com',
+            'delivery_type' => 'pickup',
+            'address' => 'Some Address',
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
@@ -53,6 +55,8 @@ class OrderStoreTest extends TestCase
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test2@example.com',
+            'delivery_type' => 'pickup',
+            'address' => 'Some Address',
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
@@ -74,6 +78,8 @@ class OrderStoreTest extends TestCase
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test3@example.com',
+            'delivery_type' => 'pickup',
+            'address' => 'Some Address',
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
@@ -95,6 +101,8 @@ class OrderStoreTest extends TestCase
             'last_name' => 'Петров',
             'email' => 'test4@example.com',
             'password' => 'password123',
+            'delivery_type' => 'pickup',
+            'address' => 'Some Address',
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
@@ -119,6 +127,8 @@ class OrderStoreTest extends TestCase
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
+            'delivery_type' => 'pickup',
+            'address' => 'Some Address',
         ];
         $this->actingAs($user);
         $response = $this->postJson('/api/v1/order', $payload);

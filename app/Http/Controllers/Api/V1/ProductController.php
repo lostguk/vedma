@@ -111,6 +111,23 @@ final class ProductController extends ApiController
      *       "length": 10,
      *       "weight": 350
      *     },
+     *     "breadcrumbs": [
+     *       {
+     *         "name": "Главная",
+     *         "slug": "/",
+     *         "type": "home"
+     *       },
+     *       {
+     *         "name": "Ароматические свечи",
+     *         "slug": "aromaticheskie-svechi",
+     *         "type": "category"
+     *       },
+     *       {
+     *         "name": "Ароматическая свеча Лаванда",
+     *         "slug": "aromaticheskaya-svecha-lavanda",
+     *         "type": "product"
+     *       }
+     *     ],
      *     "categories": [
      *       {
      *         "id": 1,
