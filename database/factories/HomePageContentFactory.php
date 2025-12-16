@@ -27,7 +27,7 @@ final class HomePageContentFactory extends Factory
             'hero_feature_3_text' => '🕯️Ручная работа и натуральные материалы',
 
             'about_title' => '🔮НАША МАГИЯ – ВАША СИЛА',
-            'about_description' => 'Мы верим в силу природы, традиционных знаний и искреннего намерения.',
+            'about_description' => 'Мы верим в силу природы, традиционных знаний и искреннего намерения. Наши изделия создаются с соблюдением обрядов, а каждый талисман и свеча проходят ритуал зарядки.',
 
             'about_trust_title' => '🌙Почему нам доверяют?',
 
@@ -53,9 +53,9 @@ final class HomePageContentFactory extends Factory
             'about_more_button_label' => 'Подробнее о нас',
             'about_more_button_url' => '/about',
 
-            'hero_image_path'                  => 'home/hero_image.png',
-            'about_left_image_path'            => 'home/about_left_image.png',
-            'about_right_image_path'           => 'home/about_right_image.png',
+            'hero_image_path' => 'home/hero_image.png',
+            'about_left_image_path' => 'home/about_left_image.png',
+            'about_right_image_path' => 'home/about_right_image.png',
             'about_trust_feature_1_image_path' => 'home/about_trust_feature_1_image.png',
             'about_trust_feature_2_image_path' => 'home/about_trust_feature_2_image.png',
             'about_trust_feature_3_image_path' => 'home/about_trust_feature_3_image.png',

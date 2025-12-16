@@ -46,12 +46,12 @@
 </a>
 <div class="tocify-wrapper">
             <img src="img/logo.png" alt="logo" class="logo" style="padding-top: 10px;" width="100%"/>
-    
+
             <div class="lang-selector">
                                             <button type="button" class="lang-button" data-language-name="bash">bash</button>
                                             <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
                     </div>
-    
+
     <div class="search">
         <input type="text" class="search" id="input-search" placeholder="Search">
     </div>
@@ -1890,7 +1890,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="zakazy-polzovatelia">Заказы пользователя</h1>
 
-    
+
 
                                 <h2 id="zakazy-polzovatelia-GETapi-v1-orders">Получить список заказов текущего пользователя</h2>
 
@@ -2441,7 +2441,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="obshhie-endpointy">Общие эндпоинты</h1>
 
-    
+
 
                                 <h2 id="obshhie-endpointy-GETapi-health">GET api/health</h2>
 
@@ -2695,7 +2695,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
-    
+
 
                                 <h2 id="oformlenie-zakaza-POSTapi-v1-order-calculate">Расчет стоимости заказа с учетом промокода.</h2>
 
@@ -3247,6 +3247,23 @@ fetch(url, {
             &quot;length&quot;: 10,
             &quot;weight&quot;: 350
         },
+        &quot;breadcrumbs&quot;: [
+            {
+                &quot;name&quot;: &quot;Главная&quot;,
+                &quot;slug&quot;: &quot;/&quot;,
+                &quot;type&quot;: &quot;home&quot;
+            },
+            {
+                &quot;name&quot;: &quot;Ароматические свечи&quot;,
+                &quot;slug&quot;: &quot;aromaticheskie-svechi&quot;,
+                &quot;type&quot;: &quot;category&quot;
+            },
+            {
+                &quot;name&quot;: &quot;Ароматическая свеча Лаванда&quot;,
+                &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
+                &quot;type&quot;: &quot;product&quot;
+            }
+        ],
         &quot;categories&quot;: [
             {
                 &quot;id&quot;: 1,
@@ -3662,7 +3679,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="profil">Профиль</h1>
 
-    
+
 
                                 <h2 id="profil-GETapi-v1-profile">Получить профиль текущего пользователя
 
@@ -4167,7 +4184,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="stranicy">Страницы</h1>
 
-    
+
 
                                 <h2 id="stranicy-GETapi-v1-pages">Получить список всех страниц
 
@@ -4222,6 +4239,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
+    &quot;data&quot;: []
     &quot;data&quot;: []
 }</code>
  </pre>
@@ -5419,9 +5437,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
-            
 
-        
+
+
     </div>
     <div class="dark-box">
                     <div class="lang-selector">
