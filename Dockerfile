@@ -45,7 +45,6 @@ RUN apk add --no-cache \
     libc-dev \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del autoconf g++ make gcc libc-dev \
     && docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install \
     pdo_mysql \
@@ -58,6 +57,7 @@ RUN apk add --no-cache \
     zip \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
+    && apk del autoconf g++ make gcc libc-dev \
     && rm -rf /var/cache/apk/*
 
 # Создание пользователя www
