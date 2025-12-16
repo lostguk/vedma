@@ -17,6 +17,7 @@ class PageSeeder extends Seeder
         $pages = [
             [
                 'title' => 'Главная',
+                'slug' => 'glavnaya',
                 'description' => 'Главная страница',
                 'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
                 'is_visible_in_header' => true,
@@ -24,6 +25,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Каталог',
+                'slug' => 'katalog',
                 'description' => 'Каталог товаров',
                 'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
                 'is_visible_in_header' => true,
@@ -31,6 +33,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Доставка и оплата',
+                'slug' => 'dostavka-i-oplata',
                 'description' => '',
                 'text' => '
                 <h2>Доставка</h2>
@@ -48,6 +51,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Обмен и возврат',
+                'slug' => 'obmen-i-vozvrat',
                 'description' => '',
                 'text' => '
 <h2>Возврат</h2>
@@ -61,6 +65,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Контакты',
+                'slug' => 'kontakty',
                 'description' => '',
                 'text' => '
                 <h2>Адресс</h2>
@@ -78,6 +83,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Оферта',
+                'slug' => 'oferta',
                 'description' => 'Публичная оферта',
                 'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
                 'is_visible_in_header' => false,
@@ -85,6 +91,7 @@ class PageSeeder extends Seeder
             ],
             [
                 'title' => 'Политика конфиденциальности',
+                'slug' => 'politika-konfidentsialnosti',
                 'description' => 'Политика конфиденциальности',
                 'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
                 'is_visible_in_header' => false,

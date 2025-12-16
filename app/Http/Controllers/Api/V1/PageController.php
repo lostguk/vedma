@@ -22,6 +22,7 @@ final class PageController extends ApiController
      *
      * @responseField id int ID страницы
      * @responseField title string Заголовок
+     * @responseField slug string URL-адрес страницы
      * @responseField description string Описание
      * @responseField text string Текст
      * @responseField is_visible_in_header boolean Показывать в шапке
@@ -43,6 +44,7 @@ final class PageController extends ApiController
      *
      * @responseField id int ID страницы
      * @responseField title string Заголовок
+     * @responseField slug string URL-адрес страницы
      * @responseField description string Описание
      * @responseField text string Текст
      * @responseField is_visible_in_header boolean Показывать в шапке

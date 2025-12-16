@@ -32,6 +32,11 @@ class PageResource extends Resource
                     ->label('Заголовок')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('slug')
+                    ->label('URL (slug)')
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('description')
                     ->label('Описание')
                     ->maxLength(255),
@@ -51,6 +56,7 @@ class PageResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
                 Tables\Columns\TextColumn::make('title')->label('Заголовок')->searchable(),
+                Tables\Columns\TextColumn::make('slug')->label('URL (slug)')->searchable(),
                 Tables\Columns\TextColumn::make('description')->label('Описание')->limit(50),
                 Tables\Columns\TextColumn::make('text')->label('Текст')->limit(50),
                 Tables\Columns\IconColumn::make('is_visible_in_header')
