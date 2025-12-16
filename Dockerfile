@@ -69,11 +69,10 @@ RUN mkdir -p /var/www/html \
     /var/log/supervisor \
     /var/log/nginx \
     /var/cache/nginx/client_temp \
-    /var/lib/nginx/tmp/client_body \
     /var/run \
-    && chown -R www:www /var/www/html /var/cache/nginx /var/lib/nginx/tmp \
+    && chown -R www:www /var/www/html /var/cache/nginx \
     && chmod -R 755 /var/www/html \
-    && chmod -R 750 /var/cache/nginx /var/lib/nginx/tmp
+    && chmod -R 750 /var/cache/nginx
 
 # Копирование конфигураций
 COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
