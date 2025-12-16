@@ -46,12 +46,12 @@
 </a>
 <div class="tocify-wrapper">
             <img src="img/logo.png" alt="logo" class="logo" style="padding-top: 10px;" width="100%"/>
-
+    
             <div class="lang-selector">
                                             <button type="button" class="lang-button" data-language-name="bash">bash</button>
                                             <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
                     </div>
-
+    
     <div class="search">
         <input type="text" class="search" id="input-search" placeholder="Search">
     </div>
@@ -1890,7 +1890,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="zakazy-polzovatelia">Заказы пользователя</h1>
 
-
+    
 
                                 <h2 id="zakazy-polzovatelia-GETapi-v1-orders">Получить список заказов текущего пользователя</h2>
 
@@ -2441,7 +2441,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="obshhie-endpointy">Общие эндпоинты</h1>
 
-
+    
 
                                 <h2 id="obshhie-endpointy-GETapi-health">GET api/health</h2>
 
@@ -2494,7 +2494,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-12-16T07:23:16+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-12-16T07:25:08+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2695,7 +2695,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
-
+    
 
                                 <h2 id="oformlenie-zakaza-POSTapi-v1-order-calculate">Расчет стоимости заказа с учетом промокода.</h2>
 
@@ -3679,7 +3679,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="profil">Профиль</h1>
 
-
+    
 
                                 <h2 id="profil-GETapi-v1-profile">Получить профиль текущего пользователя
 
@@ -4184,7 +4184,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
                 <h1 id="stranicy">Страницы</h1>
 
-
+    
 
                                 <h2 id="stranicy-GETapi-v1-pages">Получить список всех страниц
 
@@ -4239,8 +4239,71 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: []
-    &quot;data&quot;: []
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;slug&quot;: &quot;glavnay&quot;,
+            &quot;description&quot;: &quot;Главная страница&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Ut dolores sit ad repudiandae eius. Non ut ut voluptate. Doloremque et sed similique odit.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Et quia mollitia rem autem incidunt doloremque qui assumenda. Ex et quidem vitae pariatur et eos cum. Omnis ratione et molestias omnis veritatis esse dolor. Non et ab quis ut id ut.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;slug&quot;: &quot;katalog&quot;,
+            &quot;description&quot;: &quot;Каталог товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Nobis occaecati id et non eum tenetur. Illo illum porro enim dolor consequatur labore. Quis est nisi nesciunt est et voluptatem.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Dolorem voluptatum qui ipsum eligendi ut. Nesciunt nulla voluptatibus totam vero. Voluptas odit ipsa nemo et. Officia necessitatibus et qui maxime corporis quidem ex. Delectus dicta ex qui quibusdam.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;slug&quot;: &quot;dostavka-i-oplata&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Доставка&lt;/h2&gt;\n                &lt;p&gt;Мы доставляем наши по всей России. Стоимость доставки зависит от региона.\nКогда оформите заказ, наш менеджер свяжется с вами и сообщит стоимость, а также уточнит детали доставки.&lt;/p&gt;\n                &lt;h4&gt;Почта России&lt;/h4&gt;\n                &lt;p&gt;От 5 до 30 дней после передачи посылки в отделение почты.\nЕсли сумма заказа больше 70 000 ₽, доставка бесплатно. Если меньше &mdash; от 400 до 2500 ₽, зависит от региона.&lt;/p&gt;\n                &lt;h2&gt;Оплата&lt;/h2&gt;\n                &lt;p&gt;У нас подключен интернет-эквайринг. С ним можно оплачивать картой или через Систему быстрых платежей.\n&lt;/p&gt;\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;slug&quot;: &quot;obmen-i-vozvrat&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n&lt;h2&gt;Возврат&lt;/h2&gt;\n&lt;p&gt;Вы можете вернуть товар в течение 14 дней после получения на пункте выдачи, при условии сохранения товарного вида и упаковки. Для оформления возврата необходимо связаться с нами в WhatsApp. Доставку до нашего склада вы оплачиваете самостоятельно. Возврат денежных средств будет произведен после предоставления квитанции отправления товара.&lt;/p&gt;\n&lt;h2&gt;Если нашли брак&lt;/h2&gt;\n&lt;p&gt;Если вы нашли брак или скрытый дефект &mdash; можете вернуть товар, даже если прошло больше 14 дней после получения товара. Доставку на наш склад оплатим мы.&lt;br /&gt; Для возврата напишите нам в WhatsApp и приложите фото, которые подтверждают брак.\n&lt;br /&gt;В течение дня наш сотрудник примет обращение и расскажет, что делать дальше.&lt;/p&gt;\n&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;slug&quot;: &quot;kontakty&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Адресс&lt;/h2&gt;\n                &lt;p&gt;Краснодарский край, Северский р-он, пгт. Афипский,\n                &lt;br /&gt; Красноармейская д.72 &lt;/p&gt;\n                &lt;h2&gt;ИП&lt;/h2&gt;\n                &lt;p&gt;ИП Лушникова Александра Петровна\n               &lt;br /&gt;ИНН 231108788087&lt;/p&gt;\n               &lt;h2&gt;Контакты&lt;/h2&gt;\n               &lt;p&gt;8 (960) 492-16-69 &lt;br /&gt; WhatsApp&lt;/p&gt;\n\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;slug&quot;: &quot;oferta&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Aperiam voluptatibus soluta cumque expedita aliquam laborum non. Voluptatibus facilis recusandae sit qui est illo repellendus rerum. Culpa vitae aliquid iste aut quaerat.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Fuga voluptate ratione et et neque. Et sit atque ducimus quia. Aspernatur id nulla maxime ut labore. Animi nobis velit nihil sunt qui doloremque.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Rerum voluptatum libero illo quaerat minima quibusdam sint. Non perferendis possimus ipsam id numquam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Deserunt molestiae blanditiis voluptas aut enim. Explicabo et cumque tempore. Eveniet eum temporibus aliquid quis est. Temporibus vero illo necessitatibus harum non ut nulla.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -4820,7 +4883,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpAkKoPM" </code></pre></div>
+    --form "attachments[]=@/tmp/phpLENoal" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -5437,9 +5500,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
+            
 
-
-
+        
     </div>
     <div class="dark-box">
                     <div class="lang-selector">
