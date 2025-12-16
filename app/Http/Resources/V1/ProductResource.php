@@ -23,6 +23,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'old_price' => $this->old_price,
+            'is_new' => $this->is_new,
+            'is_bestseller' => $this->is_bestseller,
             'dimensions' => $this->dimensions,
             'breadcrumbs' => $this->when(
                 $request->routeIs('api.v1.products.show'),

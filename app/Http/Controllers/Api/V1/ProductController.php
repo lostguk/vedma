@@ -46,6 +46,8 @@ final class ProductController extends ApiController
      *       "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *       "price": 1200.99,
      *       "old_price": 1500.00,
+     *       "is_new": true,
+     *       "is_bestseller": false,
      *       "dimensions": {
      *         "width": 10,
      *         "height": 12,
@@ -105,6 +107,8 @@ final class ProductController extends ApiController
      *     "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *     "price": 1200.99,
      *     "old_price": 1500.00,
+     *     "is_new": true,
+     *     "is_bestseller": false,
      *     "dimensions": {
      *       "width": 10,
      *       "height": 12,

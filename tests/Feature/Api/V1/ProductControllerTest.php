@@ -33,6 +33,8 @@ class ProductControllerTest extends TestCase
                     'description',
                     'price',
                     'old_price',
+                    'is_new',
+                    'is_bestseller',
                     'dimensions' => [
                         'width',
                         'height',
@@ -74,6 +76,8 @@ class ProductControllerTest extends TestCase
     {
         $product = Product::factory()->create([
             'price' => 99.99,
+            'is_new' => true,
+            'is_bestseller' => false,
         ]);
 
         $response = $this->getJson(route('api.v1.products.show', ['slug' => $product->slug]));
@@ -87,13 +91,60 @@ class ProductControllerTest extends TestCase
                     'slug',
                     'price',
                     'old_price',
+                    'is_new',
+                    'is_bestseller',
                 ],
             ])
             ->assertJsonPath('data.id', $product->id)
             ->assertJsonPath('data.name', $product->name)
             ->assertJsonPath('data.slug', $product->slug)
             ->assertJsonPath('data.price', 99.99)
-            ->assertJsonPath('data.old_price', $product->old_price);
+            ->assertJsonPath('data.old_price', $product->old_price)
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', false);
+    }
+
+    /**
+     * Тест проверки полей is_new и is_bestseller в ответе
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function test_product_response_includes_is_new_and_is_bestseller(): void
+    {
+        $newProduct = Product::factory()->create([
+            'is_new' => true,
+            'is_bestseller' => false,
+        ]);
+
+        $bestsellerProduct = Product::factory()->create([
+            'is_new' => false,
+            'is_bestseller' => true,
+        ]);
+
+        $bothProduct = Product::factory()->create([
+            'is_new' => true,
+            'is_bestseller' => true,
+        ]);
+
+        // Проверка нового продукта
+        $responseNew = $this->getJson(route('api.v1.products.show', ['slug' => $newProduct->slug]));
+        $responseNew
+            ->assertOk()
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', false);
+
+        // Проверка хита продаж
+        $responseBestseller = $this->getJson(route('api.v1.products.show', ['slug' => $bestsellerProduct->slug]));
+        $responseBestseller
+            ->assertOk()
+            ->assertJsonPath('data.is_new', false)
+            ->assertJsonPath('data.is_bestseller', true);
+
+        // Проверка продукта с обоими флагами
+        $responseBoth = $this->getJson(route('api.v1.products.show', ['slug' => $bothProduct->slug]));
+        $responseBoth
+            ->assertOk()
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', true);
     }
 
     /**
@@ -236,6 +287,8 @@ class ProductControllerTest extends TestCase
                         'description',
                         'price',
                         'old_price',
+                        'is_new',
+                        'is_bestseller',
                         'dimensions',
                         'categories',
                         'related',
