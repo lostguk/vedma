@@ -2494,7 +2494,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-12-16T07:42:07+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-12-16T12:18:02+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2754,18 +2754,23 @@ fetch(url, {
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;name&quot;: &quot;Товар 1&quot;,
-            &quot;price&quot;: 100,
-            &quot;old_price&quot;: 120,
-            &quot;count&quot;: 2,
-            &quot;summery&quot;: 200,
-            &quot;summery_old&quot;: 240,
-            &quot;discounted&quot;: true
-        }
-    ],
+    &quot;data&quot;: {
+        &quot;items&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Товар 1&quot;,
+                &quot;price&quot;: 100,
+                &quot;old_price&quot;: 120,
+                &quot;count&quot;: 2,
+                &quot;summery&quot;: 200,
+                &quot;summery_old&quot;: 240,
+                &quot;discounted&quot;: true
+            }
+        ],
+        &quot;total_without_discount&quot;: 240,
+        &quot;total_with_discount&quot;: 200,
+        &quot;promo_code_status&quot;: &quot;applied&quot;
+    },
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;
 }</code>
@@ -2887,7 +2892,83 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
-                    <h2 id="oformlenie-zakaza-POSTapi-v1-order">Оформление заказа (создание)</h2>
+    <h3>Response</h3>
+    <h4 class="fancy-heading-panel"><b>Response Fields</b></h4>
+    <div style=" padding-left: 28px;  clear: unset;">
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b style="line-height: 2;"><code>items</code></b>&nbsp;&nbsp;
+<small>string[][]</small>&nbsp;
+ &nbsp;
+<br>
+<p>Массив товаров с рассчитанной стоимостью</p>
+            </summary>
+                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>ID</p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>Название</p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>Количество</p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>summery</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>Итоговая стоимость товара (с учетом промокода)</p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>summery_old</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>Итоговая стоимость товара без промокода</p>
+                    </div>
+                                                                <div style="margin-left: 14px; clear: unset;">
+                        <b style="line-height: 2;"><code>discounted</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+<br>
+<p>Применен ли промокод к товару</p>
+                    </div>
+                                    </details>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>total_without_discount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+<br>
+<p>Общая сумма заказа без промокода</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>total_with_discount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+<br>
+<p>Общая сумма заказа с промокодом</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>promo_code_status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+<br>
+<p>Статус промокода: &quot;not_exists&quot; (промокод не существует), &quot;not_applied&quot; (промокод существует, но не применился к товарам), &quot;applied&quot; (промокод применился)</p>
+        </div>
+                        <h2 id="oformlenie-zakaza-POSTapi-v1-order">Оформление заказа (создание)</h2>
 
 <p>
 </p>
@@ -4243,7 +4324,71 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: []
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;slug&quot;: &quot;glavnaya&quot;,
+            &quot;description&quot;: &quot;Главная страница&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Pariatur illum omnis rerum id consequatur adipisci temporibus. Excepturi sunt molestiae qui molestiae. Qui est enim eius aliquam sunt ipsa nulla.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Saepe non et deleniti. Commodi non blanditiis dolore. Nam minus nostrum culpa.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;slug&quot;: &quot;katalog&quot;,
+            &quot;description&quot;: &quot;Каталог товаров&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Rerum numquam rerum et saepe ab. Quasi consectetur et enim quidem in in aut. Repudiandae laborum quis sequi in aut expedita est eum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptate et a sequi sint sed ab consequuntur. Maiores officia in perferendis rerum. Debitis ut voluptas maiores.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;slug&quot;: &quot;dostavka-i-oplata&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Доставка&lt;/h2&gt;\n                &lt;p&gt;Мы доставляем наши по всей России. Стоимость доставки зависит от региона.\nКогда оформите заказ, наш менеджер свяжется с вами и сообщит стоимость, а также уточнит детали доставки.&lt;/p&gt;\n                &lt;h4&gt;Почта России&lt;/h4&gt;\n                &lt;p&gt;От 5 до 30 дней после передачи посылки в отделение почты.\nЕсли сумма заказа больше 70 000 ₽, доставка бесплатно. Если меньше &mdash; от 400 до 2500 ₽, зависит от региона.&lt;/p&gt;\n                &lt;h2&gt;Оплата&lt;/h2&gt;\n                &lt;p&gt;У нас подключен интернет-эквайринг. С ним можно оплачивать картой или через Систему быстрых платежей.\n&lt;/p&gt;\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;slug&quot;: &quot;obmen-i-vozvrat&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n&lt;h2&gt;Возврат&lt;/h2&gt;\n&lt;p&gt;Вы можете вернуть товар в течение 14 дней после получения на пункте выдачи, при условии сохранения товарного вида и упаковки. Для оформления возврата необходимо связаться с нами в WhatsApp. Доставку до нашего склада вы оплачиваете самостоятельно. Возврат денежных средств будет произведен после предоставления квитанции отправления товара.&lt;/p&gt;\n&lt;h2&gt;Если нашли брак&lt;/h2&gt;\n&lt;p&gt;Если вы нашли брак или скрытый дефект &mdash; можете вернуть товар, даже если прошло больше 14 дней после получения товара. Доставку на наш склад оплатим мы.&lt;br /&gt; Для возврата напишите нам в WhatsApp и приложите фото, которые подтверждают брак.\n&lt;br /&gt;В течение дня наш сотрудник примет обращение и расскажет, что делать дальше.&lt;/p&gt;\n&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;slug&quot;: &quot;kontakty&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Адресс&lt;/h2&gt;\n                &lt;p&gt;Краснодарский край, Северский р-он, пгт. Афипский,\n                &lt;br /&gt; Красноармейская д.72 &lt;/p&gt;\n                &lt;h2&gt;ИП&lt;/h2&gt;\n                &lt;p&gt;ИП Лушникова Александра Петровна\n               &lt;br /&gt;ИНН 231108788087&lt;/p&gt;\n               &lt;h2&gt;Контакты&lt;/h2&gt;\n               &lt;p&gt;8 (960) 492-16-69 &lt;br /&gt; WhatsApp&lt;/p&gt;\n\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;slug&quot;: &quot;oferta&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Numquam voluptas corporis quos voluptas eveniet aut. Perspiciatis sed nisi odio. Et amet quia sint eligendi. Id exercitationem harum quis repudiandae saepe consequatur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Est est facere ad quas sit. Sed explicabo in voluptatem possimus. Porro et sed libero. Est sit saepe rerum voluptatem sit.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Id reprehenderit autem facilis veritatis quo sit. Ut qui esse quo numquam vitae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vel dolor ducimus consequatur vitae officia. Beatae similique rerum at ipsam voluptas esse cum consectetur. Sunt porro quod voluptatibus quia totam maxime sint.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -4823,7 +4968,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phppppPdo" </code></pre></div>
+    --form "attachments[]=@/tmp/phpjnjNgo" </code></pre></div>
 
 
 <div class="javascript-example">
