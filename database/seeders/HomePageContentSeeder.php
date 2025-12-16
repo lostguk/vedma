@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\HomePageContent;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
@@ -38,9 +39,30 @@ final class HomePageContentSeeder extends Seeder
         $payload = HomePageContent::factory()->make()->toArray();
 
         // Единственная запись с id = 1
-        HomePageContent::query()->updateOrCreate(
+        $homePageContent = HomePageContent::query()->updateOrCreate(
             ['id' => 1],
             $payload,
         );
+
+        // Привязываем категории к главной странице
+        // Ищем корневые категории (без parent_id) или категорию "Все свечи"
+        $categories = Category::query()
+            ->where(function ($query) {
+                $query->whereNull('parent_id')
+                    ->orWhere('slug', 'vse-svechi');
+            })
+            ->where('is_visible', true)
+            ->orderBy('sort_order')
+            ->limit(3)
+            ->get();
+
+        if ($categories->isNotEmpty()) {
+            $sortOrder = 1;
+            foreach ($categories as $category) {
+                $homePageContent->categories()->syncWithoutDetaching([
+                    $category->id => ['sort_order' => $sortOrder++],
+                ]);
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 final class HomePageContent extends Model
 {
@@ -60,5 +61,15 @@ final class HomePageContent extends Model
     protected function casts(): array
     {
         return [];
+    }
+
+    /**
+     * Получить категории для главной страницы.
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'category_home_page_content', 'home_page_content_id', 'category_id')
+            ->withPivot('sort_order')
+            ->orderByPivot('sort_order');
     }
 }

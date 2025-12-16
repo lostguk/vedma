@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection as SupportCollection;
 use Spatie\MediaLibrary\HasMedia;
@@ -109,5 +110,18 @@ final class Category extends Model implements HasMedia
         return $query->where('slug', $slug)
             ->where('parent_id', $parentId)
             ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId));
+    }
+
+    /**
+     * Получить главные страницы, к которым привязана категория.
+     */
+    public function homePageContents(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            \App\Models\HomePageContent::class,
+            'category_home_page_content',
+            'category_id',
+            'home_page_content_id'
+        )->withPivot('sort_order');
     }
 }

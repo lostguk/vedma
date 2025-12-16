@@ -16,7 +16,13 @@ final class HomePageContentRepository extends BaseRepository
     public function getSingle(): HomePageContent
     {
         /** @var HomePageContent $record */
-        $record = $this->model->newQuery()->firstOrFail();
+        $record = $this->model->newQuery()
+            ->with([
+                'categories' => function ($query) {
+                    $query->with('media');
+                },
+            ])
+            ->firstOrFail();
 
         return $record;
     }

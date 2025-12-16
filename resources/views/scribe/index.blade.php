@@ -1561,7 +1561,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>
 </p>
 
-<p>Возвращает два блока: первый экран и блок &quot;Наша магия — ваша сила&quot;.</p>
+<p>Возвращает контент главной страницы, включая:</p>
+<ul>
+<li>Первый экран (hero) с заголовком, подзаголовком, кнопкой и изображением</li>
+<li>Блок &quot;Наша магия — ваша сила&quot; (about) с описанием, статистикой и изображениями</li>
+<li>Выбранные категории товаров для отображения на главной странице</li>
+<li>Товары из выбранных категорий и всех их дочерних категорий (рекурсивно)</li>
+</ul>
 
 <span id="example-requests-GETapi-v1-home">
 <blockquote>Example request:</blockquote>
@@ -1593,7 +1599,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-home">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (200, Успешный запрос):</p>
         </blockquote>
                 <pre>
 
@@ -1601,12 +1607,115 @@ fetch(url, {
     &quot;data&quot;: {
         &quot;hero&quot;: {
             &quot;title&quot;: &quot;МАГИЯ ЖИВЕТ В КАЖДОМ ИЗ НАС&quot;,
-            &quot;...&quot;: &quot;...&quot;
+            &quot;subtitle&quot;: &quot;Вопрос в том, готовы ли вы её пробудить?&quot;,
+            &quot;button&quot;: {
+                &quot;label&quot;: &quot;Каталог&quot;,
+                &quot;url&quot;: &quot;/catalog&quot;
+            },
+            &quot;image&quot;: &quot;http://localhost:8000/storage/home/hero_image.png&quot;,
+            &quot;features&quot;: [
+                {
+                    &quot;text&quot;: &quot;🔮Авторские изделия заряженные энергией&quot;
+                },
+                {
+                    &quot;text&quot;: &quot;🌙Традиционные рецепты и обряды&quot;
+                },
+                {
+                    &quot;text&quot;: &quot;🕯️Ручная работа и натуральные материалы&quot;
+                }
+            ]
         },
         &quot;about&quot;: {
-            &quot;title&quot;: &quot;НАША МАГИЯ &ndash; ВАША СИЛА&quot;,
-            &quot;...&quot;: &quot;...&quot;
-        }
+            &quot;title&quot;: &quot;🔮НАША МАГИЯ &ndash; ВАША СИЛА&quot;,
+            &quot;description&quot;: &quot;Мы верим в силу природы...&quot;,
+            &quot;trust&quot;: {
+                &quot;title&quot;: &quot;🌙Почему нам доверяют?&quot;,
+                &quot;items&quot;: [
+                    {
+                        &quot;title&quot;: &quot;Проверенные рецепты&quot;,
+                        &quot;image&quot;: &quot;...&quot;
+                    },
+                    {
+                        &quot;title&quot;: &quot;Только натуральные материалы&quot;,
+                        &quot;image&quot;: &quot;...&quot;
+                    },
+                    {
+                        &quot;title&quot;: &quot;Энергетическая зарядка каждого изделия&quot;,
+                        &quot;image&quot;: &quot;...&quot;
+                    }
+                ]
+            },
+            &quot;motto&quot;: &quot;✨Магия в ваших руках &ndash; главное, использовать ее с осознанием.&quot;,
+            &quot;images&quot;: {
+                &quot;left&quot;: &quot;http://localhost:8000/storage/home/about_left_image.png&quot;,
+                &quot;right&quot;: &quot;http://localhost:8000/storage/home/about_right_image.png&quot;
+            },
+            &quot;stats&quot;: {
+                &quot;title&quot;: &quot;🧮Мы в цифрах&quot;,
+                &quot;items&quot;: [
+                    {
+                        &quot;value&quot;: &quot;3600+&quot;,
+                        &quot;label&quot;: &quot;Довольных клиентов&quot;,
+                        &quot;text&quot;: &quot;...&quot;
+                    },
+                    {
+                        &quot;value&quot;: &quot;6&quot;,
+                        &quot;label&quot;: &quot;Лет&quot;,
+                        &quot;text&quot;: &quot;...&quot;
+                    },
+                    {
+                        &quot;value&quot;: &quot;500+&quot;,
+                        &quot;label&quot;: &quot;Моделей свечей&quot;,
+                        &quot;text&quot;: &quot;...&quot;
+                    }
+                ]
+            },
+            &quot;moreButton&quot;: {
+                &quot;label&quot;: &quot;Подробнее о нас&quot;,
+                &quot;url&quot;: &quot;/about&quot;
+            }
+        },
+        &quot;categories&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Ритуальные Свечи&quot;,
+                &quot;slug&quot;: &quot;ritualnye-svechi&quot;,
+                &quot;description&quot;: &quot;Свечи для различных ритуалов&quot;,
+                &quot;icon&quot;: &quot;http://localhost:8000/storage/1/icon.svg&quot;,
+                &quot;parent_id&quot;: null,
+                &quot;sort_order&quot;: 1,
+                &quot;is_visible&quot;: true
+            }
+        ],
+        &quot;products&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Ароматическая свеча Лаванда&quot;,
+                &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
+                &quot;description&quot;: &quot;Успокаивающий аромат лаванды&quot;,
+                &quot;price&quot;: 1200.99,
+                &quot;old_price&quot;: 1500,
+                &quot;is_new&quot;: true,
+                &quot;is_bestseller&quot;: false,
+                &quot;dimensions&quot;: {
+                    &quot;weight&quot;: 350,
+                    &quot;width&quot;: 10,
+                    &quot;height&quot;: 12,
+                    &quot;length&quot;: 10
+                },
+                &quot;categories&quot;: [],
+                &quot;related&quot;: [],
+                &quot;images_urls&quot;: [
+                    &quot;http://localhost:8000/storage/1/image.jpg&quot;
+                ],
+                &quot;image_url&quot;: &quot;http://localhost:8000/storage/1/image.jpg&quot;,
+                &quot;preview_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
+                &quot;thumb_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
+                &quot;thumb_small_url&quot;: &quot;http://localhost:8000/storage/1/thumb.jpg&quot;,
+                &quot;created_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;
+            }
+        ]
     }
 }</code>
  </pre>
@@ -2494,7 +2603,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-12-16T12:18:02+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-12-16T13:38:28+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4330,7 +4439,7 @@ vary: Origin
             &quot;title&quot;: &quot;Главная&quot;,
             &quot;slug&quot;: &quot;glavnaya&quot;,
             &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Pariatur illum omnis rerum id consequatur adipisci temporibus. Excepturi sunt molestiae qui molestiae. Qui est enim eius aliquam sunt ipsa nulla.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Saepe non et deleniti. Commodi non blanditiis dolore. Nam minus nostrum culpa.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Dolore cum enim et rerum rerum earum deserunt. Laudantium sed odio qui non voluptatibus dolores. Nisi expedita quia soluta quam voluptate.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Reiciendis vero est consequatur quibusdam doloremque perferendis nemo. Non et quasi repellendus tempora eum veritatis eligendi. Consequatur totam cupiditate maiores ea nihil hic.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4339,7 +4448,7 @@ vary: Origin
             &quot;title&quot;: &quot;Каталог&quot;,
             &quot;slug&quot;: &quot;katalog&quot;,
             &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Rerum numquam rerum et saepe ab. Quasi consectetur et enim quidem in in aut. Repudiandae laborum quis sequi in aut expedita est eum.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Voluptate et a sequi sint sed ab consequuntur. Maiores officia in perferendis rerum. Debitis ut voluptas maiores.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Molestiae alias laboriosam nemo explicabo explicabo perspiciatis. Quam eos dolores quas rerum velit id. Sed sit fugit dolor omnis. Ut consequatur et minima aspernatur et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Exercitationem amet expedita minima quae in. Id ut esse tempore aut sit tempore vel. Velit consequatur magnam qui. Et ipsum et est omnis et voluptate.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: true,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4375,7 +4484,7 @@ vary: Origin
             &quot;title&quot;: &quot;Оферта&quot;,
             &quot;slug&quot;: &quot;oferta&quot;,
             &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Numquam voluptas corporis quos voluptas eveniet aut. Perspiciatis sed nisi odio. Et amet quia sint eligendi. Id exercitationem harum quis repudiandae saepe consequatur.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Est est facere ad quas sit. Sed explicabo in voluptatem possimus. Porro et sed libero. Est sit saepe rerum voluptatem sit.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Dolorem itaque iste et corporis autem est. Possimus accusantium beatae odit. Ut nesciunt iste velit ea qui ullam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui ut ea voluptas dolores sed minus. Libero quas rem nihil similique blanditiis veniam et expedita.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         },
@@ -4384,7 +4493,7 @@ vary: Origin
             &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
             &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
             &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Id reprehenderit autem facilis veritatis quo sit. Ut qui esse quo numquam vitae.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Vel dolor ducimus consequatur vitae officia. Beatae similique rerum at ipsam voluptas esse cum consectetur. Sunt porro quod voluptatibus quia totam maxime sint.&lt;/p&gt;&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Velit est deserunt in hic qui nobis voluptas. Perspiciatis tempore libero iure officiis minus illum voluptatem voluptatem. Dolor eos aspernatur occaecati qui consequuntur facere.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Consectetur quas quia praesentium est consequatur sunt. Laboriosam aliquam neque nobis dicta illo odio ut.&lt;/p&gt;&quot;,
             &quot;is_visible_in_header&quot;: false,
             &quot;is_visible_in_footer&quot;: true
         }
@@ -4968,7 +5077,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpjnjNgo" </code></pre></div>
+    --form "attachments[]=@/tmp/phpkLPnpJ" </code></pre></div>
 
 
 <div class="javascript-example">

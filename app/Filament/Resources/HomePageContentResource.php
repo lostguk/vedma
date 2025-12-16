@@ -235,6 +235,51 @@ class HomePageContentResource extends Resource
                                     ])
                                     ->columns(2),
                             ]),
+                        Forms\Components\Tabs\Tab::make('Товары')
+                            ->schema([
+                                Forms\Components\Section::make('Категории товаров')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('categories_data')
+                                            ->label('Категории для отображения на главной странице')
+                                            ->schema([
+                                                Forms\Components\Select::make('category_id')
+                                                    ->label('Категория')
+                                                    ->options(function ($get, $livewire, $state) {
+                                                        // Получаем все выбранные категории из других элементов Repeater
+                                                        $allItems = $get('../../categories_data') ?? [];
+                                                        $currentCategoryId = $state;
+                                                        $selectedIds = collect($allItems)
+                                                            ->pluck('category_id')
+                                                            ->filter()
+                                                            ->reject(fn ($id) => $id == $currentCategoryId) // Не исключаем текущую категорию
+                                                            ->all();
+
+                                                        // Исключаем уже выбранные категории (кроме текущей)
+                                                        return \App\Models\Category::query()
+                                                            ->whereNotIn('id', $selectedIds)
+                                                            ->pluck('name', 'id')
+                                                            ->toArray();
+                                                    })
+                                                    ->searchable()
+                                                    ->required()
+                                                    ->live()
+                                                    ->helperText('Выберите категорию. Товары из дочерних категорий также будут включены. Порядок элементов определяет порядок отображения на главной странице.'),
+                                            ])
+                                            ->defaultItems(0)
+                                            ->reorderable()
+                                            ->collapsible()
+                                            ->itemLabel(function (array $state): ?string {
+                                                if (empty($state['category_id'])) {
+                                                    return null;
+                                                }
+
+                                                $category = \App\Models\Category::find($state['category_id']);
+
+                                                return $category?->name;
+                                            })
+                                            ->helperText('Перетаскивайте элементы для изменения порядка. Максимум 3 товара будет отображаться из каждой категории.'),
+                                    ]),
+                            ]),
                     ]),
             ])
             ->columns(1);
@@ -274,6 +319,7 @@ class HomePageContentResource extends Resource
     {
         return false;
     }
+
 
     public static function getPages(): array
     {

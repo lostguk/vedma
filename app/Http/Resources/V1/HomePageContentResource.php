@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\V1;
 
+use App\Services\HomePageContentService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -15,16 +16,16 @@ final class HomePageContentResource extends JsonResource
     {
         $heroImage = $this->hero_image_path ? Storage::url($this->hero_image_path) : null;
 
-// Temporary commented
-//        $heroFeature1Image = $this->hero_feature_1_image_path
-//            ? Storage::url($this->hero_feature_1_image_path)
-//            : null;
-//        $heroFeature2Image = $this->hero_feature_2_image_path
-//            ? Storage::url($this->hero_feature_2_image_path)
-//            : null;
-//        $heroFeature3Image = $this->hero_feature_3_image_path
-//            ? Storage::url($this->hero_feature_3_image_path)
-//            : null;
+        // Temporary commented
+        //        $heroFeature1Image = $this->hero_feature_1_image_path
+        //            ? Storage::url($this->hero_feature_1_image_path)
+        //            : null;
+        //        $heroFeature2Image = $this->hero_feature_2_image_path
+        //            ? Storage::url($this->hero_feature_2_image_path)
+        //            : null;
+        //        $heroFeature3Image = $this->hero_feature_3_image_path
+        //            ? Storage::url($this->hero_feature_3_image_path)
+        //            : null;
 
         $trust1Image = $this->about_trust_feature_1_image_path
             ? Storage::url($this->about_trust_feature_1_image_path)
@@ -39,6 +40,15 @@ final class HomePageContentResource extends JsonResource
         $aboutLeftImage = $this->about_left_image_path ? Storage::url($this->about_left_image_path) : null;
         $aboutRightImage = $this->about_right_image_path ? Storage::url($this->about_right_image_path) : null;
 
+        // Получаем товары из категорий рекурсивно
+        $categories = collect($this->categories ?? []);
+        $products = collect();
+
+        if ($categories->isNotEmpty()) {
+            $service = app(HomePageContentService::class);
+            $products = $service->getProductsFromCategories($categories);
+        }
+
         return [
             'hero' => [
                 'title' => $this->hero_title,
@@ -51,15 +61,15 @@ final class HomePageContentResource extends JsonResource
                 'features' => [
                     [
                         'text' => $this->hero_feature_1_text,
-//                        'icon' => $heroFeature1Image,
+                        //                        'icon' => $heroFeature1Image,
                     ],
                     [
                         'text' => $this->hero_feature_2_text,
-//                        'icon' => $heroFeature2Image,
+                        //                        'icon' => $heroFeature2Image,
                     ],
                     [
                         'text' => $this->hero_feature_3_text,
-//                        'icon' => $heroFeature3Image,
+                        //                        'icon' => $heroFeature3Image,
                     ],
                 ],
             ],
@@ -113,6 +123,8 @@ final class HomePageContentResource extends JsonResource
                     'url' => $this->about_more_button_url,
                 ],
             ],
+            'categories' => CategoryResource::collection($categories),
+            'products' => ProductResource::collection($products),
         ];
     }
 }
