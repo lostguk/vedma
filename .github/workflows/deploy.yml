@@ -24,7 +24,6 @@ jobs:
       - name: Setup SSH and Add Key to ssh-agent
         run: |
           mkdir -p ~/.ssh
-          echo "${{secrets}}"
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 213.189.201.167 >> ~/.ssh/known_hosts
