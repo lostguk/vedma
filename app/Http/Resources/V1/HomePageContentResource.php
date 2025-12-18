@@ -40,14 +40,8 @@ final class HomePageContentResource extends JsonResource
         $aboutLeftImage = $this->about_left_image_path ? Storage::url($this->about_left_image_path) : null;
         $aboutRightImage = $this->about_right_image_path ? Storage::url($this->about_right_image_path) : null;
 
-        // Получаем товары из категорий рекурсивно
+        // Получаем категории (без дочерних категорий)
         $categories = collect($this->categories ?? []);
-        $products = collect();
-
-        if ($categories->isNotEmpty()) {
-            $service = app(HomePageContentService::class);
-            $products = $service->getProductsFromCategories($categories);
-        }
 
         return [
             'hero' => [
@@ -123,8 +117,7 @@ final class HomePageContentResource extends JsonResource
                     'url' => $this->about_more_button_url,
                 ],
             ],
-            'categories' => CategoryResource::collection($categories),
-            'products' => ProductResource::collection($products),
+            'categories' => HomePageCategoryResource::collection($categories),
         ];
     }
 }

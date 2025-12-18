@@ -247,7 +247,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: December 16, 2025</li>
+        <li>Last updated: December 18, 2025</li>
     </ul>
 </div>
 
@@ -1565,8 +1565,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <ul>
 <li>Первый экран (hero) с заголовком, подзаголовком, кнопкой и изображением</li>
 <li>Блок &quot;Наша магия — ваша сила&quot; (about) с описанием, статистикой и изображениями</li>
-<li>Выбранные категории товаров для отображения на главной странице</li>
-<li>Товары из выбранных категорий и всех их дочерних категорий (рекурсивно)</li>
+<li>Выбранные категории товаров (без дочерних категорий) с товарами внутри каждой категории</li>
+<li>Внутри каждой категории отображается до 3 товаров, которые привязаны к этой категории и всем её дочерним категориям (рекурсивно)</li>
 </ul>
 
 <span id="example-requests-GETapi-v1-home">
@@ -1684,36 +1684,36 @@ fetch(url, {
                 &quot;icon&quot;: &quot;http://localhost:8000/storage/1/icon.svg&quot;,
                 &quot;parent_id&quot;: null,
                 &quot;sort_order&quot;: 1,
-                &quot;is_visible&quot;: true
-            }
-        ],
-        &quot;products&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;name&quot;: &quot;Ароматическая свеча Лаванда&quot;,
-                &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
-                &quot;description&quot;: &quot;Успокаивающий аромат лаванды&quot;,
-                &quot;price&quot;: 1200.99,
-                &quot;old_price&quot;: 1500,
-                &quot;is_new&quot;: true,
-                &quot;is_bestseller&quot;: false,
-                &quot;dimensions&quot;: {
-                    &quot;weight&quot;: 350,
-                    &quot;width&quot;: 10,
-                    &quot;height&quot;: 12,
-                    &quot;length&quot;: 10
-                },
-                &quot;categories&quot;: [],
-                &quot;related&quot;: [],
-                &quot;images_urls&quot;: [
-                    &quot;http://localhost:8000/storage/1/image.jpg&quot;
-                ],
-                &quot;image_url&quot;: &quot;http://localhost:8000/storage/1/image.jpg&quot;,
-                &quot;preview_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
-                &quot;thumb_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
-                &quot;thumb_small_url&quot;: &quot;http://localhost:8000/storage/1/thumb.jpg&quot;,
-                &quot;created_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;
+                &quot;is_visible&quot;: true,
+                &quot;products&quot;: [
+                    {
+                        &quot;id&quot;: 1,
+                        &quot;name&quot;: &quot;Ароматическая свеча Лаванда&quot;,
+                        &quot;slug&quot;: &quot;aromaticheskaya-svecha-lavanda&quot;,
+                        &quot;description&quot;: &quot;Успокаивающий аромат лаванды&quot;,
+                        &quot;price&quot;: 1200.99,
+                        &quot;old_price&quot;: 1500,
+                        &quot;is_new&quot;: true,
+                        &quot;is_bestseller&quot;: false,
+                        &quot;dimensions&quot;: {
+                            &quot;weight&quot;: 350,
+                            &quot;width&quot;: 10,
+                            &quot;height&quot;: 12,
+                            &quot;length&quot;: 10
+                        },
+                        &quot;categories&quot;: [],
+                        &quot;related&quot;: [],
+                        &quot;images_urls&quot;: [
+                            &quot;http://localhost:8000/storage/1/image.jpg&quot;
+                        ],
+                        &quot;image_url&quot;: &quot;http://localhost:8000/storage/1/image.jpg&quot;,
+                        &quot;preview_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
+                        &quot;thumb_url&quot;: &quot;http://localhost:8000/storage/1/preview.jpg&quot;,
+                        &quot;thumb_small_url&quot;: &quot;http://localhost:8000/storage/1/thumb.jpg&quot;,
+                        &quot;created_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;,
+                        &quot;updated_at&quot;: &quot;2025-01-01T00:00:00.000000Z&quot;
+                    }
+                ]
             }
         ]
     }
@@ -2603,7 +2603,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-12-16T13:38:28+00:00&quot;
+    &quot;timestamp&quot;: &quot;2025-12-18T05:06:59+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -4433,71 +4433,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;slug&quot;: &quot;glavnaya&quot;,
-            &quot;description&quot;: &quot;Главная страница&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Dolore cum enim et rerum rerum earum deserunt. Laudantium sed odio qui non voluptatibus dolores. Nisi expedita quia soluta quam voluptate.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Reiciendis vero est consequatur quibusdam doloremque perferendis nemo. Non et quasi repellendus tempora eum veritatis eligendi. Consequatur totam cupiditate maiores ea nihil hic.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;slug&quot;: &quot;katalog&quot;,
-            &quot;description&quot;: &quot;Каталог товаров&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Molestiae alias laboriosam nemo explicabo explicabo perspiciatis. Quam eos dolores quas rerum velit id. Sed sit fugit dolor omnis. Ut consequatur et minima aspernatur et.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Exercitationem amet expedita minima quae in. Id ut esse tempore aut sit tempore vel. Velit consequatur magnam qui. Et ipsum et est omnis et voluptate.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;slug&quot;: &quot;dostavka-i-oplata&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n                &lt;h2&gt;Доставка&lt;/h2&gt;\n                &lt;p&gt;Мы доставляем наши по всей России. Стоимость доставки зависит от региона.\nКогда оформите заказ, наш менеджер свяжется с вами и сообщит стоимость, а также уточнит детали доставки.&lt;/p&gt;\n                &lt;h4&gt;Почта России&lt;/h4&gt;\n                &lt;p&gt;От 5 до 30 дней после передачи посылки в отделение почты.\nЕсли сумма заказа больше 70 000 ₽, доставка бесплатно. Если меньше &mdash; от 400 до 2500 ₽, зависит от региона.&lt;/p&gt;\n                &lt;h2&gt;Оплата&lt;/h2&gt;\n                &lt;p&gt;У нас подключен интернет-эквайринг. С ним можно оплачивать картой или через Систему быстрых платежей.\n&lt;/p&gt;\n                &quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;slug&quot;: &quot;obmen-i-vozvrat&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n&lt;h2&gt;Возврат&lt;/h2&gt;\n&lt;p&gt;Вы можете вернуть товар в течение 14 дней после получения на пункте выдачи, при условии сохранения товарного вида и упаковки. Для оформления возврата необходимо связаться с нами в WhatsApp. Доставку до нашего склада вы оплачиваете самостоятельно. Возврат денежных средств будет произведен после предоставления квитанции отправления товара.&lt;/p&gt;\n&lt;h2&gt;Если нашли брак&lt;/h2&gt;\n&lt;p&gt;Если вы нашли брак или скрытый дефект &mdash; можете вернуть товар, даже если прошло больше 14 дней после получения товара. Доставку на наш склад оплатим мы.&lt;br /&gt; Для возврата напишите нам в WhatsApp и приложите фото, которые подтверждают брак.\n&lt;br /&gt;В течение дня наш сотрудник примет обращение и расскажет, что делать дальше.&lt;/p&gt;\n&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;slug&quot;: &quot;kontakty&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n                &lt;h2&gt;Адресс&lt;/h2&gt;\n                &lt;p&gt;Краснодарский край, Северский р-он, пгт. Афипский,\n                &lt;br /&gt; Красноармейская д.72 &lt;/p&gt;\n                &lt;h2&gt;ИП&lt;/h2&gt;\n                &lt;p&gt;ИП Лушникова Александра Петровна\n               &lt;br /&gt;ИНН 231108788087&lt;/p&gt;\n               &lt;h2&gt;Контакты&lt;/h2&gt;\n               &lt;p&gt;8 (960) 492-16-69 &lt;br /&gt; WhatsApp&lt;/p&gt;\n\n                &quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;slug&quot;: &quot;oferta&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Dolorem itaque iste et corporis autem est. Possimus accusantium beatae odit. Ut nesciunt iste velit ea qui ullam.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Qui ut ea voluptas dolores sed minus. Libero quas rem nihil similique blanditiis veniam et expedita.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Velit est deserunt in hic qui nobis voluptas. Perspiciatis tempore libero iure officiis minus illum voluptatem voluptatem. Dolor eos aspernatur occaecati qui consequuntur facere.&lt;/p&gt;&lt;h2&gt;Заголовок&lt;/h2&gt;&lt;p&gt;Consectetur quas quia praesentium est consequatur sunt. Laboriosam aliquam neque nobis dicta illo odio ut.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -5077,7 +5013,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpkLPnpJ" </code></pre></div>
+    --form "attachments[]=@/tmp/phpOkJCPK" </code></pre></div>
 
 
 <div class="javascript-example">

@@ -24,42 +24,34 @@ final readonly class HomePageContentService
     }
 
     /**
-     * Получить товары из категорий рекурсивно.
-     * Ограничение: максимум 3 товара на каждую категорию.
+     * Получить товары для конкретной категории рекурсивно (включая дочерние).
+     * Ограничение: максимум 3 товара.
      *
-     * @param  Collection<int, Category>  $categories
+     * @param  Category  $category
      * @return Collection<int, Product>
      */
-    public function getProductsFromCategories(Collection $categories): Collection
+    public function getProductsForCategory(Category $category): Collection
     {
-        $allProducts = collect();
         $maxProductsPerCategory = 3;
 
-        foreach ($categories as $category) {
-            $categoryIds = collect([$category->id]);
-            // Получаем все дочерние категории рекурсивно
-            $descendants = $category->getAllDescendants();
-            $categoryIds = $categoryIds->merge($descendants->pluck('id'))->unique()->values();
+        $categoryIds = collect([$category->id]);
+        // Получаем все дочерние категории рекурсивно
+        $descendants = $category->getAllDescendants();
+        $categoryIds = $categoryIds->merge($descendants->pluck('id'))->unique()->values();
 
-            if ($categoryIds->isEmpty()) {
-                continue;
-            }
-
-            // Получаем максимум 3 товара для этой категории и её потомков
-            $categoryProducts = Product::query()
-                ->whereHas('categories', function (Builder $query) use ($categoryIds) {
-                    $query->whereIn('id', $categoryIds->all());
-                })
-                ->with(['categories', 'media'])
-                ->orderBy('sort_order')
-                ->orderBy('created_at', 'desc')
-                ->limit($maxProductsPerCategory)
-                ->get();
-
-            $allProducts = $allProducts->merge($categoryProducts);
+        if ($categoryIds->isEmpty()) {
+            return collect();
         }
 
-        // Убираем дубликаты товаров (если товар есть в нескольких категориях)
-        return $allProducts->unique('id')->values();
+        // Получаем максимум 3 товара для этой категории и её потомков
+        // Сортировка: от нового к старому по id (больший id = более новый товар)
+        return Product::query()
+            ->whereHas('categories', function (Builder $query) use ($categoryIds) {
+                $query->whereIn('id', $categoryIds->all());
+            })
+            ->with(['categories', 'media'])
+            ->orderBy('id', 'desc')
+            ->limit($maxProductsPerCategory)
+            ->get();
     }
 }

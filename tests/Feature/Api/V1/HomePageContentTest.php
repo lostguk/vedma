@@ -58,13 +58,13 @@ it('returns home page content with categories and products', function (): void {
                         'id',
                         'name',
                         'slug',
-                    ],
-                ],
-                'products' => [
-                    '*' => [
-                        'id',
-                        'name',
-                        'slug',
+                        'products' => [
+                            '*' => [
+                                'id',
+                                'name',
+                                'slug',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -75,18 +75,20 @@ it('returns home page content with categories and products', function (): void {
     // Check that categories are returned
     expect($data['categories'])->toHaveCount(1);
     expect($data['categories'][0]['id'])->toBe($parent->id);
+    expect($data['categories'][0])->toHaveKey('products');
 
-    // Check that products from all nested categories are returned
+    // Check that products from all nested categories are returned in the category
     // But limited to 3 products per category
-    $productIds = collect($data['products'])->pluck('id')->all();
+    $categoryProducts = collect($data['categories'][0]['products']);
+    $productIds = $categoryProducts->pluck('id')->all();
 
-    // Should contain at least one of the products, but maximum 3 total
+    // Should contain products from parent, child and grandchild, but maximum 3 total
     expect(count($productIds))->toBeLessThanOrEqual(3);
     expect($productIds)
         ->not->toContain($unrelatedProduct->id);
 });
 
-it('returns empty arrays when no categories are selected', function (): void {
+it('returns empty array when no categories are selected', function (): void {
     $homePageContent = HomePageContent::factory()->create();
 
     $response = $this->getJson(route('api.v1.home.show'));
@@ -96,7 +98,6 @@ it('returns empty arrays when no categories are selected', function (): void {
     $data = $response->json('data');
 
     expect($data['categories'])->toBeArray()->toBeEmpty();
-    expect($data['products'])->toBeArray()->toBeEmpty();
 });
 
 it('returns products from multiple selected categories recursively', function (): void {
@@ -141,14 +142,19 @@ it('returns products from multiple selected categories recursively', function ()
     expect($data['categories'][0]['id'])->toBe($category2->id);
     expect($data['categories'][1]['id'])->toBe($category1->id);
 
-    // Check that all products from both trees are returned
-    $productIds = collect($data['products'])->pluck('id')->all();
+    // Check that products are returned within each category
+    $category2Products = collect($data['categories'][0]['products'])->pluck('id')->all();
+    $category1Products = collect($data['categories'][1]['products'])->pluck('id')->all();
 
-    expect($productIds)
-        ->toContain($product1->id)
-        ->toContain($product2->id)
+    // Category2 should have products from category2 and category2Child
+    expect($category2Products)
         ->toContain($product3->id)
         ->toContain($product4->id);
+
+    // Category1 should have products from category1 and category1Child
+    expect($category1Products)
+        ->toContain($product1->id)
+        ->toContain($product2->id);
 });
 
 it('returns categories in correct sort order', function (): void {
@@ -208,20 +214,23 @@ it('returns maximum 3 products per category', function (): void {
 
     $data = $response->json('data');
 
-    // Check that we get maximum 3 products from category1 and 2 from category2
-    // Total should be 5 (3 + 2), but if there are duplicates, it might be less
-    $productIds = collect($data['products'])->pluck('id')->all();
+    // Check that categories are returned
+    expect($data['categories'])->toHaveCount(2);
 
-    // Should have at least 3 products from category1 and 2 from category2
-    // But total should not exceed 5 (3 from cat1 + 2 from cat2)
-    expect(count($productIds))->toBeLessThanOrEqual(5);
+    // Check that we get maximum 3 products from category1
+    $category1Products = collect($data['categories'][0]['products'])->pluck('id')->all();
+    expect(count($category1Products))->toBeLessThanOrEqual(3);
 
-    // Check that we have products from both categories
+    // Check that we get all 2 products from category2
+    $category2Products = collect($data['categories'][1]['products'])->pluck('id')->all();
+    expect(count($category2Products))->toBe(2);
+
+    // Check that products are correct
     $category1ProductIds = $products1->pluck('id')->all();
     $category2ProductIds = $products2->pluck('id')->all();
 
-    $foundFromCategory1 = count(array_intersect($productIds, $category1ProductIds));
-    $foundFromCategory2 = count(array_intersect($productIds, $category2ProductIds));
+    $foundFromCategory1 = count(array_intersect($category1Products, $category1ProductIds));
+    $foundFromCategory2 = count(array_intersect($category2Products, $category2ProductIds));
 
     // Should have maximum 3 from category1
     expect($foundFromCategory1)->toBeLessThanOrEqual(3);
