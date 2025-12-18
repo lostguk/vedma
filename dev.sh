@@ -80,8 +80,14 @@ sail_restart() {
 }
 
 sail_build() {
-    log "Пересборка Laravel Sail..."
-    ./vendor/bin/sail build --no-cache
+    local no_cache=${1:-}
+    if [ "$no_cache" == "--no-cache" ]; then
+        log "Полная пересборка Laravel Sail (без кэша)..."
+        ./vendor/bin/sail build --no-cache
+    else
+        log "Сборка Laravel Sail (с кэшем)..."
+        ./vendor/bin/sail build
+    fi
 }
 
 # ===== ПРОДАКШН =====
@@ -90,8 +96,14 @@ prod_build() {
     check_env
     check_docker
 
-    log "Сборка продакшн образа..."
-    docker compose -f docker-compose.production.yml build --no-cache
+    local no_cache=${1:-}
+    if [ "$no_cache" == "--no-cache" ]; then
+        log "Полная пересборка продакшн образа (без кэша)..."
+        docker compose -f docker-compose.production.yml build --no-cache
+    else
+        log "Сборка продакшн образа (с кэшем)..."
+        docker compose -f docker-compose.production.yml build
+    fi
 }
 
 prod_up() {
@@ -99,12 +111,16 @@ prod_up() {
     check_docker
 
     log "Запуск продакшн окружения..."
-            docker compose -f docker-compose.production.yml up -d
+    docker compose -f docker-compose.production.yml up -d
 
     info "✅ Продакшн запущен:"
     info "🌐 Web: http://localhost:8080"
     info "🗄️ MySQL: localhost:3306"
     info "📚 Redis: localhost:6379"
+
+    # Автоматическая очистка старых образов после успешного запуска
+    log "Очистка старых образов (старше 3 дней)..."
+    docker image prune -a -f --filter "until=72h" 2>/dev/null || warning "Не удалось очистить старые образы"
 }
 
 prod_down() {
@@ -242,8 +258,14 @@ dev_restart() {
 }
 
 dev_build() {
-    log "Пересборка DEV образов..."
-    docker compose -f docker-compose.dev.yml build --no-cache
+    local no_cache=${1:-}
+    if [ "$no_cache" == "--no-cache" ]; then
+        log "Полная пересборка DEV образов (без кэша)..."
+        docker compose -f docker-compose.dev.yml build --no-cache
+    else
+        log "Сборка DEV образов (с кэшем)..."
+        docker compose -f docker-compose.dev.yml build
+    fi
 }
 
 dev_logs() {
@@ -287,8 +309,9 @@ help() {
     echo -e "${GREEN}🐳 Laravel Vedma Shop - Docker Management${NC}"
     echo ""
     echo -e "${YELLOW}ПРОДАКШН:${NC}"
-    echo "  prod-build      Сборка продакшн образа"
-    echo "  prod-up         Запуск продакшн"
+    echo "  prod-build      Сборка продакшн образа (с кэшем)"
+    echo "  prod-build --no-cache  Полная пересборка без кэша"
+    echo "  prod-up         Запуск продакшн (автоочистка старых образов)"
     echo "  prod-down       Остановка продакшн"
     echo "  prod-logs [srv] Логи продакшн (app, mysql, redis)"
     echo ""
@@ -314,7 +337,8 @@ help() {
     echo "  dev-up           Запуск DEV окружения"
     echo "  dev-down         Остановка DEV окружения"
     echo "  dev-restart      Перезапуск DEV окружения"
-    echo "  dev-build        Пересборка DEV образов"
+    echo "  dev-build        Сборка DEV образов (с кэшем)"
+    echo "  dev-build --no-cache  Полная пересборка без кэша"
     echo "  dev-logs [srv]   Логи DEV (app, mysql_dev, redis_dev)"
     echo "  dev-shell        Консоль в DEV app"
     echo "  dev-artisan [c]  Artisan в DEV"
@@ -327,7 +351,9 @@ help() {
     echo "  ./dev.sh up                    # Запуск разработки"
     echo "  ./dev.sh artisan migrate       # Миграции"
     echo "  ./dev.sh shell                 # Консоль PHP контейнера"
-    echo "  ./dev.sh prod-up              # Запуск продакшн"
+    echo "  ./dev.sh prod-build            # Сборка продакшн (с кэшем)"
+    echo "  ./dev.sh prod-build --no-cache # Полная пересборка"
+    echo "  ./dev.sh prod-up              # Запуск продакшн (автоочистка)"
     echo "  ./dev.sh prod-logs nginx      # Логи nginx в продакшн"
     echo ""
     echo -e "${BLUE}Для разработки используйте команды без префикса.${NC}"
@@ -347,12 +373,12 @@ case "${1:-help}" in
         sail_restart
         ;;
     build)
-        sail_build
+        sail_build "${2:-}"
         ;;
 
     # Продакшн
     prod-build)
-        prod_build
+        prod_build "${2:-}"
         ;;
     prod-up)
         prod_up
@@ -421,7 +447,7 @@ case "${1:-help}" in
         dev_restart
         ;;
     dev-build)
-        dev_build
+        dev_build "${2:-}"
         ;;
     dev-logs)
         dev_logs "${2:-app}"

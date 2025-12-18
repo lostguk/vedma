@@ -323,6 +323,7 @@ docker-compose -f docker-compose.prod.yml up -d
 ## Дополнительная документация
 
 -   [MAC_SETUP.md](./MAC_SETUP.md) - Настройка Docker для macOS
+-   [BUILD_OPTIMIZATION.md](./BUILD_OPTIMIZATION.md) - Оптимизация процесса сборки (кэш, когда использовать --no-cache)
 -   [QUICK_FIX_DISK.md](./QUICK_FIX_DISK.md) - Быстрое решение проблемы переполнения диска
 -   [DISK_CLEANUP.md](./DISK_CLEANUP.md) - Полное руководство по очистке Docker
 
