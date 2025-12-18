@@ -58,6 +58,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Все свечи - Магазин свечей',
             'meta_description' => 'Большой выбор свечей для любых целей. Ритуальные, земляные, цветные и другие виды свечей с доставкой.',
+            'description' => 'Широкий ассортимент магических свечей для различных ритуалов, практик и обрядов. Каждая свеча создается как проводник намерения с использованием только природных компонентов.',
         ]);
         $this->addIconToCategory($allCandles, $icons->random());
 
@@ -69,6 +70,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Ритуальные свечи - Магазин свечей',
             'meta_description' => 'Ритуальные свечи для различных обрядов и церемоний. Широкий выбор цветов и размеров.',
+            'description' => 'Ритуальные свечи для направленных колдовских воздействий. Алтарные свечи и свечи с инструкциями для магических ритуалов, собранные под конкретную задачу с соблюдением колдовских традиций.',
             'parent_id' => $allCandles->id,
         ]);
         $this->addIconToCategory($ritualCandles, $icons->random());
@@ -80,6 +82,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Земляные свечи - Магазин свечей',
             'meta_description' => 'Земляные свечи из натуральных материалов. Экологически чистые компоненты.',
+            'description' => 'Земляные свечи из натуральных материалов с природными минералами и земной энергией. Идеальны для ритуалов на устойчивость, стабильность и процветание.',
             'parent_id' => $allCandles->id,
         ]);
         $this->addIconToCategory($earthCandles, $icons->random());
@@ -91,6 +94,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Цветные свечи - Магазин свечей',
             'meta_description' => 'Яркие цветные свечи для праздников и декора. Различные цвета и формы.',
+            'description' => 'Цветные свечи для праздников Колеса Года и ритуальных действ. Каждый цвет несет свою энергию: белые для очищения, зеленые для роста, красные для силы, розовые для любви.',
             'parent_id' => $allCandles->id,
         ]);
         $this->addIconToCategory($colorCandles, $icons->random());
@@ -102,6 +106,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Тонкие свечи - Магазин свечей',
             'meta_description' => 'Тонкие восковые свечи для ритуалов, медитаций и повседневных практик.',
+            'description' => 'Тонкие восковые свечи для работы с Таро, оракулами и рунами. Идеальны для медитаций и гаданий, созданы из первосортного пчелиного воска.',
             'parent_id' => $allCandles->id,
         ]);
         $this->addIconToCategory($thinCandles, $icons->random());
@@ -114,6 +119,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Свечи для привлечения денег - Магазин свечей',
             'meta_description' => 'Специальные свечи для ритуалов на привлечение денег и благополучия.',
+            'description' => 'Свечи для ритуалов на привлечение денег и финансового благополучия. Созданы с использованием колдовских масел и трав, помогают открыть финансовые потоки и привлечь изобилие.',
             'parent_id' => $ritualCandles->id,
         ]);
         $this->addIconToCategory($moneyCandles, $icons->random());
@@ -125,6 +131,7 @@ final class CategorySeeder extends Seeder
             'is_visible' => true,
             'meta_title' => 'Любовные свечи - Магазин свечей',
             'meta_description' => 'Свечи для любовных ритуалов и романтической атмосферы.',
+            'description' => 'Свечи для любовных ритуалов и привлечения партнера. Созданы с использованием трав и масел, связанных с энергией Венеры, помогают открыть сердце и укрепить отношения.',
             'parent_id' => $ritualCandles->id,
         ]);
         $this->addIconToCategory($loveCandles, $icons->random());
