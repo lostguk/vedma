@@ -84,8 +84,13 @@ COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
 # Копирование приложения
 COPY --from=composer --chown=www:www /app /var/www/html
 
-# Установка правильных разрешений
-RUN chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache \
+# Создание необходимых директорий Laravel, если их нет, и установка правильных разрешений
+RUN mkdir -p /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/logs \
+    /var/www/html/bootstrap/cache \
+    && chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Переключение на пользователя www
