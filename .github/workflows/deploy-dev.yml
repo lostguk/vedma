@@ -36,9 +36,29 @@ jobs:
             sudo chown -R $USER:$USER . || true
             git stash
             git pull origin dev
-            docker-compose -f docker-compose.dev.yml down
-            docker-compose -f docker-compose.dev.yml build
-            docker-compose -f docker-compose.dev.yml up -d
+            
+            # Проверяем, были ли изменения в Dockerfile или composer.json
+            # Используем кэш по умолчанию, полная пересборка только при изменениях
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              DOCKERFILE_CHANGED=$(git diff HEAD~1 HEAD --name-only | grep -E "(Dockerfile|composer\.(json|lock))" || true)
+              if [ -n "$DOCKERFILE_CHANGED" ]; then
+                echo "Обнаружены изменения в Dockerfile или composer.json, делаем полную пересборку..."
+                docker compose -f docker-compose.dev.yml build --no-cache
+              else
+                echo "Изменений в Dockerfile нет, используем кэш..."
+                docker compose -f docker-compose.dev.yml build
+              fi
+            else
+              echo "Первый коммит или нет истории, используем кэш..."
+              docker compose -f docker-compose.dev.yml build
+            fi
+            
+            # Запускаем контейнеры
+            docker compose -f docker-compose.dev.yml up -d
+            
+            # Очищаем старые образы (старше 3 дней)
+            echo "Очистка старых образов..."
+            docker image prune -a -f --filter "until=72h" || true
             # wait for app container to become healthy (max ~60s)
             i=0; until [ "$i" -ge 30 ]; do
               STATUS=$(docker ps --filter "name=vedma_dev_app" --format "{{.Status}}")
