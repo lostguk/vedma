@@ -192,12 +192,28 @@ npm() {
 
 # Очистка Docker
 docker_clean() {
-    warning "Это удалит все неиспользуемые Docker ресурсы!"
-    read -p "Продолжить? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        log "Очистка Docker..."
-        docker system prune -af --volumes
+    local aggressive=${1:-}
+    if [ -f "./docker/cleanup.sh" ]; then
+        log "Используем скрипт очистки..."
+        if [ "$aggressive" == "--aggressive" ]; then
+            ./docker/cleanup.sh --aggressive
+        else
+            warning "Это удалит все неиспользуемые Docker ресурсы!"
+            read -p "Продолжить? (y/N): " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                ./docker/cleanup.sh
+            fi
+        fi
+    else
+        warning "Скрипт очистки не найден, используем стандартную очистку..."
+        warning "Это удалит все неиспользуемые Docker ресурсы!"
+        read -p "Продолжить? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            log "Очистка Docker..."
+            docker system prune -af --volumes
+        fi
     fi
 }
 
@@ -292,6 +308,7 @@ help() {
     echo "  composer [cmd]  Выполнить composer команду"
     echo "  npm [cmd]       Выполнить npm команду"
     echo "  docker-clean    Очистка Docker ресурсов"
+    echo "  docker-clean --aggressive  Агрессивная очистка (остановит все контейнеры)"
     echo ""
     echo -e "${YELLOW}DEV-ОКРУЖЕНИЕ:${NC}"
     echo "  dev-up           Запуск DEV окружения"
@@ -390,7 +407,7 @@ case "${1:-help}" in
         npm "$@"
         ;;
     docker-clean)
-        docker_clean
+        docker_clean "${2:-}"
         ;;
 
     # DEV-Окружение

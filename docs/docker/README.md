@@ -270,6 +270,12 @@ docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
     - Решение: Dockerfile автоматически создает необходимые директории перед изменением прав
     - Если проблема сохраняется, проверьте `.dockerignore` - он не должен исключать сами директории (только их содержимое)
 
+5. **Ошибка "no space left on device" при деплое**
+    - Проблема: Docker израсходовал всё место на диске (overlay2, образы, volumes)
+    - Быстрое решение: См. [QUICK_FIX_DISK.md](./QUICK_FIX_DISK.md)
+    - Полное решение: См. [DISK_CLEANUP.md](./DISK_CLEANUP.md)
+    - Команда очистки: `./dev.sh docker-clean` или `./docker/cleanup.sh`
+
 ### Команды диагностики
 
 ```bash
@@ -313,6 +319,12 @@ docker-compose -f docker-compose.prod.yml up -d
 4. **Мониторьте использование ресурсов**
 5. **Делайте резервные копии данных**
 6. **Тестируйте конфигурацию перед продакшн**
+
+## Дополнительная документация
+
+-   [MAC_SETUP.md](./MAC_SETUP.md) - Настройка Docker для macOS
+-   [QUICK_FIX_DISK.md](./QUICK_FIX_DISK.md) - Быстрое решение проблемы переполнения диска
+-   [DISK_CLEANUP.md](./DISK_CLEANUP.md) - Полное руководство по очистке Docker
 
 ## Дополнительная информация
 
