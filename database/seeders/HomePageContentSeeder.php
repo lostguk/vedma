@@ -23,7 +23,7 @@ final class HomePageContentSeeder extends Seeder
             'about_trust_feature_3_image.png',
         ];
 
-        if (!Storage::exists('home')) {
+        if (! Storage::exists('home')) {
             Storage::makeDirectory('home');
         }
 
@@ -53,7 +53,7 @@ final class HomePageContentSeeder extends Seeder
             })
             ->where('is_visible', true)
             ->orderBy('sort_order')
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         if ($categories->isNotEmpty()) {

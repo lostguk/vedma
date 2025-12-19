@@ -46,7 +46,7 @@ final class OrderControllerTest extends TestCase
             'data' => [
                 'total_without_discount' => 200.0,
                 'total_with_discount' => 200.0,
-                'promo_code_status' => 'not_exists',
+                'promo_code_status' => 'not_sent',
             ],
         ]);
     }

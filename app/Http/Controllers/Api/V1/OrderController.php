@@ -60,7 +60,7 @@ final class OrderController extends ApiController
      * @responseField items[].discounted Применен ли промокод к товару
      * @responseField total_without_discount Общая сумма заказа без промокода
      * @responseField total_with_discount Общая сумма заказа с промокодом
-     * @responseField promo_code_status Статус промокода: "not_exists" (промокод не существует), "not_applied" (промокод существует, но не применился к товарам), "applied" (промокод применился)
+     * @responseField promo_code_status Статус промокода: "not_sent" (промокод не был отправлен), "not_exists" (промокод не существует / не активен), "not_applied" (промокод существует, но не применился к товарам), "applied" (промокод применился)
      */
     public function calculate(
         OrderCalculateRequest $request,

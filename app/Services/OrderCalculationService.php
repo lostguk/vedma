@@ -88,7 +88,7 @@ final class OrderCalculationService
     {
         // Если промокод не был передан
         if ($promoCodeInput === null || $promoCodeInput === '') {
-            return 'not_exists';
+            return 'not_sent';
         }
 
         // Если промокод не найден или не активен
