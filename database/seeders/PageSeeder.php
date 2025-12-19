@@ -1,33 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Page;
-use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
 
-class PageSeeder extends Seeder
+final class PageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $faker = FakerFactory::create('ru_RU');
         $pages = [
             [
                 'title' => 'Главная',
                 'slug' => 'glavnaya',
-                'description' => 'Главная страница',
-                'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
+                'description' => 'Приветствие и основные разделы магазина',
+                'text' => trim(<<<'HTML'
+<p>Добро пожаловать в нашу мастерскую. Здесь собраны изделия для ритуалов, защиты и вдохновения.</p>
+<h2>Что внутри</h2>
+<p>Авторские свечи, талисманы и готовые наборы, которые мы создаём вручную и проверяем перед отправкой.</p>
+<p>Выбирайте нужное в каталоге и задавайте вопросы — подскажем, что подойдёт именно вам.</p>
+HTML),
                 'is_visible_in_header' => true,
                 'is_visible_in_footer' => true,
             ],
             [
                 'title' => 'Каталог',
                 'slug' => 'katalog',
-                'description' => 'Каталог товаров',
-                'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
+                'description' => 'Все товары магазина по категориям',
+                'text' => trim(<<<'HTML'
+<p>Каталог собран по темам: свечи, талисманы, наборы и сопутствующие товары.</p>
+<p>Каждый товар сопровождается описанием и рекомендациями по применению. Фильтруйте по нужным категориям и находите подходящее быстрее.</p>
+HTML),
                 'is_visible_in_header' => true,
                 'is_visible_in_footer' => true,
             ],
@@ -85,7 +93,10 @@ class PageSeeder extends Seeder
                 'title' => 'Оферта',
                 'slug' => 'oferta',
                 'description' => 'Публичная оферта',
-                'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
+                'text' => trim(<<<'HTML'
+<p>Здесь изложены условия продажи товаров, оформления заказа и оплаты. Совершая покупку, вы подтверждаете, что ознакомились с офертой и принимаете её условия.</p>
+<p>Подробно описаны права покупателя, сроки обработки заказа и порядок урегулирования спорных ситуаций.</p>
+HTML),
                 'is_visible_in_header' => false,
                 'is_visible_in_footer' => true,
             ],
@@ -93,7 +104,10 @@ class PageSeeder extends Seeder
                 'title' => 'Политика конфиденциальности',
                 'slug' => 'politika-konfidentsialnosti',
                 'description' => 'Политика конфиденциальности',
-                'text' => '<p>'.$faker->text(200).'</p><h2>Заголовок</h2><p>'.$faker->text(200).'</p>',
+                'text' => trim(<<<'HTML'
+<p>Мы бережно относимся к персональным данным: храним их на защищённых серверах и используем только для обработки заказов и связи с клиентом.</p>
+<p>Политика описывает, какие данные мы собираем, как их защищаем и в каких случаях можем передавать по закону.</p>
+HTML),
                 'is_visible_in_header' => false,
                 'is_visible_in_footer' => true,
             ],
