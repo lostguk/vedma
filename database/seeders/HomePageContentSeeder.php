@@ -49,12 +49,14 @@ final class HomePageContentSeeder extends Seeder
         $categories = Category::query()
             ->where(function ($query) {
                 $query->whereNull('parent_id')
-                    ->orWhere('slug', 'vse-svechi');
+                    ->orWhere('id', [2, 3]);
             })
             ->where('is_visible', true)
             ->orderBy('sort_order')
             ->limit(4)
             ->get();
+
+        // $categories->dd();
 
         if ($categories->isNotEmpty()) {
             $sortOrder = 1;
