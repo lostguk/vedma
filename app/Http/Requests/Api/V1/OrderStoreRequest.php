@@ -29,7 +29,7 @@ class OrderStoreRequest extends FormRequest
             'items.*.count' => ['required', 'integer', 'gte:1'],
             'promo_code' => ['nullable', 'string', 'max:32'],
             'register' => ['required', 'boolean'],
-            'delivery_type' => ['required', 'in:cdek,post'],
+            'delivery_type' => ['required', 'in:PostOffice,Cdek'],
             'first_name' => ['required', 'string', 'max:64'],
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],

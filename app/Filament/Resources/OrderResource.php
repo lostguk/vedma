@@ -59,10 +59,10 @@ class OrderResource extends Resource
                         Select::make('delivery_type')
                             ->label('Тип доставки')
                             ->options([
-                                'cdek' => 'CDEK',
-                                'post' => 'Почта',
+                                'Cdek' => 'CDEK',
+                                'PostOffice' => 'Почта',
                             ])->nullable(),
-//                        TextInput::make('delivery_price')->label('Стоимость доставки')->numeric()->nullable()->readOnly()->disabled(),
+                        //                        TextInput::make('delivery_price')->label('Стоимость доставки')->numeric()->nullable()->readOnly()->disabled(),
                         Select::make('delivery_status')
                             ->label('Статус доставки')
                             ->options([
@@ -70,7 +70,7 @@ class OrderResource extends Resource
                                 'shipped' => 'Отправлен',
                                 'delivered' => 'Доставлен',
                             ])->nullable(),
-//                        Textarea::make('delivery_data')->label('Данные доставки')->nullable(),
+                        //                        Textarea::make('delivery_data')->label('Данные доставки')->nullable(),
                     ])->columns(2),
                 Section::make('Детали заказа')
                     ->schema([

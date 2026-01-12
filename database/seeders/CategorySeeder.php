@@ -8,6 +8,8 @@ use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 
 final class CategorySeeder extends Seeder
 {
@@ -147,6 +149,10 @@ final class CategorySeeder extends Seeder
         }
     }
 
+    /**
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig
+     */
     private function addIconToCategory(Category $category, string $iconName): void
     {
         $iconPath = Storage::path("seed-icons/{$iconName}");

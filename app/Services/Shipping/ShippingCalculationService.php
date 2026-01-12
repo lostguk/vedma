@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Log;
 
 final class ShippingCalculationService
 {
-    private const AUTH_URL = 'https://api.metaship.ru/auth/access_token';
-    private const OFFERS_URL = 'https://api.metaship.ru/v2/offers';
+    private const string AUTH_URL = 'https://api.metaship.ru/auth/access_token';
+
+    private const string OFFERS_URL = 'https://api.metaship.ru/v2/offers';
 
     public function calculate(array $products, string $address): array
     {
@@ -30,15 +31,21 @@ final class ShippingCalculationService
             'length' => (int) $totals['length'],
             'width' => (int) $totals['width'],
             'height' => (int) $totals['height'],
-            'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))),
+            'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))) / 1000,
             'declaredValue' => $declaredValue,
             'address' => $address,
-            'paymentType' => 'PayOnDelivery',
-            'types[0]' => 'PostOffice',
+//            'deliveryServiceCode' => 'Cdek',
+            'errors' => 1,
+            'types[0]' => 'DeliveryPoint',
+            'types[1]' => 'PostOffice',
+            'types[2]' => 'Courier',
         ];
+
+
 
         $shopId = (string) config('services.metaship.shop_id');
         $warehouseId = (string) config('services.metaship.warehouse_id');
+
         if ($shopId !== '') {
             $params['shopId'] = $shopId;
         }
@@ -55,6 +62,9 @@ final class ShippingCalculationService
             ->withToken($bearer, 'Bearer')
             ->get(self::OFFERS_URL, $params);
 
+        Log::info('Metaship API response', ['body' => $response->body() ?? '']);
+
+
         if ($response->failed()) {
             Log::error('Metaship API error', [
                 'url' => self::OFFERS_URL,
@@ -62,10 +72,12 @@ final class ShippingCalculationService
                 'query' => $params,
                 'raw_body' => $response->body(),
             ]);
+
             return [];
         }
 
         $data = $response->json();
+
         return is_array($data) ? $data : [];
     }
 
@@ -95,16 +107,20 @@ final class ShippingCalculationService
         }
 
         $token = $response->json('access_token');
+
         return is_string($token) && $token !== '' ? $token : null;
     }
 
     /**
-     * @param array<int, array{weight:float,width:float,height:float,length:float,quantity:int}> $items
+     * @param  array<int, array{weight:float,width:float,height:float,length:float,quantity:int}>  $items
      * @return array{weight:float,width:float,height:float,length:float}
      */
     private function aggregateItems(array $items): array
     {
-        $weightKg = 0.0; $width = 0.0; $height = 0.0; $length = 0.0;
+        $weightKg = 0.0;
+        $width = 0.0;
+        $height = 0.0;
+        $length = 0.0;
 
         foreach ($items as $i) {
             $qty = max(1, (int) $i['quantity']);
@@ -149,11 +165,12 @@ final class ShippingCalculationService
                 $sum += ((float) $product->price) * (int) $p['quantity'];
             }
         }
+
         return round($sum, 2);
     }
 
     /**
-     * @param array<int, array{id:int, quantity:int}> $products
+     * @param  array<int, array{id:int, quantity:int}>  $products
      * @return array<int, array{weight:float,width:float,height:float,length:float,quantity:int}>
      */
     private function mapProductsToItems(array $products): array
