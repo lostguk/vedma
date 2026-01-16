@@ -86,7 +86,7 @@ class ShippingCalculationTest extends TestCase
         ]);
 
         Http::fake([
-            '*/offers' => function ($request) use ($product) {
+            '*/offers' => function ($request) {
                 // Проверяем заголовки авторизации
                 $this->assertSame(config('services.metaship.api_key'), $request->header('X-Api-Key')[0] ?? null);
                 $this->assertSame(config('services.metaship.api_secret'), $request->header('X-Api-Secret')[0] ?? null);

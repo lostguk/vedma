@@ -34,14 +34,12 @@ final class ShippingCalculationService
             'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))) / 1000,
             'declaredValue' => $declaredValue,
             'address' => $address,
-//            'deliveryServiceCode' => 'Cdek',
+            //            'deliveryServiceCode' => 'Cdek',
             'errors' => 1,
             'types[0]' => 'DeliveryPoint',
             'types[1]' => 'PostOffice',
             'types[2]' => 'Courier',
         ];
-
-
 
         $shopId = (string) config('services.metaship.shop_id');
         $warehouseId = (string) config('services.metaship.warehouse_id');
@@ -63,7 +61,6 @@ final class ShippingCalculationService
             ->get(self::OFFERS_URL, $params);
 
         Log::info('Metaship API response', ['body' => $response->body() ?? '']);
-
 
         if ($response->failed()) {
             Log::error('Metaship API error', [

@@ -59,7 +59,8 @@ final readonly class OrderService
             $productIds = collect($data['items'])->pluck('id')->all();
             $products = $this->productRepository->getByIds($productIds)->load('categories');
             $calculated = $this->orderCalculationService->calculate($products, $data['items'], $promo);
-            $total = collect($calculated)->sum('summery');
+            $calculatedItems = $calculated['items'] ?? [];
+            $total = (float) ($calculated['total_with_discount'] ?? 0);
 
             // 4. Создание заказа
             $orderData = [
@@ -85,7 +86,7 @@ final readonly class OrderService
 
             // 5. Создание позиций заказа
             $items = [];
-            foreach ($calculated as $item) {
+            foreach ($calculatedItems as $item) {
                 $items[] = [
                     'product_id' => $item['id'],
                     'name' => $item['name'],

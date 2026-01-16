@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
     // User
     require base_path('routes/user.php');
     require base_path('routes/orders.php');
+    require base_path('routes/payments.php');
 
     // Categories
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');

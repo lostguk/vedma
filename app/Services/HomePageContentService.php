@@ -15,8 +15,7 @@ final readonly class HomePageContentService
 {
     public function __construct(
         private HomePageContentRepository $repository,
-    ) {
-    }
+    ) {}
 
     public function getHomePageContent(): HomePageContent
     {
@@ -27,7 +26,6 @@ final readonly class HomePageContentService
      * Получить товары для конкретной категории рекурсивно (включая дочерние).
      * Ограничение: максимум 3 товара.
      *
-     * @param  Category  $category
      * @return Collection<int, Product>
      */
     public function getProductsForCategory(Category $category): Collection

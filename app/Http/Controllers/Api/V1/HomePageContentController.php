@@ -18,8 +18,7 @@ final class HomePageContentController extends ApiController
 {
     public function __construct(
         private readonly HomePageContentService $service,
-    ) {
-    }
+    ) {}
 
     /**
      * Получить данные главной страницы

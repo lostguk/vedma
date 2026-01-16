@@ -151,6 +151,25 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-oplata-zakaza" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="oplata-zakaza">
+                    <a href="#oplata-zakaza">Оплата заказа</a>
+                </li>
+                                    <ul id="tocify-subheader-oplata-zakaza" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments">
+                                <a href="#oplata-zakaza-POSTapi-v1-payments">Создать платеж и получить ссылку на оплату.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="oplata-zakaza-GETapi-v1-payments--payment--status">
+                                <a href="#oplata-zakaza-GETapi-v1-payments--payment--status">Проверить статус платежа.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments--payment--refund">
+                                <a href="#oplata-zakaza-POSTapi-v1-payments--payment--refund">Возврат платежа.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">
+                                <a href="#oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">Webhook от Альфа-Банка для обновления статуса платежа.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-oformlenie-zakaza" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="oformlenie-zakaza">
                     <a href="#oformlenie-zakaza">Оформление заказа</a>
@@ -247,7 +266,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: December 19, 2025</li>
+        <li>Last updated: January 16, 2026</li>
     </ul>
 </div>
 
@@ -2603,7 +2622,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2025-12-19T07:06:17+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-01-16T07:09:39+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -2801,6 +2820,638 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="oplata-zakaza">Оплата заказа</h1>
+
+    
+
+                                <h2 id="oplata-zakaza-POSTapi-v1-payments">Создать платеж и получить ссылку на оплату.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-payments">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "{{ config("app.url") }}/api/v1/payments" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"order_id\": 1,
+    \"success_url\": \"https:\\/\\/shop.example.com\\/payment\\/success\",
+    \"fail_url\": \"https:\\/\\/shop.example.com\\/payment\\/fail\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/payments"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "order_id": 1,
+    "success_url": "https:\/\/shop.example.com\/payment\/success",
+    "fail_url": "https:\/\/shop.example.com\/payment\/fail"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-payments">
+            <blockquote>
+            <p>Example response (200, Успешно):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Платеж создан&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: &quot;uuid&quot;,
+        &quot;payment_url&quot;: &quot;https://...&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-payments" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-payments"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-payments"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-payments" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-payments">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-payments" data-method="POST"
+      data-path="api/v1/payments"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-payments', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-payments"
+                    onclick="tryItOut('POSTapi-v1-payments');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-payments"
+                    onclick="cancelTryOut('POSTapi-v1-payments');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-payments"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/payments</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-payments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-payments"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>order_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="order_id"                data-endpoint="POSTapi-v1-payments"
+               value="1"
+               data-component="body">
+    <br>
+<p>ID заказа. The <code>id</code> of an existing record in the orders table. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>success_url</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="success_url"                data-endpoint="POSTapi-v1-payments"
+               value="https://shop.example.com/payment/success"
+               data-component="body">
+    <br>
+<p>URL для редиректа после успешной оплаты. Must be a valid URL. Поле value не может быть больше 2048 символов. Example: <code>https://shop.example.com/payment/success</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>fail_url</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="fail_url"                data-endpoint="POSTapi-v1-payments"
+               value="https://shop.example.com/payment/fail"
+               data-component="body">
+    <br>
+<p>URL для редиректа после ошибки оплаты. Must be a valid URL. Поле value не может быть больше 2048 символов. Example: <code>https://shop.example.com/payment/fail</code></p>
+        </div>
+        </form>
+
+                    <h2 id="oplata-zakaza-GETapi-v1-payments--payment--status">Проверить статус платежа.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-payments--payment--status">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "{{ config("app.url") }}/api/v1/payments/architecto/status" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/payments/architecto/status"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-payments--payment--status">
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+vary: Origin
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Платеж не найден.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-payments--payment--status" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-payments--payment--status"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-payments--payment--status"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-payments--payment--status" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-payments--payment--status">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-payments--payment--status" data-method="GET"
+      data-path="api/v1/payments/{payment}/status"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-payments--payment--status', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-payments--payment--status"
+                    onclick="tryItOut('GETapi-v1-payments--payment--status');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-payments--payment--status"
+                    onclick="cancelTryOut('GETapi-v1-payments--payment--status');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-payments--payment--status"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/payments/{payment}/status</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-payments--payment--status"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-payments--payment--status"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>payment</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="payment"                data-endpoint="GETapi-v1-payments--payment--status"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The payment. Example: <code>architecto</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="oplata-zakaza-POSTapi-v1-payments--payment--refund">Возврат платежа.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-payments--payment--refund">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "{{ config("app.url") }}/api/v1/payments/architecto/refund" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"amount\": 1990.5
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/payments/architecto/refund"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "amount": 1990.5
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-payments--payment--refund">
+</span>
+<span id="execution-results-POSTapi-v1-payments--payment--refund" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-payments--payment--refund"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-payments--payment--refund"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-payments--payment--refund" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-payments--payment--refund">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-payments--payment--refund" data-method="POST"
+      data-path="api/v1/payments/{payment}/refund"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-payments--payment--refund', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-payments--payment--refund"
+                    onclick="tryItOut('POSTapi-v1-payments--payment--refund');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-payments--payment--refund"
+                    onclick="cancelTryOut('POSTapi-v1-payments--payment--refund');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-payments--payment--refund"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/payments/{payment}/refund</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-payments--payment--refund"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-payments--payment--refund"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>payment</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The payment. Example: <code>architecto</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>amount</code></b>&nbsp;&nbsp;
+<small>number</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="amount"                data-endpoint="POSTapi-v1-payments--payment--refund"
+               value="1990.5"
+               data-component="body">
+    <br>
+<p>Сумма возврата (если не указана, возвращается полная сумма). Example: <code>1990.5</code></p>
+        </div>
+        </form>
+
+                    <h2 id="oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">Webhook от Альфа-Банка для обновления статуса платежа.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-payments-alfabank-webhook">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "{{ config("app.url") }}/api/v1/payments/alfabank/webhook" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"orderId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",
+    \"mdOrder\": \"architecto\",
+    \"orderStatus\": 2,
+    \"status\": \"architecto\",
+    \"amount\": 16
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/payments/alfabank/webhook"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "orderId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "mdOrder": "architecto",
+    "orderStatus": 2,
+    "status": "architecto",
+    "amount": 16
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-payments-alfabank-webhook">
+</span>
+<span id="execution-results-POSTapi-v1-payments-alfabank-webhook" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-payments-alfabank-webhook"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-payments-alfabank-webhook"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-payments-alfabank-webhook" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-payments-alfabank-webhook">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-payments-alfabank-webhook" data-method="POST"
+      data-path="api/v1/payments/alfabank/webhook"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-payments-alfabank-webhook', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-payments-alfabank-webhook"
+                    onclick="tryItOut('POSTapi-v1-payments-alfabank-webhook');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-payments-alfabank-webhook"
+                    onclick="cancelTryOut('POSTapi-v1-payments-alfabank-webhook');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-payments-alfabank-webhook"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/payments/alfabank/webhook</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>orderId</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="orderId"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+               data-component="body">
+    <br>
+<p>ID заказа в платежной системе. This field is required when <code>mdOrder</code> is not present. Example: <code>a1b2c3d4-e5f6-7890-abcd-ef1234567890</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>mdOrder</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="mdOrder"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>This field is required when <code>orderId</code> is not present. Example: <code>architecto</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>orderStatus</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="orderStatus"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="2"
+               data-component="body">
+    <br>
+<p>Статус заказа по шкале платежного шлюза. Example: <code>2</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="status"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>amount</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="amount"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               value="16"
+               data-component="body">
+    <br>
+<p>Example: <code>16</code></p>
+        </div>
+        </form>
 
                 <h1 id="oformlenie-zakaza">Оформление заказа</h1>
 
@@ -3307,7 +3958,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Тип доставки. Example: <code>post</code></p>
 Must be one of:
-<ul style="list-style-type: square;"><li><code>cdek</code></li> <li><code>post</code></li></ul>
+<ul style="list-style-type: square;"><li><code>PostOffice</code></li> <li><code>Cdek</code></li></ul>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>first_name</code></b>&nbsp;&nbsp;
@@ -4433,71 +5084,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;title&quot;: &quot;Главная&quot;,
-            &quot;slug&quot;: &quot;glavnaya&quot;,
-            &quot;description&quot;: &quot;Приветствие и основные разделы магазина&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Добро пожаловать в нашу мастерскую. Здесь собраны изделия для ритуалов, защиты и вдохновения.&lt;/p&gt;\n&lt;h2&gt;Что внутри&lt;/h2&gt;\n&lt;p&gt;Авторские свечи, талисманы и готовые наборы, которые мы создаём вручную и проверяем перед отправкой.&lt;/p&gt;\n&lt;p&gt;Выбирайте нужное в каталоге и задавайте вопросы &mdash; подскажем, что подойдёт именно вам.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 2,
-            &quot;title&quot;: &quot;Каталог&quot;,
-            &quot;slug&quot;: &quot;katalog&quot;,
-            &quot;description&quot;: &quot;Все товары магазина по категориям&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Каталог собран по темам: свечи, талисманы, наборы и сопутствующие товары.&lt;/p&gt;\n&lt;p&gt;Каждый товар сопровождается описанием и рекомендациями по применению. Фильтруйте по нужным категориям и находите подходящее быстрее.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 3,
-            &quot;title&quot;: &quot;Доставка и оплата&quot;,
-            &quot;slug&quot;: &quot;dostavka-i-oplata&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n                &lt;h2&gt;Доставка&lt;/h2&gt;\n                &lt;p&gt;Мы доставляем наши по всей России. Стоимость доставки зависит от региона.\nКогда оформите заказ, наш менеджер свяжется с вами и сообщит стоимость, а также уточнит детали доставки.&lt;/p&gt;\n                &lt;h4&gt;Почта России&lt;/h4&gt;\n                &lt;p&gt;От 5 до 30 дней после передачи посылки в отделение почты.\nЕсли сумма заказа больше 70 000 ₽, доставка бесплатно. Если меньше &mdash; от 400 до 2500 ₽, зависит от региона.&lt;/p&gt;\n                &lt;h2&gt;Оплата&lt;/h2&gt;\n                &lt;p&gt;У нас подключен интернет-эквайринг. С ним можно оплачивать картой или через Систему быстрых платежей.\n&lt;/p&gt;\n                &quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;title&quot;: &quot;Обмен и возврат&quot;,
-            &quot;slug&quot;: &quot;obmen-i-vozvrat&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n&lt;h2&gt;Возврат&lt;/h2&gt;\n&lt;p&gt;Вы можете вернуть товар в течение 14 дней после получения на пункте выдачи, при условии сохранения товарного вида и упаковки. Для оформления возврата необходимо связаться с нами в WhatsApp. Доставку до нашего склада вы оплачиваете самостоятельно. Возврат денежных средств будет произведен после предоставления квитанции отправления товара.&lt;/p&gt;\n&lt;h2&gt;Если нашли брак&lt;/h2&gt;\n&lt;p&gt;Если вы нашли брак или скрытый дефект &mdash; можете вернуть товар, даже если прошло больше 14 дней после получения товара. Доставку на наш склад оплатим мы.&lt;br /&gt; Для возврата напишите нам в WhatsApp и приложите фото, которые подтверждают брак.\n&lt;br /&gt;В течение дня наш сотрудник примет обращение и расскажет, что делать дальше.&lt;/p&gt;\n&quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 5,
-            &quot;title&quot;: &quot;Контакты&quot;,
-            &quot;slug&quot;: &quot;kontakty&quot;,
-            &quot;description&quot;: &quot;&quot;,
-            &quot;text&quot;: &quot;\n                &lt;h2&gt;Адресс&lt;/h2&gt;\n                &lt;p&gt;Краснодарский край, Северский р-он, пгт. Афипский,\n                &lt;br /&gt; Красноармейская д.72 &lt;/p&gt;\n                &lt;h2&gt;ИП&lt;/h2&gt;\n                &lt;p&gt;ИП Лушникова Александра Петровна\n               &lt;br /&gt;ИНН 231108788087&lt;/p&gt;\n               &lt;h2&gt;Контакты&lt;/h2&gt;\n               &lt;p&gt;8 (960) 492-16-69 &lt;br /&gt; WhatsApp&lt;/p&gt;\n\n                &quot;,
-            &quot;is_visible_in_header&quot;: true,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 6,
-            &quot;title&quot;: &quot;Оферта&quot;,
-            &quot;slug&quot;: &quot;oferta&quot;,
-            &quot;description&quot;: &quot;Публичная оферта&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Здесь изложены условия продажи товаров, оформления заказа и оплаты. Совершая покупку, вы подтверждаете, что ознакомились с офертой и принимаете её условия.&lt;/p&gt;\n&lt;p&gt;Подробно описаны права покупателя, сроки обработки заказа и порядок урегулирования спорных ситуаций.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        },
-        {
-            &quot;id&quot;: 7,
-            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
-            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
-            &quot;text&quot;: &quot;&lt;p&gt;Мы бережно относимся к персональным данным: храним их на защищённых серверах и используем только для обработки заказов и связи с клиентом.&lt;/p&gt;\n&lt;p&gt;Политика описывает, какие данные мы собираем, как их защищаем и в каких случаях можем передавать по закону.&lt;/p&gt;&quot;,
-            &quot;is_visible_in_header&quot;: false,
-            &quot;is_visible_in_footer&quot;: true
-        }
-    ]
+    &quot;data&quot;: []
 }</code>
  </pre>
     </span>
@@ -5077,7 +5664,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpNObPPj" </code></pre></div>
+    --form "attachments[]=@/tmp/phpfmpEkH" </code></pre></div>
 
 
 <div class="javascript-example">

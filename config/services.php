@@ -42,4 +42,14 @@ return [
         'warehouse_id' => env('METASHIP_WAREHOUSE_ID'),
     ],
 
+    'alfabank' => [
+        'base_url' => env('ALFABANK_BASE_URL', 'https://payment.alfabank.ru'),
+        'username' => env('ALFABANK_USERNAME'),
+        'password' => env('ALFABANK_PASSWORD'),
+        'return_url' => env('ALFABANK_RETURN_URL'),
+        'fail_url' => env('ALFABANK_FAIL_URL'),
+        'language' => env('ALFABANK_LANGUAGE', 'ru'),
+        'currency' => env('ALFABANK_CURRENCY', 'RUB'),
+    ],
+
 ];

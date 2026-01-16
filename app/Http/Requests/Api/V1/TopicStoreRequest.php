@@ -54,7 +54,6 @@ final class TopicStoreRequest extends ApiRequest
      * @property-read string $content
      * @property-read array|null $attachments
      */
-
     public function bodyParameters(): array
     {
         return [

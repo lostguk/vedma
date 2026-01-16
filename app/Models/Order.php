@@ -34,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @property-read User|null $user
  * @property-read PromoCode|null $promoCode
  * @property-read OrderItem[] $items
+ * @property-read Payment[] $payments
  */
 final class Order extends Model
 {
@@ -68,5 +69,10 @@ final class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

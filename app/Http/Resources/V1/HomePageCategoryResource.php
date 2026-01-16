@@ -34,4 +34,3 @@ final class HomePageCategoryResource extends JsonResource
         ];
     }
 }
-

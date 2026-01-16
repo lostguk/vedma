@@ -15,8 +15,6 @@ final class OrderCalculationService
      *
      * @param  Collection<int, Product>  $products
      * @param  array<int, array{id: int, count: int}>  $items
-     * @param  PromoCode|null  $promoCode
-     * @param  string|null  $promoCodeInput
      * @return array{items: array<int, array>, total_without_discount: float, total_with_discount: float, promo_code_status: string}
      */
     public function calculate(Collection $products, array $items, ?PromoCode $promoCode = null, ?string $promoCodeInput = null): array
@@ -78,11 +76,6 @@ final class OrderCalculationService
 
     /**
      * Определить статус промокода
-     *
-     * @param  PromoCode|null  $promoCode
-     * @param  string|null  $promoCodeInput
-     * @param  bool  $hasDiscountedItems
-     * @return string
      */
     private function determinePromoCodeStatus(?PromoCode $promoCode, ?string $promoCodeInput, bool $hasDiscountedItems): string
     {
