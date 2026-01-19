@@ -52,4 +52,12 @@ return [
         'currency' => env('ALFABANK_CURRENCY', 'RUB'),
     ],
 
+    'dadata' => [
+        'token' => env('DADATA_API_KEY'),
+        'address_suggest_url' => env(
+            'DADATA_ADDRESS_SUGGEST_URL',
+            'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
+        ),
+    ],
+
 ];

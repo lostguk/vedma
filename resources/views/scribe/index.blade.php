@@ -181,6 +181,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="oformlenie-zakaza-POSTapi-v1-order">
                                 <a href="#oformlenie-zakaza-POSTapi-v1-order">Оформление заказа (создание)</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="oformlenie-zakaza-POSTapi-v1-order-address-suggest">
+                                <a href="#oformlenie-zakaza-POSTapi-v1-order-address-suggest">Подсказки адреса через DaData.</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-produkty" class="tocify-header">
@@ -266,7 +269,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 16, 2026</li>
+        <li>Last updated: January 19, 2026</li>
     </ul>
 </div>
 
@@ -2622,7 +2625,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-01-16T07:09:39+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-01-19T07:52:45+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3144,7 +3147,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/architecto/refund" \
+    "{{ config("app.url") }}/api/v1/payments/2918447f-e5a2-4fe1-a19c-38e672040477/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3155,7 +3158,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/architecto/refund"
+    "{{ config("app.url") }}/api/v1/payments/2918447f-e5a2-4fe1-a19c-38e672040477/refund"
 );
 
 const headers = {
@@ -3253,10 +3256,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="architecto"
+               value="2918447f-e5a2-4fe1-a19c-38e672040477"
                data-component="url">
     <br>
-<p>The payment. Example: <code>architecto</code></p>
+<p>The payment. Example: <code>2918447f-e5a2-4fe1-a19c-38e672040477</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4025,6 +4028,195 @@ Must be one of:
                data-component="body">
     <br>
 <p>Пароль (если регистрация). This field is required when <code>register</code> is <code>true</code>. Поле value должно быть не меньше 8 символов. Поле value не может быть больше 64 символов. Example: <code>StrongPass123</code></p>
+        </div>
+        </form>
+
+                    <h2 id="oformlenie-zakaza-POSTapi-v1-order-address-suggest">Подсказки адреса через DaData.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-order-address-suggest">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "{{ config("app.url") }}/api/v1/order/address/suggest" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"query\": \"москва хабар\",
+    \"count\": 10,
+    \"language\": \"ru\",
+    \"division\": \"administrative\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/order/address/suggest"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "query": "москва хабар",
+    "count": 10,
+    "language": "ru",
+    "division": "administrative"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-order-address-suggest">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;data&quot;: {
+        &quot;suggestions&quot;: [
+            {
+                &quot;value&quot;: &quot;г Москва, ул Хабаровская&quot;
+            }
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-order-address-suggest" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-order-address-suggest"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-order-address-suggest"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-order-address-suggest" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-order-address-suggest">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-order-address-suggest" data-method="POST"
+      data-path="api/v1/order/address/suggest"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-order-address-suggest', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-order-address-suggest"
+                    onclick="tryItOut('POSTapi-v1-order-address-suggest');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-order-address-suggest"
+                    onclick="cancelTryOut('POSTapi-v1-order-address-suggest');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-order-address-suggest"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/order/address/suggest</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>query</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="query"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="москва хабар"
+               data-component="body">
+    <br>
+<p>Фрагмент адреса или полный адрес для подсказок. Поле value должно быть не меньше 3 символов. Поле value не может быть больше 300 символов. Example: <code>москва хабар</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="count"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="10"
+               data-component="body">
+    <br>
+<p>Количество подсказок (1-20). Example: <code>10</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>language</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="language"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="ru"
+               data-component="body">
+    <br>
+<p>Язык ответа DaData (ru или en). Example: <code>ru</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>ru</code></li> <li><code>en</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>division</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="division"                data-endpoint="POSTapi-v1-order-address-suggest"
+               value="administrative"
+               data-component="body">
+    <br>
+<p>Тип деления адресов (administrative или municipal). Example: <code>administrative</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>administrative</code></li> <li><code>municipal</code></li></ul>
         </div>
         </form>
 
@@ -5084,7 +5276,71 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Success&quot;,
-    &quot;data&quot;: []
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;title&quot;: &quot;Главная&quot;,
+            &quot;slug&quot;: &quot;glavnaya&quot;,
+            &quot;description&quot;: &quot;Приветствие и основные разделы магазина&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Добро пожаловать в нашу мастерскую. Здесь собраны изделия для ритуалов, защиты и вдохновения.&lt;/p&gt;\n&lt;h2&gt;Что внутри&lt;/h2&gt;\n&lt;p&gt;Авторские свечи, талисманы и готовые наборы, которые мы создаём вручную и проверяем перед отправкой.&lt;/p&gt;\n&lt;p&gt;Выбирайте нужное в каталоге и задавайте вопросы &mdash; подскажем, что подойдёт именно вам.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;title&quot;: &quot;Каталог&quot;,
+            &quot;slug&quot;: &quot;katalog&quot;,
+            &quot;description&quot;: &quot;Все товары магазина по категориям&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Каталог собран по темам: свечи, талисманы, наборы и сопутствующие товары.&lt;/p&gt;\n&lt;p&gt;Каждый товар сопровождается описанием и рекомендациями по применению. Фильтруйте по нужным категориям и находите подходящее быстрее.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;title&quot;: &quot;Доставка и оплата&quot;,
+            &quot;slug&quot;: &quot;dostavka-i-oplata&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Доставка&lt;/h2&gt;\n                &lt;p&gt;Мы доставляем наши по всей России. Стоимость доставки зависит от региона.\nКогда оформите заказ, наш менеджер свяжется с вами и сообщит стоимость, а также уточнит детали доставки.&lt;/p&gt;\n                &lt;h4&gt;Почта России&lt;/h4&gt;\n                &lt;p&gt;От 5 до 30 дней после передачи посылки в отделение почты.\nЕсли сумма заказа больше 70 000 ₽, доставка бесплатно. Если меньше &mdash; от 400 до 2500 ₽, зависит от региона.&lt;/p&gt;\n                &lt;h2&gt;Оплата&lt;/h2&gt;\n                &lt;p&gt;У нас подключен интернет-эквайринг. С ним можно оплачивать картой или через Систему быстрых платежей.\n&lt;/p&gt;\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;title&quot;: &quot;Обмен и возврат&quot;,
+            &quot;slug&quot;: &quot;obmen-i-vozvrat&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n&lt;h2&gt;Возврат&lt;/h2&gt;\n&lt;p&gt;Вы можете вернуть товар в течение 14 дней после получения на пункте выдачи, при условии сохранения товарного вида и упаковки. Для оформления возврата необходимо связаться с нами в WhatsApp. Доставку до нашего склада вы оплачиваете самостоятельно. Возврат денежных средств будет произведен после предоставления квитанции отправления товара.&lt;/p&gt;\n&lt;h2&gt;Если нашли брак&lt;/h2&gt;\n&lt;p&gt;Если вы нашли брак или скрытый дефект &mdash; можете вернуть товар, даже если прошло больше 14 дней после получения товара. Доставку на наш склад оплатим мы.&lt;br /&gt; Для возврата напишите нам в WhatsApp и приложите фото, которые подтверждают брак.\n&lt;br /&gt;В течение дня наш сотрудник примет обращение и расскажет, что делать дальше.&lt;/p&gt;\n&quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;title&quot;: &quot;Контакты&quot;,
+            &quot;slug&quot;: &quot;kontakty&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;text&quot;: &quot;\n                &lt;h2&gt;Адресс&lt;/h2&gt;\n                &lt;p&gt;Краснодарский край, Северский р-он, пгт. Афипский,\n                &lt;br /&gt; Красноармейская д.72 &lt;/p&gt;\n                &lt;h2&gt;ИП&lt;/h2&gt;\n                &lt;p&gt;ИП Лушникова Александра Петровна\n               &lt;br /&gt;ИНН 231108788087&lt;/p&gt;\n               &lt;h2&gt;Контакты&lt;/h2&gt;\n               &lt;p&gt;8 (960) 492-16-69 &lt;br /&gt; WhatsApp&lt;/p&gt;\n\n                &quot;,
+            &quot;is_visible_in_header&quot;: true,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 6,
+            &quot;title&quot;: &quot;Оферта&quot;,
+            &quot;slug&quot;: &quot;oferta&quot;,
+            &quot;description&quot;: &quot;Публичная оферта&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Здесь изложены условия продажи товаров, оформления заказа и оплаты. Совершая покупку, вы подтверждаете, что ознакомились с офертой и принимаете её условия.&lt;/p&gt;\n&lt;p&gt;Подробно описаны права покупателя, сроки обработки заказа и порядок урегулирования спорных ситуаций.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        },
+        {
+            &quot;id&quot;: 7,
+            &quot;title&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;slug&quot;: &quot;politika-konfidentsialnosti&quot;,
+            &quot;description&quot;: &quot;Политика конфиденциальности&quot;,
+            &quot;text&quot;: &quot;&lt;p&gt;Мы бережно относимся к персональным данным: храним их на защищённых серверах и используем только для обработки заказов и связи с клиентом.&lt;/p&gt;\n&lt;p&gt;Политика описывает, какие данные мы собираем, как их защищаем и в каких случаях можем передавать по закону.&lt;/p&gt;&quot;,
+            &quot;is_visible_in_header&quot;: false,
+            &quot;is_visible_in_footer&quot;: true
+        }
+    ]
 }</code>
  </pre>
     </span>
@@ -5664,7 +5920,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpfmpEkH" </code></pre></div>
+    --form "attachments[]=@/tmp/phpIJPljE" </code></pre></div>
 
 
 <div class="javascript-example">
