@@ -213,5 +213,11 @@ final readonly class PaymentService
                 'status' => 'refunded',
             ]);
         }
+
+        if ($payment->status === Payment::STATUS_FAILED) {
+            $order->update([
+                'status' => 'payment_failed',
+            ]);
+        }
     }
 }
