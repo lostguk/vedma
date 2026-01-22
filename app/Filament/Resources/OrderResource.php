@@ -83,12 +83,11 @@ class OrderResource extends Resource
                             ->disabled(),
                         TextInput::make('total_price')->label('Сумма заказа')->numeric()->disabled(),
                         Select::make('status')
-                            ->label('Статус')
+                            ->label('Статус оплаты')
                             ->options([
                                 'new' => 'Новый',
                                 'payment_pending' => 'Ожидает оплату',
                                 'payment_failed' => 'Ошибка оплаты',
-                                'processing' => 'В обработке',
                                 'paid' => 'Оплачен',
                                 'refunded' => 'Возврат',
                                 'cancelled' => 'Отменён',
@@ -147,13 +146,12 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
                 Tables\Columns\TextColumn::make('total_price')->label('Сумма')->money('RUB')->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->label('Статус')
+                    ->label('Статус оплаты')
                     ->badge()
                     ->formatStateUsing(static fn (string $state): string => match ($state) {
                         'new' => 'Новый',
                         'payment_pending' => 'Ожидает оплату',
                         'payment_failed' => 'Ошибка оплаты',
-                        'processing' => 'В обработке',
                         'paid' => 'Оплачен',
                         'refunded' => 'Возврат',
                         'cancelled' => 'Отменён',
@@ -163,25 +161,30 @@ class OrderResource extends Resource
                         'new' => 'gray',
                         'payment_pending' => 'warning',
                         'payment_failed' => 'danger',
-                        'processing' => 'warning',
                         'paid' => 'success',
                         'refunded' => 'info',
                         'cancelled' => 'danger',
                         default => 'gray',
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_type')->label('Оплата'),
+                Tables\Columns\SelectColumn::make('delivery_status')
+                    ->label('Статус доставки')
+                    ->options([
+                        'pending' => 'Ожидает',
+                        'shipped' => 'Отправлен',
+                        'delivered' => 'Доставлен',
+                    ])
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('delivery_type')->label('Доставка'),
                 Tables\Columns\TextColumn::make('created_at')->label('Создан')->dateTime('d.m.Y H:i')->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->label('Статус')
+                    ->label('Статус оплаты')
                     ->options([
                         'new' => 'Новый',
                         'payment_pending' => 'Ожидает оплату',
                         'payment_failed' => 'Ошибка оплаты',
-                        'processing' => 'В обработке',
                         'paid' => 'Оплачен',
                         'refunded' => 'Возврат',
                         'cancelled' => 'Отменён',

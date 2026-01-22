@@ -71,6 +71,12 @@ class EditOrder extends EditRecord
                 }),
             Actions\Action::make('refundPayment')
                 ->label('Возврат оплаты')
+                ->visible(function (): bool {
+                    /** @var Order $order */
+                    $order = $this->record;
+
+                    return $order->status === 'paid';
+                })
                 ->requiresConfirmation()
                 ->form([
                     TextInput::make('amount')
@@ -93,7 +99,35 @@ class EditOrder extends EditRecord
                         return;
                     }
 
-                    $paymentService->refund($payment, $data['amount'] ?? null);
+                    if (! $payment->external_order_id) {
+                        Notification::make()
+                            ->title('Нет данных для возврата')
+                            ->body('У платежа отсутствует orderId платежного шлюза.')
+                            ->warning()
+                            ->send();
+
+                        return;
+                    }
+
+                    try {
+                        $paymentService->refund($payment, $data['amount'] ?? null);
+                    } catch (\RuntimeException $exception) {
+                        Notification::make()
+                            ->title('Ошибка возврата')
+                            ->body($exception->getMessage())
+                            ->danger()
+                            ->send();
+
+                        return;
+                    } catch (\Throwable) {
+                        Notification::make()
+                            ->title('Ошибка возврата')
+                            ->body('Платежный шлюз недоступен.')
+                            ->danger()
+                            ->send();
+
+                        return;
+                    }
 
                     Notification::make()
                         ->title('Возврат выполнен')
