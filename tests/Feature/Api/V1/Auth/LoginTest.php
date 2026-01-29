@@ -68,4 +68,23 @@ final class LoginTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['email']);
     }
+
+    public function test_login_fails_for_unverified_email(): void
+    {
+        $user = User::factory()->unverified()->create([
+            'email' => 'unverified@example.com',
+            'password' => Hash::make('password123'),
+        ]);
+
+        $response = $this->postJson(route('api.v1.auth.login'), [
+            'email' => 'unverified@example.com',
+            'password' => 'password123',
+        ]);
+
+        $response->assertForbidden()
+            ->assertJson([
+                'status' => 'error',
+                'message' => 'Email адрес не подтвержден',
+            ]);
+    }
 }

@@ -9,6 +9,7 @@ use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\LoginService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @group Аутентификация
@@ -26,6 +27,8 @@ use Illuminate\Http\JsonResponse;
  */
 final class LoginController extends ApiController
 {
+    private const ERROR_EMAIL_NOT_VERIFIED = 'Email адрес не подтвержден';
+
     /**
      * Вход в систему
      *
@@ -67,6 +70,10 @@ final class LoginController extends ApiController
      *         ]
      *     }
      * }
+     * @response 403 scenario="Email не подтвержден" {
+     *     "status": "error",
+     *     "message": "Email адрес не подтвержден"
+     * }
      */
     public function __invoke(LoginRequest $request, LoginService $service): JsonResponse
     {
@@ -75,7 +82,11 @@ final class LoginController extends ApiController
             $request->string('password')->toString()
         );
 
-        \Log::info('user', $user->toArray());
+        if (! $user->hasVerifiedEmail()) {
+            Auth::logout();
+
+            return $this->errorResponse(self::ERROR_EMAIL_NOT_VERIFIED, 403);
+        }
 
         $token = $user->createToken('api')->plainTextToken;
 
