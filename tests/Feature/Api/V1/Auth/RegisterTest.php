@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Api\V1\Auth;
 
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 final class RegisterTest extends TestCase
@@ -50,6 +53,35 @@ final class RegisterTest extends TestCase
             'last_name' => $this->validData['last_name'],
             'middle_name' => $this->validData['middle_name'],
         ]);
+    }
+
+    public function test_registration_email_contains_frontend_link_with_user_and_hash(): void
+    {
+        Notification::fake();
+
+        $this->postJson(route('api.v1.auth.register'), $this->validData)->assertCreated();
+
+        $user = User::where('email', $this->validData['email'])->firstOrFail();
+
+        Notification::assertSentTo(
+            $user,
+            VerifyEmailNotification::class,
+            function (VerifyEmailNotification $notification) use ($user): bool {
+                $mailMessage = $notification->toMail($user);
+                $verificationUrl = $mailMessage->actionUrl;
+
+                $expectedPrefix = rtrim(Config::get('app.frontend_url'), '/')
+                    .'/'.trim(Config::get('app.frontend_verify_path'), '/')
+                    .'/'.$user->getKey()
+                    .'/'.sha1($user->getEmailForVerification());
+
+                $this->assertStringStartsWith($expectedPrefix, $verificationUrl);
+                $this->assertStringContainsString('expires=', $verificationUrl);
+                $this->assertStringContainsString('signature=', $verificationUrl);
+
+                return true;
+            }
+        );
     }
 
     public function test_user_cannot_register_with_existing_email(): void

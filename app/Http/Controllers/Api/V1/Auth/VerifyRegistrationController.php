@@ -31,6 +31,9 @@ final class VerifyRegistrationController extends ApiController
      * @urlParam user integer required ID пользователя. Example: 1
      * @urlParam hash string required Хеш email адреса (sha1). Example: 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
      *
+     * @queryParam expires integer required Unix‑timestamp, срок действия ссылки. Example: 1738156800
+     * @queryParam signature string required Подпись ссылки, формируется приложением. Example: 2b64a6c0a1f7a5d9cbb7f0e3c0a8b1a9d3c1f5e6
+     *
      * @response 200 scenario="Успешное подтверждение" {
      *     "message": "Email успешно подтвержден"
      * }

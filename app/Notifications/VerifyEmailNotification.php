@@ -37,10 +37,13 @@ final class VerifyEmailNotification extends Notification
 
         $frontendUrl = rtrim(Config::get('app.frontend_url'), '/');
         $frontendPath = '/'.ltrim(Config::get('app.frontend_verify_path'), '/');
+        $frontendPath = rtrim($frontendPath, '/');
+        $userId = $notifiable->getKey();
+        $emailHash = sha1($notifiable->getEmailForVerification());
 
         // Переносим все query-параметры из подписанного URL на фронт
         $query = parse_url($signedApiUrl, PHP_URL_QUERY) ?: '';
-        $verificationUrl = $frontendUrl.$frontendPath.($query ? ('?'.$query) : '');
+        $verificationUrl = $frontendUrl.$frontendPath.'/'.$userId.'/'.$emailHash.($query ? ('?'.$query) : '');
 
         return (new MailMessage)
             ->subject('Подтверждение регистрации на сайте Ведьмино зелье')

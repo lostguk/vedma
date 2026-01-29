@@ -1420,7 +1420,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "{{ config("app.url") }}/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" \
+    --get "{{ config("app.url") }}/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8?expires=1738156800&amp;signature=2b64a6c0a1f7a5d9cbb7f0e3c0a8b1a9d3c1f5e6" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -1429,6 +1429,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "{{ config("app.url") }}/api/v1/verify-registration/1/5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8"
 );
+
+const params = {
+    "expires": "1738156800",
+    "signature": "2b64a6c0a1f7a5d9cbb7f0e3c0a8b1a9d3c1f5e6",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -1572,7 +1579,30 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Хеш email адреса (sha1). Example: <code>5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8</code></p>
             </div>
-                    </form>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>expires</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="expires"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="1738156800"
+               data-component="query">
+    <br>
+<p>Unix‑timestamp, срок действия ссылки. Example: <code>1738156800</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>signature</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="signature"                data-endpoint="GETapi-v1-verify-registration--user---hash-"
+               value="2b64a6c0a1f7a5d9cbb7f0e3c0a8b1a9d3c1f5e6"
+               data-component="query">
+    <br>
+<p>Подпись ссылки, формируется приложением. Example: <code>2b64a6c0a1f7a5d9cbb7f0e3c0a8b1a9d3c1f5e6</code></p>
+            </div>
+                </form>
 
                 <h1 id="glavnaia-stranica">Главная страница</h1>
 
@@ -2625,7 +2655,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-01-29T12:04:53+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-01-29T12:25:37+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3147,7 +3177,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/f506d470-910c-4cc5-8a13-3e50c9851587/refund" \
+    "{{ config("app.url") }}/api/v1/payments/e52a625f-fa9c-45f8-81dc-1b23311394e8/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3158,7 +3188,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/f506d470-910c-4cc5-8a13-3e50c9851587/refund"
+    "{{ config("app.url") }}/api/v1/payments/e52a625f-fa9c-45f8-81dc-1b23311394e8/refund"
 );
 
 const headers = {
@@ -3256,10 +3286,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="f506d470-910c-4cc5-8a13-3e50c9851587"
+               value="e52a625f-fa9c-45f8-81dc-1b23311394e8"
                data-component="url">
     <br>
-<p>The payment. Example: <code>f506d470-910c-4cc5-8a13-3e50c9851587</code></p>
+<p>The payment. Example: <code>e52a625f-fa9c-45f8-81dc-1b23311394e8</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -5920,7 +5950,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phphpEEoL" </code></pre></div>
+    --form "attachments[]=@/tmp/phpKajAKh" </code></pre></div>
 
 
 <div class="javascript-example">
