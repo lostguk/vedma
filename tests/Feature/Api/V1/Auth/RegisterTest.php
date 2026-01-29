@@ -16,7 +16,7 @@ final class RegisterTest extends TestCase
         'first_name' => 'Test',
         'last_name' => 'User',
         'middle_name' => 'Middle',
-        'email' => 'test@example.com',
+        'email' => 'gusengus57@gmail.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
         'phone' => '+79001234567',

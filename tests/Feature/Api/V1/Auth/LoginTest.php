@@ -16,12 +16,12 @@ final class LoginTest extends TestCase
     public function test_successful_login(): void
     {
         $user = User::factory()->create([
-            'email' => 'test@example.com',
+            'email' => 'gusengus57@gmail.com',
             'password' => Hash::make('password123'),
         ]);
 
         $response = $this->postJson(route('api.v1.auth.login'), [
-            'email' => 'test@example.com',
+            'email' => 'gusengus57@gmail.com',
             'password' => 'password123',
         ]);
 

@@ -269,7 +269,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 19, 2026</li>
+        <li>Last updated: January 29, 2026</li>
     </ul>
 </div>
 
@@ -585,7 +585,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"user@example.com\",
+    \"email\": \"gusengus57@gmail.com\",
     \"password\": \"password123\"
 }"
 </code></pre></div>
@@ -602,7 +602,7 @@ const headers = {
 };
 
 let body = {
-    "email": "user@example.com",
+    "email": "gusengus57@gmail.com",
     "password": "password123"
 };
 
@@ -630,7 +630,7 @@ fetch(url, {
             &quot;last_name&quot;: &quot;Иванов&quot;,
             &quot;middle_name&quot;: &quot;Иванович&quot;,
             &quot;full_name&quot;: &quot;Иванов Иван Иванович&quot;,
-            &quot;email&quot;: &quot;user@example.com&quot;,
+            &quot;email&quot;: &quot;gusengus57@gmail.com&quot;,
             &quot;phone&quot;: &quot;+79001234567&quot;,
             &quot;address&quot;: &quot;Россия&quot;
             &quot;email_verified&quot;: true,
@@ -736,10 +736,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-login"
-               value="user@example.com"
+               value="gusengus57@gmail.com"
                data-component="body">
     <br>
-<p>Email пользователя. Example: <code>user@example.com</code></p>
+<p>Email пользователя. Example: <code>gusengus57@gmail.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -771,7 +771,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"user@example.com\"
+    \"email\": \"gusengus57@gmail.com\"
 }"
 </code></pre></div>
 
@@ -787,7 +787,7 @@ const headers = {
 };
 
 let body = {
-    "email": "user@example.com"
+    "email": "gusengus57@gmail.com"
 };
 
 fetch(url, {
@@ -885,10 +885,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-forgot-password"
-               value="user@example.com"
+               value="gusengus57@gmail.com"
                data-component="body">
     <br>
-<p>Email пользователя. Example: <code>user@example.com</code></p>
+<p>Email пользователя. Example: <code>gusengus57@gmail.com</code></p>
         </div>
         </form>
 
@@ -2625,7 +2625,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-01-19T07:52:45+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-01-29T12:04:53+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3147,7 +3147,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/2918447f-e5a2-4fe1-a19c-38e672040477/refund" \
+    "{{ config("app.url") }}/api/v1/payments/f506d470-910c-4cc5-8a13-3e50c9851587/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3158,7 +3158,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/2918447f-e5a2-4fe1-a19c-38e672040477/refund"
+    "{{ config("app.url") }}/api/v1/payments/f506d470-910c-4cc5-8a13-3e50c9851587/refund"
 );
 
 const headers = {
@@ -3256,10 +3256,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="2918447f-e5a2-4fe1-a19c-38e672040477"
+               value="f506d470-910c-4cc5-8a13-3e50c9851587"
                data-component="url">
     <br>
-<p>The payment. Example: <code>2918447f-e5a2-4fe1-a19c-38e672040477</code></p>
+<p>The payment. Example: <code>f506d470-910c-4cc5-8a13-3e50c9851587</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -5920,7 +5920,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpIJPljE" </code></pre></div>
+    --form "attachments[]=@/tmp/phphpEEoL" </code></pre></div>
 
 
 <div class="javascript-example">

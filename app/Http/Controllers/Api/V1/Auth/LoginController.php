@@ -32,7 +32,7 @@ final class LoginController extends ApiController
      * Позволяет получить токен доступа по email и паролю.
      * После успешной аутентификации возвращается токен доступа и данные пользователя.
      *
-     * @bodyParam email string required Email пользователя. Example: user@example.com
+     * @bodyParam email string required Email пользователя. Example: gusengus57@gmail.com
      * @bodyParam password string required Пароль пользователя. Example: password123
      *
      * @response 200 scenario="Успешный вход" {
@@ -45,7 +45,7 @@ final class LoginController extends ApiController
      *             "last_name": "Иванов",
      *             "middle_name": "Иванович",
      *             "full_name": "Иванов Иван Иванович",
-     *             "email": "user@example.com",
+     *             "email": "gusengus57@gmail.com",
      *             "phone": "+79001234567",
      *             "address": "Россия"
      *             "email_verified": true,

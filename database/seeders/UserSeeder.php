@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'middle_name' => 'Иванович',
-            'email' => 'user@example.com',
+            'email' => 'gusengus57@gmail.com',
             'password' => 'password123',
             'phone' => '+7 999 123 45 67',
             'address' => 'ул. Примерная, д. 1, кв. 1',
