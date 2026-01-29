@@ -184,12 +184,15 @@ final class OrderControllerTest extends TestCase
 
     public function test_user_can_see_only_their_orders(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $authUser */
+        $authUser = $user;
         $otherUser = User::factory()->create();
         Order::factory()->count(3)->create(['user_id' => $user->id]);
         Order::factory()->count(2)->create(['user_id' => $otherUser->id]);
 
-        $this->actingAs($user);
+        $this->actingAs($authUser);
         $response = $this->getJson('/api/v1/orders');
 
         $response->assertOk();
@@ -199,5 +202,54 @@ final class OrderControllerTest extends TestCase
         foreach ($ordersArray as $order) {
             $this->assertEquals($user->id, $order['user_id']);
         }
+    }
+
+    public function test_orders_list_returns_human_status_and_totals(): void
+    {
+        /** @var User $user */
+        $user = User::factory()->create();
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $authUser */
+        $authUser = $user;
+        $category = \App\Models\Category::factory()->create();
+        $product = Product::factory()->create(['price' => 100, 'old_price' => 120]);
+        $product->categories()->attach($category->id);
+        $promo = PromoCode::factory()->create([
+            'discount_type' => 'percent',
+            'discount_value' => 10,
+            'start_date' => now()->subDay(),
+            'end_date' => now()->addDay(),
+        ]);
+        $promo->categories()->attach($category->id);
+
+        $order = Order::factory()->create([
+            'user_id' => $user->id,
+            'promo_code_id' => $promo->id,
+            'status' => 'paid',
+            'phone' => '+7 999 000 00 00',
+            'total_price' => 180.0,
+        ]);
+        \App\Models\OrderItem::factory()->create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'name' => $product->name,
+            'price' => 100,
+            'count' => 2,
+            'total' => 200,
+        ]);
+
+        $this->actingAs($authUser);
+        $response = $this->getJson('/api/v1/orders');
+
+        $response->assertOk();
+        $response->assertJsonFragment([
+            'id' => $order->id,
+            'phone' => '+7 999 000 00 00',
+            'promo_code' => $promo->code,
+            'status' => 'Оплачен',
+            'status_code' => 'paid',
+            'total_without_discount' => 200.0,
+            'total_with_discount' => 180.0,
+            'promo_code_status' => 'applied',
+        ]);
     }
 }

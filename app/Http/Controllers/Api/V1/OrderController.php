@@ -95,9 +95,8 @@ final class OrderController extends ApiController
      */
     public function store(OrderStoreRequest $request, OrderService $orderService): JsonResponse
     {
-
         $order = $orderService->createOrder($request->validated());
-        $order->load('items');
+        $order->load('items', 'items.product.categories', 'promoCode');
 
         return $this->successResponse(new OrderResource(resource: $order), 'Заказ успешно создан', 201);
     }
