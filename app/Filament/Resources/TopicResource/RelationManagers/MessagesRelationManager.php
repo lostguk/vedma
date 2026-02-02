@@ -92,6 +92,7 @@ class MessagesRelationManager extends RelationManager
                     ->searchable()
                     ->preload(),
             ])
+            ->poll('10s')
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])

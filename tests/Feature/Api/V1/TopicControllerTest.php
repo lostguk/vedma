@@ -49,6 +49,7 @@ final class TopicControllerTest extends TestCase
                         'created_at',
                         'updated_at',
                         'messages_count',
+                        'unread_messages_count',
                     ],
                 ],
                 'meta' => [
@@ -108,6 +109,7 @@ final class TopicControllerTest extends TestCase
                 'created_at',
                 'updated_at',
                 'messages_count',
+                'unread_messages_count',
                 'messages' => [
                     '*' => [
                         'id',
@@ -325,5 +327,70 @@ final class TopicControllerTest extends TestCase
         $response = $this->postJson(route('user.topics.messages.store', $topic->id), $postData);
 
         $response->assertForbidden();
+    }
+
+    public function test_unread_messages_count_for_user_updates_after_view(): void
+    {
+        $user = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $topic = Topic::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        $userMessageTime = now()->subMinutes(2);
+        $adminMessageTime = now()->subMinute();
+
+        Message::factory()->create([
+            'user_id' => $user->id,
+            'topic_id' => $topic->id,
+            'created_at' => $userMessageTime,
+            'updated_at' => $userMessageTime,
+        ]);
+
+        Message::factory()->create([
+            'user_id' => $admin->id,
+            'topic_id' => $topic->id,
+            'created_at' => $adminMessageTime,
+            'updated_at' => $adminMessageTime,
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson(route('user.topics.unread-count'));
+        $response->assertOk()
+            ->assertJsonPath('data.unread_messages_count', 1);
+
+        $this->getJson(route('user.topics.show', $topic->id))->assertOk();
+
+        $response = $this->getJson(route('user.topics.unread-count'));
+        $response->assertOk()
+            ->assertJsonPath('data.unread_messages_count', 0);
+
+        $this->assertDatabaseMissing('topics', [
+            'id' => $topic->id,
+            'user_last_read_at' => null,
+        ]);
+    }
+
+    public function test_unread_messages_count_for_admin(): void
+    {
+        $user = User::factory()->create();
+        $admin = User::factory()->create(['is_admin' => true]);
+
+        $topic = Topic::factory()->create([
+            'user_id' => $user->id,
+        ]);
+
+        Message::factory()->create([
+            'user_id' => $user->id,
+            'topic_id' => $topic->id,
+        ]);
+
+        Sanctum::actingAs($admin);
+
+        $response = $this->getJson(route('user.topics.unread-count'));
+        $response->assertOk()
+            ->assertJsonPath('data.unread_messages_count', 1);
     }
 }

@@ -22,6 +22,8 @@ final class Topic extends Model
         'title',
         'status',
         'user_id',
+        'user_last_read_at',
+        'admin_last_read_at',
     ];
 
     /**
@@ -31,6 +33,8 @@ final class Topic extends Model
      */
     protected $casts = [
         'status' => 'string',
+        'user_last_read_at' => 'datetime',
+        'admin_last_read_at' => 'datetime',
     ];
 
     /**
@@ -47,5 +51,20 @@ final class Topic extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function getUnreadMessagesCountFor(User $user): int
+    {
+        $query = $this->messages()->whereHas('user', function ($query) use ($user) {
+            $query->where('is_admin', ! $user->is_admin);
+        });
+
+        $lastReadAt = $user->is_admin ? $this->admin_last_read_at : $this->user_last_read_at;
+
+        if ($lastReadAt) {
+            $query->where('created_at', '>', $lastReadAt);
+        }
+
+        return $query->count();
     }
 }

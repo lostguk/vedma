@@ -31,6 +31,7 @@ use Throwable;
  * - `title` - Название темы
  * - `status` - Статус темы (new, resolved, requires_response)
  * - `user_id` - ID пользователя, создавшего тему.
+ * - `unread_messages_count` - Количество непрочитанных сообщений
  * - `messages` - Массив сообщений в теме (если запрошены)
  *
  * ## Структура сообщения
@@ -71,7 +72,8 @@ final class TopicController extends ApiController
      *                 "status_text": "Новый",
      *                 "created_at": "2023-06-15 10:30:00",
      *                 "updated_at": "2023-06-15 10:30:00",
-     *                 "messages_count": 2
+     *                 "messages_count": 2,
+     *                 "unread_messages_count": 1
      *             },
      *             {
      *                 "id": 2,
@@ -80,7 +82,8 @@ final class TopicController extends ApiController
      *                 "status_text": "Требует ответа",
      *                 "created_at": "2023-06-14 15:45:00",
      *                 "updated_at": "2023-06-14 16:20:00",
-     *                 "messages_count": 3
+     *                 "messages_count": 3,
+     *                 "unread_messages_count": 0
      *             }
      *         ],
      *         "first_page_url": "http://example.com/api/v1/topics?page=1",
@@ -153,6 +156,7 @@ final class TopicController extends ApiController
      *         "created_at": "2023-06-15 10:30:00",
      *         "updated_at": "2023-06-15 10:30:00",
      *         "messages_count": 2,
+     *         "unread_messages_count": 0,
      *         "messages": [
      *             {
      *                 "id": 1,
@@ -220,9 +224,36 @@ final class TopicController extends ApiController
             }
         }
 
+        $this->topicService->markTopicAsRead($topic, $request->user());
+
         return $this->successResponse(
             new TopicResource($topic),
             'Детали темы'
+        );
+    }
+
+    /**
+     * Получение количества непрочитанных сообщений
+     *
+     * Возвращает общее количество непрочитанных сообщений для текущего пользователя.
+     *
+     * @authenticated
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *     "status": "success",
+     *     "message": "Количество непрочитанных сообщений",
+     *     "data": {
+     *         "unread_messages_count": 3
+     *     }
+     * }
+     */
+    public function unreadCount(Request $request): JsonResponse
+    {
+        $count = $this->topicService->getUnreadMessagesCount($request->user());
+
+        return $this->successResponse(
+            ['unread_messages_count' => $count],
+            'Количество непрочитанных сообщений'
         );
     }
 

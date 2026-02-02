@@ -5,11 +5,14 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TopicResource\Pages;
 use App\Filament\Resources\TopicResource\RelationManagers;
 use App\Models\Topic;
+use App\Repositories\MessageRepository;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TopicResource extends Resource
 {
@@ -22,6 +25,38 @@ class TopicResource extends Resource
     protected static ?string $modelLabel = 'Тема обращения';
 
     protected static ?string $pluralModelLabel = 'Темы обращений';
+
+    public static function getNavigationBadge(): ?string
+    {
+        $user = Filament::auth()->user();
+
+        if (! $user || ! $user->is_admin) {
+            return null;
+        }
+
+        $count = app(MessageRepository::class)->countUnreadForAdmin();
+
+        return $count > 0 ? (string) $count : null;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = Filament::auth()->user();
+
+        if (! $user || ! $user->is_admin) {
+            return $query;
+        }
+
+        return $query->withCount(['messages as unread_messages_count' => function (Builder $query) {
+            $query->whereHas('user', function (Builder $userQuery) {
+                $userQuery->where('is_admin', false);
+            })->where(function (Builder $query) {
+                $query->whereNull('topics.admin_last_read_at')
+                    ->orWhereColumn('messages.created_at', '>', 'topics.admin_last_read_at');
+            });
+        }]);
+    }
 
     public static function form(Form $form): Form
     {
@@ -71,6 +106,9 @@ class TopicResource extends Resource
                         'requires_response' => 'Требует ответа',
                     ])
                     ->sortable(),
+                Tables\Columns\TextColumn::make('unread_messages_count')
+                    ->label('Новые сообщения')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.email')
                     ->label('Пользователь')
                     ->searchable()
@@ -98,6 +136,7 @@ class TopicResource extends Resource
                     ->searchable()
                     ->preload(),
             ])
+            ->poll('10s')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

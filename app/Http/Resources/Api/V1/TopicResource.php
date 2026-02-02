@@ -14,6 +14,14 @@ class TopicResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $unreadMessagesCount = null;
+        $user = $request->user();
+
+        if ($user) {
+            $unreadMessagesCount = $this->unread_messages_count
+                ?? $this->getUnreadMessagesCountFor($user);
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -22,6 +30,7 @@ class TopicResource extends JsonResource
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
             'messages_count' => $this->messages_count ?? $this->messages->count(),
+            'unread_messages_count' => $unreadMessagesCount,
             'messages' => $this->whenLoaded('messages', function () {
                 return MessageResource::collection($this->messages);
             }),

@@ -32,6 +32,29 @@ final class Message extends Model implements HasMedia
         'topic_id',
     ];
 
+    protected static function booted(): void
+    {
+        self::created(function (Message $message): void {
+            $message->loadMissing('user', 'topic');
+
+            if (! $message->topic || ! $message->user) {
+                return;
+            }
+
+            if ($message->user->is_admin) {
+                $message->topic->forceFill([
+                    'admin_last_read_at' => $message->created_at,
+                ])->save();
+
+                return;
+            }
+
+            $message->topic->forceFill([
+                'user_last_read_at' => $message->created_at,
+            ])->save();
+        });
+    }
+
     /**
      * Get the user that owns the message.
      */
