@@ -10,6 +10,8 @@ use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\RegistrationService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * @group Аутентификация
@@ -34,6 +36,8 @@ use Illuminate\Http\JsonResponse;
  */
 final class RegisterController extends ApiController
 {
+    private const ERROR_VERIFICATION_EMAIL_FAILED = 'Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.';
+
     private RegistrationService $registrationService;
 
     /**
@@ -82,12 +86,35 @@ final class RegisterController extends ApiController
      *         ]
      *     }
      * }
+     * @response 422 scenario="Не удалось отправить письмо" {
+     *     "status": "error",
+     *     "message": "Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.",
+     *     "errors": {
+     *         "email": [
+     *             "Не удалось доставить письмо подтверждения."
+     *         ]
+     *     }
+     * }
      */
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        $user = $this->registrationService->register($request->validated());
+        try {
+            $user = DB::transaction(function () use ($request) {
+                $user = $this->registrationService->register($request->validated());
 
-        event(new Registered($user));
+                event(new Registered($user));
+
+                return $user;
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return $this->errorResponse(
+                self::ERROR_VERIFICATION_EMAIL_FAILED,
+                422,
+                ['email' => ['Не удалось доставить письмо подтверждения.']]
+            );
+        }
 
         return $this->successResponse(
             new UserResource($user),

@@ -7,8 +7,10 @@ namespace Tests\Feature\Api\V1\Auth;
 use App\Models\User;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
+use RuntimeException;
 use Tests\TestCase;
 
 final class RegisterTest extends TestCase
@@ -189,6 +191,28 @@ final class RegisterTest extends TestCase
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'middle_name' => $data['middle_name'],
+        ]);
+    }
+
+    public function test_register_returns_error_when_verification_email_fails(): void
+    {
+        $this->mock(ChannelManager::class, function ($mock): void {
+            $mock->shouldReceive('send')
+                ->andThrow(new RuntimeException('Mail failed'));
+        });
+
+        $response = $this->postJson(route('api.v1.auth.register'), $this->validData);
+
+        $response->assertUnprocessable()
+            ->assertJsonPath('status', 'error')
+            ->assertJsonPath(
+                'message',
+                'Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.'
+            )
+            ->assertJsonPath('errors.email.0', 'Не удалось доставить письмо подтверждения.');
+
+        $this->assertDatabaseMissing('users', [
+            'email' => $this->validData['email'],
         ]);
     }
 }
