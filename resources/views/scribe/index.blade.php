@@ -93,6 +93,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="autentifikaciia-GETapi-v1-verify-registration--user---hash-">
                                 <a href="#autentifikaciia-GETapi-v1-verify-registration--user---hash-">Подтверждение email адреса</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="autentifikaciia-POSTapi-v1-verify-registration-resend">
+                                <a href="#autentifikaciia-POSTapi-v1-verify-registration-resend">Повторная отправка письма подтверждения</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-glavnaia-stranica" class="tocify-header">
@@ -269,7 +272,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 30, 2026</li>
+        <li>Last updated: February 2, 2026</li>
     </ul>
 </div>
 
@@ -402,6 +405,21 @@ fetch(url, {
     &quot;errors&quot;: {
         &quot;email&quot;: [
             &quot;The email has already been taken.&quot;
+        ]
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Не удалось отправить письмо):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;Не удалось доставить письмо подтверждения.&quot;
         ]
     }
 }</code>
@@ -1614,6 +1632,182 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                 </form>
 
+                    <h2 id="autentifikaciia-POSTapi-v1-verify-registration-resend">Повторная отправка письма подтверждения</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-verify-registration-resend">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "{{ config("app.url") }}/api/v1/verify-registration/resend" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"user@example.com\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "{{ config("app.url") }}/api/v1/verify-registration/resend"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "user@example.com"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-verify-registration-resend">
+            <blockquote>
+            <p>Example response (200, Письмо отправлено):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Письмо для подтверждения отправлено повторно.&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200, Email уже подтвержден):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;message&quot;: &quot;Email адрес уже подтвержден&quot;,
+    &quot;data&quot;: []
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, Пользователь не найден):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Пользователь не найден&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, Не удалось отправить письмо):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;Не удалось доставить письмо подтверждения.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-verify-registration-resend" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-verify-registration-resend"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-verify-registration-resend"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-verify-registration-resend" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-verify-registration-resend">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-verify-registration-resend" data-method="POST"
+      data-path="api/v1/verify-registration/resend"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-verify-registration-resend', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-verify-registration-resend"
+                    onclick="tryItOut('POSTapi-v1-verify-registration-resend');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-verify-registration-resend"
+                    onclick="cancelTryOut('POSTapi-v1-verify-registration-resend');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-verify-registration-resend"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/verify-registration/resend</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-verify-registration-resend"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-verify-registration-resend"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-verify-registration-resend"
+               value="user@example.com"
+               data-component="body">
+    <br>
+<p>Email пользователя. Example: <code>user@example.com</code></p>
+        </div>
+        </form>
+
                 <h1 id="glavnaia-stranica">Главная страница</h1>
 
     <p>API для получения контента главной страницы</p>
@@ -2055,7 +2249,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106"
                data-component="body">
     <br>
-<p>Адрес доставки в формате с индексом (пример из доков Metaship). Поле value должно быть не меньше 5 символов. Поле value не может быть больше 255 символов. Example: <code>191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106</code></p>
+<p>Адрес доставки в формате с индексом (пример из доков Metaship). Must be at least 5 characters. Must not be greater than 255 characters. Example: <code>191025, г Санкт-Петербург, Центральный р-н, Невский пр-кт, д 106</code></p>
         </div>
         </form>
 
@@ -2665,7 +2859,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-01-30T08:39:19+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-02-02T07:34:54+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3022,7 +3216,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="https://shop.example.com/payment/success"
                data-component="body">
     <br>
-<p>URL для редиректа после успешной оплаты. Must be a valid URL. Поле value не может быть больше 2048 символов. Example: <code>https://shop.example.com/payment/success</code></p>
+<p>URL для редиректа после успешной оплаты. Must be a valid URL. Must not be greater than 2048 characters. Example: <code>https://shop.example.com/payment/success</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>fail_url</code></b>&nbsp;&nbsp;
@@ -3033,7 +3227,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="https://shop.example.com/payment/fail"
                data-component="body">
     <br>
-<p>URL для редиректа после ошибки оплаты. Must be a valid URL. Поле value не может быть больше 2048 символов. Example: <code>https://shop.example.com/payment/fail</code></p>
+<p>URL для редиректа после ошибки оплаты. Must be a valid URL. Must not be greater than 2048 characters. Example: <code>https://shop.example.com/payment/fail</code></p>
         </div>
         </form>
 
@@ -3187,7 +3381,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/930d4774-90d4-45f5-9d10-c886fe872a1e/refund" \
+    "{{ config("app.url") }}/api/v1/payments/08a69991-ba13-4dbc-9b59-0345d6406676/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3198,7 +3392,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/930d4774-90d4-45f5-9d10-c886fe872a1e/refund"
+    "{{ config("app.url") }}/api/v1/payments/08a69991-ba13-4dbc-9b59-0345d6406676/refund"
 );
 
 const headers = {
@@ -3296,10 +3490,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="930d4774-90d4-45f5-9d10-c886fe872a1e"
+               value="08a69991-ba13-4dbc-9b59-0345d6406676"
                data-component="url">
     <br>
-<p>The payment. Example: <code>930d4774-90d4-45f5-9d10-c886fe872a1e</code></p>
+<p>The payment. Example: <code>08a69991-ba13-4dbc-9b59-0345d6406676</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3967,7 +4161,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="PROMO2208"
                data-component="body">
     <br>
-<p>Промокод. Поле value не может быть больше 32 символов. Example: <code>PROMO2208</code></p>
+<p>Промокод. Must not be greater than 32 characters. Example: <code>PROMO2208</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>register</code></b>&nbsp;&nbsp;
@@ -4012,7 +4206,7 @@ Must be one of:
                value="Admin"
                data-component="body">
     <br>
-<p>Имя пользователя. Поле value не может быть больше 64 символов. Example: <code>Admin</code></p>
+<p>Имя пользователя. Must not be greater than 64 characters. Example: <code>Admin</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
@@ -4023,7 +4217,7 @@ Must be one of:
                value="System"
                data-component="body">
     <br>
-<p>Фамилия пользователя. Поле value не может быть больше 64 символов. Example: <code>System</code></p>
+<p>Фамилия пользователя. Must not be greater than 64 characters. Example: <code>System</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>middle_name</code></b>&nbsp;&nbsp;
@@ -4034,7 +4228,7 @@ Must be one of:
                value="Root"
                data-component="body">
     <br>
-<p>Отчество пользователя. Поле value не может быть больше 64 символов. Example: <code>Root</code></p>
+<p>Отчество пользователя. Must not be greater than 64 characters. Example: <code>Root</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -4045,7 +4239,7 @@ Must be one of:
                value="admin@admin.ru"
                data-component="body">
     <br>
-<p>Email пользователя. Поле value должно быть действительным электронным адресом. Поле value не может быть больше 128 символов. Example: <code>admin@admin.ru</code></p>
+<p>Email пользователя. Must be a valid email address. Must not be greater than 128 characters. Example: <code>admin@admin.ru</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
@@ -4056,7 +4250,7 @@ Must be one of:
                value="ул. Администраторская, д. 1"
                data-component="body">
     <br>
-<p>Адрес доставки. Поле value не может быть больше 255 символов. Example: <code>ул. Администраторская, д. 1</code></p>
+<p>Адрес доставки. Must not be greater than 255 characters. Example: <code>ул. Администраторская, д. 1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -4067,7 +4261,7 @@ Must be one of:
                value="StrongPass123"
                data-component="body">
     <br>
-<p>Пароль (если регистрация). This field is required when <code>register</code> is <code>true</code>. Поле value должно быть не меньше 8 символов. Поле value не может быть больше 64 символов. Example: <code>StrongPass123</code></p>
+<p>Пароль (если регистрация). This field is required when <code>register</code> is <code>true</code>. Must be at least 8 characters. Must not be greater than 64 characters. Example: <code>StrongPass123</code></p>
         </div>
         </form>
 
@@ -4219,7 +4413,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="москва хабар"
                data-component="body">
     <br>
-<p>Фрагмент адреса или полный адрес для подсказок. Поле value должно быть не меньше 3 символов. Поле value не может быть больше 300 символов. Example: <code>москва хабар</code></p>
+<p>Фрагмент адреса или полный адрес для подсказок. Must be at least 3 characters. Must not be greater than 300 characters. Example: <code>москва хабар</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>count</code></b>&nbsp;&nbsp;
@@ -5960,7 +6154,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpAhHmBD" </code></pre></div>
+    --form "attachments[]=@/tmp/phpobJEHL" </code></pre></div>
 
 
 <div class="javascript-example">

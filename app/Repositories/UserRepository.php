@@ -71,6 +71,14 @@ final class UserRepository extends BaseRepository
     }
 
     /**
+     * Найти пользователя по email
+     */
+    public function findByEmail(string $email): ?User
+    {
+        return $this->model->where('email', $email)->first();
+    }
+
+    /**
      * Обновить пользователя по ID
      */
     public function updateById(int $id, array $data): User
