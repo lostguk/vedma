@@ -6,6 +6,7 @@ namespace Tests\Feature\Api\V1;
 
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
@@ -78,6 +79,9 @@ class ShippingCalculationTest extends TestCase
 
     public function test_calculate_uses_metaship_and_returns_response(): void
     {
+        Config::set('services.metaship.api_key', 'test-key');
+        Config::set('services.metaship.api_secret', 'test-secret');
+
         $product = Product::factory()->create([
             'weight' => 1.2,
             'width' => 10,
@@ -86,16 +90,17 @@ class ShippingCalculationTest extends TestCase
         ]);
 
         Http::fake([
-            '*/offers' => function ($request) {
-                // Проверяем заголовки авторизации
-                $this->assertSame(config('services.metaship.api_key'), $request->header('X-Api-Key')[0] ?? null);
-                $this->assertSame(config('services.metaship.api_secret'), $request->header('X-Api-Secret')[0] ?? null);
+            'https://api.metaship.ru/auth/access_token' => Http::response(['access_token' => 'test-token'], 200),
+            'https://api.metaship.ru/v2/offers*' => function ($request) {
+                // Проверяем заголовок авторизации
+                $this->assertSame('Bearer test-token', $request->header('Authorization')[0] ?? null);
 
                 // Проверяем полезную нагрузку
                 $data = $request->data();
-                $this->assertSame('Москва, ул. Пушкина, д. 1', $data['address_to'] ?? null);
-                $this->assertIsArray($data['items'] ?? null);
-                $this->assertSame(2, $data['items'][0]['quantity'] ?? null);
+                $this->assertSame('Москва, ул. Пушкина, д. 1', $data['address'] ?? null);
+                $this->assertSame(10, $data['width'] ?? null);
+                $this->assertSame(11, $data['height'] ?? null);
+                $this->assertSame(12, $data['length'] ?? null);
 
                 return Http::response([
                     'price' => 350,

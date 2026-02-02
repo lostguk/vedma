@@ -15,6 +15,13 @@ final class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Notification::fake();
+    }
+
     private array $validData = [
         'first_name' => 'Test',
         'last_name' => 'User',

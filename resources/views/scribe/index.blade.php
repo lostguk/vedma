@@ -269,7 +269,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 29, 2026</li>
+        <li>Last updated: January 30, 2026</li>
     </ul>
 </div>
 
@@ -639,6 +639,16 @@ fetch(url, {
         },
         &quot;token&quot;: &quot;1|laravel_sanctum_hashed_token_example_123456789&quot;
     }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (403, Email не подтвержден):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Email адрес не подтвержден&quot;
 }</code>
  </pre>
             <blockquote>
@@ -2655,7 +2665,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-01-29T12:25:37+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-01-30T08:39:19+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3177,7 +3187,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/e52a625f-fa9c-45f8-81dc-1b23311394e8/refund" \
+    "{{ config("app.url") }}/api/v1/payments/930d4774-90d4-45f5-9d10-c886fe872a1e/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3188,7 +3198,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/e52a625f-fa9c-45f8-81dc-1b23311394e8/refund"
+    "{{ config("app.url") }}/api/v1/payments/930d4774-90d4-45f5-9d10-c886fe872a1e/refund"
 );
 
 const headers = {
@@ -3286,10 +3296,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="e52a625f-fa9c-45f8-81dc-1b23311394e8"
+               value="930d4774-90d4-45f5-9d10-c886fe872a1e"
                data-component="url">
     <br>
-<p>The payment. Example: <code>e52a625f-fa9c-45f8-81dc-1b23311394e8</code></p>
+<p>The payment. Example: <code>930d4774-90d4-45f5-9d10-c886fe872a1e</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -5950,7 +5960,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpKajAKh" </code></pre></div>
+    --form "attachments[]=@/tmp/phpAhHmBD" </code></pre></div>
 
 
 <div class="javascript-example">

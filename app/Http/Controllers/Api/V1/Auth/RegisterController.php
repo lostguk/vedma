@@ -92,6 +92,7 @@ final class RegisterController extends ApiController
         return $this->successResponse(
             new UserResource($user),
             'Регистрация успешно завершена. Пожалуйста, проверьте вашу почту для подтверждения email.',
+            201,
         );
     }
 }
