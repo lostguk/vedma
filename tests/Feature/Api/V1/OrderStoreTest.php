@@ -7,6 +7,7 @@ namespace Tests\Feature\Api\V1;
 use App\Models\Product;
 use App\Models\PromoCode;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,6 +23,7 @@ class OrderStoreTest extends TestCase
                 ['id' => $product->id, 'count' => 2],
             ],
             'register' => false,
+            'delivery_price' => 300.0,
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test1@example.com',
@@ -33,6 +35,7 @@ class OrderStoreTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'email' => 'test1@example.com',
             'total_price' => 200.0,
+            'delivery_price' => 300.0,
         ]);
     }
 
@@ -118,6 +121,8 @@ class OrderStoreTest extends TestCase
     public function test_оформляет_заказ_авторизованным_пользователем(): void
     {
         $user = User::factory()->create();
+        /** @var Authenticatable $authUser */
+        $authUser = $user;
         $product = Product::factory()->create(['price' => 100]);
         $payload = [
             'items' => [
@@ -130,7 +135,7 @@ class OrderStoreTest extends TestCase
             'delivery_type' => 'PostOffice',
             'address' => 'Some Address',
         ];
-        $this->actingAs($user);
+        $this->actingAs($authUser);
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
         $this->assertDatabaseHas('orders', [

@@ -26,8 +26,14 @@ it('создает платеж и возвращает ссылку на опл
     $response->assertOk()
         ->assertJsonPath('data.payment_url', 'https://pay.test/form');
 
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
+        return str_contains($request->url(), '/payment/rest/register.do')
+            && $request['amount'] === 130000;
+    });
+
     $this->assertDatabaseHas('payments', [
         'order_id' => $order->id,
+        'amount' => 1300.0,
         'external_order_id' => 'ext-order-1',
     ]);
 });
