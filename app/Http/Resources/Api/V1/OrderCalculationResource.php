@@ -27,8 +27,8 @@ class OrderCalculationResource extends JsonResource
             'sort_order' => $this['sort_order'],
             'images_urls' => $this['images_urls'] ?? [],
             'count' => $this['count'],
-            'summery' => $this['summery'],
-            'summery_old' => $this['summery_old'],
+            'summery' => (int) round((float) $this['summery']),
+            'summery_old' => (int) round((float) $this['summery_old']),
             'discounted' => $this['discounted'],
         ];
     }

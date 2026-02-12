@@ -31,7 +31,7 @@ class OrderStoreRequest extends FormRequest
             'promo_code' => ['nullable', 'string', 'max:32'],
             'register' => ['required', 'boolean'],
             'delivery_type' => ['required', 'in:PostOffice,Cdek'],
-            'delivery_price' => ['nullable', 'numeric', 'min:0'],
+            'delivery_price' => ['nullable', 'integer', 'min:0'],
             'first_name' => ['required', 'string', 'max:64'],
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],
@@ -120,8 +120,8 @@ class OrderStoreRequest extends FormRequest
             ],
             'delivery_price' => [
                 'description' => 'Стоимость доставки',
-                'example' => 350.00,
-                'type' => 'number',
+                'example' => 350,
+                'type' => 'integer',
             ],
             'password' => [
                 'description' => 'Пароль (если регистрация)',

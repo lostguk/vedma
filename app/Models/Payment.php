@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
  * @property int $order_id
  * @property string $provider
  * @property string $status
- * @property float $amount
+ * @property int $amount
  * @property string $currency
  * @property string|null $external_order_id
  * @property string|null $payment_url
@@ -61,7 +61,7 @@ final class Payment extends Model
 
     protected $casts = [
         'order_id' => 'int',
-        'amount' => 'float',
+        'amount' => 'int',
         'payload' => 'array',
         'paid_at' => 'datetime',
         'refunded_at' => 'datetime',

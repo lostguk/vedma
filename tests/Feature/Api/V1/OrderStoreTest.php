@@ -23,7 +23,7 @@ class OrderStoreTest extends TestCase
                 ['id' => $product->id, 'count' => 2],
             ],
             'register' => false,
-            'delivery_price' => 300.0,
+            'delivery_price' => 300,
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test1@example.com',
@@ -34,8 +34,10 @@ class OrderStoreTest extends TestCase
         $response->assertCreated();
         $this->assertDatabaseHas('orders', [
             'email' => 'test1@example.com',
-            'total_price' => 200.0,
-            'delivery_price' => 300.0,
+            'total_price' => 200,
+            'total_price_without_discount' => 200,
+            'total_price_with_discount' => 200,
+            'delivery_price' => 300,
         ]);
     }
 
@@ -66,6 +68,9 @@ class OrderStoreTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'email' => 'test2@example.com',
             'promo_code_id' => $promo->id,
+            'total_price_without_discount' => 200,
+            'total_price_with_discount' => 180,
+            'total_price' => 180,
         ]);
     }
 
@@ -89,6 +94,8 @@ class OrderStoreTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'email' => 'test3@example.com',
             'promo_code_id' => null,
+            'total_price_without_discount' => 100,
+            'total_price_with_discount' => 100,
         ]);
     }
 

@@ -19,6 +19,8 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         $calculation = $this->calculateTotals();
+        $totalWithoutDiscount = (int) round((float) ($this->total_price_without_discount ?? $calculation['total_without_discount']));
+        $totalWithDiscount = (int) round((float) ($this->total_price_with_discount ?? $calculation['total_with_discount']));
 
         return [
             'id' => $this->id,
@@ -30,9 +32,9 @@ class OrderResource extends JsonResource
             'phone' => $this->phone,
             'address' => $this->address,
             'promo_code' => $this->promoCode?->code,
-            'total_price' => $calculation['total_with_discount'] ?? $this->total_price,
-            'total_without_discount' => $calculation['total_without_discount'],
-            'total_with_discount' => $calculation['total_with_discount'],
+            'total_price' => $totalWithDiscount,
+            'total_without_discount' => $totalWithoutDiscount,
+            'total_with_discount' => $totalWithDiscount,
             'promo_code_status' => $calculation['promo_code_status'],
             'status_code' => $this->status,
             'status' => $this->statusLabel($this->status),
@@ -42,7 +44,7 @@ class OrderResource extends JsonResource
     }
 
     /**
-     * @return array{total_without_discount: float, total_with_discount: float, promo_code_status: string}
+     * @return array{total_without_discount: int, total_with_discount: int, promo_code_status: string}
      */
     private function calculateTotals(): array
     {
@@ -50,8 +52,8 @@ class OrderResource extends JsonResource
 
         if ($items->isEmpty()) {
             return [
-                'total_without_discount' => (float) $this->total_price,
-                'total_with_discount' => (float) $this->total_price,
+                'total_without_discount' => (int) round((float) $this->total_price),
+                'total_with_discount' => (int) round((float) $this->total_price),
                 'promo_code_status' => 'not_sent',
             ];
         }
@@ -72,8 +74,8 @@ class OrderResource extends JsonResource
         );
 
         return [
-            'total_without_discount' => (float) $calculation['total_without_discount'],
-            'total_with_discount' => (float) $calculation['total_with_discount'],
+            'total_without_discount' => (int) round((float) $calculation['total_without_discount']),
+            'total_with_discount' => (int) round((float) $calculation['total_with_discount']),
             'promo_code_status' => $calculation['promo_code_status'],
         ];
     }

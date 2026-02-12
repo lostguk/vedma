@@ -60,7 +60,11 @@ final readonly class OrderService
             $products = $this->productRepository->getByIds($productIds)->load('categories');
             $calculated = $this->orderCalculationService->calculate($products, $data['items'], $promo);
             $calculatedItems = $calculated['items'] ?? [];
-            $total = (float) ($calculated['total_with_discount'] ?? 0);
+            $totalWithoutDiscount = (int) round((float) ($calculated['total_without_discount'] ?? 0));
+            $totalWithDiscount = (int) round((float) ($calculated['total_with_discount'] ?? 0));
+            $deliveryPrice = isset($data['delivery_price'])
+                ? (int) round((float) $data['delivery_price'])
+                : null;
 
             // 4. Создание заказа
             $orderData = [
@@ -72,13 +76,15 @@ final readonly class OrderService
                 'phone' => $data['phone'] ?? null,
                 'address' => $data['address'] ?? null,
                 'promo_code_id' => $promo?->id,
-                'total_price' => $total,
+                'total_price' => $totalWithDiscount,
+                'total_price_without_discount' => $totalWithoutDiscount,
+                'total_price_with_discount' => $totalWithDiscount,
                 'status' => 'new',
                 'payment_type' => null,
                 'paid_at' => null,
                 'comment' => $data['comment'] ?? null,
                 'delivery_type' => $data['delivery_type'] ?? null,
-                'delivery_price' => $data['delivery_price'] ?? null,
+                'delivery_price' => $deliveryPrice,
                 'delivery_status' => null,
                 'delivery_data' => null,
             ];
@@ -90,9 +96,9 @@ final readonly class OrderService
                 $items[] = [
                     'product_id' => $item['id'],
                     'name' => $item['name'],
-                    'price' => $item['price'],
+                    'price' => (int) round((float) $item['price']),
                     'count' => $item['count'],
-                    'total' => $item['summery'],
+                    'total' => (int) round((float) $item['summery']),
                 ];
             }
             $this->orderRepository->createOrderItems($order, $items);

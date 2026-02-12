@@ -15,30 +15,30 @@ final class OrderCalculationService
      *
      * @param  Collection<int, Product>  $products
      * @param  array<int, array{id: int, count: int}>  $items
-     * @return array{items: array<int, array>, total_without_discount: float, total_with_discount: float, promo_code_status: string}
+     * @return array{items: array<int, array>, total_without_discount: int, total_with_discount: int, promo_code_status: string}
      */
     public function calculate(Collection $products, array $items, ?PromoCode $promoCode = null, ?string $promoCodeInput = null): array
     {
         $result = [];
         $itemsById = collect($items)->keyBy('id');
         $promoCategories = $promoCode?->categories->pluck('id')->all() ?? [];
-        $totalWithoutDiscount = 0.0;
-        $totalWithDiscount = 0.0;
+        $totalWithoutDiscount = 0;
+        $totalWithDiscount = 0;
         $hasDiscountedItems = false;
 
         foreach ($products as $product) {
             $count = (int) ($itemsById[$product->id]['count'] ?? 1);
-            $price = $product->price;
-            $oldPrice = $product->old_price ?? $product->price;
+            $price = (int) round((float) $product->price);
+            $oldPrice = (int) round((float) ($product->old_price ?? $product->price));
             $discounted = false;
             $originalPrice = $price;
 
             // Применяем промокод, если он активен и товар в нужной категории
             if ($promoCode && $product->categories->pluck('id')->intersect($promoCategories)->isNotEmpty()) {
                 if ($promoCode->discount_type === 'percent') {
-                    $price = round($price * (1 - $promoCode->discount_value / 100), 2);
+                    $price = (int) round($price * (1 - $promoCode->discount_value / 100));
                 } elseif ($promoCode->discount_type === 'fixed') {
-                    $price = max(0, round($price - $promoCode->discount_value, 2));
+                    $price = max(0, (int) round($price - $promoCode->discount_value));
                 }
                 $discounted = true;
                 $hasDiscountedItems = true;
@@ -55,6 +55,8 @@ final class OrderCalculationService
                     'id', 'name', 'slug', 'description', 'price', 'old_price', 'weight', 'width', 'height', 'length', 'is_new', 'is_bestseller', 'sort_order', 'images_urls',
                 ]),
                 [
+                    'price' => $price,
+                    'old_price' => $oldPrice,
                     'count' => $count,
                     'summery' => $itemTotalWithDiscount,
                     'summery_old' => $oldPrice * $count,
@@ -68,8 +70,8 @@ final class OrderCalculationService
 
         return [
             'items' => $result,
-            'total_without_discount' => round($totalWithoutDiscount, 2),
-            'total_with_discount' => round($totalWithDiscount, 2),
+            'total_without_discount' => $totalWithoutDiscount,
+            'total_with_discount' => $totalWithDiscount,
             'promo_code_status' => $promoCodeStatus,
         ];
     }

@@ -20,13 +20,15 @@ use Illuminate\Support\Carbon;
  * @property string|null $phone
  * @property string|null $address
  * @property int|null $promo_code_id
- * @property float $total_price
+ * @property int $total_price
+ * @property int|null $total_price_without_discount
+ * @property int|null $total_price_with_discount
  * @property string $status
  * @property string|null $payment_type
  * @property Carbon|null $paid_at
  * @property string|null $comment
  * @property string|null $delivery_type
- * @property float|null $delivery_price
+ * @property int|null $delivery_price
  * @property string|null $delivery_status
  * @property array|null $delivery_data
  * @property Carbon $created_at
@@ -43,15 +45,18 @@ final class Order extends Model
     protected $fillable = [
         'user_id', 'first_name', 'last_name', 'middle_name', 'email', 'phone',
         'address', 'promo_code_id',
-        'total_price', 'status', 'payment_type', 'paid_at', 'comment',
+        'total_price', 'total_price_without_discount', 'total_price_with_discount',
+        'status', 'payment_type', 'paid_at', 'comment',
         'delivery_type', 'delivery_price', 'delivery_status', 'delivery_data',
     ];
 
     protected $casts = [
         'user_id' => 'int',
         'promo_code_id' => 'int',
-        'total_price' => 'float',
-        'delivery_price' => 'float',
+        'total_price' => 'int',
+        'total_price_without_discount' => 'int',
+        'total_price_with_discount' => 'int',
+        'delivery_price' => 'int',
         'paid_at' => 'datetime',
         'delivery_data' => 'array',
     ];

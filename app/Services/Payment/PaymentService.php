@@ -162,9 +162,11 @@ final readonly class PaymentService
         return $payment;
     }
 
-    private function calculateAmount(Order $order): float
+    private function calculateAmount(Order $order): int
     {
-        return $order->total_price + ($order->delivery_price ?? 0);
+        $totalWithDiscount = $order->total_price_with_discount ?? $order->total_price;
+
+        return (int) round((float) $totalWithDiscount + (float) ($order->delivery_price ?? 0));
     }
 
     private function toMinorAmount(float $amount): int
