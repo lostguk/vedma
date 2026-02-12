@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\TopicResource\RelationManagers;
 
 use App\Models\Message;
+use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
@@ -31,12 +35,6 @@ class MessagesRelationManager extends RelationManager
                             ->label('Содержание')
                             ->required()
                             ->rows(5),
-                        Forms\Components\Select::make('user_id')
-                            ->label('Пользователь')
-                            ->relationship('user', 'email')
-                            ->searchable()
-                            ->preload()
-                            ->required(),
                     ]),
                 Forms\Components\Section::make('Вложения')
                     ->schema([
@@ -94,7 +92,15 @@ class MessagesRelationManager extends RelationManager
             ])
             ->poll('10s')
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $admin = User::firstWhere('email', 'admin@admin.ru')
+                            ?? Filament::auth()->user();
+
+                        $data['user_id'] = $admin?->id;
+
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
