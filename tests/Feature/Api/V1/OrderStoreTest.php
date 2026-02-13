@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Api\V1;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\PromoCode;
 use App\Models\User;
@@ -43,14 +44,16 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_с_валидным_промокодом(): void
     {
+        $category = Category::factory()->create();
         $product = Product::factory()->create(['price' => 100]);
+        $product->categories()->attach($category->id);
         $promo = PromoCode::factory()->create([
             'discount_type' => 'percent',
             'discount_value' => 10,
             'start_date' => now()->subDay(),
             'end_date' => now()->addDay(),
         ]);
-        $promo->categories()->attach($product->categories()->pluck('id'));
+        $promo->categories()->attach($category->id);
         $payload = [
             'items' => [
                 ['id' => $product->id, 'count' => 2],
