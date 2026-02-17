@@ -41,6 +41,7 @@ class UserSeeder extends Seeder
             'password' => 'password',
             'phone' => '+7 999 123 45 67',
             'address' => 'ул. Пушкина, д. 1',
+            'email_verified_at' => now(),
         ],
         [
             'first_name' => 'Иван',
@@ -50,6 +51,7 @@ class UserSeeder extends Seeder
             'password' => 'password123',
             'phone' => '+7 999 123 45 67',
             'address' => 'ул. Примерная, д. 1, кв. 1',
+            'email_verified_at' => now(),
         ],
     ];
 
@@ -90,6 +92,7 @@ class UserSeeder extends Seeder
                 'password' => bcrypt($userData['password']),
                 'phone' => $userData['phone'],
                 'address' => $userData['address'],
+                'email_verified_at' => $userData['email_verified_at'],
             ]
         );
     }
