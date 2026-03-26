@@ -111,19 +111,22 @@ mysql -h localhost -P 3307 -u ${DB_USERNAME} -p
 
 ```bash
 # Запуск тестов
-./dev.sh test
+./dev.sh dev-test
 
 # Генерация документации
-./dev.sh docs
+./dev.sh docs-dev
 
 # Форматирование кода
 ./dev.sh lint
 
+# Фреш базы данных
+./dev.sh dev-freshdb
+
 # Просмотр логов
-./dev.sh logs [service]
+./dev.sh dev-logs [service]
 
 # Консоль контейнера
-./dev.sh shell [service]
+./dev.sh dev-shell [service]
 ```
 
 ### Artisan и Composer
@@ -262,10 +265,12 @@ docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
     - Убедитесь, что пользователи созданы корректно
 
 3. **Ошибки базы данных**
+
     - Проверьте health check MySQL
     - Убедитесь в корректности переменных окружения
 
 4. **Ошибка при сборке: `chown` не может изменить права доступа**
+
     - Проблема: Директории `storage` или `bootstrap/cache` могут не существовать на этапе сборки
     - Решение: Dockerfile автоматически создает необходимые директории перед изменением прав
     - Если проблема сохраняется, проверьте `.dockerignore` - он не должен исключать сами директории (только их содержимое)

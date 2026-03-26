@@ -18,6 +18,7 @@ final readonly class PaymentService
         private PaymentRepository $paymentRepository,
         private OrderRepository $orderRepository,
         private AlfaBankGateway $gateway,
+        private OrderBundleBuilder $bundleBuilder,
     ) {}
 
     /**
@@ -53,7 +54,8 @@ final readonly class PaymentService
         ]);
 
         try {
-            $response = $this->gateway->registerOrder($order, $payment, $successUrl, $failUrl);
+            $fiscalData = $this->bundleBuilder->build($order);
+            $response = $this->gateway->registerOrder($order, $payment, $successUrl, $failUrl, $fiscalData);
 
             $payment = $this->paymentRepository->updatePayment($payment, [
                 'external_order_id' => $response['orderId'] ?? null,

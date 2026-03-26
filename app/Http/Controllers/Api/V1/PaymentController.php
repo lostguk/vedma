@@ -12,6 +12,7 @@ use App\Http\Resources\Api\V1\PaymentResource;
 use App\Repositories\PaymentRepository;
 use App\Services\Payment\PaymentService;
 use Illuminate\Http\JsonResponse;
+use Log;
 use RuntimeException;
 use Throwable;
 
@@ -33,8 +34,12 @@ final class PaymentController extends ApiController
                 $request->input('fail_url'),
             );
         } catch (RuntimeException $exception) {
+            Log::error('Ошибка при создании платежа: '.$exception->getMessage());
+
             return $this->errorResponse($exception->getMessage(), 422);
         } catch (Throwable $exception) {
+            Log::error('Ошибка при создании платежа: '.$exception->getMessage());
+
             return $this->errorResponse('Не удалось создать платеж.', 500);
         }
 

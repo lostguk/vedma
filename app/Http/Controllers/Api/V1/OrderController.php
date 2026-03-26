@@ -95,7 +95,17 @@ final class OrderController extends ApiController
      */
     public function store(OrderStoreRequest $request, OrderService $orderService): JsonResponse
     {
-        $order = $orderService->createOrder($request->validated());
+        $validated = $request->validated();
+
+        \Log::info('Order store request', [
+            'has_promo_code' => isset($validated['promo_code']),
+            'promo_code' => $validated['promo_code'] ?? null,
+            'items_count' => count($validated['items'] ?? []),
+            'raw_promo_code' => $request->input('promo_code'),
+            'all_keys' => array_keys($request->all()),
+        ]);
+
+        $order = $orderService->createOrder($validated);
         $order->load('items', 'items.product.categories', 'promoCode');
 
         return $this->successResponse(new OrderResource(resource: $order), 'Заказ успешно создан', 201);

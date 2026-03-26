@@ -174,6 +174,236 @@ it('создает платеж по сумме со скидкой и с уче
     ]);
 });
 
+it('передает orderBundle с фискальными данными когда фискализация включена', function (): void {
+    config([
+        'services.alfabank.fiscal.enabled' => true,
+        'services.alfabank.fiscal.tax_system' => 1,
+        'services.alfabank.fiscal.default_tax_type' => 10,
+        'services.alfabank.fiscal.payment_method' => 4,
+        'services.alfabank.fiscal.payment_object' => 1,
+        'services.alfabank.fiscal.delivery_payment_object' => 4,
+        'services.alfabank.fiscal.delivery_name' => 'Доставка',
+    ]);
+
+    Http::fake([
+        '*' => Http::response(['orderId' => 'ext-order-fiscal', 'formUrl' => 'https://pay.test/form-fiscal'], 200),
+    ]);
+
+    $product = Product::factory()->create(['price' => 500.00]);
+    $order = Order::factory()->create([
+        'email' => 'fiscal@example.com',
+        'phone' => '+79991234567',
+        'total_price' => 600,
+        'total_price_with_discount' => 500,
+        'delivery_price' => 100,
+    ]);
+    \App\Models\OrderItem::factory()->create([
+        'order_id' => $order->id,
+        'product_id' => $product->id,
+        'name' => 'Магический товар',
+        'price' => 500.00,
+        'count' => 1,
+        'total' => 500.00,
+    ]);
+
+    $response = $this->postJson('/api/v1/payments', [
+        'order_id' => $order->id,
+    ]);
+
+    $response->assertOk();
+
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
+        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+            return false;
+        }
+
+        $hasOrderBundle = isset($request['orderBundle']);
+        $hasTaxSystem = isset($request['taxSystem']);
+        $hasEmail = isset($request['email']);
+
+        if ($hasOrderBundle) {
+            $bundle = json_decode($request['orderBundle'], true);
+            $hasItems = ! empty($bundle['cartItems']['items']);
+            $hasCustomer = ! empty($bundle['customerDetails']['email']);
+
+            return $hasItems && $hasCustomer && $hasTaxSystem && $hasEmail;
+        }
+
+        return false;
+    });
+});
+
+it('не передает orderBundle когда фискализация отключена', function (): void {
+    config(['services.alfabank.fiscal.enabled' => false]);
+
+    Http::fake([
+        '*' => Http::response(['orderId' => 'ext-order-nofiscal', 'formUrl' => 'https://pay.test/form-nofiscal'], 200),
+    ]);
+
+    $order = Order::factory()->create([
+        'total_price' => 1000,
+        'total_price_with_discount' => 1000,
+        'delivery_price' => 0,
+    ]);
+
+    $response = $this->postJson('/api/v1/payments', [
+        'order_id' => $order->id,
+    ]);
+
+    $response->assertOk();
+
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
+        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+            return false;
+        }
+
+        return ! isset($request['orderBundle']);
+    });
+});
+
+it('включает доставку как позицию в orderBundle', function (): void {
+    config([
+        'services.alfabank.fiscal.enabled' => true,
+        'services.alfabank.fiscal.tax_system' => 1,
+        'services.alfabank.fiscal.default_tax_type' => 10,
+        'services.alfabank.fiscal.payment_method' => 4,
+        'services.alfabank.fiscal.payment_object' => 1,
+        'services.alfabank.fiscal.delivery_payment_object' => 4,
+        'services.alfabank.fiscal.delivery_name' => 'Доставка',
+    ]);
+
+    Http::fake([
+        '*' => Http::response(['orderId' => 'ext-order-delivery', 'formUrl' => 'https://pay.test/form-delivery'], 200),
+    ]);
+
+    $product = Product::factory()->create(['price' => 300.00]);
+    $order = Order::factory()->create([
+        'email' => 'delivery-fiscal@example.com',
+        'total_price' => 400,
+        'total_price_with_discount' => 300,
+        'delivery_price' => 100,
+    ]);
+    \App\Models\OrderItem::factory()->create([
+        'order_id' => $order->id,
+        'product_id' => $product->id,
+        'name' => 'Товар',
+        'price' => 300.00,
+        'count' => 1,
+        'total' => 300.00,
+    ]);
+
+    $response = $this->postJson('/api/v1/payments', [
+        'order_id' => $order->id,
+    ]);
+
+    $response->assertOk();
+
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
+        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+            return false;
+        }
+
+        if (! isset($request['orderBundle'])) {
+            return false;
+        }
+
+        $bundle = json_decode($request['orderBundle'], true);
+        $items = $bundle['cartItems']['items'] ?? [];
+
+        if (count($items) !== 2) {
+            return false;
+        }
+
+        $deliveryItem = $items[1];
+
+        return $deliveryItem['name'] === 'Доставка'
+            && $deliveryItem['itemPrice'] === 10000
+            && $deliveryItem['itemCode'] === 'delivery';
+    });
+});
+
+it('полный цикл: calculate → store → payment с промокодом и 3 товарами', function (): void {
+    Http::fake([
+        '*' => Http::response(['orderId' => 'ext-order-e2e', 'formUrl' => 'https://pay.test/form-e2e'], 200),
+    ]);
+
+    $category = Category::factory()->create();
+    $product1 = Product::factory()->create(['price' => 500]);
+    $product2 = Product::factory()->create(['price' => 300]);
+    $product3 = Product::factory()->create(['price' => 200]);
+    $product1->categories()->attach($category->id);
+    $product2->categories()->attach($category->id);
+    $product3->categories()->attach($category->id);
+
+    $promo = PromoCode::factory()->create([
+        'discount_type' => 'percent',
+        'discount_value' => 15,
+        'start_date' => now()->subDay(),
+        'end_date' => now()->addDay(),
+    ]);
+    $promo->categories()->attach($category->id);
+
+    $items = [
+        ['id' => $product1->id, 'count' => 1],
+        ['id' => $product2->id, 'count' => 2],
+        ['id' => $product3->id, 'count' => 1],
+    ];
+
+    $calcResponse = $this->postJson('/api/v1/order/calculate', [
+        'items' => $items,
+        'promo_code' => $promo->code,
+    ]);
+    $calcResponse->assertOk();
+    $calcResponse->assertJson([
+        'data' => [
+            'total_without_discount' => 1300,
+            'total_with_discount' => 1105,
+            'promo_code_status' => 'applied',
+        ],
+    ]);
+
+    $orderResponse = $this->postJson('/api/v1/order', [
+        'items' => $items,
+        'promo_code' => $promo->code,
+        'register' => false,
+        'delivery_type' => 'Cdek',
+        'delivery_price' => 250,
+        'first_name' => 'Тест',
+        'last_name' => 'Тестов',
+        'email' => 'e2e-promo@example.com',
+        'address' => 'ул. Тестовая, 1',
+    ]);
+    $orderResponse->assertCreated();
+
+    $orderId = (int) $orderResponse->json('data.id');
+
+    $this->assertDatabaseHas('orders', [
+        'id' => $orderId,
+        'promo_code_id' => $promo->id,
+        'total_price' => 1105,
+        'total_price_without_discount' => 1300,
+        'total_price_with_discount' => 1105,
+        'delivery_price' => 250,
+    ]);
+
+    $this->assertDatabaseCount('order_items', 3);
+
+    $paymentResponse = $this->postJson('/api/v1/payments', [
+        'order_id' => $orderId,
+    ]);
+    $paymentResponse->assertOk();
+
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
+        return str_contains($request->url(), '/payment/rest/register.do')
+            && $request['amount'] === 135500;
+    });
+
+    $this->assertDatabaseHas('payments', [
+        'order_id' => $orderId,
+        'amount' => 1355,
+    ]);
+});
+
 it('берет для оплаты сумму со скидкой, а не без скидки', function (): void {
     Http::fake([
         '*' => Http::response(['orderId' => 'ext-order-price-check', 'formUrl' => 'https://pay.test/form-check'], 200),

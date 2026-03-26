@@ -13,11 +13,15 @@ use RuntimeException;
 
 final readonly class AlfaBankGateway
 {
+    /**
+     * @param  array{orderBundle?: array, taxSystem?: int, email?: string|null}|null  $fiscalData
+     */
     public function registerOrder(
         Order $order,
         Payment $payment,
         ?string $returnUrl = null,
         ?string $failUrl = null,
+        ?array $fiscalData = null,
     ): array {
         $payload = [
             'userName' => $this->username(),
@@ -31,6 +35,18 @@ final readonly class AlfaBankGateway
         $currency = $this->currency();
         if ($currency !== null) {
             $payload['currency'] = $currency;
+        }
+
+        if ($fiscalData !== null) {
+            if (isset($fiscalData['taxSystem'])) {
+                $payload['taxSystem'] = $fiscalData['taxSystem'];
+            }
+            if (! empty($fiscalData['email'])) {
+                $payload['email'] = $fiscalData['email'];
+            }
+            if (isset($fiscalData['orderBundle'])) {
+                $payload['orderBundle'] = json_encode($fiscalData['orderBundle'], JSON_UNESCAPED_UNICODE);
+            }
         }
 
         $response = $this->post('/payment/rest/register.do', $payload);

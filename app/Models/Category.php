@@ -15,6 +15,50 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property int|null $parent_id
+ * @property int $sort_order
+ * @property bool $is_visible
+ * @property string|null $meta_title
+ * @property string|null $meta_description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Category> $children
+ * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Category> $descendants
+ * @property-read int|null $descendants_count
+ * @property-read string $full_path
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\HomePageContent> $homePageContents
+ * @property-read int|null $home_page_contents_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, Media> $media
+ * @property-read int|null $media_count
+ * @property-read Category|null $parent
+ *
+ * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Category newModelQuery()
+ * @method static Builder<static>|Category newQuery()
+ * @method static Builder<static>|Category query()
+ * @method static Builder<static>|Category root()
+ * @method static Builder<static>|Category slugUniqueInParent(string $slug, ?int $parentId = null, ?int $ignoreId = null)
+ * @method static Builder<static>|Category visible()
+ * @method static Builder<static>|Category whereCreatedAt($value)
+ * @method static Builder<static>|Category whereDescription($value)
+ * @method static Builder<static>|Category whereId($value)
+ * @method static Builder<static>|Category whereIsVisible($value)
+ * @method static Builder<static>|Category whereMetaDescription($value)
+ * @method static Builder<static>|Category whereMetaTitle($value)
+ * @method static Builder<static>|Category whereName($value)
+ * @method static Builder<static>|Category whereParentId($value)
+ * @method static Builder<static>|Category whereSlug($value)
+ * @method static Builder<static>|Category whereSortOrder($value)
+ * @method static Builder<static>|Category whereUpdatedAt($value)
+ *
+ * @mixin \Eloquent
+ */
 final class Category extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;

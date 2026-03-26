@@ -50,6 +50,15 @@ return [
         'fail_url' => env('ALFABANK_FAIL_URL'),
         'language' => env('ALFABANK_LANGUAGE', 'ru'),
         'currency' => env('ALFABANK_CURRENCY', 'RUB'),
+        'fiscal' => [
+            'enabled' => env('ALFABANK_FISCAL_ENABLED', false),
+            'tax_system' => env('ALFABANK_FISCAL_TAX_SYSTEM', 1),
+            'default_tax_type' => env('ALFABANK_FISCAL_TAX_TYPE', 10),
+            'payment_method' => env('ALFABANK_FISCAL_PAYMENT_METHOD', 4),
+            'payment_object' => env('ALFABANK_FISCAL_PAYMENT_OBJECT', 1),
+            'delivery_payment_object' => env('ALFABANK_FISCAL_DELIVERY_PAYMENT_OBJECT', 4),
+            'delivery_name' => env('ALFABANK_FISCAL_DELIVERY_NAME', 'Доставка'),
+        ],
     ],
 
     'dadata' => [

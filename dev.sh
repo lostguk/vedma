@@ -294,6 +294,23 @@ gen_docs_dev() {
     docker compose -f docker-compose.dev.yml exec app php artisan scribe:generate
 }
 
+dev_lint() {
+    log "Форматирование кода (DEV)..."
+    docker compose -f docker-compose.dev.yml exec app ./vendor/bin/pint
+}
+
+dev_filament_cache() {
+    log "Очистка кэша Filament (DEV)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan filament:clear-cached-components
+}
+
+dev_ide_helper() {
+    log "Генерация IDE helper файлов (DEV)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan ide-helper:generate
+    docker compose -f docker-compose.dev.yml exec app php artisan ide-helper:models --write
+    docker compose -f docker-compose.dev.yml exec app php artisan ide-helper:meta
+}
+
 migrate_fresh_dev() {
     log "Миграции + сиды (DEV, fresh, force)..."
     docker compose -f docker-compose.dev.yml exec app php artisan migrate:fresh --seed --force
@@ -346,6 +363,9 @@ help() {
     echo "  docs-dev     Генерация документации (DEV)"
     echo "  dev-freshdb  Миграции + сиды (fresh, force, DEV)"
     echo "  dev-test         Запуск тестов (DEV)"
+    echo "  dev-lint         Форматирование кода Pint (DEV)"
+    echo "  dev-filament-cache  Очистка кэша Filament (DEV)"
+    echo "  dev-ide-helper   Генерация IDE helper (DEV)"
     echo ""
     echo -e "${YELLOW}ПРИМЕРЫ:${NC}"
     echo "  ./dev.sh up                    # Запуск разработки"
@@ -471,6 +491,15 @@ case "${1:-help}" in
         ;;
     dev-test)
         test_dev
+        ;;
+    dev-lint)
+        dev_lint
+        ;;
+    dev-filament-cache)
+        dev_filament_cache
+        ;;
+    dev-ide-helper)
+        dev_ide_helper
         ;;
     help|*)
         help

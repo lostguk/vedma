@@ -37,6 +37,37 @@ use Illuminate\Support\Carbon;
  * @property-read PromoCode|null $promoCode
  * @property-read OrderItem[] $items
  * @property-read Payment[] $payments
+ * @property-read int|null $items_count
+ * @property-read int|null $payments_count
+ *
+ * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereMiddleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaymentType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePromoCodeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPriceWithDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPriceWithoutDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
+ *
+ * @mixin \Eloquent
  */
 final class Order extends Model
 {

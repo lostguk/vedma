@@ -81,7 +81,8 @@ class OrderResource extends Resource
                             ->searchable()
                             ->nullable()
                             ->disabled(),
-                        TextInput::make('total_price')->label('Сумма заказа')->numeric()->disabled(),
+                        TextInput::make('total_price_without_discount')->label('Сумма без скидки')->numeric()->disabled(),
+                        TextInput::make('total_price')->label('Сумма со скидкой')->numeric()->disabled(),
                         Select::make('status')
                             ->label('Статус оплаты')
                             ->options([
@@ -144,7 +145,8 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('first_name')->label('Имя'),
                 Tables\Columns\TextColumn::make('last_name')->label('Фамилия'),
                 Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
-                Tables\Columns\TextColumn::make('total_price')->label('Сумма')->money('RUB')->sortable(),
+                Tables\Columns\TextColumn::make('total_price_without_discount')->label('Без скидки')->money('RUB')->sortable(),
+                Tables\Columns\TextColumn::make('total_price')->label('Со скидкой')->money('RUB')->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Статус оплаты')
                     ->badge()

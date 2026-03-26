@@ -9,6 +9,34 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $title
+ * @property string $status
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $user_last_read_at
+ * @property \Illuminate\Support\Carbon|null $admin_last_read_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Message> $messages
+ * @property-read int|null $messages_count
+ * @property-read \App\Models\User $user
+ *
+ * @method static \Database\Factories\TopicFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereAdminLastReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Topic whereUserLastReadAt($value)
+ *
+ * @mixin \Eloquent
+ */
 final class Topic extends Model
 {
     use HasFactory;
