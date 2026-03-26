@@ -34,12 +34,8 @@ final class OrderCalculationService
             $originalPrice = $price;
 
             // Применяем промокод, если он активен и товар в нужной категории
-            if ($promoCode && $product->categories->pluck('id')->intersect($promoCategories)->isNotEmpty()) {
-                if ($promoCode->discount_type === 'percent') {
-                    $price = (int) round($price * (1 - $promoCode->discount_value / 100));
-                } elseif ($promoCode->discount_type === 'fixed') {
-                    $price = max(0, (int) round($price - $promoCode->discount_value));
-                }
+            if ($promoCode && $promoCode->discount_type === 'percent' && $product->categories->pluck('id')->intersect($promoCategories)->isNotEmpty()) {
+                $price = (int) round($price * (1 - $promoCode->discount_value / 100));
                 $discounted = true;
                 $hasDiscountedItems = true;
             }

@@ -110,41 +110,6 @@ final class OrderControllerTest extends TestCase
         ]);
     }
 
-    public function test_calculate_with_fixed_promo_code(): void
-    {
-        $category = \App\Models\Category::factory()->create();
-        $product = Product::factory()->create(['price' => 150]);
-        $product->categories()->attach($category->id);
-        $promo = PromoCode::factory()->create([
-            'discount_type' => 'fixed',
-            'discount_value' => 20,
-            'start_date' => now()->subDay(),
-            'end_date' => now()->addDay(),
-        ]);
-        $promo->categories()->attach($category->id);
-        $payload = [
-            'items' => [
-                ['id' => $product->id, 'count' => 2],
-            ],
-            'promo_code' => $promo->code,
-        ];
-        $response = $this->postJson('/api/v1/order/calculate', $payload);
-        $response->assertOk();
-        $response->assertJsonFragment([
-            'id' => $product->id,
-            'count' => 2,
-            'summery' => 260, // (150-20)*2
-            'discounted' => true,
-        ]);
-        $response->assertJson([
-            'data' => [
-                'total_without_discount' => 300, // 150*2
-                'total_with_discount' => 260, // (150-20)*2
-                'promo_code_status' => 'applied',
-            ],
-        ]);
-    }
-
     public function test_calculate_with_promo_code_not_applied(): void
     {
         $category1 = \App\Models\Category::factory()->create();

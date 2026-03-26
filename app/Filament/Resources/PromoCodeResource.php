@@ -40,8 +40,8 @@ class PromoCodeResource extends Resource
                     ->label('Тип скидки')
                     ->options([
                         'percent' => 'Процент',
-                        'fixed' => 'Фиксированная сумма',
                     ])
+                    ->default('percent')
                     ->required(),
                 Forms\Components\TextInput::make('discount_value')
                     ->label('Величина скидки')
