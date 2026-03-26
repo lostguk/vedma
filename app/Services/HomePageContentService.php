@@ -30,7 +30,7 @@ final readonly class HomePageContentService
      */
     public function getProductsForCategory(Category $category): Collection
     {
-        $maxProductsPerCategory = 3;
+        $maxProductsPerCategory = 4;
 
         $categoryIds = collect([$category->id]);
         // Получаем все дочерние категории рекурсивно
