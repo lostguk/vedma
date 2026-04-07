@@ -12,6 +12,7 @@ use App\Services\Auth\RegistrationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use RuntimeException;
 use Throwable;
 
 final readonly class OrderService
@@ -103,8 +104,17 @@ final readonly class OrderService
             }
             $this->orderRepository->createOrderItems($order, $items);
 
-            // 6. Имитация оплаты (можно доработать позже)
-            // TODO: реализовать оплату
+            // 6. Списание остатков со склада
+            foreach ($data['items'] as $itemData) {
+                $product = $products->firstWhere('id', $itemData['id']);
+                if ($product && $product->stock !== null) {
+                    $count = (int) $itemData['count'];
+                    if ($product->stock < $count) {
+                        throw new RuntimeException("Недостаточно товара «{$product->name}» на складе. Доступно: {$product->stock} шт.");
+                    }
+                    $product->decrement('stock', $count);
+                }
+            }
 
             return $order;
         });

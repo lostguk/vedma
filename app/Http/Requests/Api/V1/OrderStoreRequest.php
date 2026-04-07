@@ -36,6 +36,7 @@ class OrderStoreRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],
             'email' => ['required', 'email', 'max:128'],
+            'phone' => ['nullable', 'string', 'max:32'],
             'address' => ['required', 'string', 'max:255'],
             'password' => ['required_if:register,true', 'string', 'min:8', 'max:64'],
         ];

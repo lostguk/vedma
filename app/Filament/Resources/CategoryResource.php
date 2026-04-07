@@ -123,6 +123,11 @@ class CategoryResource extends Resource
                                     ->helperText('Включить/выключить отображение категории на сайте')
                                     ->default(true),
 
+                                Forms\Components\Toggle::make('exclude_from_shipping')
+                                    ->label('Не считать доставку (услуга)')
+                                    ->helperText('Товары из этой категории и всех дочерних не будут учитываться при расчёте стоимости доставки')
+                                    ->default(false),
+
                                 Forms\Components\TextInput::make('sort_order')
                                     ->label('Порядок сортировки')
                                     ->numeric()

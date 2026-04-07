@@ -216,12 +216,27 @@ final readonly class PaymentService
             $order->update([
                 'status' => 'refunded',
             ]);
+            $this->restoreStock($order);
         }
 
         if ($payment->status === Payment::STATUS_FAILED) {
             $order->update([
                 'status' => 'payment_failed',
             ]);
+        }
+    }
+
+    private function restoreStock(Order $order): void
+    {
+        $order->loadMissing('items');
+
+        foreach ($order->items as $item) {
+            if ($item->product_id) {
+                \App\Models\Product::query()
+                    ->where('id', $item->product_id)
+                    ->whereNotNull('stock')
+                    ->increment('stock', $item->count);
+            }
         }
     }
 }

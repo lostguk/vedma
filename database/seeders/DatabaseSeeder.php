@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         OrderSeeder::class,
         PaymentSeeder::class,
         HomePageContentSeeder::class,
+        HeroSlideSeeder::class,
     ];
 
     /**

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Shipping;
 
 use App\Models\Product;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -16,6 +17,12 @@ final class ShippingCalculationService
 
     public function calculate(array $products, string $address): array
     {
+        $shippableProducts = $this->filterShippableProducts($products);
+
+        if (empty($shippableProducts)) {
+            return [];
+        }
+
         $bearer = $this->requestBearerToken();
         if ($bearer === null) {
             return [
@@ -23,9 +30,9 @@ final class ShippingCalculationService
             ];
         }
 
-        $items = $this->mapProductsToItems($products);
+        $items = $this->mapProductsToItems($shippableProducts);
         $totals = $this->aggregateItems($items);
-        $declaredValue = $this->calculateDeclaredValue($products);
+        $declaredValue = $this->calculateDeclaredValue($shippableProducts);
 
         $params = [
             'length' => (int) $totals['length'],
@@ -34,7 +41,6 @@ final class ShippingCalculationService
             'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))) / 1000,
             'declaredValue' => $declaredValue,
             'address' => $address,
-            //            'deliveryServiceCode' => 'Cdek',
             'errors' => 1,
             'types[0]' => 'DeliveryPoint',
             'types[1]' => 'PostOffice',
@@ -76,6 +82,38 @@ final class ShippingCalculationService
         $data = $response->json();
 
         return is_array($data) ? $data : [];
+    }
+
+    /**
+     * Отфильтровать товары, исключив те, чья категория помечена как exclude_from_shipping.
+     *
+     * @param  array<int, array{id:int, quantity:int}>  $products
+     * @return array<int, array{id:int, quantity:int}>
+     */
+    private function filterShippableProducts(array $products): array
+    {
+        $ids = collect($products)->pluck('id')->all();
+
+        $productsWithCategories = Product::query()
+            ->whereIn('id', $ids)
+            ->with('categories')
+            ->get()
+            ->keyBy('id');
+
+        return collect($products)->filter(function (array $item) use ($productsWithCategories) {
+            $product = $productsWithCategories[$item['id']] ?? null;
+            if (! $product) {
+                return false;
+            }
+
+            foreach ($product->categories as $category) {
+                if ($category->isExcludedFromShipping()) {
+                    return false;
+                }
+            }
+
+            return true;
+        })->values()->all();
     }
 
     private function requestBearerToken(): ?string
@@ -123,7 +161,7 @@ final class ShippingCalculationService
             $qty = max(1, (int) $i['quantity']);
 
             $w = (float) $i['weight'];
-            $wInKg = $w > 500 ? $w / 1000.0 : $w; // поддержка граммов/кг
+            $wInKg = $w > 500 ? $w / 1000.0 : $w;
             $weightKg += $wInKg * $qty;
 
             $width = max($width, (float) $i['width']);

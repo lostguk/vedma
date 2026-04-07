@@ -70,6 +70,7 @@ final class Category extends Model implements HasMedia
         'parent_id',
         'sort_order',
         'is_visible',
+        'exclude_from_shipping',
         'meta_title',
         'meta_description',
     ];
@@ -77,6 +78,7 @@ final class Category extends Model implements HasMedia
     protected $casts = [
         'sort_order' => 'integer',
         'is_visible' => 'boolean',
+        'exclude_from_shipping' => 'boolean',
     ];
 
     protected $appends = [
@@ -123,6 +125,30 @@ final class Category extends Model implements HasMedia
         }
 
         return $descendants;
+    }
+
+    /**
+     * Проверяет, исключена ли категория из расчёта доставки.
+     * Учитывает флаг на самой категории и рекурсивно на всех родителях.
+     */
+    public function isExcludedFromShipping(): bool
+    {
+        if ($this->exclude_from_shipping) {
+            return true;
+        }
+
+        $parent = $this->parent;
+        $depth = 0;
+
+        while ($parent && $depth < 10) {
+            if ($parent->exclude_from_shipping) {
+                return true;
+            }
+            $parent = $parent->parent;
+            $depth++;
+        }
+
+        return false;
     }
 
     public function getFullPathAttribute(): string

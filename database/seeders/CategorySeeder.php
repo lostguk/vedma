@@ -139,14 +139,43 @@ final class CategorySeeder extends Seeder
         $this->addIconToCategory($loveCandles, $icons->random());
 
         // =========================
-        // Нет циклов, нет вложения одной и той же категории в потомка
+        // Категория «Услуги» (не считается в доставку)
         // =========================
 
-        // Добавляем тестовые изображения только в dev-окружении
-        if (app()->environment('local', 'development')) {
-            // Здесь можно добавить код для добавления тестовых изображений
-            // через Media Library, когда будут реальные файлы
-        }
+        $services = Category::query()->updateOrCreate(['slug' => 'uslugi'], [
+            'name' => 'Услуги',
+            'slug' => 'uslugi',
+            'sort_order' => 10,
+            'is_visible' => true,
+            'exclude_from_shipping' => true,
+            'meta_title' => 'Магические услуги',
+            'meta_description' => 'Индивидуальные гадания, консультации и ритуалы от практикующих ведуний.',
+            'description' => 'Магические услуги: гадания, консультации, индивидуальные ритуалы. Товары из этой категории не требуют доставки.',
+            'parent_id' => null,
+        ]);
+        $this->addIconToCategory($services, $icons->random());
+
+        Category::query()->updateOrCreate(['slug' => 'gadaniya'], [
+            'name' => 'Гадания',
+            'slug' => 'gadaniya',
+            'sort_order' => 1,
+            'is_visible' => true,
+            'meta_title' => 'Гадания на картах Таро',
+            'meta_description' => 'Индивидуальные гадания на картах Таро и рунах.',
+            'description' => 'Индивидуальные гадания на картах Таро, рунах и оракулах. Расклады на любовь, карьеру, здоровье и духовное развитие.',
+            'parent_id' => $services->id,
+        ]);
+
+        Category::query()->updateOrCreate(['slug' => 'konsultatsii'], [
+            'name' => 'Консультации',
+            'slug' => 'konsultatsii',
+            'sort_order' => 2,
+            'is_visible' => true,
+            'meta_title' => 'Магические консультации',
+            'meta_description' => 'Консультации по выбору ритуальных предметов и практик.',
+            'description' => 'Персональные консультации по выбору свечей, масел и ритуальных практик. Подбор индивидуальной программы работы.',
+            'parent_id' => $services->id,
+        ]);
     }
 
     /**

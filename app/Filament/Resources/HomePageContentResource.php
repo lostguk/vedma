@@ -24,237 +24,57 @@ class HomePageContentResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Главная страница';
 
+    protected static ?int $navigationSort = 0;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Tabs::make()
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Первый экран')
+                        Forms\Components\Tabs\Tab::make('Слайдер')
+                            ->icon('heroicon-o-photo')
                             ->schema([
-                                Forms\Components\Section::make('Текст')
+                                Forms\Components\Section::make('Слайды на главной странице')
+                                    ->description('Для управления слайдами перейдите в раздел «Слайдер на главной» в меню «Контент».')
                                     ->schema([
-                                        Forms\Components\TextInput::make('hero_title')
-                                            ->label('Заголовок')
-                                            ->required()
-                                            ->maxLength(255),
-                                        Forms\Components\Textarea::make('hero_subtitle')
-                                            ->label('Подзаголовок')
-                                            ->rows(2),
-                                        Forms\Components\TextInput::make('hero_button_label')
-                                            ->label('Текст кнопки')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('hero_button_url')
-                                            ->label('Ссылка кнопки')
-                                            ->maxLength(255),
-                                    ])
-                                    ->columns(2),
-                                Forms\Components\Section::make('Изображение')
-                                    ->schema([
-                                        Forms\Components\FileUpload::make('hero_image_path')
-                                            ->label('Фоновое изображение')
-                                            ->image()
-                                            ->directory('home')
-                                            ->imageEditor()
-                                            ->previewable(),
+                                        Forms\Components\Placeholder::make('slides_info')
+                                            ->label('')
+                                            ->content(function () {
+                                                $count = \App\Models\HeroSlide::where('is_active', true)->count();
+                                                $total = \App\Models\HeroSlide::count();
+
+                                                return "Активных слайдов: {$count} из {$total}";
+                                            }),
+                                        Forms\Components\Actions::make([
+                                            Forms\Components\Actions\Action::make('manage_slides')
+                                                ->label('Управление слайдами')
+                                                ->icon('heroicon-o-arrow-top-right-on-square')
+                                                ->url(HeroSlideResource::getUrl('index'))
+                                                ->openUrlInNewTab(false),
+                                        ]),
                                     ]),
-                                Forms\Components\Section::make('Три преимущества')
-                                    ->schema([
-                                        Forms\Components\Grid::make(3)
-                                            ->schema([
-                                                // Карточка 1
-                                                Forms\Components\Group::make()
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('hero_feature_1_text')
-                                                            ->label('Карточка 1 — текст')
-                                                            ->maxLength(255),
-
-                                                        //                                                        Forms\Components\FileUpload::make('hero_feature_1_image_path')
-                                                        //                                                            ->label('Карточка 1 — иконка')
-                                                        //                                                            ->directory('home')
-                                                        //                                                            ->image()
-                                                        //                                                            ->previewable(),
-                                                    ]),
-
-                                                // Карточка 2
-                                                Forms\Components\Group::make()
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('hero_feature_2_text')
-                                                            ->label('Карточка 2 — текст')
-                                                            ->maxLength(255),
-
-                                                        //                                                        Forms\Components\FileUpload::make('hero_feature_2_image_path')
-                                                        //                                                            ->label('Карточка 2 — иконка')
-                                                        //                                                            ->directory('home')
-                                                        //                                                            ->image()
-                                                        //                                                            ->previewable(),
-                                                    ]),
-
-                                                // Карточка 3
-                                                Forms\Components\Group::make()
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('hero_feature_3_text')
-                                                            ->label('Карточка 3 — текст')
-                                                            ->maxLength(255),
-
-                                                        //                                                        Forms\Components\FileUpload::make('hero_feature_3_image_path')
-                                                        //                                                            ->label('Карточка 3 — иконка')
-                                                        //                                                            ->directory('home')
-                                                        //                                                            ->image()
-                                                        //                                                            ->previewable(),
-                                                    ]),
-                                            ]),
-                                    ]),
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Наша магия и цифры')
-                            ->schema([
-                                Forms\Components\Section::make('Верхняя часть')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('about_title')
-                                            ->label('Заголовок')
-                                            ->required()
-                                            ->maxLength(255),
-                                        Forms\Components\Textarea::make('about_description')
-                                            ->label('Описание')
-                                            ->rows(3),
-                                    ]),
-
-                                Forms\Components\Section::make('Почему нам доверяют')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('about_trust_title')
-                                            ->label('Заголовок блока')
-                                            ->maxLength(255),
-
-                                        Forms\Components\Grid::make(3)
-                                            ->schema([
-                                                // Карточка 1
-                                                Forms\Components\Group::make([
-                                                    Forms\Components\TextInput::make('about_trust_feature_1_title')
-                                                        ->label('Карточка 1 — заголовок')
-                                                        ->maxLength(255),
-
-                                                    Forms\Components\FileUpload::make('about_trust_feature_1_image_path')
-                                                        ->label('Карточка 1 — картинка')
-                                                        ->directory('home')
-                                                        ->image()
-                                                        ->previewable(),
-                                                ]),
-
-                                                // Карточка 2
-                                                Forms\Components\Group::make([
-                                                    Forms\Components\TextInput::make('about_trust_feature_2_title')
-                                                        ->label('Карточка 2 — заголовок')
-                                                        ->maxLength(255),
-
-                                                    Forms\Components\FileUpload::make('about_trust_feature_2_image_path')
-                                                        ->label('Карточка 2 — картинка')
-                                                        ->directory('home')
-                                                        ->image()
-                                                        ->previewable(),
-                                                ]),
-
-                                                // Карточка 3
-                                                Forms\Components\Group::make([
-                                                    Forms\Components\TextInput::make('about_trust_feature_3_title')
-                                                        ->label('Карточка 3 — заголовок')
-                                                        ->maxLength(255),
-
-                                                    Forms\Components\FileUpload::make('about_trust_feature_3_image_path')
-                                                        ->label('Карточка 3 — картинка')
-                                                        ->directory('home')
-                                                        ->image()
-                                                        ->previewable(),
-                                                ]),
-                                            ]),
-                                    ]),
-
-                                Forms\Components\Section::make('Сообщение')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('about_motto')
-                                            ->label('Фраза под карточками')
-                                            ->maxLength(255),
-                                    ]),
-
-                                Forms\Components\Section::make('Изображения')
-                                    ->schema([
-                                        Forms\Components\FileUpload::make('about_left_image_path')
-                                            ->label('Левое изображение')
-                                            ->image()
-                                            ->directory('home')
-                                            ->imageEditor(),
-                                        Forms\Components\FileUpload::make('about_right_image_path')
-                                            ->label('Правое изображение')
-                                            ->image()
-                                            ->directory('home')
-                                            ->imageEditor(),
-                                    ])
-                                    ->columns(2),
-
-                                Forms\Components\Section::make('Мы в цифрах')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('stats_title')
-                                            ->label('Заголовок')
-                                            ->maxLength(255),
-                                    ]),
-
-                                Forms\Components\Grid::make(3)
-                                    ->schema([
-                                        Forms\Components\TextInput::make('stats_item_1_value')
-                                            ->label('Значение 1'),
-                                        Forms\Components\TextInput::make('stats_item_1_label')
-                                            ->label('Подпись 1'),
-                                        Forms\Components\Textarea::make('stats_item_1_text')
-                                            ->label('Текст 1')
-                                            ->rows(2),
-
-                                        Forms\Components\TextInput::make('stats_item_2_value')
-                                            ->label('Значение 2'),
-                                        Forms\Components\TextInput::make('stats_item_2_label')
-                                            ->label('Подпись 2'),
-                                        Forms\Components\Textarea::make('stats_item_2_text')
-                                            ->label('Текст 2')
-                                            ->rows(2),
-
-                                        Forms\Components\TextInput::make('stats_item_3_value')
-                                            ->label('Значение 3'),
-                                        Forms\Components\TextInput::make('stats_item_3_label')
-                                            ->label('Подпись 3'),
-                                        Forms\Components\Textarea::make('stats_item_3_text')
-                                            ->label('Текст 3')
-                                            ->rows(2),
-                                    ]),
-
-                                Forms\Components\Section::make('Кнопка внизу')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('about_more_button_label')
-                                            ->label('Текст кнопки')
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('about_more_button_url')
-                                            ->label('Ссылка кнопки')
-                                            ->maxLength(255),
-                                    ])
-                                    ->columns(2),
                             ]),
                         Forms\Components\Tabs\Tab::make('Товары')
+                            ->icon('heroicon-o-shopping-bag')
                             ->schema([
-                                Forms\Components\Section::make('Категории товаров')
+                                Forms\Components\Section::make('Категории товаров на главной')
+                                    ->description('Выберите категории для отображения на главной странице. Товары из дочерних категорий также будут включены. Перетаскивайте элементы для изменения порядка.')
                                     ->schema([
                                         Forms\Components\Repeater::make('categories_data')
-                                            ->label('Категории для отображения на главной странице')
+                                            ->label('Категории')
                                             ->schema([
                                                 Forms\Components\Select::make('category_id')
                                                     ->label('Категория')
                                                     ->options(function ($get, $livewire, $state) {
-                                                        // Получаем все выбранные категории из других элементов Repeater
                                                         $allItems = $get('../../categories_data') ?? [];
                                                         $currentCategoryId = $state;
                                                         $selectedIds = collect($allItems)
                                                             ->pluck('category_id')
                                                             ->filter()
-                                                            ->reject(fn ($id) => $id == $currentCategoryId) // Не исключаем текущую категорию
+                                                            ->reject(fn ($id) => $id == $currentCategoryId)
                                                             ->all();
 
-                                                        // Исключаем уже выбранные категории (кроме текущей)
                                                         return \App\Models\Category::query()
                                                             ->whereNotIn('id', $selectedIds)
                                                             ->pluck('name', 'id')
@@ -262,8 +82,7 @@ class HomePageContentResource extends Resource
                                                     })
                                                     ->searchable()
                                                     ->required()
-                                                    ->live()
-                                                    ->helperText('Выберите категорию. Товары из дочерних категорий также будут включены. Порядок элементов определяет порядок отображения на главной странице.'),
+                                                    ->live(),
                                             ])
                                             ->defaultItems(0)
                                             ->reorderable()
@@ -276,8 +95,7 @@ class HomePageContentResource extends Resource
                                                 $category = \App\Models\Category::find($state['category_id']);
 
                                                 return $category?->name;
-                                            })
-                                            ->helperText('Перетаскивайте элементы для изменения порядка. Максимум 3 товара будет отображаться из каждой категории.'),
+                                            }),
                                     ]),
                             ]),
                     ]),
@@ -292,9 +110,9 @@ class HomePageContentResource extends Resource
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('hero_title')
-                    ->label('Заголовок первого экрана')
-                    ->limit(50),
+                Tables\Columns\TextColumn::make('categories_count')
+                    ->label('Категорий')
+                    ->counts('categories'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Обновлено')
                     ->dateTime('d.m.Y H:i'),

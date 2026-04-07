@@ -100,6 +100,11 @@ class ProductResource extends Resource
                             ->label('Сортировка')
                             ->numeric()
                             ->default(0),
+                        Forms\Components\TextInput::make('stock')
+                            ->label('Остаток на складе')
+                            ->numeric()
+                            ->nullable()
+                            ->helperText('Оставьте пустым для неограниченного количества (услуги)'),
                     ])->columns(3),
 
                 Forms\Components\Section::make('Категории')
@@ -140,6 +145,26 @@ class ProductResource extends Resource
                 Tables\Columns\IconColumn::make('is_bestseller')
                     ->label('Хит продаж')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('stock')
+                    ->label('Склад')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => $state === null ? '∞' : $state)
+                    ->color(fn ($state) => $state === 0 ? 'danger' : ($state !== null && $state <= 5 ? 'warning' : null))
+                    ->action(
+                        Tables\Actions\Action::make('updateStock')
+                            ->label('Изменить остаток')
+                            ->form([
+                                Forms\Components\TextInput::make('stock')
+                                    ->label('Остаток на складе')
+                                    ->numeric()
+                                    ->nullable()
+                                    ->helperText('Оставьте пустым для неограниченного количества'),
+                            ])
+                            ->fillForm(fn ($record) => ['stock' => $record->stock])
+                            ->action(fn ($record, array $data) => $record->update(['stock' => $data['stock']]))
+                            ->modalHeading('Изменить остаток на складе')
+                            ->modalSubmitActionLabel('Сохранить')
+                    ),
                 Tables\Columns\TextColumn::make('sort_order')
                     ->label('Сортировка')
                     ->sortable(),

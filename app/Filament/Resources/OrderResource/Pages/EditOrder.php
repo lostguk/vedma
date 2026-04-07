@@ -5,11 +5,13 @@ namespace App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource;
 use App\Models\Order;
 use App\Repositories\PaymentRepository;
+use App\Services\Export\OrderExcelExporter;
 use App\Services\Payment\PaymentService;
 use Filament\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class EditOrder extends EditRecord
 {
@@ -18,6 +20,21 @@ class EditOrder extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('exportExcel')
+                ->label('Выгрузить в Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->action(function () {
+                    /** @var Order $order */
+                    $order = $this->record;
+                    $exporter = app(OrderExcelExporter::class);
+                    $filePath = $exporter->export($order);
+                    $fileName = "order-{$order->id}.xlsx";
+
+                    return response()->download($filePath, $fileName, [
+                        'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    ])->deleteFileAfterSend();
+                }),
             Actions\Action::make('refreshPaymentStatus')
                 ->label('Проверить оплату')
                 ->action(function (PaymentRepository $paymentRepository, PaymentService $paymentService): void {

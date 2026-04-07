@@ -97,6 +97,7 @@ final class Product extends Model implements HasMedia
         'is_new',
         'is_bestseller',
         'sort_order',
+        'stock',
     ];
 
     /**
@@ -114,11 +115,24 @@ final class Product extends Model implements HasMedia
         'is_new' => 'boolean',
         'is_bestseller' => 'boolean',
         'sort_order' => 'integer',
+        'stock' => 'integer',
     ];
 
     /**
      * Получить ключ маршрутизации для модели.
      */
+    public function isInStock(): bool
+    {
+        return $this->stock === null || $this->stock > 0;
+    }
+
+    public function scopeInStock(Builder $query): Builder
+    {
+        return $query->where(function (Builder $q) {
+            $q->whereNull('stock')->orWhere('stock', '>', 0);
+        });
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

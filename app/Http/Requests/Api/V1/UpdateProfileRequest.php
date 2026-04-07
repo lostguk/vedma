@@ -34,6 +34,22 @@ final class UpdateProfileRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'first_name.required' => 'Поле Имя обязательно для заполнения',
+            'first_name.max' => 'Имя не должно превышать 255 символов',
+            'last_name.required' => 'Поле Фамилия обязательно для заполнения',
+            'last_name.max' => 'Фамилия не должна превышать 255 символов',
+            'middle_name.max' => 'Отчество не должно превышать 255 символов',
+            'email.required' => 'Поле Email обязательно для заполнения',
+            'email.email' => 'Введите корректный Email адрес',
+            'email.unique' => 'Пользователь с таким Email уже существует',
+            'phone.max' => 'Номер телефона слишком длинный',
+            'address.max' => 'Адрес не должен превышать 255 символов',
+        ];
+    }
+
     /**
      * Get parameters for body documentation for Scribe
      */
