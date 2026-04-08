@@ -36,6 +36,8 @@ class OrderResource extends JsonResource
             'total_without_discount' => $totalWithoutDiscount,
             'total_with_discount' => $totalWithDiscount,
             'promo_code_status' => $calculation['promo_code_status'],
+            'delivery_type' => $this->delivery_type,
+            'delivery_price' => $this->delivery_price,
             'status_code' => $this->status,
             'status' => $this->statusLabel($this->status),
             'created_at' => $this->created_at?->toDateTimeString(),
