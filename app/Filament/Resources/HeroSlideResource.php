@@ -76,9 +76,13 @@ class HeroSlideResource extends Resource
                             ->label('Фоновое изображение слайда')
                             ->image()
                             ->directory('hero-slides')
+                            ->imageResizeMode('cover')
+                            ->imageResizeTargetWidth('1920')
+                            ->imageResizeTargetHeight('900')
+                            ->imageResizeUpscale(false)
                             ->imageEditor()
                             ->previewable()
-                            ->helperText('Рекомендуемый размер: 1920×900px'),
+                            ->helperText('Рекомендуемый формат: WebP, размер 1920×900px'),
                     ]),
 
                 Forms\Components\Section::make('Настройки')

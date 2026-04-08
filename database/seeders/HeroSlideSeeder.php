@@ -24,7 +24,7 @@ final class HeroSlideSeeder extends Seeder
                 'subtitle' => 'Каждая свеча создаётся с намерением, колдовскими травами и натуральным воском',
                 'button_text' => 'Смотреть свечи',
                 'button_url' => '/catalog',
-                'image_file' => 'hero-slide-candles.png',
+                'image_file' => 'hero-slide-candles.webp',
 
             ],
             [
@@ -33,7 +33,7 @@ final class HeroSlideSeeder extends Seeder
                 'subtitle' => 'Закрытые рецептуры на основе редких трав, пчелиного воска и эфирных масел',
                 'button_text' => 'Выбрать зелье',
                 'button_url' => '/catalog',
-                'image_file' => 'hero-slide-potions.png',
+                'image_file' => 'hero-slide-potions.webp',
 
             ],
             [
@@ -42,7 +42,7 @@ final class HeroSlideSeeder extends Seeder
                 'subtitle' => 'Артефакты силы, созданные по традиционным рецептам для вашей защиты и гармонии',
                 'button_text' => 'Выбрать артефакт',
                 'button_url' => '/catalog',
-                'image_file' => 'hero-slide-artifacts.png',
+                'image_file' => 'hero-slide-artifacts.webp',
 
             ],
         ];
