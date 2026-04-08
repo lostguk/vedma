@@ -15,9 +15,8 @@ final class EditHomePageContent extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        // Загружаем категории с sort_order для Repeater
         $record = $this->record;
-        $categories = $record->categories()->orderByPivot('sort_order')->get();
+        $categories = $record->categories()->get();
 
         $data['categories_data'] = $categories->map(function ($category) {
             return [
@@ -43,15 +42,12 @@ final class EditHomePageContent extends EditRecord
         $record = $this->record;
         $categoriesData = $this->categoriesData ?? [];
 
-        // Подготавливаем данные для синхронизации с sort_order
-        $syncData = [];
-        foreach ($categoriesData as $index => $item) {
-            if (! empty($item['category_id'])) {
-                $syncData[$item['category_id']] = ['sort_order' => $index + 1];
-            }
-        }
+        $ids = collect($categoriesData)
+            ->pluck('category_id')
+            ->filter()
+            ->values()
+            ->all();
 
-        // Синхронизируем категории с правильным порядком
-        $record->categories()->sync($syncData);
+        $record->categories()->sync($ids);
     }
 }

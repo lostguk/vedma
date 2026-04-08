@@ -96,10 +96,6 @@ class ProductResource extends Resource
                         Forms\Components\Toggle::make('is_bestseller')
                             ->label('Хит продаж')
                             ->default(false),
-                        Forms\Components\TextInput::make('sort_order')
-                            ->label('Сортировка')
-                            ->numeric()
-                            ->default(0),
                         Forms\Components\TextInput::make('stock')
                             ->label('Остаток на складе')
                             ->numeric()
@@ -165,9 +161,6 @@ class ProductResource extends Resource
                             ->modalHeading('Изменить остаток на складе')
                             ->modalSubmitActionLabel('Сохранить')
                     ),
-                Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Сортировка')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i')

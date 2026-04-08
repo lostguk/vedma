@@ -28,7 +28,6 @@ use Spatie\Sluggable\SlugOptions;
  * @property float|null $length Длина в см
  * @property bool $is_new
  * @property bool $is_bestseller
- * @property int $sort_order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
@@ -61,7 +60,6 @@ use Spatie\Sluggable\SlugOptions;
  * @method static Builder<static>|Product whereOldPrice($value)
  * @method static Builder<static>|Product wherePrice($value)
  * @method static Builder<static>|Product whereSlug($value)
- * @method static Builder<static>|Product whereSortOrder($value)
  * @method static Builder<static>|Product whereUpdatedAt($value)
  * @method static Builder<static>|Product whereWeight($value)
  * @method static Builder<static>|Product whereWidth($value)
@@ -96,7 +94,6 @@ final class Product extends Model implements HasMedia
         'length',
         'is_new',
         'is_bestseller',
-        'sort_order',
         'stock',
     ];
 
@@ -114,7 +111,6 @@ final class Product extends Model implements HasMedia
         'length' => 'float',
         'is_new' => 'boolean',
         'is_bestseller' => 'boolean',
-        'sort_order' => 'integer',
         'stock' => 'integer',
     ];
 

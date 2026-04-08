@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $button_text
  * @property string|null $button_url
  * @property string|null $image_path
- * @property int $sort_order
  * @property bool $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -31,14 +30,12 @@ final class HeroSlide extends Model
         'button_text',
         'button_url',
         'image_path',
-        'sort_order',
         'is_active',
     ];
 
     protected function casts(): array
     {
         return [
-            'sort_order' => 'int',
             'is_active' => 'bool',
         ];
     }
@@ -50,6 +47,6 @@ final class HeroSlide extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order');
+        return $query->orderBy('id');
     }
 }

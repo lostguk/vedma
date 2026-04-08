@@ -23,7 +23,7 @@ final class HeroSlideFactory extends Factory
             'button_text' => 'Смотреть',
             'button_url' => '/catalog',
             'image_path' => null,
-            'sort_order' => 0,
+
             'is_active' => true,
         ];
     }

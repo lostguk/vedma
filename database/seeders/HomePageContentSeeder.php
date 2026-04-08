@@ -44,27 +44,22 @@ final class HomePageContentSeeder extends Seeder
             $payload,
         );
 
-        // Привязываем категории к главной странице
-        // Ищем корневые категории (без parent_id) или категорию "Все свечи"
+        // Привязываем 3 наполненные категории к главной странице
         $categories = Category::query()
-            ->where(function ($query) {
-                $query->whereNull('parent_id')
-                    ->orWhere('id', [2, 3]);
-            })
+            ->whereIn('slug', ['tonkie-svechi', 'tsvetnye-svechi', 'ritualnye-svechi'])
             ->where('is_visible', true)
-            ->orderBy('sort_order')
-            ->limit(4)
             ->get();
 
         // $categories->dd();
 
         if ($categories->isNotEmpty()) {
-            $sortOrder = 1;
-            foreach ($categories as $category) {
-                $homePageContent->categories()->syncWithoutDetaching([
-                    $category->id => ['sort_order' => $sortOrder++],
-                ]);
-            }
+            $order = ['tonkie-svechi', 'tsvetnye-svechi', 'ritualnye-svechi'];
+            $ids = collect($order)
+                ->map(fn (string $slug) => $categories->firstWhere('slug', $slug))
+                ->filter()
+                ->pluck('id')
+                ->all();
+            $homePageContent->categories()->sync($ids);
         }
     }
 }

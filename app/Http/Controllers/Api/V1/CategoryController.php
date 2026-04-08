@@ -27,7 +27,6 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  * - `description` - Описание категории
  * - `icon` - URL иконки категории
  * - `parent_id` - ID родительской категории (null для корневых категорий)
- * - `sort_order` - Порядок сортировки
  * - `is_visible` - Флаг видимости категории
  * - `children` - Массив дочерних категорий (если запрошены)
  *
@@ -57,7 +56,6 @@ final class CategoryController extends ApiController
      *             "description": "Категория, включающая все типы свечей",
      *             "icon": "http://localhost:8000/storage/1/candle2.svg",
      *             "parent_id": null,
-     *             "sort_order": 1,
      *             "is_visible": true,
      *             "children": [
      *                 {
@@ -67,7 +65,6 @@ final class CategoryController extends ApiController
      *                     "description": "Свечи для различных ритуалов и церемоний",
      *                     "icon": "http://localhost:8000/storage/2/candle3.svg",
      *                     "parent_id": 1,
-     *                     "sort_order": 1,
      *                     "is_visible": true
      *                 }
      *             ]
@@ -109,7 +106,6 @@ final class CategoryController extends ApiController
      *         "description": "Свечи для различных ритуалов и церемоний",
      *         "icon": "http://localhost:8000/storage/2/candle3.svg",
      *         "parent_id": 1,
-     *         "sort_order": 1,
      *         "is_visible": true,
      *         "children": [
      *             {
@@ -119,7 +115,6 @@ final class CategoryController extends ApiController
      *                 "description": "Специальные свечи для денежных ритуалов",
      *                 "icon": "http://localhost:8000/storage/5/candle2.svg",
      *                 "parent_id": 2,
-     *                 "sort_order": 1,
      *                 "is_visible": true
      *             },
      *             {
@@ -129,7 +124,6 @@ final class CategoryController extends ApiController
      *                 "description": "Свечи для привлечения любви и укрепления отношений",
      *                 "icon": "http://localhost:8000/storage/6/candle2.svg",
      *                 "parent_id": 2,
-     *                 "sort_order": 2,
      *                 "is_visible": true
      *             }
      *         ]

@@ -140,7 +140,6 @@ final class ProductController extends ApiController
      *         "description": "Свечи с различными ароматами",
      *         "icon": "http://localhost:8000/storage/7/candle4.svg",
      *         "parent_id": null,
-     *         "sort_order": 4,
      *         "is_visible": true
      *       }
      *     ],

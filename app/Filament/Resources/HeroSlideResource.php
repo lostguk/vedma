@@ -83,10 +83,6 @@ class HeroSlideResource extends Resource
 
                 Forms\Components\Section::make('Настройки')
                     ->schema([
-                        Forms\Components\TextInput::make('sort_order')
-                            ->label('Порядок сортировки')
-                            ->numeric()
-                            ->default(0),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Активен')
                             ->default(true),
@@ -99,8 +95,8 @@ class HeroSlideResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('sort_order')
-                    ->label('№')
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
                     ->sortable()
                     ->width(50),
                 Tables\Columns\ImageColumn::make('image_path')
@@ -126,8 +122,7 @@ class HeroSlideResource extends Resource
                     ->dateTime('d.m.Y H:i')
                     ->sortable(),
             ])
-            ->defaultSort('sort_order')
-            ->reorderable('sort_order')
+            ->defaultSort('id')
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

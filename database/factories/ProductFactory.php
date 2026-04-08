@@ -28,7 +28,6 @@ class ProductFactory extends Factory
             'length' => fake()->randomFloat(2, 1, 100),
             'is_new' => false,
             'is_bestseller' => false,
-            'sort_order' => fake()->numberBetween(0, 100),
         ];
     }
 

@@ -21,6 +21,6 @@ class ListCategories extends ListRecords
     protected function getTableQuery(): Builder
     {
         return parent::getTableQuery()
-            ->orderBy('sort_order');
+            ->orderBy('id');
     }
 }

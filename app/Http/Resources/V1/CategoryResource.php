@@ -21,7 +21,6 @@ class CategoryResource extends JsonResource
             'description' => $this->description,
             'icon' => $this->getFirstMediaUrl('icon'),
             'parent_id' => $this->parent_id,
-            'sort_order' => $this->sort_order,
             'is_visible' => $this->is_visible,
             'exclude_from_shipping' => $this->exclude_from_shipping,
             'children' => CategoryResource::collection($this->whenLoaded('children')),

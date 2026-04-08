@@ -56,18 +56,6 @@ return [
                 'label' => 'Отмена',
             ],
         ],
-        'fields' => [
-            'meta_title' => [
-                'label' => 'Meta Title',
-            ],
-            'meta_description' => [
-                'label' => 'Meta Description',
-            ],
-            'url' => [
-                'label' => 'URL',
-                'helper_text' => 'URL будет сформирован автоматически из названия, но вы можете изменить его вручную',
-            ],
-        ],
     ],
 
     'resources' => [

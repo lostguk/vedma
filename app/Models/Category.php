@@ -21,10 +21,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $slug
  * @property string|null $description
  * @property int|null $parent_id
- * @property int $sort_order
  * @property bool $is_visible
- * @property string|null $meta_title
- * @property string|null $meta_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Category> $children
@@ -49,12 +46,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @method static Builder<static>|Category whereDescription($value)
  * @method static Builder<static>|Category whereId($value)
  * @method static Builder<static>|Category whereIsVisible($value)
- * @method static Builder<static>|Category whereMetaDescription($value)
- * @method static Builder<static>|Category whereMetaTitle($value)
  * @method static Builder<static>|Category whereName($value)
  * @method static Builder<static>|Category whereParentId($value)
  * @method static Builder<static>|Category whereSlug($value)
- * @method static Builder<static>|Category whereSortOrder($value)
  * @method static Builder<static>|Category whereUpdatedAt($value)
  *
  * @mixin \Eloquent
@@ -68,15 +62,11 @@ final class Category extends Model implements HasMedia
         'slug',
         'description',
         'parent_id',
-        'sort_order',
         'is_visible',
         'exclude_from_shipping',
-        'meta_title',
-        'meta_description',
     ];
 
     protected $casts = [
-        'sort_order' => 'integer',
         'is_visible' => 'boolean',
         'exclude_from_shipping' => 'boolean',
     ];
@@ -107,7 +97,7 @@ final class Category extends Model implements HasMedia
 
     public function children(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id')->orderBy('sort_order');
+        return $this->hasMany(Category::class, 'parent_id')->orderBy('id');
     }
 
     public function descendants(): HasMany
@@ -167,7 +157,7 @@ final class Category extends Model implements HasMedia
     public function scopeRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id')
-            ->orderBy('sort_order');
+            ->orderBy('id');
     }
 
     public function scopeVisible(Builder $query): Builder
@@ -192,6 +182,6 @@ final class Category extends Model implements HasMedia
             'category_home_page_content',
             'category_id',
             'home_page_content_id'
-        )->withPivot('sort_order');
+        );
     }
 }

@@ -27,10 +27,7 @@ class CategoryFactory extends Factory
             'slug' => Str::slug($name),
             'description' => fake()->paragraph(),
             'parent_id' => null,
-            'sort_order' => fake()->numberBetween(1, 100),
             'is_visible' => true,
-            'meta_title' => fake()->words(3, true),
-            'meta_description' => fake()->sentence(),
         ];
     }
 

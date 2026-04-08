@@ -8,22 +8,21 @@
 
 ### Product (`products`)
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| `id` | int | Уникальный идентификатор |
-| `name` | string | Название товара |
-| `slug` | string | URL-slug (автогенерация через Spatie Sluggable) |
-| `description` | string\|null | Описание (HTML) |
-| `price` | float | Цена |
-| `old_price` | float\|null | Старая цена (для отображения скидки) |
-| `weight` | float | Вес в граммах |
-| `width` | float\|null | Ширина в см |
-| `height` | float\|null | Высота в см |
-| `length` | float\|null | Длина в см |
-| `is_new` | bool | Флаг «Новинка» |
-| `is_bestseller` | bool | Флаг «Хит продаж» |
-| `sort_order` | int | Порядок сортировки |
-| `stock` | int\|null | Количество на складе (`null` = неограниченно) |
+| Поле            | Тип          | Описание                                        |
+| --------------- | ------------ | ----------------------------------------------- |
+| `id`            | int          | Уникальный идентификатор                        |
+| `name`          | string       | Название товара                                 |
+| `slug`          | string       | URL-slug (автогенерация через Spatie Sluggable) |
+| `description`   | string\|null | Описание (HTML)                                 |
+| `price`         | float        | Цена                                            |
+| `old_price`     | float\|null  | Старая цена (для отображения скидки)            |
+| `weight`        | float        | Вес в граммах                                   |
+| `width`         | float\|null  | Ширина в см                                     |
+| `height`        | float\|null  | Высота в см                                     |
+| `length`        | float\|null  | Длина в см                                      |
+| `is_new`        | bool         | Флаг «Новинка»                                  |
+| `is_bestseller` | bool         | Флаг «Хит продаж»                               |
+| `stock`         | int\|null    | Количество на складе (`null` = неограниченно)   |
 
 ### Связи
 
@@ -56,16 +55,17 @@
 
 ### Scopes
 
-| Scope | Описание |
-|-------|----------|
-| `new()` | `is_new = true` |
-| `bestseller()` | `is_bestseller = true` |
-| `search($search)` | `name LIKE %search%` |
-| `inStock()` | `stock IS NULL OR stock > 0` |
+| Scope             | Описание                     |
+| ----------------- | ---------------------------- |
+| `new()`           | `is_new = true`              |
+| `bestseller()`    | `is_bestseller = true`       |
+| `search($search)` | `name LIKE %search%`         |
+| `inStock()`       | `stock IS NULL OR stock > 0` |
 
 ### Фильтрация (ProductFilterService)
 
 Применяет фильтры из запроса к query builder:
+
 - `category` — slug категории (включая дочерние)
 - `search` — поиск по названию
 - `price_from` / `price_to` — диапазон цен
@@ -81,11 +81,13 @@
 Список товаров с фильтрацией и пагинацией.
 
 **Query параметры:**
+
 ```
 page=1&per_page=9&sort=price_asc&category=svechi&search=ритуальная&price_from=100&price_to=5000&is_new=1&is_bestseller=1&ids=1,2,3
 ```
 
 **Ответ (стандартная Laravel Resource collection):**
+
 ```json
 {
   "data": [

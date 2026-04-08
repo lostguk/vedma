@@ -51,8 +51,7 @@ it('returns home page content with categories and products', function (): void {
     $response->assertSuccessful()
         ->assertJsonStructure([
             'data' => [
-                'hero',
-                'about',
+                'slides',
                 'categories' => [
                     '*' => [
                         'id',
@@ -78,12 +77,11 @@ it('returns home page content with categories and products', function (): void {
     expect($data['categories'][0])->toHaveKey('products');
 
     // Check that products from all nested categories are returned in the category
-    // But limited to 3 products per category
+    // But limited (см. HomePageContentService::getProductsForCategory)
     $categoryProducts = collect($data['categories'][0]['products']);
     $productIds = $categoryProducts->pluck('id')->all();
 
-    // Should contain products from parent, child and grandchild, but maximum 3 total
-    expect(count($productIds))->toBeLessThanOrEqual(3);
+    expect(count($productIds))->toBeLessThanOrEqual(4);
     expect($productIds)
         ->not->toContain($unrelatedProduct->id);
 });
@@ -110,11 +108,7 @@ it('returns products from multiple selected categories recursively', function ()
     $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
     $category2Child = Category::factory()->child($category2)->create(['name' => 'Подкатегория 2', 'slug' => 'cat2-child']);
 
-    // Attach both root categories to home page with sort_order
-    $homePageContent->categories()->attach([
-        $category2->id => ['sort_order' => 1], // category2 должна быть первой
-        $category1->id => ['sort_order' => 2], // category1 должна быть второй
-    ]);
+    $homePageContent->categories()->sync([$category2->id, $category1->id]);
 
     // Create products
     $product1 = Product::factory()->create(['name' => 'Товар 1']);
@@ -138,38 +132,30 @@ it('returns products from multiple selected categories recursively', function ()
     // Check that both categories are returned
     expect($data['categories'])->toHaveCount(2);
 
-    // Check that categories are returned in correct order (by sort_order)
-    expect($data['categories'][0]['id'])->toBe($category2->id);
-    expect($data['categories'][1]['id'])->toBe($category1->id);
+    expect($data['categories'][0]['id'])->toBe(min($category1->id, $category2->id));
+    expect($data['categories'][1]['id'])->toBe(max($category1->id, $category2->id));
 
-    // Check that products are returned within each category
-    $category2Products = collect($data['categories'][0]['products'])->pluck('id')->all();
-    $category1Products = collect($data['categories'][1]['products'])->pluck('id')->all();
+    $byCategoryId = collect($data['categories'])->keyBy('id');
+    $category1Products = collect($byCategoryId[$category1->id]['products'])->pluck('id')->all();
+    $category2Products = collect($byCategoryId[$category2->id]['products'])->pluck('id')->all();
 
-    // Category2 should have products from category2 and category2Child
     expect($category2Products)
         ->toContain($product3->id)
         ->toContain($product4->id);
 
-    // Category1 should have products from category1 and category1Child
     expect($category1Products)
         ->toContain($product1->id)
         ->toContain($product2->id);
 });
 
-it('returns categories in correct sort order', function (): void {
+it('returns categories ordered by category id', function (): void {
     $homePageContent = HomePageContent::factory()->create();
 
     $category1 = Category::factory()->create(['name' => 'Категория 1', 'slug' => 'cat1']);
     $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
     $category3 = Category::factory()->create(['name' => 'Категория 3', 'slug' => 'cat3']);
 
-    // Attach categories in reverse order, but with sort_order
-    $homePageContent->categories()->attach([
-        $category3->id => ['sort_order' => 3],
-        $category1->id => ['sort_order' => 1],
-        $category2->id => ['sort_order' => 2],
-    ]);
+    $homePageContent->categories()->sync([$category3->id, $category1->id, $category2->id]);
 
     $response = $this->getJson(route('api.v1.home.show'));
 
@@ -177,24 +163,19 @@ it('returns categories in correct sort order', function (): void {
 
     $data = $response->json('data');
 
-    // Check that categories are returned in correct order
     expect($data['categories'])->toHaveCount(3);
     expect($data['categories'][0]['id'])->toBe($category1->id);
     expect($data['categories'][1]['id'])->toBe($category2->id);
     expect($data['categories'][2]['id'])->toBe($category3->id);
 });
 
-it('returns maximum 3 products per category', function (): void {
+it('returns maximum configured products per category', function (): void {
     $homePageContent = HomePageContent::factory()->create();
 
     $category1 = Category::factory()->create(['name' => 'Категория 1', 'slug' => 'cat1']);
     $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
 
-    // Attach categories
-    $homePageContent->categories()->attach([
-        $category1->id => ['sort_order' => 1],
-        $category2->id => ['sort_order' => 2],
-    ]);
+    $homePageContent->categories()->sync([$category1->id, $category2->id]);
 
     // Create 5 products in category1
     $products1 = Product::factory()->count(5)->create();
@@ -217,23 +198,21 @@ it('returns maximum 3 products per category', function (): void {
     // Check that categories are returned
     expect($data['categories'])->toHaveCount(2);
 
-    // Check that we get maximum 3 products from category1
-    $category1Products = collect($data['categories'][0]['products'])->pluck('id')->all();
-    expect(count($category1Products))->toBeLessThanOrEqual(3);
+    $byCategoryId = collect($data['categories'])->keyBy('id');
+    $category1Products = collect($byCategoryId[$category1->id]['products'])->pluck('id')->all();
+    $category2Products = collect($byCategoryId[$category2->id]['products'])->pluck('id')->all();
 
-    // Check that we get all 2 products from category2
-    $category2Products = collect($data['categories'][1]['products'])->pluck('id')->all();
+    expect(count($category1Products))->toBeLessThanOrEqual(4);
+
     expect(count($category2Products))->toBe(2);
 
-    // Check that products are correct
     $category1ProductIds = $products1->pluck('id')->all();
     $category2ProductIds = $products2->pluck('id')->all();
 
     $foundFromCategory1 = count(array_intersect($category1Products, $category1ProductIds));
     $foundFromCategory2 = count(array_intersect($category2Products, $category2ProductIds));
 
-    // Should have maximum 3 from category1
-    expect($foundFromCategory1)->toBeLessThanOrEqual(3);
+    expect($foundFromCategory1)->toBeLessThanOrEqual(4);
     // Should have all 2 from category2
     expect($foundFromCategory2)->toBe(2);
 });

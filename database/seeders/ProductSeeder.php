@@ -29,6 +29,8 @@ final class ProductSeeder extends Seeder
             ->whereIn('slug', [
                 'vse-svechi',
                 'tonkie-svechi',
+                'tsvetnye-svechi',
+                'ritualnye-svechi',
                 'lyubovnye-svechi',
                 'svechi-dlya-privlecheniya-deneg',
                 'uslugi',
@@ -57,7 +59,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => true,
-                'sort_order' => 10,
+
                 'stock' => 25,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/krasnye-tonkie-svechi.jpg'),
@@ -78,7 +80,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 20,
+
                 'stock' => 30,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/belye-tonkie-svechi.jpg'),
@@ -101,7 +103,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 30,
+
                 'stock' => 15,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/golubye-tonkie-svechi.jpg'),
@@ -124,7 +126,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => true,
-                'sort_order' => 40,
+
                 'stock' => 0,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/chernye-tonkie-svechi.jpg'),
@@ -145,7 +147,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => true,
                 'is_bestseller' => false,
-                'sort_order' => 50,
+
                 'stock' => 10,
                 'categories' => ['vse-svechi', 'tonkie-svechi', 'svechi-dlya-privlecheniya-deneg'],
                 'image' => database_path('seeders/products/nedosyagaemost.jpg'),
@@ -168,7 +170,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 60,
+
                 'stock' => 20,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/dyhanie-polej.jpg'),
@@ -191,7 +193,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => true,
                 'is_bestseller' => true,
-                'sort_order' => 70,
+
                 'stock' => 8,
                 'categories' => ['vse-svechi', 'tonkie-svechi', 'lyubovnye-svechi'],
                 'image' => database_path('seeders/products/chary-lyubvi.jpg'),
@@ -214,7 +216,7 @@ DESC),
                 'length' => 1.5,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 80,
+
                 'stock' => 12,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/kalendula.jpg'),
@@ -235,7 +237,7 @@ DESC),
                 'length' => 18.0,
                 'is_new' => false,
                 'is_bestseller' => true,
-                'sort_order' => 90,
+
                 'stock' => 5,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/raduga-chakry-i-ochishenie.jpg'),
@@ -256,10 +258,178 @@ DESC),
                 'length' => 40.0,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 100,
+
                 'stock' => 3,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
                 'image' => database_path('seeders/products/tonkie-svechi-nabor-1000.jpg'),
+            ],
+            [
+                'name' => 'Зеленые тонкие свечи восковые',
+                'slug' => 'zelenye-tonkie-svechi',
+                'description' => trim(<<<'DESC'
+Зеленый — цвет плодородия, изобилия и богатства. Символизирует природу и материальную выгоду. Свечи используются в ритуалах для привлечения удачи, финансов, карьеры и достижения личных целей.
+
+Зеленые свечи стимулируют и гармонизируют энергию тела и разума, помогают в магии деревьев и растений. Изготовлены из первосортного пчелиного воска, полностью прокрашены, роскошно пахнут мёдом.
+DESC),
+                'price' => 32,
+                'old_price' => null,
+                'weight' => 60,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => false,
+                'is_bestseller' => false,
+
+                'stock' => 40,
+                'categories' => ['vse-svechi', 'tsvetnye-svechi'],
+                'image' => database_path('seeders/products/zelenye-tonkie-svechi.jpg'),
+            ],
+            [
+                'name' => 'Розовые тонкие свечи восковые',
+                'slug' => 'rozovye-tonkie-svechi',
+                'description' => trim(<<<'DESC'
+Розовый цвет — символ романтической любви, дружбы, женственности и привлекательности. Свечи розового цвета используют в ритуалах на повышение личной привлекательности, славы и общественного признания.
+
+Широко применяются в практиках любовной магии, повышая чувственность и влечение. Изготовлены из отбелённого пчелиного воска, не имеют трещин или пузырьков, полностью прокрашены.
+DESC),
+                'price' => 53,
+                'old_price' => null,
+                'weight' => 60,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => false,
+                'is_bestseller' => true,
+
+                'stock' => 35,
+                'categories' => ['vse-svechi', 'tsvetnye-svechi'],
+                'image' => database_path('seeders/products/rozovye-tonkie-svechi.jpg'),
+            ],
+            [
+                'name' => 'Бирюзовые тонкие свечи восковые',
+                'slug' => 'biryuzovye-tonkie-svechi',
+                'description' => trim(<<<'DESC'
+Бирюзовый цвет усиливает интуицию, независимость и творческую реализацию, наделяет уверенностью в себе и своих силах. Древние верили, что бирюзовый хранит от бед на жизненном пути.
+
+Бирюзовые свечи дарят чувство духовной чистоты и гармонии, помогают снять блоки, мешающие развитию или достижению цели. Изготовлены из натурального пчелиного воска, полностью прокрашены.
+DESC),
+                'price' => 53,
+                'old_price' => null,
+                'weight' => 60,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => true,
+                'is_bestseller' => false,
+
+                'stock' => 20,
+                'categories' => ['vse-svechi', 'tsvetnye-svechi'],
+                'image' => database_path('seeders/products/biryuzovye-tonkie-svechi.jpg'),
+            ],
+            [
+                'name' => 'Перламутровые молочные свечи восковые',
+                'slug' => 'perlamutrovye-molochnye-svechi',
+                'description' => trim(<<<'DESC'
+Душистые тонкие свечи из воска-капанца наивысшего сорта. Отлиты вручную с соблюдением колдовских правил и энергетической чистотой. Мягкий перламутровый оттенок создаёт атмосферу таинственности и утончённости.
+
+Свечи хорошо гнутся, сохраняют форму, роскошно пахнут мёдом. Не имеют трещин, сколов или пузырьков, полностью прокрашены.
+DESC),
+                'price' => 65,
+                'old_price' => null,
+                'weight' => 60,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => true,
+                'is_bestseller' => false,
+
+                'stock' => 18,
+                'categories' => ['vse-svechi', 'tsvetnye-svechi'],
+                'image' => database_path('seeders/products/perlamutrovye-molochnye-svechi.jpg'),
+            ],
+            [
+                'name' => 'Денежный Помощник тонкие цветочные свечи восковые',
+                'slug' => 'denezhnyj-pomoshnik',
+                'description' => trim(<<<'DESC'
+Универсальный инструмент для повседневной поддержки денежного канала. Созданы для мягкой, но стабильной сонастройки с энергией изобилия, укрепления финансовых потоков.
+
+Благодаря сбалансированному травяному составу на основе лавра, корицы и клевера, свечи работают как самостоятельно, так и в связке с другими магическими инструментами. Особенно эффективны на растущей Луне.
+DESC),
+                'price' => 75,
+                'old_price' => null,
+                'weight' => 55,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => false,
+                'is_bestseller' => true,
+
+                'stock' => 25,
+                'categories' => ['vse-svechi', 'ritualnye-svechi', 'svechi-dlya-privlecheniya-deneg'],
+                'image' => database_path('seeders/products/denezhnyj-pomoshnik.jpg'),
+            ],
+            [
+                'name' => 'Летние Грозы тонкие цветочные свечи с шалфеем и полынью',
+                'slug' => 'letnie-grozy',
+                'description' => trim(<<<'DESC'
+Букет зверобоя, шалфея и полыни создаёт мощный эффект нейтрализации негативных энергий и очищения пространства. Зверобой служит оберегом от деструктивных воздействий, шалфей возвращает силы, полынь исцеляет и привлекает удачу.
+
+Свечи эффективны в сопровождении ритуалов на очищение и защиту. Состав: натуральный пчелиный воск, хлопковый фитиль, полынь, зверобой, шалфей.
+DESC),
+                'price' => 65,
+                'old_price' => null,
+                'weight' => 55,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => false,
+                'is_bestseller' => false,
+
+                'stock' => 30,
+                'categories' => ['vse-svechi', 'ritualnye-svechi'],
+                'image' => database_path('seeders/products/letnie-grozy.jpg'),
+            ],
+            [
+                'name' => 'Шиповник тонкие свечи цветочные восковые',
+                'slug' => 'shipovnik-tonkie-svechi',
+                'description' => trim(<<<'DESC'
+Белая свеча с шиповником для магии любви и страсти, ритуалов обольщения и женской привлекательности. Шиповник дарует привлекательность, гармонизирует отношения и помогает поддержать лад в семье.
+
+Нежные пряные свечи из натурального воска с добавлением цветочных лепестков и эфирных масел. Действие мягкое, но сильное. Цветы и травы направляют эффект на сферу любви и верности.
+DESC),
+                'price' => 75,
+                'old_price' => null,
+                'weight' => 55,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => true,
+                'is_bestseller' => true,
+
+                'stock' => 15,
+                'categories' => ['vse-svechi', 'ritualnye-svechi', 'lyubovnye-svechi'],
+                'image' => database_path('seeders/products/shipovnik-tonkie-svechi.jpg'),
+            ],
+            [
+                'name' => 'Лаванда тонкие свечи цветочные восковые',
+                'slug' => 'lavanda-tonkie-svechi',
+                'description' => trim(<<<'DESC'
+Лаванда — растение спокойствия, очищения и ясновидения. Свечи с лавандой помогают снять тревожность, настроиться на медитацию и укрепить связь с интуицией. Подходят для практик перед сном и вещими снами.
+
+Нежные свечи из натурального воска с добавлением лаванды и эфирных масел. Мягко очищают пространство и успокаивают разум. Идеальны для ежедневной практики и духовной гигиены.
+DESC),
+                'price' => 75,
+                'old_price' => null,
+                'weight' => 55,
+                'width' => 1.5,
+                'height' => 20.0,
+                'length' => 1.5,
+                'is_new' => false,
+                'is_bestseller' => false,
+
+                'stock' => 22,
+                'categories' => ['vse-svechi', 'ritualnye-svechi'],
+                'image' => database_path('seeders/products/lavanda-tonkie-svechi.jpg'),
             ],
             [
                 'name' => 'Гадание на картах Таро — расклад на ситуацию',
@@ -277,7 +447,7 @@ DESC),
                 'length' => 0,
                 'is_new' => true,
                 'is_bestseller' => true,
-                'sort_order' => 110,
+
                 'stock' => null,
                 'categories' => ['uslugi', 'gadaniya'],
                 'image' => database_path('seeders/products/gadanie-taro.jpg'),
@@ -298,7 +468,7 @@ DESC),
                 'length' => 0,
                 'is_new' => false,
                 'is_bestseller' => false,
-                'sort_order' => 120,
+
                 'stock' => null,
                 'categories' => ['uslugi', 'gadaniya'],
                 'image' => database_path('seeders/products/gadanie-runy.jpg'),
@@ -319,7 +489,7 @@ DESC),
                 'length' => 0,
                 'is_new' => true,
                 'is_bestseller' => false,
-                'sort_order' => 130,
+
                 'stock' => null,
                 'categories' => ['uslugi', 'konsultatsii'],
                 'image' => database_path('seeders/products/konsultatsiya.jpg'),

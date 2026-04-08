@@ -64,8 +64,7 @@ class ChildrenRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
-            ->defaultSort('sort_order', 'asc')
-            ->reorderable('sort_order')
+            ->defaultSort('name')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('icon')
                     ->label('Иконка')

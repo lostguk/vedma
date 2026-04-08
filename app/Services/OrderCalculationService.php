@@ -48,7 +48,7 @@ final class OrderCalculationService
 
             $result[] = array_merge(
                 $product->only([
-                    'id', 'name', 'slug', 'description', 'price', 'old_price', 'weight', 'width', 'height', 'length', 'is_new', 'is_bestseller', 'sort_order', 'images_urls',
+                    'id', 'name', 'slug', 'description', 'price', 'old_price', 'weight', 'width', 'height', 'length', 'is_new', 'is_bestseller', 'images_urls',
                 ]),
                 [
                     'price' => $price,

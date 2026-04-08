@@ -1942,7 +1942,6 @@ fetch(url, {
                 &quot;description&quot;: &quot;Свечи для различных ритуалов&quot;,
                 &quot;icon&quot;: &quot;http://localhost:8000/storage/1/icon.svg&quot;,
                 &quot;parent_id&quot;: null,
-                &quot;sort_order&quot;: 1,
                 &quot;is_visible&quot;: true,
                 &quot;products&quot;: [
                     {
@@ -2444,7 +2443,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <li><code>description</code> - Описание категории</li>
 <li><code>icon</code> - URL иконки категории</li>
 <li><code>parent_id</code> - ID родительской категории (null для корневых категорий)</li>
-<li><code>sort_order</code> - Порядок сортировки</li>
 <li><code>is_visible</code> - Флаг видимости категории</li>
 <li><code>children</code> - Массив дочерних категорий (если запрошены)</li>
 </ul>
@@ -2513,7 +2511,6 @@ fetch(url, {
             &quot;description&quot;: &quot;Категория, включающая все типы свечей&quot;,
             &quot;icon&quot;: &quot;http://localhost:8000/storage/1/candle2.svg&quot;,
             &quot;parent_id&quot;: null,
-            &quot;sort_order&quot;: 1,
             &quot;is_visible&quot;: true,
             &quot;children&quot;: [
                 {
@@ -2523,7 +2520,6 @@ fetch(url, {
                     &quot;description&quot;: &quot;Свечи для различных ритуалов и церемоний&quot;,
                     &quot;icon&quot;: &quot;http://localhost:8000/storage/2/candle3.svg&quot;,
                     &quot;parent_id&quot;: 1,
-                    &quot;sort_order&quot;: 1,
                     &quot;is_visible&quot;: true
                 }
             ]
@@ -2687,7 +2683,6 @@ fetch(url, {
         &quot;description&quot;: &quot;Свечи для различных ритуалов и церемоний&quot;,
         &quot;icon&quot;: &quot;http://localhost:8000/storage/2/candle3.svg&quot;,
         &quot;parent_id&quot;: 1,
-        &quot;sort_order&quot;: 1,
         &quot;is_visible&quot;: true,
         &quot;children&quot;: [
             {
@@ -2697,7 +2692,6 @@ fetch(url, {
                 &quot;description&quot;: &quot;Специальные свечи для денежных ритуалов&quot;,
                 &quot;icon&quot;: &quot;http://localhost:8000/storage/5/candle2.svg&quot;,
                 &quot;parent_id&quot;: 2,
-                &quot;sort_order&quot;: 1,
                 &quot;is_visible&quot;: true
             },
             {
@@ -2707,7 +2701,6 @@ fetch(url, {
                 &quot;description&quot;: &quot;Свечи для привлечения любви и укрепления отношений&quot;,
                 &quot;icon&quot;: &quot;http://localhost:8000/storage/6/candle2.svg&quot;,
                 &quot;parent_id&quot;: 2,
-                &quot;sort_order&quot;: 2,
                 &quot;is_visible&quot;: true
             }
         ]
@@ -2862,7 +2855,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-04-08T04:04:48+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-04-08T15:36:23+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3384,7 +3377,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/e4daa215-ddbe-4c94-859a-93a59f91d9b2/refund" \
+    "{{ config("app.url") }}/api/v1/payments/76d4608d-5114-43f2-922c-ee9696cd08d3/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3395,7 +3388,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/e4daa215-ddbe-4c94-859a-93a59f91d9b2/refund"
+    "{{ config("app.url") }}/api/v1/payments/76d4608d-5114-43f2-922c-ee9696cd08d3/refund"
 );
 
 const headers = {
@@ -3493,10 +3486,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="e4daa215-ddbe-4c94-859a-93a59f91d9b2"
+               value="76d4608d-5114-43f2-922c-ee9696cd08d3"
                data-component="url">
     <br>
-<p>The payment. Example: <code>e4daa215-ddbe-4c94-859a-93a59f91d9b2</code></p>
+<p>The payment. Example: <code>76d4608d-5114-43f2-922c-ee9696cd08d3</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4570,7 +4563,6 @@ fetch(url, {
                 &quot;description&quot;: &quot;Свечи с различными ароматами&quot;,
                 &quot;icon&quot;: &quot;http://localhost:8000/storage/7/candle4.svg&quot;,
                 &quot;parent_id&quot;: null,
-                &quot;sort_order&quot;: 4,
                 &quot;is_visible&quot;: true
             }
         ],
@@ -6186,7 +6178,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpFdGNFI" </code></pre></div>
+    --form "attachments[]=@/tmp/phplgIHOM" </code></pre></div>
 
 
 <div class="javascript-example">

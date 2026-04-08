@@ -21,7 +21,6 @@ final class HeroSlideResource extends JsonResource
             'button_text' => $this->button_text,
             'button_url' => $this->button_url,
             'image' => $this->image_path ? Storage::url($this->image_path) : null,
-            'sort_order' => $this->sort_order,
         ];
     }
 }

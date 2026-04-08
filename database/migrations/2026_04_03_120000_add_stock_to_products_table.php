@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('stock')->nullable()->default(null)->after('sort_order');
+            $table->integer('stock')->nullable()->default(null)->after('is_bestseller');
         });
     }
 

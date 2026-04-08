@@ -18,10 +18,10 @@ final class StockExcelExporter
     {
         $products = Product::query()
             ->with('categories')
-            ->orderBy('sort_order')
+            ->orderBy('id')
             ->get();
 
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Склад');
 
@@ -65,7 +65,7 @@ final class StockExcelExporter
             $sheet->setCellValue("A{$row}", $product->id);
             $sheet->setCellValue("B{$row}", $product->name);
             $sheet->setCellValue("C{$row}", $categories);
-            $sheet->setCellValue("D{$row}", number_format((float) $product->price, 0, ',', ' ') . ' ₽');
+            $sheet->setCellValue("D{$row}", number_format((float) $product->price, 0, ',', ' ').' ₽');
             $sheet->setCellValue("E{$row}", $stockText);
             $sheet->setCellValue("F{$row}", $status);
             $sheet->setCellValue("G{$row}", $product->updated_at?->format('d.m.Y'));
@@ -127,7 +127,7 @@ final class StockExcelExporter
         $sheet->getColumnDimension('F')->setWidth(16);
         $sheet->getColumnDimension('G')->setWidth(14);
 
-        $tempFile = tempnam(sys_get_temp_dir(), 'stock_') . '.xlsx';
+        $tempFile = tempnam(sys_get_temp_dir(), 'stock_').'.xlsx';
         $writer = new Xlsx($spreadsheet);
         $writer->save($tempFile);
 

@@ -25,7 +25,7 @@ final class HeroSlideSeeder extends Seeder
                 'button_text' => 'Смотреть свечи',
                 'button_url' => '/catalog',
                 'image_file' => 'hero-slide-candles.png',
-                'sort_order' => 1,
+
             ],
             [
                 'title' => 'Колдовские масла',
@@ -34,7 +34,7 @@ final class HeroSlideSeeder extends Seeder
                 'button_text' => 'Выбрать зелье',
                 'button_url' => '/catalog',
                 'image_file' => 'hero-slide-potions.png',
-                'sort_order' => 2,
+
             ],
             [
                 'title' => 'Обереги и амулеты',
@@ -43,7 +43,7 @@ final class HeroSlideSeeder extends Seeder
                 'button_text' => 'Выбрать артефакт',
                 'button_url' => '/catalog',
                 'image_file' => 'hero-slide-artifacts.png',
-                'sort_order' => 3,
+
             ],
         ];
 

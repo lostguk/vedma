@@ -156,7 +156,6 @@ final class HomePageContent extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_home_page_content', 'home_page_content_id', 'category_id')
-            ->withPivot('sort_order')
-            ->orderByPivot('sort_order');
+            ->orderBy('categories.id');
     }
 }

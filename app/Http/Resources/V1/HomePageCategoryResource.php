@@ -28,7 +28,6 @@ final class HomePageCategoryResource extends JsonResource
             'description' => $this->description,
             'icon' => $this->getFirstMediaUrl('icon'),
             'parent_id' => $this->parent_id,
-            'sort_order' => $this->sort_order,
             'is_visible' => $this->is_visible,
             'products' => ProductResource::collection($products),
         ];

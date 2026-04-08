@@ -58,7 +58,7 @@ class CategoryResource extends Resource
                                     }),
 
                                 Forms\Components\TextInput::make('slug')
-                                    ->label(__('filament.forms.fields.url.label'))
+                                    ->label('URL-путь')
                                     ->required()
                                     ->maxLength(255)
                                     ->rules([
@@ -68,7 +68,7 @@ class CategoryResource extends Resource
                                                 ->ignore($get('id'));
                                         },
                                     ])
-                                    ->helperText(__('filament.forms.fields.url.helper_text')),
+                                    ->helperText('URL будет сформирован автоматически из названия, но вы можете изменить его вручную'),
 
                                 Forms\Components\RichEditor::make('description')
                                     ->label('Описание')
@@ -127,24 +127,6 @@ class CategoryResource extends Resource
                                     ->label('Не считать доставку (услуга)')
                                     ->helperText('Товары из этой категории и всех дочерних не будут учитываться при расчёте стоимости доставки')
                                     ->default(false),
-
-                                Forms\Components\TextInput::make('sort_order')
-                                    ->label('Порядок сортировки')
-                                    ->numeric()
-                                    ->default(0)
-                                    ->helperText('Чем меньше число, тем выше категория в списке'),
-                            ]),
-
-                        Forms\Components\Section::make('Мета данные')
-                            ->schema([
-                                Forms\Components\TextInput::make('meta_title')
-                                    ->label(__('filament.forms.fields.meta_title.label'))
-                                    ->helperText('Оставьте пустым, чтобы использовать название категории'),
-
-                                Forms\Components\Textarea::make('meta_description')
-                                    ->label(__('filament.forms.fields.meta_description.label'))
-                                    ->rows(3)
-                                    ->helperText('Оставьте пустым, чтобы использовать описание категории'),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -155,8 +137,7 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('sort_order', 'asc')
-            ->reorderable('sort_order')
+            ->defaultSort('id')
             ->columns([
                 SpatieMediaLibraryImageColumn::make('icon')
                     ->label('Иконка')
@@ -180,10 +161,6 @@ class CategoryResource extends Resource
 
                 Tables\Columns\ToggleColumn::make('is_visible')
                     ->label('Видимость')
-                    ->sortable(),
-
-                TextColumn::make('sort_order')
-                    ->label('Порядок')
                     ->sortable(),
             ])
             ->filters([

@@ -11,16 +11,19 @@
 Одна запись (singleton) с полями для всех секций главной страницы:
 
 **Hero-секция:**
+
 - `hero_title`, `hero_subtitle`, `hero_button_label`, `hero_button_url`, `hero_image_path`
 - `hero_feature_1_text`, `hero_feature_1_image_path` (×3 features)
 
 **About-секция:**
+
 - `about_title`, `about_description`, `about_motto`
 - `about_trust_title`, `about_trust_feature_1_title`, `about_trust_feature_1_image_path` (×3 trust features)
 - `about_left_image_path`, `about_right_image_path`
 - `about_more_button_label`, `about_more_button_url`
 
 **Stats-секция:**
+
 - `stats_title`
 - `stats_item_1_value`, `stats_item_1_label`, `stats_item_1_text` (×3 stats)
 
@@ -30,7 +33,7 @@
 
 ### Связи
 
-- `categories()` — BelongsToMany Category через `category_home_page_content` (pivot: `sort_order`)
+- `categories()` — BelongsToMany Category через `category_home_page_content` (порядок в API — по `categories.id`)
 - Категории определяют, какие товары показываются на главной странице
 
 ## API Endpoint
@@ -40,6 +43,7 @@
 Контент главной страницы с категориями и товарами.
 
 **Ответ:**
+
 ```json
 {
   "status": "success",
@@ -73,8 +77,8 @@
 - Ресурс: `HomePageContentResource`
 - **Нельзя создать/удалить** — только редактирование существующей записи
 - Табы:
-  - **Слайдер** — ссылка на управление слайдами (HeroSlideResource)
-  - **Товары** — Repeater для выбора категорий с drag&drop сортировкой
+    - **Слайдер** — ссылка на управление слайдами (HeroSlideResource)
+    - **Товары** — Repeater для выбора категорий с drag&drop сортировкой
 
 ## Связанные файлы
 
