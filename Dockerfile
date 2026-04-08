@@ -2,8 +2,14 @@
 FROM composer:2.7 AS composer
 
 # Устанавливаем расширения PHP в контейнере composer
-RUN apk add --no-cache icu-dev \
-    && docker-php-ext-install intl exif
+# Важно: phpoffice/phpspreadsheet требует ext-gd уже на этапе composer install.
+RUN apk add --no-cache \
+    icu-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-freetype \
+    && docker-php-ext-install gd intl exif
 
 # Копируем файлы composer
 COPY composer.json composer.lock ./
