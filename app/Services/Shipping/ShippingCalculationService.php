@@ -85,6 +85,48 @@ final class ShippingCalculationService
     }
 
     /**
+     * Рассчитать стоимость доставки для конкретного типа.
+     * Вызывает MetaShip, фильтрует по delivery_type и возвращает минимальную цену.
+     *
+     * @param  array<int, array{id:int, quantity:int}>  $products
+     * @return int|null Цена доставки в рублях или null если вариантов нет
+     */
+    public function calculatePriceForDeliveryType(array $products, string $address, string $deliveryType): ?int
+    {
+        $offers = $this->calculate($products, $address);
+
+        if (empty($offers) || isset($offers['error'])) {
+            return null;
+        }
+
+        return $this->findCheapestPrice($offers, $deliveryType);
+    }
+
+    /**
+     * Найти минимальную цену из списка предложений MetaShip по типу доставки.
+     *
+     * @param  array<int, array<string, mixed>>  $offers
+     */
+    public function findCheapestPrice(array $offers, string $deliveryType): ?int
+    {
+        $filtered = collect($offers)->filter(function (array $offer) use ($deliveryType): bool {
+            return match ($deliveryType) {
+                'PostOffice' => ($offer['type'] ?? '') === 'PostOffice',
+                'Cdek' => str_contains(mb_strtolower($offer['deliveryService'] ?? ''), 'cdek'),
+                default => false,
+            };
+        });
+
+        if ($filtered->isEmpty()) {
+            return null;
+        }
+
+        $minPrice = $filtered->min('price');
+
+        return $minPrice !== null ? (int) ceil((float) $minPrice) : null;
+    }
+
+    /**
      * Отфильтровать товары, исключив те, чья категория помечена как exclude_from_shipping.
      *
      * @param  array<int, array{id:int, quantity:int}>  $products

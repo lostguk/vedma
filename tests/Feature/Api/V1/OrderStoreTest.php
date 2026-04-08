@@ -8,23 +8,34 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\PromoCode;
 use App\Models\User;
+use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class OrderStoreTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function mockShippingService(?int $price = 350): void
+    {
+        $this->mock(ShippingCalculationService::class, function (MockInterface $mock) use ($price): void {
+            $mock->shouldReceive('calculatePriceForDeliveryType')
+                ->andReturn($price);
+        });
+    }
+
     public function test_оформляет_заказ_без_промокода_и_без_регистрации(): void
     {
+        $this->mockShippingService(300);
+
         $product = Product::factory()->create(['price' => 100]);
         $payload = [
             'items' => [
                 ['id' => $product->id, 'count' => 2],
             ],
             'register' => false,
-            'delivery_price' => 300,
             'first_name' => 'Иван',
             'last_name' => 'Иванов',
             'email' => 'test1@example.com',
@@ -44,6 +55,8 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_с_валидным_промокодом(): void
     {
+        $this->mockShippingService();
+
         $category = Category::factory()->create();
         $product = Product::factory()->create(['price' => 100]);
         $product->categories()->attach($category->id);
@@ -79,6 +92,8 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_с_невалидным_промокодом(): void
     {
+        $this->mockShippingService();
+
         $product = Product::factory()->create(['price' => 100]);
         $payload = [
             'items' => [
@@ -104,6 +119,8 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_с_регистрацией_пользователя(): void
     {
+        $this->mockShippingService();
+
         $product = Product::factory()->create(['price' => 100]);
         $payload = [
             'items' => [
@@ -130,6 +147,8 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_авторизованным_пользователем(): void
     {
+        $this->mockShippingService();
+
         $user = User::factory()->create();
         /** @var Authenticatable $authUser */
         $authUser = $user;
@@ -165,5 +184,54 @@ class OrderStoreTest extends TestCase
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertStatus(422);
+    }
+
+    public function test_delivery_price_игнорируется_из_запроса(): void
+    {
+        $this->mockShippingService(500);
+
+        $product = Product::factory()->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 1],
+            ],
+            'register' => false,
+            'delivery_price' => 0,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_ignore_price@example.com',
+            'delivery_type' => 'Cdek',
+            'address' => 'Москва, ул. Пушкина, д. 1',
+        ];
+        $response = $this->postJson('/api/v1/order', $payload);
+        $response->assertCreated();
+        $this->assertDatabaseHas('orders', [
+            'email' => 'test_ignore_price@example.com',
+            'delivery_price' => 500,
+        ]);
+    }
+
+    public function test_заказ_создаётся_с_null_delivery_price_если_metaship_недоступен(): void
+    {
+        $this->mockShippingService(null);
+
+        $product = Product::factory()->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 1],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_null_delivery@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Москва, ул. Пушкина, д. 1',
+        ];
+        $response = $this->postJson('/api/v1/order', $payload);
+        $response->assertCreated();
+        $this->assertDatabaseHas('orders', [
+            'email' => 'test_null_delivery@example.com',
+            'delivery_price' => null,
+        ]);
     }
 }

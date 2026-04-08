@@ -9,9 +9,11 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\Auth\RegistrationService;
+use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Throwable;
 
@@ -23,6 +25,7 @@ final readonly class OrderService
         private PromoCodeRepository $promoCodeRepository,
         private RegistrationService $registrationService,
         private OrderCalculationService $orderCalculationService,
+        private ShippingCalculationService $shippingCalculationService,
     ) {}
 
     /**
@@ -63,9 +66,9 @@ final readonly class OrderService
             $calculatedItems = $calculated['items'] ?? [];
             $totalWithoutDiscount = (int) round((float) ($calculated['total_without_discount'] ?? 0));
             $totalWithDiscount = (int) round((float) ($calculated['total_with_discount'] ?? 0));
-            $deliveryPrice = isset($data['delivery_price'])
-                ? (int) round((float) $data['delivery_price'])
-                : null;
+
+            // 3.1. Серверный расчёт стоимости доставки через MetaShip
+            $deliveryPrice = $this->calculateDeliveryPrice($data);
 
             // 4. Создание заказа
             $orderData = [
@@ -126,5 +129,41 @@ final readonly class OrderService
     public function getUserOrders(int $userId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->orderRepository->getByUserId($userId, $perPage);
+    }
+
+    /**
+     * Рассчитать стоимость доставки через MetaShip на основе товаров, адреса и типа доставки.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function calculateDeliveryPrice(array $data): ?int
+    {
+        $deliveryType = $data['delivery_type'] ?? null;
+        $address = $data['address'] ?? null;
+
+        if ($deliveryType === null || $address === null) {
+            return null;
+        }
+
+        $shippingProducts = collect($data['items'])->map(fn (array $item): array => [
+            'id' => $item['id'],
+            'quantity' => $item['count'],
+        ])->all();
+
+        $price = $this->shippingCalculationService->calculatePriceForDeliveryType(
+            $shippingProducts,
+            $address,
+            $deliveryType,
+        );
+
+        if ($price === null) {
+            Log::warning('Не удалось рассчитать стоимость доставки через MetaShip', [
+                'delivery_type' => $deliveryType,
+                'address' => $address,
+                'items_count' => count($data['items']),
+            ]);
+        }
+
+        return $price;
     }
 }
