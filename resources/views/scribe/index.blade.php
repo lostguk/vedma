@@ -275,7 +275,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: March 10, 2026</li>
+        <li>Last updated: April 8, 2026</li>
     </ul>
 </div>
 
@@ -2862,7 +2862,7 @@ vary: Origin
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;ok&quot;,
     &quot;message&quot;: &quot;Service is healthy&quot;,
-    &quot;timestamp&quot;: &quot;2026-03-10T05:10:17+00:00&quot;
+    &quot;timestamp&quot;: &quot;2026-04-08T04:04:48+00:00&quot;
 }</code>
  </pre>
     </span>
@@ -3384,7 +3384,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/9b719430-461e-4836-bb8a-b12b731571d7/refund" \
+    "{{ config("app.url") }}/api/v1/payments/e4daa215-ddbe-4c94-859a-93a59f91d9b2/refund" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3395,7 +3395,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/9b719430-461e-4836-bb8a-b12b731571d7/refund"
+    "{{ config("app.url") }}/api/v1/payments/e4daa215-ddbe-4c94-859a-93a59f91d9b2/refund"
 );
 
 const headers = {
@@ -3493,10 +3493,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="payment"                data-endpoint="POSTapi-v1-payments--payment--refund"
-               value="9b719430-461e-4836-bb8a-b12b731571d7"
+               value="e4daa215-ddbe-4c94-859a-93a59f91d9b2"
                data-component="url">
     <br>
-<p>The payment. Example: <code>9b719430-461e-4836-bb8a-b12b731571d7</code></p>
+<p>The payment. Example: <code>e4daa215-ddbe-4c94-859a-93a59f91d9b2</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3999,6 +3999,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"last_name\": \"System\",
     \"middle_name\": \"Root\",
     \"email\": \"admin@admin.ru\",
+    \"phone\": \"+7 999 999 99 99\",
     \"address\": \"ул. Администраторская, д. 1\",
     \"password\": \"StrongPass123\"
 }"
@@ -4030,6 +4031,7 @@ let body = {
     "last_name": "System",
     "middle_name": "Root",
     "email": "admin@admin.ru",
+    "phone": "+7 999 999 99 99",
     "address": "ул. Администраторская, д. 1",
     "password": "StrongPass123"
 };
@@ -4256,6 +4258,17 @@ Must be one of:
                data-component="body">
     <br>
 <p>Email пользователя. Must be a valid email address. Must not be greater than 128 characters. Example: <code>admin@admin.ru</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-v1-order"
+               value="+7 999 999 99 99"
+               data-component="body">
+    <br>
+<p>Телефон пользователя. Must not be greater than 32 characters. Example: <code>+7 999 999 99 99</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
@@ -6173,7 +6186,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --form "title=Проблема с отображением заказа"\
     --form "content=Здравствуйте, у меня не отображается мой последний заказ."\
-    --form "attachments[]=@/tmp/phpFjeDbd" </code></pre></div>
+    --form "attachments[]=@/tmp/phpFdGNFI" </code></pre></div>
 
 
 <div class="javascript-example">
