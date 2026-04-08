@@ -103,16 +103,25 @@ final class ShippingCalculationService
     }
 
     /**
-     * Найти минимальную цену из списка предложений MetaShip по типу доставки.
+     * Найти минимальную цену из группированного ответа MetaShip по типу доставки.
      *
-     * @param  array<int, array<string, mixed>>  $offers
+     * MetaShip возвращает объект, сгруппированный по типу:
+     * {"DeliveryPoint": [{delivery: {code: "RussianPost"}, service: {total: "341.23"}, ...}], "PostOffice": [...]}
+     *
+     * @param  array<string, array<int, array<string, mixed>>>  $groupedOffers
      */
-    public function findCheapestPrice(array $offers, string $deliveryType): ?int
+    public function findCheapestPrice(array $groupedOffers, string $deliveryType): ?int
     {
-        $filtered = collect($offers)->filter(function (array $offer) use ($deliveryType): bool {
+        $allOffers = collect($groupedOffers)
+            ->filter(fn ($value): bool => is_array($value))
+            ->flatMap(fn (array $group): array => $group);
+
+        $filtered = $allOffers->filter(function (array $offer) use ($deliveryType): bool {
+            $carrierCode = mb_strtolower($offer['delivery']['code'] ?? '');
+
             return match ($deliveryType) {
-                'PostOffice' => ($offer['type'] ?? '') === 'PostOffice',
-                'Cdek' => str_contains(mb_strtolower($offer['deliveryService'] ?? ''), 'cdek'),
+                'PostOffice' => str_contains($carrierCode, 'russianpost'),
+                'Cdek' => str_contains($carrierCode, 'cdek'),
                 default => false,
             };
         });
@@ -121,9 +130,12 @@ final class ShippingCalculationService
             return null;
         }
 
-        $minPrice = $filtered->min('price');
+        $minPrice = $filtered->min(fn (array $offer): ?float => isset($offer['service']['total'])
+            ? (float) $offer['service']['total']
+            : null
+        );
 
-        return $minPrice !== null ? (int) ceil((float) $minPrice) : null;
+        return $minPrice !== null ? (int) ceil($minPrice) : null;
     }
 
     /**
