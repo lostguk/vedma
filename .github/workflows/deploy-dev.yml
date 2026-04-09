@@ -55,8 +55,12 @@ jobs:
             # Run app maintenance inside the container in one shell to avoid exec/tty issues
             docker compose -f docker-compose.dev.yml exec -T app sh -lc '
               set -e
-              echo "Installing/updating PHP dependencies..."
-              composer install --no-interaction --prefer-dist --optimize-autoloader
+              echo "Installing/updating PHP dependencies (if Composer is available)..."
+              if command -v composer >/dev/null 2>&1; then
+                composer install --no-interaction --prefer-dist --optimize-autoloader
+              else
+                echo "COMPOSER_NOT_FOUND_IN_CONTAINER: skip composer install"
+              fi
               echo "Running incremental migrations..."
               php artisan migrate --force
               echo "MIGRATE_OK"
