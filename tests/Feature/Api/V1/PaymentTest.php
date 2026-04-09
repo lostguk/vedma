@@ -43,6 +43,44 @@ it('создает платеж и возвращает ссылку на опл
     ]);
 });
 
+it('добавляет payment public_id в returnUrl и failUrl при регистрации', function (): void {
+    Http::fake([
+        '*' => Http::response(['orderId' => 'ext-order-return', 'formUrl' => 'https://pay.test/form-return'], 200),
+    ]);
+
+    $order = Order::factory()->create([
+        'total_price_without_discount' => 500,
+        'total_price_with_discount' => 500,
+        'total_price' => 500,
+        'delivery_price' => 0,
+    ]);
+
+    $response = $this->postJson('/api/v1/payments', [
+        'order_id' => $order->id,
+        'success_url' => 'https://shop.test/payment-success?order_id='.$order->id,
+        'fail_url' => 'https://shop.test/payment-error?order_id='.$order->id,
+    ]);
+
+    $response->assertOk();
+
+    $payment = Payment::query()->where('order_id', $order->id)->first();
+    expect($payment)->not->toBeNull();
+
+    Http::assertSent(function (\Illuminate\Http\Client\Request $request) use ($payment, $order): bool {
+        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+            return false;
+        }
+
+        $returnUrl = (string) ($request['returnUrl'] ?? '');
+        $failUrl = (string) ($request['failUrl'] ?? '');
+
+        return str_contains($returnUrl, 'payment='.$payment->public_id)
+            && str_contains($returnUrl, 'order_id='.$order->id)
+            && str_contains($failUrl, 'payment='.$payment->public_id)
+            && str_contains($failUrl, 'order_id='.$order->id);
+    });
+});
+
 it('обновляет статус платежа через API статуса', function (): void {
     Http::fake([
         '*' => Http::response(['orderStatus' => 2], 200),

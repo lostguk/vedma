@@ -44,12 +44,12 @@ class PaymentStoreRequest extends FormRequest
                 'example' => 1,
             ],
             'success_url' => [
-                'description' => 'URL для редиректа после успешной оплаты',
-                'example' => 'https://shop.example.com/payment/success',
+                'description' => 'URL для редиректа после успешной оплаты. К нему будет добавлен query-параметр payment (public_id платежа).',
+                'example' => 'https://shop.example.com/payment/success?order_id=1',
             ],
             'fail_url' => [
-                'description' => 'URL для редиректа после ошибки оплаты',
-                'example' => 'https://shop.example.com/payment/fail',
+                'description' => 'URL для редиректа после ошибки оплаты. К нему будет добавлен query-параметр payment (public_id платежа).',
+                'example' => 'https://shop.example.com/payment/fail?order_id=1',
             ],
         ];
     }

@@ -53,6 +53,10 @@ final readonly class PaymentService
             'currency' => (string) config('services.alfabank.currency', 'RUB'),
         ]);
 
+        $publicId = (string) $payment->public_id;
+        $successUrl = $this->appendPaymentPublicId($successUrl, $publicId);
+        $failUrl = $this->appendPaymentPublicId($failUrl, $publicId);
+
         try {
             $fiscalData = $this->bundleBuilder->build($order);
             $response = $this->gateway->registerOrder($order, $payment, $successUrl, $failUrl, $fiscalData);
@@ -162,6 +166,55 @@ final readonly class PaymentService
         $this->syncOrderStatus($payment);
 
         return $payment;
+    }
+
+    /**
+     * Добавляет query-параметр payment (public_id) для страниц возврата с банка.
+     */
+    private function appendPaymentPublicId(?string $url, string $publicId): ?string
+    {
+        if ($url === null || trim($url) === '') {
+            return $url;
+        }
+
+        $trimmed = trim($url);
+        $parts = parse_url($trimmed);
+        if ($parts === false) {
+            return $trimmed;
+        }
+
+        parse_str($parts['query'] ?? '', $query);
+        $query['payment'] = $publicId;
+        $queryString = http_build_query($query);
+
+        $result = '';
+
+        if (isset($parts['scheme'], $parts['host'])) {
+            $result .= $parts['scheme'].'://';
+            if (isset($parts['user'])) {
+                $result .= $parts['user'];
+                if (isset($parts['pass'])) {
+                    $result .= ':'.$parts['pass'];
+                }
+                $result .= '@';
+            }
+            $result .= $parts['host'];
+            if (isset($parts['port'])) {
+                $result .= ':'.$parts['port'];
+            }
+        }
+
+        $result .= $parts['path'] ?? '';
+
+        if ($queryString !== '') {
+            $result .= '?'.$queryString;
+        }
+
+        if (isset($parts['fragment'])) {
+            $result .= '#'.$parts['fragment'];
+        }
+
+        return $result;
     }
 
     private function calculateAmount(Order $order): int
