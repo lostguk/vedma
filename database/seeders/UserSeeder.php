@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'last_name' => 'System',
             'middle_name' => 'Root',
             'email' => 'admin@admin.ru',
-            'password' => 'admin',
+            'password' => 'Adm!nV3dma#2026',
             'phone' => '+7 999 999 99 99',
             'address' => 'ул. Администраторская, д. 1',
         ],
