@@ -62,7 +62,11 @@ DESC),
 
                 'stock' => 25,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
-                'image' => database_path('seeders/products/krasnye-tonkie-svechi.jpg'),
+                'image' => [
+                    database_path('seeders/products/krasnye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/chernye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/rozovye-tonkie-svechi.jpg'),
+                ],
             ],
             [
                 'name' => 'Белые тонкие свечи восковые',
@@ -83,7 +87,10 @@ DESC),
 
                 'stock' => 30,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
-                'image' => database_path('seeders/products/belye-tonkie-svechi.jpg'),
+                'image' => [
+                    database_path('seeders/products/belye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/golubye-tonkie-svechi.jpg'),
+                ],
             ],
             [
                 'name' => 'Голубые тонкие свечи восковые',
@@ -150,7 +157,11 @@ DESC),
 
                 'stock' => 10,
                 'categories' => ['vse-svechi', 'tonkie-svechi', 'svechi-dlya-privlecheniya-deneg'],
-                'image' => database_path('seeders/products/nedosyagaemost.jpg'),
+                'image' => [
+                    database_path('seeders/products/nedosyagaemost.jpg'),
+                    database_path('seeders/products/dyhanie-polej.jpg'),
+                    database_path('seeders/products/letnie-grozy.jpg'),
+                ],
             ],
             [
                 'name' => 'Дыхание Полей тонкие цветочные свечи с полынью',
@@ -196,7 +207,11 @@ DESC),
 
                 'stock' => 8,
                 'categories' => ['vse-svechi', 'tonkie-svechi', 'lyubovnye-svechi'],
-                'image' => database_path('seeders/products/chary-lyubvi.jpg'),
+                'image' => [
+                    database_path('seeders/products/chary-lyubvi.jpg'),
+                    database_path('seeders/products/shipovnik-tonkie-svechi.jpg'),
+                    database_path('seeders/products/lavanda-tonkie-svechi.jpg'),
+                ],
             ],
             [
                 'name' => 'Календула тонкие свечи цветочные восковые',
@@ -240,7 +255,12 @@ DESC),
 
                 'stock' => 5,
                 'categories' => ['vse-svechi', 'tonkie-svechi'],
-                'image' => database_path('seeders/products/raduga-chakry-i-ochishenie.jpg'),
+                'image' => [
+                    database_path('seeders/products/raduga-chakry-i-ochishenie.jpg'),
+                    database_path('seeders/products/krasnye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/zelenye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/golubye-tonkie-svechi.jpg'),
+                ],
             ],
             [
                 'name' => 'Тонкие свечи восковые набор 1000 штук',
@@ -303,7 +323,11 @@ DESC),
 
                 'stock' => 35,
                 'categories' => ['vse-svechi', 'tsvetnye-svechi'],
-                'image' => database_path('seeders/products/rozovye-tonkie-svechi.jpg'),
+                'image' => [
+                    database_path('seeders/products/rozovye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/biryuzovye-tonkie-svechi.jpg'),
+                    database_path('seeders/products/perlamutrovye-molochnye-svechi.jpg'),
+                ],
             ],
             [
                 'name' => 'Бирюзовые тонкие свечи восковые',
@@ -408,7 +432,11 @@ DESC),
 
                 'stock' => 15,
                 'categories' => ['vse-svechi', 'ritualnye-svechi', 'lyubovnye-svechi'],
-                'image' => database_path('seeders/products/shipovnik-tonkie-svechi.jpg'),
+                'image' => [
+                    database_path('seeders/products/shipovnik-tonkie-svechi.jpg'),
+                    database_path('seeders/products/chary-lyubvi.jpg'),
+                    database_path('seeders/products/kalendula.jpg'),
+                ],
             ],
             [
                 'name' => 'Лаванда тонкие свечи цветочные восковые',
@@ -450,7 +478,11 @@ DESC),
 
                 'stock' => null,
                 'categories' => ['uslugi', 'gadaniya'],
-                'image' => database_path('seeders/products/gadanie-taro.jpg'),
+                'image' => [
+                    database_path('seeders/products/gadanie-taro.jpg'),
+                    database_path('seeders/products/gadanie-runy.jpg'),
+                    database_path('seeders/products/konsultatsiya.jpg'),
+                ],
             ],
             [
                 'name' => 'Гадание на рунах — ответ на вопрос',
@@ -492,7 +524,11 @@ DESC),
 
                 'stock' => null,
                 'categories' => ['uslugi', 'konsultatsii'],
-                'image' => database_path('seeders/products/konsultatsiya.jpg'),
+                'image' => [
+                    database_path('seeders/products/konsultatsiya.jpg'),
+                    database_path('seeders/products/gadanie-taro.jpg'),
+                    database_path('seeders/products/gadanie-runy.jpg'),
+                ],
             ],
         ]);
 
@@ -515,10 +551,13 @@ DESC),
                 $product->categories()->attach($categoryIds);
             }
 
-            if (file_exists($imagePath)) {
-                $product->addMedia($imagePath)
-                    ->preservingOriginal()
-                    ->toMediaCollection(Product::IMAGES_COLLECTION, 'public');
+            $imagePaths = is_array($imagePath) ? $imagePath : [$imagePath];
+            foreach ($imagePaths as $path) {
+                if (file_exists($path)) {
+                    $product->addMedia($path)
+                        ->preservingOriginal()
+                        ->toMediaCollection(Product::IMAGES_COLLECTION, 'public');
+                }
             }
 
             $createdProducts->push($product);

@@ -110,8 +110,8 @@ prod_up() {
     check_env
     check_docker
 
-    log "Запуск продакшн окружения..."
-    docker compose -f docker-compose.production.yml up -d
+    log "Запуск продакшн окружения (без пересборки образов)..."
+    docker compose -f docker-compose.production.yml up -d --no-build
 
     info "✅ Продакшн запущен:"
     info "🌐 Web: http://localhost:8080"
@@ -135,7 +135,31 @@ prod_logs() {
 
 # ===== ОБЩИЕ КОМАНДЫ =====
 
+migrate_db() {
+    log "Докатывание миграций..."
+    ./vendor/bin/sail artisan migrate --force
+}
+
+deploy() {
+    log "Обновление проекта: composer + миграции + кэш..."
+    log "1/4 — Установка зависимостей..."
+    ./vendor/bin/sail composer install --no-interaction
+    log "2/4 — Докатывание миграций..."
+    ./vendor/bin/sail artisan migrate --force
+    log "3/4 — Очистка кэшей..."
+    ./vendor/bin/sail artisan config:clear
+    ./vendor/bin/sail artisan cache:clear
+    ./vendor/bin/sail artisan route:clear
+    ./vendor/bin/sail artisan view:clear
+    log "4/4 — Оптимизация..."
+    ./vendor/bin/sail artisan config:cache
+    ./vendor/bin/sail artisan route:cache
+    info "✅ Проект обновлён!"
+}
+
 reset_db() {
+    warning "⚠️  ВНИМАНИЕ: Это полностью сбросит базу данных и пересоздаст её с нуля!"
+    warning "Если нужно только докатить миграции — используйте: ./dev.sh migrate"
     log "Сброс базы данных..."
     ./vendor/bin/sail artisan migrate:fresh --seed --force
 }
@@ -238,12 +262,13 @@ docker_clean() {
 dev_up() {
     check_env
     check_docker
-    log "Запуск DEV окружения..."
-    docker compose -f docker-compose.dev.yml up -d
+    log "Запуск DEV окружения (без пересборки образов)..."
+    docker compose -f docker-compose.dev.yml up -d --no-build
     info "✅ DEV окружение запущено:"
     info "🌐 Web: http://localhost:8000"
     info "🗄️ MySQL: localhost:3307"
     info "📚 Redis: localhost:6380"
+    info "💡 Для пересборки образов используйте: ./dev.sh dev-build"
 }
 
 dev_down() {
@@ -252,7 +277,7 @@ dev_down() {
 }
 
 dev_restart() {
-    log "Перезапуск DEV окружения..."
+    log "Перезапуск DEV окружения (без пересборки образов)..."
     dev_down
     dev_up
 }
@@ -311,7 +336,31 @@ dev_ide_helper() {
     docker compose -f docker-compose.dev.yml exec app php artisan ide-helper:meta
 }
 
+dev_migrate() {
+    log "Докатывание миграций (DEV, без сброса данных)..."
+    docker compose -f docker-compose.dev.yml exec app php artisan migrate --force
+}
+
+dev_deploy() {
+    log "Обновление проекта (DEV): composer + миграции + кэш..."
+    log "1/4 — Установка зависимостей..."
+    docker compose -f docker-compose.dev.yml exec app composer install --no-interaction
+    log "2/4 — Докатывание миграций..."
+    docker compose -f docker-compose.dev.yml exec app php artisan migrate --force
+    log "3/4 — Очистка кэшей..."
+    docker compose -f docker-compose.dev.yml exec app php artisan config:clear
+    docker compose -f docker-compose.dev.yml exec app php artisan cache:clear
+    docker compose -f docker-compose.dev.yml exec app php artisan route:clear
+    docker compose -f docker-compose.dev.yml exec app php artisan view:clear
+    log "4/4 — Оптимизация..."
+    docker compose -f docker-compose.dev.yml exec app php artisan config:cache
+    docker compose -f docker-compose.dev.yml exec app php artisan route:cache
+    info "✅ Проект обновлён!"
+}
+
 migrate_fresh_dev() {
+    warning "⚠️  ВНИМАНИЕ: Это полностью сбросит базу данных и пересоздаст её с нуля!"
+    warning "Если нужно только докатить миграции — используйте: ./dev.sh dev-migrate"
     log "Миграции + сиды (DEV, fresh, force)..."
     docker compose -f docker-compose.dev.yml exec app php artisan migrate:fresh --seed --force
 }
@@ -332,8 +381,10 @@ help() {
     echo "  prod-down       Остановка продакшн"
     echo "  prod-logs [srv] Логи продакшн (app, mysql, redis)"
     echo ""
-    echo -e "${YELLOW}РАЗРАБОТКА:${NC}"
-    echo "  reset-db        Сброс БД + сиды"
+    echo -e "${YELLOW}РАЗРАБОТКА (Sail):${NC}"
+    echo "  deploy          Обновить проект: composer + migrate + cache clear"
+    echo "  migrate         Докатить миграции (без сброса базы)"
+    echo "  reset-db        ⚠️  СБРОС БД + сиды (деструктивно)"
     echo "  test            Запуск тестов"
     echo "  docs            Генерация API документации"
     echo "  cache           Очистка кэшей"
@@ -351,30 +402,33 @@ help() {
     echo "  docker-clean --aggressive  Агрессивная очистка (остановит все контейнеры)"
     echo ""
     echo -e "${YELLOW}DEV-ОКРУЖЕНИЕ:${NC}"
-    echo "  dev-up           Запуск DEV окружения"
+    echo "  dev-up           Запуск DEV (без пересборки образов)"
     echo "  dev-down         Остановка DEV окружения"
-    echo "  dev-restart      Перезапуск DEV окружения"
-    echo "  dev-build        Сборка DEV образов (с кэшем)"
+    echo "  dev-restart      Перезапуск DEV (без пересборки)"
+    echo "  dev-build        Сборка DEV образов (только первый раз или при изменении Dockerfile)"
     echo "  dev-build --no-cache  Полная пересборка без кэша"
+    echo "  dev-deploy       Обновить проект: composer + migrate + cache clear"
+    echo "  dev-migrate      Докатить миграции (без сброса базы)"
+    echo "  dev-freshdb      ⚠️  СБРОС БД + сиды (деструктивно, пересоздаёт базу с нуля)"
     echo "  dev-logs [srv]   Логи DEV (app, mysql_dev, redis_dev)"
     echo "  dev-shell        Консоль в DEV app"
     echo "  dev-artisan [c]  Artisan в DEV"
     echo "  dev-composer [c] Composer в DEV"
-    echo "  docs-dev     Генерация документации (DEV)"
-    echo "  dev-freshdb  Миграции + сиды (fresh, force, DEV)"
+    echo "  docs-dev         Генерация документации (DEV)"
     echo "  dev-test         Запуск тестов (DEV)"
     echo "  dev-lint         Форматирование кода Pint (DEV)"
     echo "  dev-filament-cache  Очистка кэша Filament (DEV)"
     echo "  dev-ide-helper   Генерация IDE helper (DEV)"
     echo ""
     echo -e "${YELLOW}ПРИМЕРЫ:${NC}"
-    echo "  ./dev.sh up                    # Запуск разработки"
-    echo "  ./dev.sh artisan migrate       # Миграции"
-    echo "  ./dev.sh shell                 # Консоль PHP контейнера"
+    echo "  ./dev.sh dev-build             # Первичная сборка образов (один раз)"
+    echo "  ./dev.sh dev-up                # Запуск DEV (образы НЕ пересобираются)"
+    echo "  ./dev.sh dev-deploy            # Обновить проект (composer + migrate + cache)"
+    echo "  ./dev.sh dev-migrate           # Только докатить новые миграции"
+    echo "  ./dev.sh dev-artisan migrate   # Artisan команда в DEV"
+    echo "  ./dev.sh dev-shell             # Консоль в DEV контейнер"
     echo "  ./dev.sh prod-build            # Сборка продакшн (с кэшем)"
-    echo "  ./dev.sh prod-build --no-cache # Полная пересборка"
-    echo "  ./dev.sh prod-up              # Запуск продакшн (автоочистка)"
-    echo "  ./dev.sh prod-logs nginx      # Логи nginx в продакшн"
+    echo "  ./dev.sh prod-up               # Запуск продакшн (автоочистка)"
     echo ""
     echo -e "${BLUE}Для разработки используйте команды без префикса.${NC}"
     echo -e "${BLUE}Для продакшна используйте команды с префиксом 'prod-'.${NC}"
@@ -411,6 +465,12 @@ case "${1:-help}" in
         ;;
 
     # Разработка
+    migrate)
+        migrate_db
+        ;;
+    deploy)
+        deploy
+        ;;
     reset-db)
         reset_db
         ;;
@@ -485,6 +545,12 @@ case "${1:-help}" in
         ;;
     dev-docs)
         gen_docs_dev
+        ;;
+    dev-migrate)
+        dev_migrate
+        ;;
+    dev-deploy)
+        dev_deploy
         ;;
     dev-freshdb)
         migrate_fresh_dev

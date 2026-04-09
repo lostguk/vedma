@@ -80,11 +80,15 @@ class ProductResource extends Resource
                         SpatieMediaLibraryFileUpload::make('images')
                             ->collection(Product::IMAGES_COLLECTION)
                             ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
                             ->image()
                             ->disk('public')
                             ->directory('products')
                             ->visibility('public')
                             ->maxSize(1024 * 2)
+                            ->maxFiles(10)
+                            ->helperText('Перетащите изображения для изменения порядка. Первое изображение будет главным.')
                             ->columnSpanFull(),
                     ]),
 

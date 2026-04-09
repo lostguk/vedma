@@ -37,7 +37,7 @@ class ProductResource extends JsonResource
                 ->all(),
             'image_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION),
             'preview_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'preview'),
-            'thumb_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'preview'),
+            'thumb_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'thumb'),
             'thumb_small_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'thumb'),
             'stock' => $this->stock,
             'in_stock' => $this->isInStock(),

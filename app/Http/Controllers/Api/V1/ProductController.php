@@ -85,7 +85,7 @@ final class ProductController extends ApiController
         $query = $filterService->apply($filters);
 
         // Add eager loading and paginate
-        $products = $query->with(['categories', 'related.media'])
+        $products = $query->with(['categories', 'media', 'related.media'])
             ->paginate($filters['per_page']);
 
         return ProductResource::collection($products);
@@ -163,7 +163,7 @@ final class ProductController extends ApiController
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $loadedProduct = $product->load(['categories', 'related.media']);
+        $loadedProduct = $product->load(['categories', 'media', 'related.media']);
 
         return new ProductResource($loadedProduct);
     }
