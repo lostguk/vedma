@@ -37,28 +37,12 @@ jobs:
             git stash
             git pull origin dev
 
-            # Проверяем, были ли изменения в Dockerfile или composer.json
-            # Используем кэш по умолчанию, полная пересборка только при изменениях
-            if git rev-parse HEAD~1 >/dev/null 2>&1; then
-              DOCKERFILE_CHANGED=$(git diff HEAD~1 HEAD --name-only | grep -E "(Dockerfile|composer\.(json|lock))" || true)
-              if [ -n "$DOCKERFILE_CHANGED" ]; then
-                echo "Обнаружены изменения в Dockerfile или composer.json, делаем полную пересборку..."
-                docker compose -f docker-compose.dev.yml build --no-cache
-              else
-                echo "Изменений в Dockerfile нет, используем кэш..."
-                docker compose -f docker-compose.dev.yml build
-              fi
-            else
-              echo "Первый коммит или нет истории, используем кэш..."
-              docker compose -f docker-compose.dev.yml build
-            fi
+            # Запускаем/поднимаем контейнеры без сборки и без пересоздания.
+            # Это оставляет Docker-слой неизменным между деплоями.
+            docker compose -f docker-compose.dev.yml up -d --no-build --no-recreate
 
-            # Запускаем контейнеры
-            docker compose -f docker-compose.dev.yml up -d
-
-            # Очищаем старые образы (старше 3 дней)
-            echo "Очистка старых образов..."
-            docker image prune -a -f --filter "until=72h" || true
+            # Перезапускаем только app-контейнер, чтобы подхватить изменения кода.
+            docker compose -f docker-compose.dev.yml restart app
             # wait for app container to become healthy (max ~60s)
             i=0; until [ "$i" -ge 30 ]; do
               STATUS=$(docker ps --filter "name=vedma_dev_app" --format "{{.Status}}")
@@ -69,13 +53,13 @@ jobs:
             done
 
             # Run app maintenance inside the container in one shell to avoid exec/tty issues
-            docker-compose -f docker-compose.dev.yml exec -T app sh -lc '
+            docker compose -f docker-compose.dev.yml exec -T app sh -lc '
               set -e
-              echo "Running migrations..."
-              php artisan migrate:fresh --force
+              echo "Installing/updating PHP dependencies..."
+              composer install --no-interaction --prefer-dist --optimize-autoloader
+              echo "Running incremental migrations..."
+              php artisan migrate --force
               echo "MIGRATE_OK"
-              echo "Seeding database..."
-              php artisan db:seed --force || echo "SEED_FAILED"
               echo "Generating API docs..."
               php artisan scribe:generate --no-interaction --force || echo "SCRIBE_FAILED"
               echo "Listing Scribe outputs..."
