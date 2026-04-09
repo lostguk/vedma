@@ -6,13 +6,11 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -101,16 +99,6 @@ class CategoryResource extends Resource
                                     ->nullable()
                                     ->helperText('Выберите родительскую категорию, если это подкатегория'),
                             ]),
-
-                        Forms\Components\Section::make('Медиа')
-                            ->schema([
-                                SpatieMediaLibraryFileUpload::make('icon')
-                                    ->label('Иконка')
-                                    ->collection('icon')
-                                    ->image()
-                                    ->downloadable()
-                                    ->columnSpanFull(),
-                            ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -139,11 +127,6 @@ class CategoryResource extends Resource
         return $table
             ->defaultSort('id')
             ->columns([
-                SpatieMediaLibraryImageColumn::make('icon')
-                    ->label('Иконка')
-                    ->circular()
-                    ->collection('icon'),
-
                 TextColumn::make('name')
                     ->label('Название')
                     ->searchable()

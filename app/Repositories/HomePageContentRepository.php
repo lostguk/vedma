@@ -17,11 +17,7 @@ final class HomePageContentRepository extends BaseRepository
     {
         /** @var HomePageContent $record */
         $record = $this->model->newQuery()
-            ->with([
-                'categories' => function ($query) {
-                    $query->with('media');
-                },
-            ])
+            ->with(['categories'])
             ->firstOrFail();
 
         return $record;

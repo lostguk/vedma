@@ -138,9 +138,9 @@ final class ProductController extends ApiController
      *         "name": "Ароматические свечи",
      *         "slug": "aromaticheskie-svechi",
      *         "description": "Свечи с различными ароматами",
-     *         "icon": "http://localhost:8000/storage/7/candle4.svg",
      *         "parent_id": null,
-     *         "is_visible": true
+     *         "is_visible": true,
+     *         "exclude_from_shipping": false
      *       }
      *     ],
      *     "related": [],

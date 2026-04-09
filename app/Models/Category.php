@@ -11,9 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection as SupportCollection;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -31,8 +28,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read string $full_path
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\HomePageContent> $homePageContents
  * @property-read int|null $home_page_contents_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, Media> $media
- * @property-read int|null $media_count
  * @property-read Category|null $parent
  *
  * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
@@ -53,9 +48,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  *
  * @mixin \Eloquent
  */
-final class Category extends Model implements HasMedia
+final class Category extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -74,21 +69,6 @@ final class Category extends Model implements HasMedia
     protected $appends = [
         'full_path',
     ];
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('icon')
-            ->singleFile()
-            ->useDisk('public');
-    }
-
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-            ->width(100)
-            ->height(100)
-            ->performOnCollections('icon');
-    }
 
     public function parent(): BelongsTo
     {

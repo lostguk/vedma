@@ -26,7 +26,6 @@ final class HomePageCategoryResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'icon' => $this->getFirstMediaUrl('icon'),
             'parent_id' => $this->parent_id,
             'is_visible' => $this->is_visible,
             'products' => ProductResource::collection($products),

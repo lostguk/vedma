@@ -80,7 +80,6 @@ final class HomePageContentController extends ApiController
      *         "name": "Ритуальные Свечи",
      *         "slug": "ritualnye-svechi",
      *         "description": "Свечи для различных ритуалов",
-     *         "icon": "http://localhost:8000/storage/1/icon.svg",
      *         "parent_id": null,
      *         "is_visible": true,
      *         "products": [

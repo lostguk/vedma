@@ -25,9 +25,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  * - `name` - Название категории
  * - `slug` - Уникальный текстовый идентификатор для URL
  * - `description` - Описание категории
- * - `icon` - URL иконки категории
  * - `parent_id` - ID родительской категории (null для корневых категорий)
  * - `is_visible` - Флаг видимости категории
+ * - `exclude_from_shipping` - Исключение категории из расчёта доставки
  * - `children` - Массив дочерних категорий (если запрошены)
  *
  * ## Использование API категорий
@@ -54,18 +54,18 @@ final class CategoryController extends ApiController
      *             "name": "Все свечи",
      *             "slug": "vse-svechi",
      *             "description": "Категория, включающая все типы свечей",
-     *             "icon": "http://localhost:8000/storage/1/candle2.svg",
      *             "parent_id": null,
      *             "is_visible": true,
+     *             "exclude_from_shipping": false,
      *             "children": [
      *                 {
      *                     "id": 2,
      *                     "name": "Ритуальные Свечи",
      *                     "slug": "ritualnye-svechi",
      *                     "description": "Свечи для различных ритуалов и церемоний",
-     *                     "icon": "http://localhost:8000/storage/2/candle3.svg",
      *                     "parent_id": 1,
-     *                     "is_visible": true
+     *                     "is_visible": true,
+     *                     "exclude_from_shipping": false
      *                 }
      *             ]
      *         }
@@ -77,9 +77,8 @@ final class CategoryController extends ApiController
         $query = Category::query()
             ->root()
             ->with([
-                'media',
-                'children.media',
-                'children.children.media',
+                'children',
+                'children.children',
             ]);
 
         if (! request()->boolean('show_hidden')) {
@@ -104,27 +103,27 @@ final class CategoryController extends ApiController
      *         "name": "Ритуальные Свечи",
      *         "slug": "ritualnye-svechi",
      *         "description": "Свечи для различных ритуалов и церемоний",
-     *         "icon": "http://localhost:8000/storage/2/candle3.svg",
      *         "parent_id": 1,
      *         "is_visible": true,
+     *         "exclude_from_shipping": false,
      *         "children": [
      *             {
      *                 "id": 5,
      *                 "name": "Свечи для привлечения денег",
      *                 "slug": "svechi-dlya-privlecheniya-deneg",
      *                 "description": "Специальные свечи для денежных ритуалов",
-     *                 "icon": "http://localhost:8000/storage/5/candle2.svg",
      *                 "parent_id": 2,
-     *                 "is_visible": true
+     *                 "is_visible": true,
+     *                 "exclude_from_shipping": false
      *             },
      *             {
      *                 "id": 6,
      *                 "name": "Любовные свечи",
      *                 "slug": "lyubovnye-svechi",
      *                 "description": "Свечи для привлечения любви и укрепления отношений",
-     *                 "icon": "http://localhost:8000/storage/6/candle2.svg",
      *                 "parent_id": 2,
-     *                 "is_visible": true
+     *                 "is_visible": true,
+     *                 "exclude_from_shipping": false
      *             }
      *         ]
      *     }
@@ -137,7 +136,7 @@ final class CategoryController extends ApiController
     {
         $category = Category::query()
             ->where('slug', $slug)
-            ->with(['media', 'children.media', 'parent'])
+            ->with(['children', 'children.children', 'parent'])
             ->firstOrFail();
 
         return new CategoryResource($category);
