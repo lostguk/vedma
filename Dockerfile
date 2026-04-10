@@ -109,3 +109,9 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
+
+# DEV-образ на базе production c установленным composer
+FROM production AS development
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1

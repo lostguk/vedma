@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
+      target: development
     image: vedma-shop:dev
     container_name: vedma_dev_app
     restart: unless-stopped
