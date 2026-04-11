@@ -23,7 +23,7 @@ class ListProducts extends ListRecords
                 ->action(function () {
                     $exporter = app(StockExcelExporter::class);
                     $filePath = $exporter->export();
-                    $fileName = 'stock-' . now()->format('Y-m-d') . '.xlsx';
+                    $fileName = 'stock-'.now()->format('Y-m-d').'.xlsx';
 
                     return response()->download($filePath, $fileName, [
                         'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

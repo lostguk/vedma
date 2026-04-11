@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Shipping;
 
 use App\Models\Product;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
