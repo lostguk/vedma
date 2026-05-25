@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\V1;
 
 use App\Http\Requests\Api\ApiRequest;
-use App\Models\Topic;
 use Illuminate\Validation\Rules\File;
 
 /**
@@ -38,10 +37,11 @@ final class MessageStoreRequest extends ApiRequest
             'attachments.*' => [
                 'file',
                 'mimes:jpeg,jpg,png,webp,pdf',
-//                'max:' . (2 * 1024), // 2MB
+                // 'max:' . (2 * 1024), // 2MB
             ],
         ];
     }
+
     public function bodyParameters(): array
     {
         return [

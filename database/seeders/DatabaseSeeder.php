@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         PromoCodeSeeder::class,
         PageSeeder::class,
         OrderSeeder::class,
+        PaymentSeeder::class,
+        HomePageContentSeeder::class,
+        HeroSlideSeeder::class,
     ];
 
     /**

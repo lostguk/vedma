@@ -23,13 +23,73 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'old_price' => $this->old_price,
+            'is_new' => $this->is_new,
+            'is_bestseller' => $this->is_bestseller,
             'dimensions' => $this->dimensions,
+            'breadcrumbs' => $this->when(
+                $request->routeIs('api.v1.products.show'),
+                fn () => $this->getBreadcrumbs()
+            ),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'related' => ProductResource::collection($this->whenLoaded('related')),
-            'images_urls' => $this->getFirstMediaUrl('images'),
-            'thumb_url' => $this->getFirstMediaUrl('images', 'thumb'),
+            'images_urls' => $this->getMedia(Product::IMAGES_COLLECTION)
+                ->map(fn ($media) => $media->getUrl())
+                ->all(),
+            'image_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION),
+            'preview_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'preview'),
+            'thumb_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'thumb'),
+            'thumb_small_url' => $this->getFirstMediaUrl(Product::IMAGES_COLLECTION, 'thumb'),
+            'stock' => $this->stock,
+            'in_stock' => $this->isInStock(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    private function getBreadcrumbs(): array
+    {
+        $breadcrumbs = [
+            [
+                'name' => 'Главная',
+                'slug' => '/',
+                'type' => 'home',
+            ],
+        ];
+
+        /** @var \App\Models\Category|null $category */
+        $categories = $this->categories;
+
+        // Find the "deepest" category (one that is not a parent of any other assigned category)
+        $category = $categories->first(function ($cat) use ($categories) {
+            return ! $categories->contains('parent_id', $cat->id);
+        });
+
+        $category = $category ?? $categories->first();
+
+        if ($category) {
+            $categoryChain = collect();
+            $current = $category;
+
+            // Prevent infinite loop
+            $depth = 0;
+            while ($current && $depth < 10) {
+                $categoryChain->prepend([
+                    'name' => $current->name,
+                    'slug' => $current->slug,
+                    'type' => 'category',
+                ]);
+                $current = $current->parent;
+                $depth++;
+            }
+            $breadcrumbs = array_merge($breadcrumbs, $categoryChain->toArray());
+        }
+
+        $breadcrumbs[] = [
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'type' => 'product',
+        ];
+
+        return $breadcrumbs;
     }
 }

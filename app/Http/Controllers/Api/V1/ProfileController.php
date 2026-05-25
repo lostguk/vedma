@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\Api\V1\UpdateProfileRequest;
 use App\Http\Resources\V1\UserResource;
+use App\Models\User;
 use App\Services\User\UserProfileService;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 final class ProfileController extends ApiController
@@ -38,12 +40,14 @@ final class ProfileController extends ApiController
      *   }
      * }
      */
-    public function show(Request $request, UserProfileService $service): \Illuminate\Http\JsonResponse
+    public function show(UserProfileService $service): JsonResponse
     {
         $user = Auth::user();
-        if (! ($user instanceof \App\Models\User)) {
+
+        if (! ($user instanceof User)) {
             abort(401, 'Unauthorized');
         }
+
         $profile = $service->getProfile($user);
 
         return $this->successResponse(new UserResource($profile));
@@ -82,9 +86,12 @@ final class ProfileController extends ApiController
      *   }
      * }
      */
-    public function update(\App\Http\Requests\Api\V1\UpdateProfileRequest $request, UserProfileService $service): \Illuminate\Http\JsonResponse
+    public function update(UpdateProfileRequest $request, UserProfileService $service): JsonResponse
     {
-        $user = $request->user();
+        $user = Auth::user();
+        if (! ($user instanceof User)) {
+            abort(401, 'Unauthorized');
+        }
         $profile = $service->updateProfile($user, $request->validated());
 
         return $this->successResponse(new UserResource($profile));

@@ -5,18 +5,30 @@ declare(strict_types=1);
 namespace Tests\Feature\Api\V1\Auth;
 
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\ChannelManager;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Notification;
+use RuntimeException;
 use Tests\TestCase;
 
 final class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Notification::fake();
+    }
+
     private array $validData = [
         'first_name' => 'Test',
         'last_name' => 'User',
         'middle_name' => 'Middle',
-        'email' => 'test@example.com',
+        'email' => 'gusengus57@gmail.com',
         'password' => 'password123',
         'password_confirmation' => 'password123',
         'phone' => '+79001234567',
@@ -27,7 +39,7 @@ final class RegisterTest extends TestCase
     {
         $response = $this->postJson(route('api.v1.auth.register'), $this->validData);
 
-        $response->assertStatus(200)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'status',
                 'message',
@@ -50,6 +62,35 @@ final class RegisterTest extends TestCase
             'last_name' => $this->validData['last_name'],
             'middle_name' => $this->validData['middle_name'],
         ]);
+    }
+
+    public function test_registration_email_contains_frontend_link_with_user_and_hash(): void
+    {
+        Notification::fake();
+
+        $this->postJson(route('api.v1.auth.register'), $this->validData)->assertCreated();
+
+        $user = User::where('email', $this->validData['email'])->firstOrFail();
+
+        Notification::assertSentTo(
+            $user,
+            VerifyEmailNotification::class,
+            function (VerifyEmailNotification $notification) use ($user): bool {
+                $mailMessage = $notification->toMail($user);
+                $verificationUrl = $mailMessage->actionUrl;
+
+                $expectedPrefix = rtrim(Config::get('app.frontend_url'), '/')
+                    .'/'.trim(Config::get('app.frontend_verify_path'), '/')
+                    .'/'.$user->getKey()
+                    .'/'.sha1($user->getEmailForVerification());
+
+                $this->assertStringStartsWith($expectedPrefix, $verificationUrl);
+                $this->assertStringContainsString('expires=', $verificationUrl);
+                $this->assertStringContainsString('signature=', $verificationUrl);
+
+                return true;
+            }
+        );
     }
 
     public function test_user_cannot_register_with_existing_email(): void
@@ -128,7 +169,7 @@ final class RegisterTest extends TestCase
 
         $response = $this->postJson(route('api.v1.auth.register'), $data);
 
-        $response->assertStatus(200)
+        $response->assertCreated()
             ->assertJsonStructure([
                 'status',
                 'message',
@@ -150,6 +191,28 @@ final class RegisterTest extends TestCase
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'middle_name' => $data['middle_name'],
+        ]);
+    }
+
+    public function test_register_returns_error_when_verification_email_fails(): void
+    {
+        $this->mock(ChannelManager::class, function ($mock): void {
+            $mock->shouldReceive('send')
+                ->andThrow(new RuntimeException('Mail failed'));
+        });
+
+        $response = $this->postJson(route('api.v1.auth.register'), $this->validData);
+
+        $response->assertUnprocessable()
+            ->assertJsonPath('status', 'error')
+            ->assertJsonPath(
+                'message',
+                'Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.'
+            )
+            ->assertJsonPath('errors.email.0', 'Не удалось доставить письмо подтверждения.');
+
+        $this->assertDatabaseMissing('users', [
+            'email' => $this->validData['email'],
         ]);
     }
 }

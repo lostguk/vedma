@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -23,9 +24,18 @@ final class ProductFilterService
             $query->search($filters['search']);
         }
 
-        // Filter by category
+        // Filter by category (including all descendants)
         if (isset($filters['category']) && $filters['category']) {
-            $query->whereHas('categories', fn ($q) => $q->where('slug', $filters['category']));
+            $category = Category::query()->where('slug', $filters['category'])->first();
+
+            if ($category) {
+                // Collect selected category and all descendant IDs
+                $ids = $category->getAllDescendants()->pluck('id')->prepend($category->id)->unique()->values();
+
+                $query->whereHas('categories', function (Builder $q) use ($ids) {
+                    $q->whereIn('id', $ids->all());
+                });
+            }
         }
 
         // Filter by price range

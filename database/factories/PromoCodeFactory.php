@@ -24,7 +24,7 @@ class PromoCodeFactory extends Factory
             'code' => strtoupper($this->faker->bothify('PROMO####')), // Пример: PROMO1234
             'start_date' => $start->toDateString(),
             'end_date' => $end->toDateString(),
-            'discount_type' => $this->faker->randomElement(['percent', 'fixed']),
+            'discount_type' => 'percent',
             'discount_value' => $this->faker->randomFloat(2, 5, 50),
         ];
     }

@@ -20,8 +20,6 @@ class ProfileControllerTest extends TestCase
 
         $response = $this->getJson('/api/v1/profile');
 
-
-
         $response->assertOk();
         $response->assertJsonStructure([
             'status',

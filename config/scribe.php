@@ -11,14 +11,14 @@ use function Knuckles\Scribe\Config\removeStrategies;
 
 return [
     // The HTML <title> for the generated documentation.
-    'title' => 'API Магазина Магических Товаров',
+    'title' => 'API Магических Товаров',
 
     // A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
     'description' => 'API для интеграции с магазином магических товаров. Позволяет просматривать категории и товары, а также регистрировать новых пользователей.',
 
     // The base URL displayed in the docs.
     // If you're using `laravel` type, you can set this to a dynamic string, like '{{ config("app.tenant_url") }}' to get a dynamic base URL.
-    'base_url' => config('app.url'),
+    'base_url' => '{{ config("app.url") }}',
 
     // Routes to include in the docs
     'routes' => [
@@ -262,8 +262,7 @@ return [
             // ],
         ],
         'skip' => [
-            'attachments',
-            'attachments.*',
+            // Убрали attachments и attachments.* из skip, чтобы Scribe правильно определял форму с файлами
         ],
     ],
 ];

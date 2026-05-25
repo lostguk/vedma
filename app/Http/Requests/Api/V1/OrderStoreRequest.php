@@ -1,23 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Api\V1;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @bodyParam items object[] required Массив позиций заказа. Example: [{"id":1,"count":2}]
- * @bodyParam items[].id int required ID товара. Example: 1
- * @bodyParam items[].count int required Количество. Example: 2
- * @bodyParam promo_code string Промокод. Example: PROMO2208
- * @bodyParam register boolean required Зарегистрировать пользователя. Example: true
- * @bodyParam first_name string required Имя пользователя. Example: Admin
- * @bodyParam last_name string required Фамилия пользователя. Example: System
- * @bodyParam middle_name string required Отчество пользователя. Example: Root
- * @bodyParam email string required Email пользователя. Example: admin@admin.ru
- * @bodyParam phone string Телефон пользователя. Example: +7 999 999 99 99
- * @bodyParam address string required Адрес доставки. Example: ул. Администраторская, д. 1
- * @bodyParam password string Пароль (если регистрация). Example: StrongPass123
- */
 class OrderStoreRequest extends FormRequest
 {
     /**
@@ -31,7 +20,7 @@ class OrderStoreRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -41,11 +30,13 @@ class OrderStoreRequest extends FormRequest
             'items.*.count' => ['required', 'integer', 'gte:1'],
             'promo_code' => ['nullable', 'string', 'max:32'],
             'register' => ['required', 'boolean'],
+            'delivery_type' => ['required', 'in:PostOffice,Cdek'],
             'first_name' => ['required', 'string', 'max:64'],
             'last_name' => ['required', 'string', 'max:64'],
             'middle_name' => ['nullable', 'string', 'max:64'],
             'email' => ['required', 'email', 'max:128'],
-            'address' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:32'],
+            'address' => ['required', 'string', 'max:255'],
             'password' => ['required_if:register,true', 'string', 'min:8', 'max:64'],
         ];
     }
@@ -60,6 +51,7 @@ class OrderStoreRequest extends FormRequest
             'last_name.required' => 'Фамилия обязательна.',
             'email.required' => 'Email обязателен.',
             'email.email' => 'Некорректный email.',
+            'delivery_type' => 'Некорректный тип доставки',
             'password.required_if' => 'Пароль обязателен при регистрации.',
         ];
     }
@@ -120,6 +112,11 @@ class OrderStoreRequest extends FormRequest
             'address' => [
                 'description' => 'Адрес доставки',
                 'example' => 'ул. Администраторская, д. 1',
+            ],
+            'delivery_type' => [
+                'description' => 'Тип доставки (PostOffice или Cdek). Стоимость доставки рассчитывается на сервере автоматически через MetaShip.',
+                'example' => 'PostOffice',
+                'type' => 'string',
             ],
             'password' => [
                 'description' => 'Пароль (если регистрация)',

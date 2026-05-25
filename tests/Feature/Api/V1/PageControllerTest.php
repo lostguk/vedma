@@ -18,6 +18,7 @@ final class PageControllerTest extends TestCase
         $pages = [
             [
                 'title' => 'Главная',
+                'slug' => 'glavnaya',
                 'description' => 'Главная страница',
                 'text' => '<p>Добро пожаловать на наш сайт!</p>',
                 'is_visible_in_header' => true,
@@ -25,6 +26,7 @@ final class PageControllerTest extends TestCase
             ],
             [
                 'title' => 'Оферта',
+                'slug' => 'oferta',
                 'description' => 'Публичная оферта',
                 'text' => '<p>Текст публичной оферты.</p>',
                 'is_visible_in_header' => false,
@@ -42,16 +44,18 @@ final class PageControllerTest extends TestCase
                 'status',
                 'message',
                 'data' => [
-                    '*' => ['id', 'title', 'description', 'text', 'is_visible_in_header', 'is_visible_in_footer'],
+                    '*' => ['id', 'title', 'slug', 'description', 'text', 'is_visible_in_header', 'is_visible_in_footer'],
                 ],
             ])
             ->assertJsonFragment([
                 'title' => 'Главная',
+                'slug' => 'glavnaya',
                 'is_visible_in_header' => true,
                 'is_visible_in_footer' => true,
             ])
             ->assertJsonFragment([
                 'title' => 'Оферта',
+                'slug' => 'oferta',
                 'is_visible_in_header' => false,
                 'is_visible_in_footer' => true,
             ]);
@@ -61,6 +65,7 @@ final class PageControllerTest extends TestCase
     {
         $page = Page::create([
             'title' => 'Контакты',
+            'slug' => 'kontakty',
             'description' => 'Контактная информация',
             'text' => '<p>Свяжитесь с нами по указанным контактам.</p>',
             'is_visible_in_header' => true,
@@ -75,6 +80,7 @@ final class PageControllerTest extends TestCase
                 'data' => [
                     'id' => $page->id,
                     'title' => $page->title,
+                    'slug' => $page->slug,
                     'description' => $page->description,
                     'text' => $page->text,
                     'is_visible_in_header' => true,

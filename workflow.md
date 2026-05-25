@@ -17,16 +17,16 @@
 -   [ ] Проверить существование миграций, сидов, фабрик
 -   [ ] Создать/доработать миграции, сиды, фабрики
 -   [ ] Заполнить миграции, сиды и фабрики. Если у нас есть связи, мы должны заполнить их правильно с уже существующими в базе записями. Для того чтобы у нас не было конфликтов, ошибок и прочих проблем.
--   [ ] Выполнить `./dev.sh reset-db`
+-   [ ] Выполнить `./dev.sh dev-freshdb`
 
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:migration create_tags_table
+docker-compose -f docker-compose.dev.yml exec php php artisan make:migration create_tags_table
 ```
 
 ```bash
-./dev.sh reset-db
+./dev.sh dev-freshdb
 ```
 
 ---
@@ -40,7 +40,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan make:migration c
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:model Tag
+docker-compose -f docker-compose.dev.yml exec php php artisan make:model Tag
 ```
 
 **Пример:**
@@ -68,12 +68,12 @@ final class Tag extends Model
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:filament-resource Tag
+docker-compose -f docker-compose.dev.yml exec php php artisan make:filament-resource Tag
 ```
 
-```bash
+<!-- ```bash
 ./dev.sh filament-cache
-```
+``` -->
 
 ---
 
@@ -112,7 +112,7 @@ public function show(int $id): JsonResponse
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:request Api/V1/TagStoreRequest
+docker-compose -f docker-compose.dev.yml exec php php artisan make:request Api/V1/TagStoreRequest
 ```
 
 ---
@@ -128,7 +128,7 @@ docker-compose -f docker-compose.local.yml exec php php artisan make:request Api
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:resource TagResource
+docker-compose -f docker-compose.dev.yml exec php php artisan make:resource TagResource
 ```
 
 **Пример репозитория:**
@@ -169,7 +169,7 @@ final readonly class TagRepository
 **Пример команды:**
 
 ```bash
-./dev.sh docs
+./dev.sh dev-docs
 ```
 
 ---
@@ -180,12 +180,13 @@ final readonly class TagRepository
 -   [ ] Проверить покрытие тестами
 -   [ ] Все тесты должны проходить
 -   [ ] Если тесты не прошли — исправить ошибки и повторить запуск
+-   [ ] После запуска тестов, нужно всегда фрешить базу ибо при тестах она сбрасывается
 
 **Пример команды:**
 
 ```bash
-docker-compose -f docker-compose.local.yml exec php php artisan make:test TagControllerTest
-./dev.sh test
+docker-compose -f docker-compose.dev.yml exec php php artisan make:test TagControllerTest
+./dev.sh dev-test
 ```
 
 **Пример теста:**
@@ -217,22 +218,26 @@ public function test_can_get_tags(): void
 # Теги
 
 ## Описание
+
 Система тегов позволяет категоризировать товары магазина по различным параметрам.
 
 ## API Endpoints
-- `GET /api/tags` - получение списка тегов
-- `GET /api/tags/{id}` - получение информации о конкретном теге
-- `POST /api/tags` - создание нового тега
-- `PUT /api/tags/{id}` - обновление тега
-- `DELETE /api/tags/{id}` - удаление тега
+
+-   `GET /api/tags` - получение списка тегов
+-   `GET /api/tags/{id}` - получение информации о конкретном теге
+-   `POST /api/tags` - создание нового тега
+-   `PUT /api/tags/{id}` - обновление тега
+-   `DELETE /api/tags/{id}` - удаление тега
 
 ## Модель данных
-- `id` - уникальный идентификатор
-- `name` - название тега
-- `created_at` - дата создания
-- `updated_at` - дата обновления
+
+-   `id` - уникальный идентификатор
+-   `name` - название тега
+-   `created_at` - дата создания
+-   `updated_at` - дата обновления
 
 ## Примеры использования
+
 [примеры кода или скриншоты интерфейса]
 ```
 
@@ -299,9 +304,9 @@ public function test_can_get_tags(): void
 ## Автоматизация и типовые команды
 
 -   Для всех основных задач используйте скрипт `./dev.sh`:
-    -   `./dev.sh reset-db` — полный ресет базы и сиды
-    -   `./dev.sh test` — запуск тестов
-    -   `./dev.sh docs` — генерация документации
+    -   `./dev.sh dev-freshdb` — полный ресет базы и сиды
+    -   `./dev.sh dev-test` — запуск тестов
+    -   `./dev.sh dev-docs` — генерация документации
     -   `./dev.sh filament-cache` — очистка кэша Filament
     -   `./dev.sh lint` — автоформатирование Pint
     -   `./dev.sh ide-helper` — генерация ide-helper

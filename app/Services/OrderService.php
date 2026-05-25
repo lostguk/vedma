@@ -9,9 +9,12 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\Auth\RegistrationService;
+use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use RuntimeException;
 use Throwable;
 
 final readonly class OrderService
@@ -22,6 +25,7 @@ final readonly class OrderService
         private PromoCodeRepository $promoCodeRepository,
         private RegistrationService $registrationService,
         private OrderCalculationService $orderCalculationService,
+        private ShippingCalculationService $shippingCalculationService,
     ) {}
 
     /**
@@ -31,9 +35,11 @@ final readonly class OrderService
      */
     public function createOrder(array $data): Order
     {
+
         return DB::transaction(function () use ($data) {
             // 1. Определяем пользователя
-            $user = Auth::user();
+            $user = Auth::guard('sanctum')->user();
+
             if (! $user && ($data['register'] ?? false)) {
                 $user = $this->registrationService->register([
                     'first_name' => $data['first_name'],
@@ -57,7 +63,12 @@ final readonly class OrderService
             $productIds = collect($data['items'])->pluck('id')->all();
             $products = $this->productRepository->getByIds($productIds)->load('categories');
             $calculated = $this->orderCalculationService->calculate($products, $data['items'], $promo);
-            $total = collect($calculated)->sum('summery');
+            $calculatedItems = $calculated['items'] ?? [];
+            $totalWithoutDiscount = (int) round((float) ($calculated['total_without_discount'] ?? 0));
+            $totalWithDiscount = (int) round((float) ($calculated['total_with_discount'] ?? 0));
+
+            // 3.1. Серверный расчёт стоимости доставки через MetaShip
+            $deliveryPrice = $this->calculateDeliveryPrice($data);
 
             // 4. Создание заказа
             $orderData = [
@@ -69,13 +80,15 @@ final readonly class OrderService
                 'phone' => $data['phone'] ?? null,
                 'address' => $data['address'] ?? null,
                 'promo_code_id' => $promo?->id,
-                'total_price' => $total,
+                'total_price' => $totalWithDiscount,
+                'total_price_without_discount' => $totalWithoutDiscount,
+                'total_price_with_discount' => $totalWithDiscount,
                 'status' => 'new',
                 'payment_type' => null,
                 'paid_at' => null,
                 'comment' => $data['comment'] ?? null,
                 'delivery_type' => $data['delivery_type'] ?? null,
-                'delivery_price' => $data['delivery_price'] ?? null,
+                'delivery_price' => $deliveryPrice,
                 'delivery_status' => null,
                 'delivery_data' => null,
             ];
@@ -83,19 +96,28 @@ final readonly class OrderService
 
             // 5. Создание позиций заказа
             $items = [];
-            foreach ($calculated as $item) {
+            foreach ($calculatedItems as $item) {
                 $items[] = [
                     'product_id' => $item['id'],
                     'name' => $item['name'],
-                    'price' => $item['price'],
+                    'price' => (int) round((float) $item['price']),
                     'count' => $item['count'],
-                    'total' => $item['summery'],
+                    'total' => (int) round((float) $item['summery']),
                 ];
             }
             $this->orderRepository->createOrderItems($order, $items);
 
-            // 6. Имитация оплаты (можно доработать позже)
-            // TODO: реализовать оплату
+            // 6. Списание остатков со склада
+            foreach ($data['items'] as $itemData) {
+                $product = $products->firstWhere('id', $itemData['id']);
+                if ($product && $product->stock !== null) {
+                    $count = (int) $itemData['count'];
+                    if ($product->stock < $count) {
+                        throw new RuntimeException("Недостаточно товара «{$product->name}» на складе. Доступно: {$product->stock} шт.");
+                    }
+                    $product->decrement('stock', $count);
+                }
+            }
 
             return $order;
         });
@@ -107,5 +129,41 @@ final readonly class OrderService
     public function getUserOrders(int $userId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->orderRepository->getByUserId($userId, $perPage);
+    }
+
+    /**
+     * Рассчитать стоимость доставки через MetaShip на основе товаров, адреса и типа доставки.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    private function calculateDeliveryPrice(array $data): ?int
+    {
+        $deliveryType = $data['delivery_type'] ?? null;
+        $address = $data['address'] ?? null;
+
+        if ($deliveryType === null || $address === null) {
+            return null;
+        }
+
+        $shippingProducts = collect($data['items'])->map(fn (array $item): array => [
+            'id' => $item['id'],
+            'quantity' => $item['count'],
+        ])->all();
+
+        $price = $this->shippingCalculationService->calculatePriceForDeliveryType(
+            $shippingProducts,
+            $address,
+            $deliveryType,
+        );
+
+        if ($price === null) {
+            Log::warning('Не удалось рассчитать стоимость доставки через MetaShip', [
+                'delivery_type' => $deliveryType,
+                'address' => $address,
+                'items_count' => count($data['items']),
+            ]);
+        }
+
+        return $price;
     }
 }

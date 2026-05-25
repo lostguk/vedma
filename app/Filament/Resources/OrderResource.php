@@ -6,6 +6,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -59,11 +60,10 @@ class OrderResource extends Resource
                         Select::make('delivery_type')
                             ->label('Тип доставки')
                             ->options([
-                                'pickup' => 'Самовывоз',
-                                'courier' => 'Курьер',
-                                'post' => 'Почта',
+                                'Cdek' => 'CDEK',
+                                'PostOffice' => 'Почта',
                             ])->nullable(),
-                        TextInput::make('delivery_price')->label('Стоимость доставки')->numeric()->nullable()->readOnly()->disabled(),
+                        //                        TextInput::make('delivery_price')->label('Стоимость доставки')->numeric()->nullable()->readOnly()->disabled(),
                         Select::make('delivery_status')
                             ->label('Статус доставки')
                             ->options([
@@ -71,7 +71,7 @@ class OrderResource extends Resource
                                 'shipped' => 'Отправлен',
                                 'delivered' => 'Доставлен',
                             ])->nullable(),
-                        Textarea::make('delivery_data')->label('Данные доставки')->nullable(),
+                        //                        Textarea::make('delivery_data')->label('Данные доставки')->nullable(),
                     ])->columns(2),
                 Section::make('Детали заказа')
                     ->schema([
@@ -81,13 +81,16 @@ class OrderResource extends Resource
                             ->searchable()
                             ->nullable()
                             ->disabled(),
-                        TextInput::make('total_price')->label('Сумма заказа')->numeric()->disabled(),
+                        TextInput::make('total_price_without_discount')->label('Сумма без скидки')->numeric()->disabled(),
+                        TextInput::make('total_price')->label('Сумма со скидкой')->numeric()->disabled(),
                         Select::make('status')
-                            ->label('Статус')
+                            ->label('Статус оплаты')
                             ->options([
                                 'new' => 'Новый',
-                                'processing' => 'В обработке',
+                                'payment_pending' => 'Ожидает оплату',
+                                'payment_failed' => 'Ошибка оплаты',
                                 'paid' => 'Оплачен',
+                                'refunded' => 'Возврат',
                                 'cancelled' => 'Отменён',
                             ])->required()
                             ->disabled(),
@@ -102,6 +105,33 @@ class OrderResource extends Resource
                         DateTimePicker::make('paid_at')->label('Оплачен в')->nullable()->disabled(),
                         Textarea::make('comment')->label('Комментарий'),
                     ])->columns(2),
+                Section::make('Оплата')
+                    ->schema([
+                        Placeholder::make('payment_status')
+                            ->label('Статус платежа')
+                            ->content(static function (?Order $record): string {
+                                $payment = $record?->payments()->latest('id')->first();
+
+                                return match ($payment?->status) {
+                                    'created' => 'Создан',
+                                    'registered' => 'Зарегистрирован',
+                                    'pending' => 'В ожидании',
+                                    'paid' => 'Оплачен',
+                                    'failed' => 'Ошибка',
+                                    'refunded' => 'Возврат',
+                                    default => '—',
+                                };
+                            }),
+                        Placeholder::make('payment_id')
+                            ->label('ID платежа')
+                            ->content(static fn (?Order $record): string => (string) ($record?->payments()->latest('id')->value('public_id') ?? '—')),
+                        Placeholder::make('payment_url')
+                            ->label('Ссылка на оплату')
+                            ->content(static fn (?Order $record): string => (string) ($record?->payments()->latest('id')->value('payment_url') ?? '—')),
+                        Placeholder::make('payment_paid_at')
+                            ->label('Оплачен в')
+                            ->content(static fn (?Order $record): string => (string) ($record?->payments()->latest('id')->value('paid_at') ?? '—')),
+                    ])->columns(2),
             ]);
     }
 
@@ -115,14 +145,52 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('first_name')->label('Имя'),
                 Tables\Columns\TextColumn::make('last_name')->label('Фамилия'),
                 Tables\Columns\TextColumn::make('email')->label('Email')->searchable(),
-                Tables\Columns\TextColumn::make('total_price')->label('Сумма')->money('RUB')->sortable(),
-                Tables\Columns\TextColumn::make('status')->label('Статус')->badge()->sortable(),
-                Tables\Columns\TextColumn::make('payment_type')->label('Оплата'),
+                Tables\Columns\TextColumn::make('total_price_without_discount')->label('Без скидки')->money('RUB')->sortable(),
+                Tables\Columns\TextColumn::make('total_price')->label('Со скидкой')->money('RUB')->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Статус оплаты')
+                    ->badge()
+                    ->formatStateUsing(static fn (string $state): string => match ($state) {
+                        'new' => 'Новый',
+                        'payment_pending' => 'Ожидает оплату',
+                        'payment_failed' => 'Ошибка оплаты',
+                        'paid' => 'Оплачен',
+                        'refunded' => 'Возврат',
+                        'cancelled' => 'Отменён',
+                        default => $state,
+                    })
+                    ->color(static fn (string $state): string => match ($state) {
+                        'new' => 'gray',
+                        'payment_pending' => 'warning',
+                        'payment_failed' => 'danger',
+                        'paid' => 'success',
+                        'refunded' => 'info',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    })
+                    ->sortable(),
+                Tables\Columns\SelectColumn::make('delivery_status')
+                    ->label('Статус доставки')
+                    ->options([
+                        'pending' => 'Ожидает',
+                        'shipped' => 'Отправлен',
+                        'delivered' => 'Доставлен',
+                    ])
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('delivery_type')->label('Доставка'),
                 Tables\Columns\TextColumn::make('created_at')->label('Создан')->dateTime('d.m.Y H:i')->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('Статус оплаты')
+                    ->options([
+                        'new' => 'Новый',
+                        'payment_pending' => 'Ожидает оплату',
+                        'payment_failed' => 'Ошибка оплаты',
+                        'paid' => 'Оплачен',
+                        'refunded' => 'Возврат',
+                        'cancelled' => 'Отменён',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -139,6 +207,7 @@ class OrderResource extends Resource
     {
         return [
             RelationManagers\ItemsRelationManager::class,
+            RelationManagers\PaymentsRelationManager::class,
         ];
     }
 

@@ -15,7 +15,6 @@ use App\Services\OrderCalculationService;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class OrderController extends ApiController
@@ -31,40 +30,60 @@ final class OrderController extends ApiController
      * @bodyParam promo_code string Промокод (опционально). Example: PROMO10
      *
      * @response 200 scenario="Успешный расчет" {
-     *   "data": [
-     *     {
-     *       "id": 1,
-     *       "name": "Товар 1",
-     *       "price": 100,
-     *       "old_price": 120,
-     *       "count": 2,
-     *       "summery": 200,
-     *       "summery_old": 240,
-     *       "discounted": true
-     *     }
-     *   ],
+     *   "data": {
+     *     "items": [
+     *       {
+     *         "id": 1,
+     *         "name": "Товар 1",
+     *         "price": 100,
+     *         "old_price": 120,
+     *         "count": 2,
+     *         "summery": 200,
+     *         "summery_old": 240,
+     *         "discounted": true
+     *       }
+     *     ],
+     *     "total_without_discount": 240,
+     *     "total_with_discount": 200,
+     *     "promo_code_status": "applied"
+     *   },
      *   "status": "success",
      *   "message": "Success"
      * }
+     *
+     * @responseField items Массив товаров с рассчитанной стоимостью
+     * @responseField items[].id ID товара
+     * @responseField items[].name Название товара
+     * @responseField items[].count Количество товара
+     * @responseField items[].summery Итоговая стоимость товара (с учетом промокода)
+     * @responseField items[].summery_old Итоговая стоимость товара без промокода
+     * @responseField items[].discounted Применен ли промокод к товару
+     * @responseField total_without_discount Общая сумма заказа без промокода
+     * @responseField total_with_discount Общая сумма заказа с промокодом
+     * @responseField promo_code_status Статус промокода: "not_sent" (промокод не был отправлен), "not_exists" (промокод не существует / не активен), "not_applied" (промокод существует, но не применился к товарам), "applied" (промокод применился)
      */
     public function calculate(
         OrderCalculateRequest $request,
         ProductRepository $productRepository,
         PromoCodeRepository $promoCodeRepository,
         OrderCalculationService $orderCalculationService
-    ): AnonymousResourceCollection {
+    ): JsonResponse {
         $items = $request->input('items', []);
+        $promoCodeInput = $request->input('promo_code');
         $promoCode = null;
 
-        if ($code = $request->input('promo_code')) {
-            $promoCode = $promoCodeRepository->findActiveByCode($code);
+        if ($promoCodeInput) {
+            $promoCode = $promoCodeRepository->findActiveByCode($promoCodeInput);
         }
 
         $productIds = collect($items)->pluck('id')->all();
         $products = $productRepository->getByIds($productIds)->load('categories');
-        $result = $orderCalculationService->calculate($products, $items, $promoCode);
+        $result = $orderCalculationService->calculate($products, $items, $promoCode, $promoCodeInput);
 
-        return OrderCalculationResource::collection($result);
+        // Преобразуем items в ресурсы
+        $result['items'] = OrderCalculationResource::collection($result['items'])->resolve();
+
+        return $this->successResponse($result);
     }
 
     /**
@@ -76,10 +95,20 @@ final class OrderController extends ApiController
      */
     public function store(OrderStoreRequest $request, OrderService $orderService): JsonResponse
     {
-        $order = $orderService->createOrder($request->validated());
-        $order->load('items');
+        $validated = $request->validated();
 
-        return $this->successResponse(new OrderResource($order), 'Заказ успешно создан', 201);
+        \Log::info('Order store request', [
+            'has_promo_code' => isset($validated['promo_code']),
+            'promo_code' => $validated['promo_code'] ?? null,
+            'items_count' => count($validated['items'] ?? []),
+            'raw_promo_code' => $request->input('promo_code'),
+            'all_keys' => array_keys($request->all()),
+        ]);
+
+        $order = $orderService->createOrder($validated);
+        $order->load('items', 'items.product.categories', 'promoCode');
+
+        return $this->successResponse(new OrderResource(resource: $order), 'Заказ успешно создан', 201);
     }
 
     /**

@@ -33,6 +33,8 @@ class ProductControllerTest extends TestCase
                     'description',
                     'price',
                     'old_price',
+                    'is_new',
+                    'is_bestseller',
                     'dimensions' => [
                         'width',
                         'height',
@@ -74,6 +76,8 @@ class ProductControllerTest extends TestCase
     {
         $product = Product::factory()->create([
             'price' => 99.99,
+            'is_new' => true,
+            'is_bestseller' => false,
         ]);
 
         $response = $this->getJson(route('api.v1.products.show', ['slug' => $product->slug]));
@@ -87,13 +91,60 @@ class ProductControllerTest extends TestCase
                     'slug',
                     'price',
                     'old_price',
+                    'is_new',
+                    'is_bestseller',
                 ],
             ])
             ->assertJsonPath('data.id', $product->id)
             ->assertJsonPath('data.name', $product->name)
             ->assertJsonPath('data.slug', $product->slug)
             ->assertJsonPath('data.price', 99.99)
-            ->assertJsonPath('data.old_price', $product->old_price);
+            ->assertJsonPath('data.old_price', $product->old_price)
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', false);
+    }
+
+    /**
+     * Тест проверки полей is_new и is_bestseller в ответе
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function test_product_response_includes_is_new_and_is_bestseller(): void
+    {
+        $newProduct = Product::factory()->create([
+            'is_new' => true,
+            'is_bestseller' => false,
+        ]);
+
+        $bestsellerProduct = Product::factory()->create([
+            'is_new' => false,
+            'is_bestseller' => true,
+        ]);
+
+        $bothProduct = Product::factory()->create([
+            'is_new' => true,
+            'is_bestseller' => true,
+        ]);
+
+        // Проверка нового продукта
+        $responseNew = $this->getJson(route('api.v1.products.show', ['slug' => $newProduct->slug]));
+        $responseNew
+            ->assertOk()
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', false);
+
+        // Проверка хита продаж
+        $responseBestseller = $this->getJson(route('api.v1.products.show', ['slug' => $bestsellerProduct->slug]));
+        $responseBestseller
+            ->assertOk()
+            ->assertJsonPath('data.is_new', false)
+            ->assertJsonPath('data.is_bestseller', true);
+
+        // Проверка продукта с обоими флагами
+        $responseBoth = $this->getJson(route('api.v1.products.show', ['slug' => $bothProduct->slug]));
+        $responseBoth
+            ->assertOk()
+            ->assertJsonPath('data.is_new', true)
+            ->assertJsonPath('data.is_bestseller', true);
     }
 
     /**
@@ -133,6 +184,86 @@ class ProductControllerTest extends TestCase
             ->assertJsonCount(3, 'data.related');
     }
 
+    /**
+     * Тест проверки хлебных крошек в детальной карточке товара
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function test_product_includes_breadcrumbs(): void
+    {
+        $grandParent = Category::factory()->create(['name' => 'Grand Parent', 'slug' => 'grand-parent']);
+        $parent = Category::factory()->create(['name' => 'Parent', 'slug' => 'parent', 'parent_id' => $grandParent->id]);
+        $child = Category::factory()->create(['name' => 'Child', 'slug' => 'child', 'parent_id' => $parent->id]);
+
+        $product = Product::factory()->create(['name' => 'Breadcrumb Product', 'slug' => 'breadcrumb-product']);
+        $product->categories()->attach($child->id);
+
+        $response = $this->getJson(route('api.v1.products.show', ['slug' => $product->slug]));
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'breadcrumbs' => [
+                        '*' => [
+                            'name',
+                            'slug',
+                            'type',
+                        ],
+                    ],
+                ],
+            ]);
+
+        $breadcrumbs = $response->json('data.breadcrumbs');
+
+        $this->assertCount(5, $breadcrumbs); // Home, GrandParent, Parent, Child, Product
+
+        $this->assertEquals('Главная', $breadcrumbs[0]['name']);
+        $this->assertEquals('home', $breadcrumbs[0]['type']);
+
+        $this->assertEquals('Grand Parent', $breadcrumbs[1]['name']);
+        $this->assertEquals('category', $breadcrumbs[1]['type']);
+        $this->assertEquals('grand-parent', $breadcrumbs[1]['slug']);
+
+        $this->assertEquals('Parent', $breadcrumbs[2]['name']);
+        $this->assertEquals('parent', $breadcrumbs[2]['slug']);
+
+        $this->assertEquals('Child', $breadcrumbs[3]['name']);
+        $this->assertEquals('child', $breadcrumbs[3]['slug']);
+
+        $this->assertEquals('Breadcrumb Product', $breadcrumbs[4]['name']);
+        $this->assertEquals('product', $breadcrumbs[4]['type']);
+    }
+
+    /**
+     * Тест, что выбирается самая глубокая категория для крошек,
+     * если товар привязан и к родительской, и к дочерней.
+     */
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function test_breadcrumbs_pick_deepest_category(): void
+    {
+        $parent = Category::factory()->create(['name' => 'Parent', 'slug' => 'parent']);
+        $child = Category::factory()->create(['name' => 'Child', 'slug' => 'child', 'parent_id' => $parent->id]);
+
+        $product = Product::factory()->create(['name' => 'Deep Product', 'slug' => 'deep-product']);
+        // Attach both parent and child
+        $product->categories()->attach([$parent->id, $child->id]);
+
+        $response = $this->getJson(route('api.v1.products.show', ['slug' => $product->slug]));
+
+        $response->assertOk();
+        $breadcrumbs = $response->json('data.breadcrumbs');
+
+        // We expect: Home -> Parent -> Child -> Product
+        // If it picks Parent, we get: Home -> Parent -> Product
+
+        $this->assertCount(4, $breadcrumbs, 'Breadcrumbs count mismatch. Expected Home, Parent, Child, Product.');
+
+        $this->assertEquals('Главная', $breadcrumbs[0]['name']);
+        $this->assertEquals('Parent', $breadcrumbs[1]['name']);
+        $this->assertEquals('Child', $breadcrumbs[2]['name']);
+        $this->assertEquals('Deep Product', $breadcrumbs[3]['name']);
+    }
+
     // --- New Tests for Index Method ---
 
     /**
@@ -156,6 +287,8 @@ class ProductControllerTest extends TestCase
                         'description',
                         'price',
                         'old_price',
+                        'is_new',
+                        'is_bestseller',
                         'dimensions',
                         'categories',
                         'related',

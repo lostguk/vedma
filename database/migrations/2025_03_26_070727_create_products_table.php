@@ -24,13 +24,11 @@ return new class extends Migration
             $table->decimal('length', 8, 2)->nullable()->comment('Длина в см');
             $table->boolean('is_new')->default(false);
             $table->boolean('is_bestseller')->default(false);
-            $table->integer('sort_order')->default(0);
             $table->timestamps();
 
             // Индексы для оптимизации запросов
             $table->index('name');
             $table->index(['is_new', 'is_bestseller']);
-            $table->index('sort_order');
         });
     }
 

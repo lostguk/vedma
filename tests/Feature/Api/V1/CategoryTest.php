@@ -23,9 +23,9 @@ final class CategoryTest extends TestCase
     public function test_can_get_list_of_categories(): void
     {
         // Arrange
-        $rootCategory = Category::factory()->create(['sort_order' => 1]);
+        $rootCategory = Category::factory()->create();
         $childCategory = Category::factory()->create(['parent_id' => $rootCategory->id]);
-        $anotherCategory = Category::factory()->create(['sort_order' => 2]);
+        $anotherCategory = Category::factory()->create();
 
         // Act
         $response = $this->getJson(route('api.v1.categories.index'));
@@ -42,7 +42,6 @@ final class CategoryTest extends TestCase
                         'description',
                         'icon',
                         'parent_id',
-                        'sort_order',
                         'is_visible',
                         'children',
                     ],
@@ -79,8 +78,8 @@ final class CategoryTest extends TestCase
     public function test_can_show_hidden_categories_with_parameter(): void
     {
         // Arrange
-        $visibleCategory = Category::factory()->create(['is_visible' => true, 'sort_order' => 1]);
-        $hiddenCategory = Category::factory()->create(['is_visible' => false, 'sort_order' => 2]);
+        $visibleCategory = Category::factory()->create(['is_visible' => true]);
+        $hiddenCategory = Category::factory()->create(['is_visible' => false]);
 
         // Act
         $response = $this->getJson(route('api.v1.categories.index', ['show_hidden' => true]));
@@ -111,7 +110,6 @@ final class CategoryTest extends TestCase
                     'description',
                     'icon',
                     'parent_id',
-                    'sort_order',
                     'children',
                 ],
             ])
@@ -143,17 +141,14 @@ final class CategoryTest extends TestCase
             ->assertJsonPath('data.icon', fn (string $icon) => str_contains($icon, '/storage/'));
     }
 
-    public function test_categories_are_sorted_by_sort_order(): void
+    public function test_root_categories_are_sorted_by_id(): void
     {
-        // Arrange
-        $secondCategory = Category::factory()->create(['sort_order' => 2]);
-        $firstCategory = Category::factory()->create(['sort_order' => 1]);
-        $thirdCategory = Category::factory()->create(['sort_order' => 3]);
+        $firstCategory = Category::factory()->create();
+        $secondCategory = Category::factory()->create();
+        $thirdCategory = Category::factory()->create();
 
-        // Act
         $response = $this->getJson(route('api.v1.categories.index'));
 
-        // Assert
         $response->assertOk()
             ->assertJsonPath('data.0.id', $firstCategory->id)
             ->assertJsonPath('data.1.id', $secondCategory->id)

@@ -1,0 +1,218 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Models\Category;
+use App\Models\HomePageContent;
+use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+it('returns home page content with categories and products', function (): void {
+    $homePageContent = HomePageContent::factory()->create();
+
+    // Create category tree: parent -> child -> grandchild
+    $parent = Category::factory()->create([
+        'name' => 'Родительская категория',
+        'slug' => 'parent',
+    ]);
+
+    $child = Category::factory()->child($parent)->create([
+        'name' => 'Дочерняя категория',
+        'slug' => 'child',
+    ]);
+
+    $grandchild = Category::factory()->child($child)->create([
+        'name' => 'Внучатая категория',
+        'slug' => 'grandchild',
+    ]);
+
+    // Attach parent category to home page content
+    $homePageContent->categories()->attach($parent->id);
+
+    // Create products in different categories
+    $productInParent = Product::factory()->create(['name' => 'Товар в родительской']);
+    $productInParent->categories()->attach($parent->id);
+
+    $productInChild = Product::factory()->create(['name' => 'Товар в дочерней']);
+    $productInChild->categories()->attach($child->id);
+
+    $productInGrandchild = Product::factory()->create(['name' => 'Товар во внучатой']);
+    $productInGrandchild->categories()->attach($grandchild->id);
+
+    // Unrelated product
+    $otherCategory = Category::factory()->create(['slug' => 'other']);
+    $unrelatedProduct = Product::factory()->create(['name' => 'Несвязанный товар']);
+    $unrelatedProduct->categories()->attach($otherCategory->id);
+
+    $response = $this->getJson(route('api.v1.home.show'));
+
+    $response->assertSuccessful()
+        ->assertJsonStructure([
+            'data' => [
+                'slides',
+                'categories' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'slug',
+                        'products' => [
+                            '*' => [
+                                'id',
+                                'name',
+                                'slug',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+    $data = $response->json('data');
+
+    // Check that categories are returned
+    expect($data['categories'])->toHaveCount(1);
+    expect($data['categories'][0]['id'])->toBe($parent->id);
+    expect($data['categories'][0])->toHaveKey('products');
+
+    // Check that products from all nested categories are returned in the category
+    // But limited (см. HomePageContentService::getProductsForCategory)
+    $categoryProducts = collect($data['categories'][0]['products']);
+    $productIds = $categoryProducts->pluck('id')->all();
+
+    expect(count($productIds))->toBeLessThanOrEqual(4);
+    expect($productIds)
+        ->not->toContain($unrelatedProduct->id);
+});
+
+it('returns empty array when no categories are selected', function (): void {
+    $homePageContent = HomePageContent::factory()->create();
+
+    $response = $this->getJson(route('api.v1.home.show'));
+
+    $response->assertSuccessful();
+
+    $data = $response->json('data');
+
+    expect($data['categories'])->toBeArray()->toBeEmpty();
+});
+
+it('returns products from multiple selected categories recursively', function (): void {
+    $homePageContent = HomePageContent::factory()->create();
+
+    // Create two separate category trees
+    $category1 = Category::factory()->create(['name' => 'Категория 1', 'slug' => 'cat1']);
+    $category1Child = Category::factory()->child($category1)->create(['name' => 'Подкатегория 1', 'slug' => 'cat1-child']);
+
+    $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
+    $category2Child = Category::factory()->child($category2)->create(['name' => 'Подкатегория 2', 'slug' => 'cat2-child']);
+
+    $homePageContent->categories()->sync([$category2->id, $category1->id]);
+
+    // Create products
+    $product1 = Product::factory()->create(['name' => 'Товар 1']);
+    $product1->categories()->attach($category1->id);
+
+    $product2 = Product::factory()->create(['name' => 'Товар 2']);
+    $product2->categories()->attach($category1Child->id);
+
+    $product3 = Product::factory()->create(['name' => 'Товар 3']);
+    $product3->categories()->attach($category2->id);
+
+    $product4 = Product::factory()->create(['name' => 'Товар 4']);
+    $product4->categories()->attach($category2Child->id);
+
+    $response = $this->getJson(route('api.v1.home.show'));
+
+    $response->assertSuccessful();
+
+    $data = $response->json('data');
+
+    // Check that both categories are returned
+    expect($data['categories'])->toHaveCount(2);
+
+    expect($data['categories'][0]['id'])->toBe(min($category1->id, $category2->id));
+    expect($data['categories'][1]['id'])->toBe(max($category1->id, $category2->id));
+
+    $byCategoryId = collect($data['categories'])->keyBy('id');
+    $category1Products = collect($byCategoryId[$category1->id]['products'])->pluck('id')->all();
+    $category2Products = collect($byCategoryId[$category2->id]['products'])->pluck('id')->all();
+
+    expect($category2Products)
+        ->toContain($product3->id)
+        ->toContain($product4->id);
+
+    expect($category1Products)
+        ->toContain($product1->id)
+        ->toContain($product2->id);
+});
+
+it('returns categories ordered by category id', function (): void {
+    $homePageContent = HomePageContent::factory()->create();
+
+    $category1 = Category::factory()->create(['name' => 'Категория 1', 'slug' => 'cat1']);
+    $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
+    $category3 = Category::factory()->create(['name' => 'Категория 3', 'slug' => 'cat3']);
+
+    $homePageContent->categories()->sync([$category3->id, $category1->id, $category2->id]);
+
+    $response = $this->getJson(route('api.v1.home.show'));
+
+    $response->assertSuccessful();
+
+    $data = $response->json('data');
+
+    expect($data['categories'])->toHaveCount(3);
+    expect($data['categories'][0]['id'])->toBe($category1->id);
+    expect($data['categories'][1]['id'])->toBe($category2->id);
+    expect($data['categories'][2]['id'])->toBe($category3->id);
+});
+
+it('returns maximum configured products per category', function (): void {
+    $homePageContent = HomePageContent::factory()->create();
+
+    $category1 = Category::factory()->create(['name' => 'Категория 1', 'slug' => 'cat1']);
+    $category2 = Category::factory()->create(['name' => 'Категория 2', 'slug' => 'cat2']);
+
+    $homePageContent->categories()->sync([$category1->id, $category2->id]);
+
+    // Create 5 products in category1
+    $products1 = Product::factory()->count(5)->create();
+    foreach ($products1 as $product) {
+        $product->categories()->attach($category1->id);
+    }
+
+    // Create 2 products in category2
+    $products2 = Product::factory()->count(2)->create();
+    foreach ($products2 as $product) {
+        $product->categories()->attach($category2->id);
+    }
+
+    $response = $this->getJson(route('api.v1.home.show'));
+
+    $response->assertSuccessful();
+
+    $data = $response->json('data');
+
+    // Check that categories are returned
+    expect($data['categories'])->toHaveCount(2);
+
+    $byCategoryId = collect($data['categories'])->keyBy('id');
+    $category1Products = collect($byCategoryId[$category1->id]['products'])->pluck('id')->all();
+    $category2Products = collect($byCategoryId[$category2->id]['products'])->pluck('id')->all();
+
+    expect(count($category1Products))->toBeLessThanOrEqual(4);
+
+    expect(count($category2Products))->toBe(2);
+
+    $category1ProductIds = $products1->pluck('id')->all();
+    $category2ProductIds = $products2->pluck('id')->all();
+
+    $foundFromCategory1 = count(array_intersect($category1Products, $category1ProductIds));
+    $foundFromCategory2 = count(array_intersect($category2Products, $category2ProductIds));
+
+    expect($foundFromCategory1)->toBeLessThanOrEqual(4);
+    // Should have all 2 from category2
+    expect($foundFromCategory2)->toBe(2);
+});

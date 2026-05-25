@@ -4,10 +4,17 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use Filament\Forms;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,29 +38,29 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Основная информация')
+                Section::make('Основная информация')
                     ->schema([
-                        Forms\Components\TextInput::make('last_name')
+                        TextInput::make('last_name')
                             ->label('Фамилия')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('first_name')
+                        TextInput::make('first_name')
                             ->label('Имя')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('middle_name')
+                        TextInput::make('middle_name')
                             ->label('Отчество')
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
+                        TextInput::make('email')
                             ->label('Email')
                             ->email()
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('phone')
+                        TextInput::make('phone')
                             ->label('Телефон')
                             ->tel()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('password')
+                        TextInput::make('password')
                             ->label('Пароль')
                             ->password()
                             ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
@@ -61,9 +68,9 @@ class UserResource extends Resource
                             ->required(fn (string $context): bool => $context === 'create'),
                     ])->columns(2),
 
-                Forms\Components\Section::make('Адрес')
+                Section::make('Адрес')
                     ->schema([
-                        Forms\Components\Textarea::make('address')
+                        Textarea::make('address')
                             ->label(label: 'Адрес')
                             ->columnSpanFull()
                             ->maxLength(length: 65535),
@@ -75,54 +82,55 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('last_name')
+                TextColumn::make('id')->label('ID')->sortable(),
+                TextColumn::make('last_name')
                     ->label('Фамилия')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('first_name')
+                TextColumn::make('first_name')
                     ->label('Имя')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('middle_name')
+                TextColumn::make('middle_name')
                     ->label('Отчество')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->label('Email')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->label('Телефон')
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->label('Дата регистрации')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
+                TextColumn::make('email_verified_at')
                     ->label('Подтвержден')
                     ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(),
             ])
             ->filters([
-                Tables\Filters\Filter::make('verified')
+                Filter::make('verified')
                     ->label('Подтвержденные')
                     ->query(fn ($query) => $query->whereNotNull('email_verified_at')),
-                Tables\Filters\Filter::make('unverified')
+                Filter::make('unverified')
                     ->label('Неподтвержденные')
                     ->query(fn ($query) => $query->whereNull('email_verified_at')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                EditAction::make()
                     ->label(__('filament.actions.edit.label')),
                 Tables\Actions\DeleteAction::make()
                     ->label(__('filament.actions.delete.label')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
+                BulkActionGroup::make([
+                    DeleteBulkAction::make()
                         ->label(__('filament.actions.delete.label')),
                 ]),
             ]);

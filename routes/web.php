@@ -7,7 +7,7 @@ Route::get('/', function () {
         'message' => 'Магазин магических товаров API',
         'version' => '1.0.0',
         'status' => 'working',
-        'timestamp' => now()->toISOString()
+        'timestamp' => now()->toISOString(),
     ]);
 });
 

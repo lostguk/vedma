@@ -56,6 +56,10 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    // Frontend application base URL and verification path
+    'frontend_url' => env('FRONTEND_URL', 'https://vedminozelie.ru/'),
+    'frontend_verify_path' => env('FRONTEND_VERIFY_PATH', '/verify-registration'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

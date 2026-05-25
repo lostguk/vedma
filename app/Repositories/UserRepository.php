@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\User;
-use Illuminate\Support\Str;
 
 /**
  * Репозиторий для работы с пользователями
@@ -21,7 +20,7 @@ final class UserRepository extends BaseRepository
     }
 
     /**
-     * Создать нового пользователя с токеном верификации
+     * Создать нового пользователя
      *
      * @param array{
      *     email: string,
@@ -38,8 +37,6 @@ final class UserRepository extends BaseRepository
         if (isset($payload['password_confirmation'])) {
             unset($payload['password_confirmation']);
         }
-
-        $payload['email_verification_token'] = Str::random(64);
 
         /** @var User $user */
         $user = $this->create($payload);
@@ -71,6 +68,14 @@ final class UserRepository extends BaseRepository
     public function findByEmailOrFail(string $email): ?User
     {
         return $this->model->where('email', $email)->firstOrFail();
+    }
+
+    /**
+     * Найти пользователя по email
+     */
+    public function findByEmail(string $email): ?User
+    {
+        return $this->model->where('email', $email)->first();
     }
 
     /**

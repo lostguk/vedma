@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\Auth\ForgotPasswordRequest;
 use App\Services\Auth\ForgotPasswordService;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
 /**
  * @group Аутентификация
@@ -27,7 +28,7 @@ final class ForgotPasswordController extends ApiController
      *
      * Отправляет пользователю на email ссылку для сброса пароля, если пользователь существует.
      *
-     * @bodyParam email string required Email пользователя. Example: user@example.com
+     * @bodyParam email string required Email пользователя. Example: gusengus57@gmail.com
      *
      * @response 200 scenario="Ссылка отправлена" {
      *   "message": "Ссылка на смену пароля отправлена."
@@ -35,7 +36,11 @@ final class ForgotPasswordController extends ApiController
      */
     public function __invoke(ForgotPasswordRequest $request): JsonResponse
     {
-        $this->forgotPasswordService->sendResetLink($request->validated('email'));
+        try {
+            $this->forgotPasswordService->sendResetLink($request->validated('email'));
+        } catch (Throwable $exception) {
+            return $this->errorResponse('Не удалось отправить письмо.', 500);
+        }
 
         return $this->successResponse([
             'message' => 'Ссылка на смену пароля отправлена.',

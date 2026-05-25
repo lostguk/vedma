@@ -46,6 +46,8 @@ final class ProductController extends ApiController
      *       "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *       "price": 1200.99,
      *       "old_price": 1500.00,
+     *       "is_new": true,
+     *       "is_bestseller": false,
      *       "dimensions": {
      *         "width": 10,
      *         "height": 12,
@@ -83,7 +85,7 @@ final class ProductController extends ApiController
         $query = $filterService->apply($filters);
 
         // Add eager loading and paginate
-        $products = $query->with(['categories', 'related.media'])
+        $products = $query->with(['categories', 'media', 'related.media'])
             ->paginate($filters['per_page']);
 
         return ProductResource::collection($products);
@@ -105,22 +107,40 @@ final class ProductController extends ApiController
      *     "description": "Успокаивающий аромат лаванды для безмятежного отдыха",
      *     "price": 1200.99,
      *     "old_price": 1500.00,
+     *     "is_new": true,
+     *     "is_bestseller": false,
      *     "dimensions": {
      *       "width": 10,
      *       "height": 12,
      *       "length": 10,
      *       "weight": 350
      *     },
+     *     "breadcrumbs": [
+     *       {
+     *         "name": "Главная",
+     *         "slug": "/",
+     *         "type": "home"
+     *       },
+     *       {
+     *         "name": "Ароматические свечи",
+     *         "slug": "aromaticheskie-svechi",
+     *         "type": "category"
+     *       },
+     *       {
+     *         "name": "Ароматическая свеча Лаванда",
+     *         "slug": "aromaticheskaya-svecha-lavanda",
+     *         "type": "product"
+     *       }
+     *     ],
      *     "categories": [
      *       {
      *         "id": 1,
      *         "name": "Ароматические свечи",
      *         "slug": "aromaticheskie-svechi",
      *         "description": "Свечи с различными ароматами",
-     *         "icon": "http://localhost:8000/storage/7/candle4.svg",
      *         "parent_id": null,
-     *         "sort_order": 4,
-     *         "is_visible": true
+     *         "is_visible": true,
+     *         "exclude_from_shipping": false
      *       }
      *     ],
      *     "related": [],
@@ -143,7 +163,7 @@ final class ProductController extends ApiController
             ], Response::HTTP_NOT_FOUND);
         }
 
-        $loadedProduct = $product->load(['categories', 'related.media']);
+        $loadedProduct = $product->load(['categories', 'media', 'related.media']);
 
         return new ProductResource($loadedProduct);
     }

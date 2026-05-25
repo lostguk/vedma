@@ -1,16 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\V1\Auth\ChangePasswordController;
-use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
-use App\Http\Controllers\Api\V1\Auth\LoginController;
-use App\Http\Controllers\Api\V1\Auth\LogoutController;
-use App\Http\Controllers\Api\V1\Auth\RegisterController;
-use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
-use App\Http\Controllers\Api\V1\Auth\VerifyRegistrationController;
 use App\Http\Controllers\Api\V1\CategoryController;
-use App\Http\Controllers\Api\V1\OrderController;
+use App\Http\Controllers\Api\V1\HomePageContentController;
 use App\Http\Controllers\Api\V1\PageController;
 use App\Http\Controllers\Api\V1\ProductController;
+use App\Http\Controllers\Api\V1\ShippingController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
@@ -36,19 +30,14 @@ Route::prefix('v1')->group(function () {
     })->name('api.v1.health');
 
     // Auth
-    Route::post('register', RegisterController::class)->name('api.v1.auth.register');
-    Route::post('login', LoginController::class)->name('api.v1.auth.login');
-    Route::post('forgot-password', ForgotPasswordController::class)->name('api.v1.auth.forgot-password');
-    Route::post('reset-password', ResetPasswordController::class)->name('api.v1.auth.reset-password');
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', LogoutController::class)->name('api.v1.auth.logout');
-        Route::post('change-password', ChangePasswordController::class)->name('api.v1.auth.change-password');
-    });
+    require base_path('routes/auth.php');
+
+    // User
+    require base_path('routes/user.php');
+    require base_path('routes/orders.php');
+    require base_path('routes/payments.php');
 
     // Categories
-    Route::get('verify-registration/{user}/{hash}', VerifyRegistrationController::class)
-        ->name('api.v1.auth.verify-registration');
-
     Route::get('categories', [CategoryController::class, 'index'])->name('api.v1.categories.index');
     Route::get('categories/{slug}', [CategoryController::class, 'show'])->name('api.v1.categories.show');
 
@@ -57,6 +46,7 @@ Route::prefix('v1')->group(function () {
         ->name('api.v1.products.show');
     Route::get('products', [ProductController::class, 'index'])->name('api.v1.products.index');
 
+    // Mail test
     Route::get('mail/test', [MailController::class, 'sendTestMail'])->name('mail.test');
 
     // Pages
@@ -65,13 +55,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/pages/{id}', [PageController::class, 'show'])->name('show');
     });
 
-    // Order
-    Route::post('order/calculate', [OrderController::class, 'calculate'])
-        ->name('api.v1.order.calculate');
-    Route::post('order', [OrderController::class, 'store'])
-        ->name('api.v1.order.store');
-    Route::middleware('auth:sanctum')->get('orders', [OrderController::class, 'index'])
-        ->name('api.v1.orders.index');
+    // Shipping calculation
+    Route::post('shipping/calculate', [ShippingController::class, 'calculate'])
+        ->name('api.v1.shipping.calculate');
 
-    require base_path('routes/user.php');
+    // Home page
+    Route::get('home', [HomePageContentController::class, 'show'])
+        ->name('api.v1.home.show');
 });

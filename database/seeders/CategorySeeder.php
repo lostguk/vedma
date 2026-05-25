@@ -6,8 +6,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 final class CategorySeeder extends Seeder
 {
@@ -16,117 +14,113 @@ final class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $icons = collect([
-            'candle1.svg',
-            'candle2.svg',
-            'candle3.svg',
-        ]);
-
-        // Ensure seed-icons directory exists
-        if (! Storage::exists('seed-icons')) {
-            Storage::makeDirectory('seed-icons');
-        }
-
-        // Copy icon files to storage if they don't exist
-        foreach ($icons as $icon) {
-            $sourcePath = database_path("seeders/icons/{$icon}");
-            $targetPath = Storage::path("seed-icons/{$icon}");
-
-            if (! file_exists($targetPath) && file_exists($sourcePath)) {
-                File::copy($sourcePath, $targetPath);
-            }
-        }
-
         // =========================
         // ЯВНАЯ СТРУКТУРА КАТЕГОРИЙ
         // =========================
+
+        Category::create([
+            'id' => 1,
+            'name' => 'Горные вершины',
+            'slug' => 'gornie-vershini',
+
+            'is_visible' => true,
+        ]);
 
         // 1. Корневая категория
         $allCandles = Category::factory()->create([
             'name' => 'Все свечи',
             'slug' => 'vse-svechi',
-            'sort_order' => 1,
+
             'is_visible' => true,
-            'meta_title' => 'Все свечи - Магазин свечей',
-            'meta_description' => 'Большой выбор свечей для любых целей. Ритуальные, земляные, цветные и другие виды свечей с доставкой.',
+            'description' => 'Широкий ассортимент магических свечей для различных ритуалов, практик и обрядов. Каждая свеча создается как проводник намерения с использованием только природных компонентов.',
         ]);
-        $this->addIconToCategory($allCandles, $icons->random());
 
         // 2. Дети корневой категории
         $ritualCandles = Category::factory()->create([
             'name' => 'Ритуальные свечи',
             'slug' => 'ritualnye-svechi',
-            'sort_order' => 1,
+
             'is_visible' => true,
-            'meta_title' => 'Ритуальные свечи - Магазин свечей',
-            'meta_description' => 'Ритуальные свечи для различных обрядов и церемоний. Широкий выбор цветов и размеров.',
+            'description' => 'Свечи для обрядов и направленных практик',
             'parent_id' => $allCandles->id,
         ]);
-        $this->addIconToCategory($ritualCandles, $icons->random());
 
-        $earthCandles = Category::factory()->create([
+        Category::factory()->create([
             'name' => 'Земляные свечи',
             'slug' => 'zemlyanye-svechi',
-            'sort_order' => 2,
+
             'is_visible' => true,
-            'meta_title' => 'Земляные свечи - Магазин свечей',
-            'meta_description' => 'Земляные свечи из натуральных материалов. Экологически чистые компоненты.',
+            'description' => 'Земляные свечи из натуральных материалов с природными минералами и земной энергией. Идеальны для ритуалов на устойчивость, стабильность и процветание.',
             'parent_id' => $allCandles->id,
         ]);
-        $this->addIconToCategory($earthCandles, $icons->random());
 
-        $colorCandles = Category::factory()->create([
+        Category::factory()->create([
             'name' => 'Цветные свечи',
             'slug' => 'tsvetnye-svechi',
-            'sort_order' => 3,
+
             'is_visible' => true,
-            'meta_title' => 'Цветные свечи - Магазин свечей',
-            'meta_description' => 'Яркие цветные свечи для праздников и декора. Различные цвета и формы.',
+            'description' => 'Свечи силы в каждом оттенке',
             'parent_id' => $allCandles->id,
         ]);
-        $this->addIconToCategory($colorCandles, $icons->random());
+
+        Category::factory()->create([
+            'name' => 'Тонкие свечи',
+            'slug' => 'tonkie-svechi',
+
+            'is_visible' => true,
+            'description' => 'Восковые свечи для Таро, медитаций и ритуалов',
+            'parent_id' => $allCandles->id,
+        ]);
 
         // 3. Дети "Ритуальных свечей"
-        $moneyCandles = Category::factory()->create([
+        Category::factory()->create([
             'name' => 'Свечи для привлечения денег',
             'slug' => 'svechi-dlya-privlecheniya-deneg',
-            'sort_order' => 1,
+
             'is_visible' => true,
-            'meta_title' => 'Свечи для привлечения денег - Магазин свечей',
-            'meta_description' => 'Специальные свечи для ритуалов на привлечение денег и благополучия.',
+            'description' => 'Свечи для ритуалов на привлечение денег и финансового благополучия. Созданы с использованием колдовских масел и трав, помогают открыть финансовые потоки и привлечь изобилие.',
             'parent_id' => $ritualCandles->id,
         ]);
-        $this->addIconToCategory($moneyCandles, $icons->random());
 
-        $loveCandles = Category::factory()->create([
+        Category::factory()->create([
             'name' => 'Любовные свечи',
             'slug' => 'lyubovnye-svechi',
-            'sort_order' => 2,
+
             'is_visible' => true,
-            'meta_title' => 'Любовные свечи - Магазин свечей',
-            'meta_description' => 'Свечи для любовных ритуалов и романтической атмосферы.',
+            'description' => 'Свечи для любовных ритуалов и привлечения партнера. Созданы с использованием трав и масел, связанных с энергией Венеры, помогают открыть сердце и укрепить отношения.',
             'parent_id' => $ritualCandles->id,
         ]);
-        $this->addIconToCategory($loveCandles, $icons->random());
 
         // =========================
-        // Нет циклов, нет вложения одной и той же категории в потомка
+        // Категория «Услуги» (не считается в доставку)
         // =========================
 
-        // Добавляем тестовые изображения только в dev-окружении
-        if (app()->environment('local', 'development')) {
-            // Здесь можно добавить код для добавления тестовых изображений
-            // через Media Library, когда будут реальные файлы
-        }
-    }
+        $services = Category::query()->updateOrCreate(['slug' => 'uslugi'], [
+            'name' => 'Услуги',
+            'slug' => 'uslugi',
 
-    private function addIconToCategory(Category $category, string $iconName): void
-    {
-        $iconPath = Storage::path("seed-icons/{$iconName}");
-        if (file_exists($iconPath)) {
-            $category->addMedia($iconPath)
-                ->preservingOriginal()
-                ->toMediaCollection('icon');
-        }
+            'is_visible' => true,
+            'exclude_from_shipping' => true,
+            'description' => 'Магические услуги: гадания, консультации, индивидуальные ритуалы. Товары из этой категории не требуют доставки.',
+            'parent_id' => null,
+        ]);
+
+        Category::query()->updateOrCreate(['slug' => 'gadaniya'], [
+            'name' => 'Гадания',
+            'slug' => 'gadaniya',
+
+            'is_visible' => true,
+            'description' => 'Индивидуальные гадания на картах Таро, рунах и оракулах. Расклады на любовь, карьеру, здоровье и духовное развитие.',
+            'parent_id' => $services->id,
+        ]);
+
+        Category::query()->updateOrCreate(['slug' => 'konsultatsii'], [
+            'name' => 'Консультации',
+            'slug' => 'konsultatsii',
+
+            'is_visible' => true,
+            'description' => 'Персональные консультации по выбору свечей, масел и ритуальных практик. Подбор индивидуальной программы работы.',
+            'parent_id' => $services->id,
+        ]);
     }
 }

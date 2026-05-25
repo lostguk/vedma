@@ -67,7 +67,8 @@ class ItemsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('product.name')->label('Товар'),
-                Tables\Columns\TextColumn::make('price')->label('Цена')->money('RUB'),
+                Tables\Columns\TextColumn::make('product.price')->label('Цена без скидки')->money('RUB'),
+                Tables\Columns\TextColumn::make('price')->label('Цена со скидкой')->money('RUB'),
                 Tables\Columns\TextColumn::make('count')->label('Кол-во'),
                 Tables\Columns\TextColumn::make('total')->label('Сумма')->money('RUB'),
             ])

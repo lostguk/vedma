@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\Message;
 use App\Models\Topic;
+use App\Models\User;
 use App\Repositories\MessageRepository;
 use App\Repositories\TopicRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -93,5 +94,39 @@ final readonly class TopicService
         $message->load('media');
 
         return $message;
+    }
+
+    /**
+     * Mark topic as read for the current user.
+     */
+    public function markTopicAsRead(Topic $topic, User $user): void
+    {
+        if ($user->is_admin) {
+            $topic->forceFill([
+                'admin_last_read_at' => now(),
+            ])->save();
+
+            return;
+        }
+
+        if ($topic->user_id !== $user->id) {
+            return;
+        }
+
+        $topic->forceFill([
+            'user_last_read_at' => now(),
+        ])->save();
+    }
+
+    /**
+     * Get unread messages count for the current user.
+     */
+    public function getUnreadMessagesCount(User $user): int
+    {
+        if ($user->is_admin) {
+            return $this->messageRepository->countUnreadForAdmin();
+        }
+
+        return $this->messageRepository->countUnreadForUser($user->id);
     }
 }

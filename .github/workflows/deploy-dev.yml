@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Dev
 
 on:
   push:
@@ -16,11 +16,6 @@ jobs:
 
       - name: Check available secrets
         run: |
-          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "SSH_PRIVATE_KEY is not set"
-          else
-            echo "SSH_PRIVATE_KEY is set"
-          fi
           if [ -z "${{ secrets.DEPLOY }}" ]; then
             echo "DEPLOY is not set"
           else
@@ -29,20 +24,52 @@ jobs:
       - name: Setup SSH and Add Key to ssh-agent
         run: |
           mkdir -p ~/.ssh
-          echo "${{secrets}}"
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
-          ssh-keyscan -H 151.248.120.202 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 194.67.78.99 >> ~/.ssh/known_hosts
       - name: Deploy over SSH with Debugging
         run: |
-          ssh deploy@151.248.120.202 -i ~/.ssh/server_key << 'EOF'
+          ssh deploy@194.67.78.99 -i ~/.ssh/server_key << 'EOF'
             set -e
             cd /opt/vedma-dev
             sudo rm -rf .scribe/endpoints.cache || true
             sudo chown -R $USER:$USER . || true
             git stash
             git pull origin dev
-            docker-compose -f docker-compose.production.yml down
-            docker-compose -f docker-compose.production.yml build
-            docker-compose -f docker-compose.production.yml up -d
+
+            # Запускаем/поднимаем контейнеры без сборки и без пересоздания.
+            # Это оставляет Docker-слой неизменным между деплоями.
+            docker compose -f docker-compose.dev.yml up -d --no-build --no-recreate
+
+            # Перезапускаем только app-контейнер, чтобы подхватить изменения кода.
+            docker compose -f docker-compose.dev.yml restart app
+            # wait for app container to become healthy (max ~60s)
+            i=0; until [ "$i" -ge 30 ]; do
+              STATUS=$(docker ps --filter "name=vedma_dev_app" --format "{{.Status}}")
+              echo "App status: $STATUS"
+              echo "$STATUS" | grep -qi "healthy" && break
+              i=$((i+1))
+              sleep 2
+            done
+
+            # Run app maintenance inside the container in one shell to avoid exec/tty issues
+            docker compose -f docker-compose.dev.yml exec -T app sh -lc '
+              set -e
+              echo "Installing/updating PHP dependencies (if Composer is available)..."
+              if command -v composer >/dev/null 2>&1; then
+                composer install --no-interaction --prefer-dist --optimize-autoloader
+              else
+                echo "COMPOSER_NOT_FOUND_IN_CONTAINER: skip composer install"
+              fi
+              echo "Running incremental migrations..."
+              php artisan migrate --force
+              echo "MIGRATE_OK"
+              echo "Generating API docs..."
+              php artisan scribe:generate --no-interaction --force || echo "SCRIBE_FAILED"
+              echo "Listing Scribe outputs..."
+              ls -lah resources/views/scribe || true
+              ls -lah storage/app/scribe || true
+              php artisan optimize:clear
+              echo "MAINTENANCE_DONE"
+            '
           EOF

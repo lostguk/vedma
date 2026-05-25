@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
-use App\Http\Resources\Api\V1\TopicResource;
+use App\Http\Requests\Api\V1\MessageStoreRequest;
 use App\Http\Requests\Api\V1\TopicStoreRequest;
+use App\Http\Resources\Api\V1\MessageResource;
+use App\Http\Resources\Api\V1\TopicResource;
+use App\Models\Topic;
 use App\Services\TopicService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Throwable;
-use App\Http\Requests\Api\V1\MessageStoreRequest;
-use App\Http\Resources\Api\V1\MessageResource;
-use App\Models\Topic;
 
 /**
  * @group Темы и сообщения
@@ -30,6 +31,7 @@ use App\Models\Topic;
  * - `title` - Название темы
  * - `status` - Статус темы (new, resolved, requires_response)
  * - `user_id` - ID пользователя, создавшего тему.
+ * - `unread_messages_count` - Количество непрочитанных сообщений
  * - `messages` - Массив сообщений в теме (если запрошены)
  *
  * ## Структура сообщения
@@ -70,7 +72,8 @@ final class TopicController extends ApiController
      *                 "status_text": "Новый",
      *                 "created_at": "2023-06-15 10:30:00",
      *                 "updated_at": "2023-06-15 10:30:00",
-     *                 "messages_count": 2
+     *                 "messages_count": 2,
+     *                 "unread_messages_count": 1
      *             },
      *             {
      *                 "id": 2,
@@ -79,7 +82,8 @@ final class TopicController extends ApiController
      *                 "status_text": "Требует ответа",
      *                 "created_at": "2023-06-14 15:45:00",
      *                 "updated_at": "2023-06-14 16:20:00",
-     *                 "messages_count": 3
+     *                 "messages_count": 3,
+     *                 "unread_messages_count": 0
      *             }
      *         ],
      *         "first_page_url": "http://example.com/api/v1/topics?page=1",
@@ -152,6 +156,7 @@ final class TopicController extends ApiController
      *         "created_at": "2023-06-15 10:30:00",
      *         "updated_at": "2023-06-15 10:30:00",
      *         "messages_count": 2,
+     *         "unread_messages_count": 0,
      *         "messages": [
      *             {
      *                 "id": 1,
@@ -204,24 +209,51 @@ final class TopicController extends ApiController
         $topic = $this->topicService->getUserTopic($topicId, $request->user()->id);
 
         // If not found, try to find the topic by ID only
-        if (!$topic) {
+        if (! $topic) {
             $topic = Topic::with(['messages' => function ($query) {
                 $query->orderBy('created_at', 'asc');
             }, 'messages.user', 'messages.media'])->find($topicId);
 
-            if (!$topic) {
+            if (! $topic) {
                 return $this->errorResponse('Тема не найдена', 404);
             }
 
             // Check if the user is authorized to view this topic
-            if (!$request->user()->is_admin && $topic->user_id !== $request->user()->id) {
+            if (! $request->user()->is_admin && $topic->user_id !== $request->user()->id) {
                 return $this->errorResponse('Тема не найдена', 404);
             }
         }
 
+        $this->topicService->markTopicAsRead($topic, $request->user());
+
         return $this->successResponse(
             new TopicResource($topic),
             'Детали темы'
+        );
+    }
+
+    /**
+     * Получение количества непрочитанных сообщений
+     *
+     * Возвращает общее количество непрочитанных сообщений для текущего пользователя.
+     *
+     * @authenticated
+     *
+     * @response 200 scenario="Успешный запрос" {
+     *     "status": "success",
+     *     "message": "Количество непрочитанных сообщений",
+     *     "data": {
+     *         "unread_messages_count": 3
+     *     }
+     * }
+     */
+    public function unreadCount(Request $request): JsonResponse
+    {
+        $count = $this->topicService->getUnreadMessagesCount($request->user());
+
+        return $this->successResponse(
+            ['unread_messages_count' => $count],
+            'Количество непрочитанных сообщений'
         );
     }
 
@@ -270,7 +302,6 @@ final class TopicController extends ApiController
      *         ]
      *     }
      * }
-     *
      * @response 422 scenario="Ошибка валидации" {
      *     "status": "error",
      *     "message": "The given data was invalid.",
@@ -338,31 +369,26 @@ final class TopicController extends ApiController
      *         ]
      *     }
      * }
-     * @response 403 scenario="Доступ запрещен" {
-     *     "status": "error",
-     *     "message": "This action is unauthorized."
-     * }
-     * @response 404 scenario="Тема не найдена" {
-     *     "status": "error",
-     *     "message": "Тема не найдена или не принадлежит пользователю"
-     * }
      */
     public function addMessage(MessageStoreRequest $request, int $topicId): JsonResponse
     {
+        Log::info('addMessage', ['request' => $request->all()]);
         // Find the topic by ID
         $topic = Topic::find($topicId);
 
-        if (!$topic) {
+        if (! $topic) {
             return $this->errorResponse('Тема не найдена', 404);
         }
 
         // Check if the user is authorized to update this topic
-        if (!$request->user()->is_admin && $topic->user_id !== $request->user()->id) {
+        if (! $request->user()->is_admin && $topic->user_id !== $request->user()->id) {
             return $this->errorResponse('У вас нет доступа к этой теме', 403);
         }
 
         $validatedData = $request->safe()->merge(['user_id' => request()->user()->id]);
         $attachments = request()->file('attachments');
+
+        Log::info('attachments', ['attachments' => $attachments]);
 
         try {
             $message = $this->topicService->addMessageToTopic($topic, $validatedData->all(), $attachments);

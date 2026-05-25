@@ -16,6 +16,7 @@ final class PageResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'slug' => $this->slug,
             'description' => $this->description,
             'text' => $this->text,
             'is_visible_in_header' => (bool) $this->is_visible_in_header,

@@ -20,13 +20,15 @@ use Illuminate\Support\Carbon;
  * @property string|null $phone
  * @property string|null $address
  * @property int|null $promo_code_id
- * @property float $total_price
+ * @property int $total_price
+ * @property int|null $total_price_without_discount
+ * @property int|null $total_price_with_discount
  * @property string $status
  * @property string|null $payment_type
  * @property Carbon|null $paid_at
  * @property string|null $comment
  * @property string|null $delivery_type
- * @property float|null $delivery_price
+ * @property int|null $delivery_price
  * @property string|null $delivery_status
  * @property array|null $delivery_data
  * @property Carbon $created_at
@@ -34,6 +36,38 @@ use Illuminate\Support\Carbon;
  * @property-read User|null $user
  * @property-read PromoCode|null $promoCode
  * @property-read OrderItem[] $items
+ * @property-read Payment[] $payments
+ * @property-read int|null $items_count
+ * @property-read int|null $payments_count
+ *
+ * @method static \Database\Factories\OrderFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereDeliveryType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereMiddleName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaidAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePaymentType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order wherePromoCodeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPriceWithDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPriceWithoutDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
+ *
+ * @mixin \Eloquent
  */
 final class Order extends Model
 {
@@ -42,15 +76,18 @@ final class Order extends Model
     protected $fillable = [
         'user_id', 'first_name', 'last_name', 'middle_name', 'email', 'phone',
         'address', 'promo_code_id',
-        'total_price', 'status', 'payment_type', 'paid_at', 'comment',
+        'total_price', 'total_price_without_discount', 'total_price_with_discount',
+        'status', 'payment_type', 'paid_at', 'comment',
         'delivery_type', 'delivery_price', 'delivery_status', 'delivery_data',
     ];
 
     protected $casts = [
         'user_id' => 'int',
         'promo_code_id' => 'int',
-        'total_price' => 'float',
-        'delivery_price' => 'float',
+        'total_price' => 'int',
+        'total_price_without_discount' => 'int',
+        'total_price_with_discount' => 'int',
+        'delivery_price' => 'int',
         'paid_at' => 'datetime',
         'delivery_data' => 'array',
     ];
@@ -68,5 +105,10 @@ final class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

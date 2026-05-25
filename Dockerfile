@@ -2,8 +2,14 @@
 FROM composer:2.7 AS composer
 
 # Устанавливаем расширения PHP в контейнере composer
-RUN apk add --no-cache icu-dev \
-    && docker-php-ext-install intl exif
+# Важно: phpoffice/phpspreadsheet требует ext-gd уже на этапе composer install.
+RUN apk add --no-cache \
+    icu-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-freetype \
+    && docker-php-ext-install gd intl exif
 
 # Копируем файлы composer
 COPY composer.json composer.lock ./
@@ -27,10 +33,13 @@ LABEL description="Laravel Vedma Shop Production Image"
 RUN apk add --no-cache \
     curl \
     libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
     oniguruma-dev \
     libxml2-dev \
     zip \
     unzip \
+    libzip-dev \
     mysql-client \
     nginx \
     supervisor \
@@ -42,7 +51,7 @@ RUN apk add --no-cache \
     libc-dev \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del autoconf g++ make gcc libc-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-freetype \
     && docker-php-ext-install \
     pdo_mysql \
     mbstring \
@@ -51,8 +60,10 @@ RUN apk add --no-cache \
     bcmath \
     gd \
     intl \
+    zip \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
+    && apk del autoconf g++ make gcc libc-dev \
     && rm -rf /var/cache/apk/*
 
 # Создание пользователя www
@@ -63,10 +74,11 @@ RUN addgroup -g 1000 www && \
 RUN mkdir -p /var/www/html \
     /var/log/supervisor \
     /var/log/nginx \
-    /var/cache/nginx \
+    /var/cache/nginx/client_temp \
     /var/run \
-    && chown -R www:www /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chown -R www:www /var/www/html /var/cache/nginx \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 750 /var/cache/nginx
 
 # Копирование конфигураций
 COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -97,3 +109,9 @@ CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1
+
+# DEV-образ на базе production c установленным composer
+FROM production AS development
+
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER=1

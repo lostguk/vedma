@@ -9,6 +9,7 @@ use App\Http\Requests\Api\V1\Auth\LoginRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\LoginService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @group Аутентификация
@@ -26,13 +27,15 @@ use Illuminate\Http\JsonResponse;
  */
 final class LoginController extends ApiController
 {
+    private const ERROR_EMAIL_NOT_VERIFIED = 'Email адрес не подтвержден';
+
     /**
      * Вход в систему
      *
      * Позволяет получить токен доступа по email и паролю.
      * После успешной аутентификации возвращается токен доступа и данные пользователя.
      *
-     * @bodyParam email string required Email пользователя. Example: user@example.com
+     * @bodyParam email string required Email пользователя. Example: gusengus57@gmail.com
      * @bodyParam password string required Пароль пользователя. Example: password123
      *
      * @response 200 scenario="Успешный вход" {
@@ -45,7 +48,7 @@ final class LoginController extends ApiController
      *             "last_name": "Иванов",
      *             "middle_name": "Иванович",
      *             "full_name": "Иванов Иван Иванович",
-     *             "email": "user@example.com",
+     *             "email": "gusengus57@gmail.com",
      *             "phone": "+79001234567",
      *             "address": "Россия"
      *             "email_verified": true,
@@ -67,17 +70,23 @@ final class LoginController extends ApiController
      *         ]
      *     }
      * }
+     * @response 403 scenario="Email не подтвержден" {
+     *     "status": "error",
+     *     "message": "Email адрес не подтвержден"
+     * }
      */
     public function __invoke(LoginRequest $request, LoginService $service): JsonResponse
     {
-        \Log::info('LoginController');
-
         $user = $service->attemptLogin(
             $request->string('email')->toString(),
             $request->string('password')->toString()
         );
 
-        \Log::info('user', $user->toArray());
+        if (! $user->hasVerifiedEmail()) {
+            Auth::logout();
+
+            return $this->errorResponse(self::ERROR_EMAIL_NOT_VERIFIED, 403);
+        }
 
         $token = $user->createToken('api')->plainTextToken;
 

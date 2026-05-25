@@ -50,6 +50,10 @@ final readonly class ResetPasswordService
 
         $this->userRepository->updatePassword($user, $hashedPassword);
 
+        if (! $user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+        }
+
         DB::table('password_reset_tokens')->where('email', $data['email'])->delete();
     }
 }

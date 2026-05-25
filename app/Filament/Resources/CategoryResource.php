@@ -6,13 +6,11 @@ use App\Filament\Resources\CategoryResource\Pages;
 use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,7 +56,7 @@ class CategoryResource extends Resource
                                     }),
 
                                 Forms\Components\TextInput::make('slug')
-                                    ->label(__('filament.forms.fields.url.label'))
+                                    ->label('URL-путь')
                                     ->required()
                                     ->maxLength(255)
                                     ->rules([
@@ -68,7 +66,7 @@ class CategoryResource extends Resource
                                                 ->ignore($get('id'));
                                         },
                                     ])
-                                    ->helperText(__('filament.forms.fields.url.helper_text')),
+                                    ->helperText('URL будет сформирован автоматически из названия, но вы можете изменить его вручную'),
 
                                 Forms\Components\RichEditor::make('description')
                                     ->label('Описание')
@@ -101,16 +99,6 @@ class CategoryResource extends Resource
                                     ->nullable()
                                     ->helperText('Выберите родительскую категорию, если это подкатегория'),
                             ]),
-
-                        Forms\Components\Section::make('Медиа')
-                            ->schema([
-                                SpatieMediaLibraryFileUpload::make('icon')
-                                    ->label('Иконка')
-                                    ->collection('icon')
-                                    ->image()
-                                    ->downloadable()
-                                    ->columnSpanFull(),
-                            ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -123,23 +111,10 @@ class CategoryResource extends Resource
                                     ->helperText('Включить/выключить отображение категории на сайте')
                                     ->default(true),
 
-                                Forms\Components\TextInput::make('sort_order')
-                                    ->label('Порядок сортировки')
-                                    ->numeric()
-                                    ->default(0)
-                                    ->helperText('Чем меньше число, тем выше категория в списке'),
-                            ]),
-
-                        Forms\Components\Section::make('Мета данные')
-                            ->schema([
-                                Forms\Components\TextInput::make('meta_title')
-                                    ->label(__('filament.forms.fields.meta_title.label'))
-                                    ->helperText('Оставьте пустым, чтобы использовать название категории'),
-
-                                Forms\Components\Textarea::make('meta_description')
-                                    ->label(__('filament.forms.fields.meta_description.label'))
-                                    ->rows(3)
-                                    ->helperText('Оставьте пустым, чтобы использовать описание категории'),
+                                Forms\Components\Toggle::make('exclude_from_shipping')
+                                    ->label('Не считать доставку (услуга)')
+                                    ->helperText('Товары из этой категории и всех дочерних не будут учитываться при расчёте стоимости доставки')
+                                    ->default(false),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -150,14 +125,8 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('sort_order', 'asc')
-            ->reorderable('sort_order')
+            ->defaultSort('id')
             ->columns([
-                SpatieMediaLibraryImageColumn::make('icon')
-                    ->label('Иконка')
-                    ->circular()
-                    ->collection('icon'),
-
                 TextColumn::make('name')
                     ->label('Название')
                     ->searchable()
@@ -175,10 +144,6 @@ class CategoryResource extends Resource
 
                 Tables\Columns\ToggleColumn::make('is_visible')
                     ->label('Видимость')
-                    ->sortable(),
-
-                TextColumn::make('sort_order')
-                    ->label('Порядок')
                     ->sortable(),
             ])
             ->filters([

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Resources\ProductResource\RelationManagers\RelatedRelationManager;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -77,11 +80,15 @@ class ProductResource extends Resource
                         SpatieMediaLibraryFileUpload::make('images')
                             ->collection(Product::IMAGES_COLLECTION)
                             ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
                             ->image()
                             ->disk('public')
                             ->directory('products')
                             ->visibility('public')
                             ->maxSize(1024 * 2)
+                            ->maxFiles(10)
+                            ->helperText('Перетащите изображения для изменения порядка. Первое изображение будет главным.')
                             ->columnSpanFull(),
                     ]),
 
@@ -93,10 +100,11 @@ class ProductResource extends Resource
                         Forms\Components\Toggle::make('is_bestseller')
                             ->label('Хит продаж')
                             ->default(false),
-                        Forms\Components\TextInput::make('sort_order')
-                            ->label('Сортировка')
+                        Forms\Components\TextInput::make('stock')
+                            ->label('Остаток на складе')
                             ->numeric()
-                            ->default(0),
+                            ->nullable()
+                            ->helperText('Оставьте пустым для неограниченного количества (услуги)'),
                     ])->columns(3),
 
                 Forms\Components\Section::make('Категории')
@@ -137,9 +145,26 @@ class ProductResource extends Resource
                 Tables\Columns\IconColumn::make('is_bestseller')
                     ->label('Хит продаж')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sort_order')
-                    ->label('Сортировка')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('stock')
+                    ->label('Склад')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state) => $state === null ? '∞' : $state)
+                    ->color(fn ($state) => $state === 0 ? 'danger' : ($state !== null && $state <= 5 ? 'warning' : null))
+                    ->action(
+                        Tables\Actions\Action::make('updateStock')
+                            ->label('Изменить остаток')
+                            ->form([
+                                Forms\Components\TextInput::make('stock')
+                                    ->label('Остаток на складе')
+                                    ->numeric()
+                                    ->nullable()
+                                    ->helperText('Оставьте пустым для неограниченного количества'),
+                            ])
+                            ->fillForm(fn ($record) => ['stock' => $record->stock])
+                            ->action(fn ($record, array $data) => $record->update(['stock' => $data['stock']]))
+                            ->modalHeading('Изменить остаток на складе')
+                            ->modalSubmitActionLabel('Сохранить')
+                    ),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Создан')
                     ->dateTime('d.m.Y H:i')
@@ -174,7 +199,9 @@ class ProductResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            RelatedRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
