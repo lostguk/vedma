@@ -1,4 +1,4 @@
-name: Deploy to Main
+name: Deploy Production Backend
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check available secrets
         run: |
@@ -27,36 +27,94 @@ jobs:
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 194.67.78.99 >> ~/.ssh/known_hosts
-      - name: Deploy over SSH with Debugging
+      - name: Deploy production over SSH
         run: |
           ssh deploy@194.67.78.99 -i ~/.ssh/server_key << 'EOF'
-            set -e
-            cd /opt/vedma
+            set -Eeuo pipefail
+
+            APP_DIR="/opt/vedma-dev"
+            BACKUP_ROOT="/opt/vedma-backups/backend"
+            COMPOSE_FILE="docker-compose.production.yml"
+            DEV_COMPOSE_FILE="docker-compose.dev.yml"
+
+            cd "$APP_DIR"
             sudo rm -rf .scribe/endpoints.cache || true
             sudo chown -R $USER:$USER . || true
-            git stash
-            git pull origin main
 
-            # Проверяем, были ли изменения в Dockerfile или composer.json
-            # Используем кэш по умолчанию, полная пересборка только при изменениях
-            if git rev-parse HEAD~1 >/dev/null 2>&1; then
-              DOCKERFILE_CHANGED=$(git diff HEAD~1 HEAD --name-only | grep -E "(Dockerfile|composer\.(json|lock))" || true)
-              if [ -n "$DOCKERFILE_CHANGED" ]; then
-                echo "Обнаружены изменения в Dockerfile или composer.json, делаем полную пересборку..."
-                docker compose -f docker-compose.production.yml build --no-cache
-              else
-                echo "Изменений в Dockerfile нет, используем кэш..."
-                docker compose -f docker-compose.production.yml build
-              fi
+            BEFORE_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
+            git stash push -m "pre-production-deploy-$(date +%s)" || true
+            git fetch origin main
+            git checkout main 2>/dev/null || git checkout -b main origin/main
+            git pull --ff-only origin main
+            AFTER_SHA="$(git rev-parse HEAD)"
+
+            BACKUP_DIR="$BACKUP_ROOT/$(date +%Y%m%d_%H%M%S)"
+            mkdir -p "$BACKUP_DIR"
+
+            echo "Creating pre-cutover backup in $BACKUP_DIR"
+            if docker ps -a --format '{{.Names}}' | grep -qx 'vedma_dev_mysql'; then
+              docker exec vedma_dev_mysql sh -lc 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"' > "$BACKUP_DIR/mysql-dev.sql" || echo "MYSQL_BACKUP_FAILED"
+            elif docker ps -a --format '{{.Names}}' | grep -qx 'vedma_mysql'; then
+              docker exec vedma_mysql sh -lc 'mysqldump -uroot -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE"' > "$BACKUP_DIR/mysql-prod.sql" || echo "MYSQL_BACKUP_FAILED"
             else
-              echo "Первый коммит или нет истории, используем кэш..."
-              docker compose -f docker-compose.production.yml build
+              echo "MYSQL_CONTAINER_NOT_FOUND: skip database backup"
             fi
 
-            # Запускаем контейнеры
-            docker compose -f docker-compose.production.yml up -d
+            if [ -d storage/app ]; then
+              tar -czf "$BACKUP_DIR/storage-app.tgz" storage/app || echo "STORAGE_BACKUP_FAILED"
+            fi
 
-            # Очищаем старые образы (старше 3 дней)
-            echo "Очистка старых образов..."
+            DEV_MYSQL_VOLUME="$(docker inspect vedma_dev_mysql --format '{{range .Mounts}}{{if eq .Destination "/var/lib/mysql"}}{{.Name}}{{end}}{{end}}' 2>/dev/null || true)"
+            DEV_REDIS_VOLUME="$(docker inspect vedma_dev_redis --format '{{range .Mounts}}{{if eq .Destination "/data"}}{{.Name}}{{end}}{{end}}' 2>/dev/null || true)"
+            export MYSQL_VOLUME_NAME="${MYSQL_VOLUME_NAME:-${DEV_MYSQL_VOLUME:-vedma_mysql_data}}"
+            export REDIS_VOLUME_NAME="${REDIS_VOLUME_NAME:-${DEV_REDIS_VOLUME:-vedma_redis_data}}"
+            export APP_PUBLISHED_PORT="${APP_PUBLISHED_PORT:-8000}"
+
+            echo "Stopping current dev slot before production start..."
+            docker compose -f "$DEV_COMPOSE_FILE" down --remove-orphans || true
+
+            CHANGED_FILES="$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA" 2>/dev/null || true)"
+            if echo "$CHANGED_FILES" | grep -Eq '(^Dockerfile$|^docker/|^docker-compose\.production\.yml$|^composer\.(json|lock)$|^package(-lock)?\.json$|^vite\.config\.js$)' || git log -1 --pretty=%B | grep -q '\[rebuild\]'; then
+              echo "Production dependencies or Docker config changed, rebuilding without cache..."
+              DOCKER_BUILDKIT=1 docker compose -f "$COMPOSE_FILE" build --no-cache
+            else
+              echo "Using Docker build cache..."
+              DOCKER_BUILDKIT=1 docker compose -f "$COMPOSE_FILE" build
+            fi
+
+            docker compose -f "$COMPOSE_FILE" up -d --no-build
+
+            echo "Waiting for app container health..."
+            i=0
+            until [ "$i" -ge 60 ]; do
+              STATUS="$(docker inspect --format='{{.State.Health.Status}}' vedma_app 2>/dev/null || echo starting)"
+              echo "App health: $STATUS"
+              [ "$STATUS" = "healthy" ] && break
+              i=$((i + 1))
+              sleep 2
+            done
+
+            if [ "$(docker inspect --format='{{.State.Health.Status}}' vedma_app 2>/dev/null || echo unhealthy)" != "healthy" ]; then
+              echo "Production app did not become healthy. Last logs:"
+              docker compose -f "$COMPOSE_FILE" logs --tail=120 app || true
+              exit 1
+            fi
+
+            docker compose -f "$COMPOSE_FILE" exec -T app sh -lc '
+              set -e
+              php artisan storage:link || true
+              php artisan migrate --force
+              php artisan optimize:clear
+              php artisan config:cache
+              php artisan route:cache
+              php artisan view:cache
+              php artisan queue:restart || true
+            '
+
+            curl -fsS "http://127.0.0.1:${APP_PUBLISHED_PORT}/health" >/dev/null
+
+            echo "Production deployment completed. Backup: $BACKUP_DIR"
+
+            echo "Cleaning old Docker images..."
             docker image prune -a -f --filter "until=72h" || true
           EOF

@@ -114,10 +114,19 @@ services:
     restart: unless-stopped
     ports:
       - "6380:6379"
+    env_file:
+      - .env
     volumes:
       - redis_dev_data:/data
       - ./docker/redis/redis.conf:/etc/redis/redis.conf:ro
-    command: redis-server /etc/redis/redis.conf
+    command:
+      - sh
+      - -c
+      - |
+        if [ -n "$$REDIS_PASSWORD" ]; then
+          exec redis-server /etc/redis/redis.conf --requirepass "$$REDIS_PASSWORD"
+        fi
+        exec redis-server /etc/redis/redis.conf
     networks:
       - vedma_dev_network
     # security_opt:
@@ -139,7 +148,11 @@ services:
     #       cpus: '0.1'
     #       memory: 128M
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test:
+        [
+          "CMD-SHELL",
+          'if [ -n "$$REDIS_PASSWORD" ]; then redis-cli -a "$$REDIS_PASSWORD" ping; else redis-cli ping; fi',
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
