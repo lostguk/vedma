@@ -26,10 +26,10 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
-          ssh-keyscan -H 194.67.78.99 >> ~/.ssh/known_hosts
+          ssh-keyscan -H 95.163.241.226 >> ~/.ssh/known_hosts
       - name: Deploy over SSH with Debugging
         run: |
-          ssh deploy@194.67.78.99 -i ~/.ssh/server_key << 'EOF'
+          ssh deploy@95.163.241.226 -i ~/.ssh/server_key << 'EOF'
             set -e
             cd /opt/vedma-dev
             sudo rm -rf .scribe/endpoints.cache || true
