@@ -21,6 +21,13 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 COPY . .
 RUN composer dump-autoload --optimize --classmap-authoritative --no-dev
 
+# Публикация CSS/JS Filament (public/css и public/js исключены из .dockerignore)
+ENV APP_ENV=production \
+    APP_KEY=base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA= \
+    APP_DEBUG=false \
+    LOG_CHANNEL=stderr
+RUN php artisan filament:assets --no-interaction
+
 # Основной образ для продакшна
 FROM php:8.3-fpm-alpine AS production
 
@@ -86,9 +93,14 @@ COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/php/php.ini /usr/local/etc/php/php.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
+COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Копирование приложения
 COPY --from=composer --chown=www:www /app /var/www/html
+
+# Symlink для публичных медиа-файлов (/storage → storage/app/public)
+RUN ln -sfn ../storage/app/public /var/www/html/public/storage \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Установка правильных разрешений
 RUN chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache \
@@ -104,7 +116,7 @@ EXPOSE 8080
 USER root
 
 # Точка входа
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
