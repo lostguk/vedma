@@ -5,6 +5,8 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Цвета для вывода
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -131,6 +133,37 @@ prod_down() {
 prod_logs() {
     local service=${1:-app}
             docker compose -f docker-compose.production.yml logs -f "$service"
+}
+
+prod_backup() {
+    check_docker
+    log "Создание production-бэкапа..."
+    "$SCRIPT_DIR/scripts/backup.sh" backup
+}
+
+prod_restore() {
+    check_docker
+    local target="${1:-latest}"
+    local assume_yes="${2:-}"
+
+    if [ "$target" = "--yes" ]; then
+        target="latest"
+        assume_yes="--yes"
+    fi
+
+    warning "⚠️  Восстановление production из бэкапа: $target"
+    "$SCRIPT_DIR/scripts/backup.sh" restore "$target" "$assume_yes"
+}
+
+prod_backup_list() {
+    "$SCRIPT_DIR/scripts/backup.sh" list
+}
+
+prod_backup_install_cron() {
+    local hour="${1:-3}"
+    local minute="${2:-0}"
+    log "Установка cron для ежедневного бэкапа (production)..."
+    "$SCRIPT_DIR/scripts/backup.sh" install-cron "$hour" "$minute"
 }
 
 # ===== ОБЩИЕ КОМАНДЫ =====
@@ -380,6 +413,11 @@ help() {
     echo "  prod-up         Запуск продакшн (автоочистка старых образов)"
     echo "  prod-down       Остановка продакшн"
     echo "  prod-logs [srv] Логи продакшн (app, mysql, redis)"
+    echo "  prod-backup              Создать бэкап БД + storage/app + .env"
+    echo "  prod-restore [name]      Восстановить из бэкапа (latest по умолчанию)"
+    echo "  prod-restore --yes       Восстановить latest без подтверждения"
+    echo "  prod-backup-list         Список доступных бэкапов"
+    echo "  prod-backup-install-cron [час] [мин]  Cron: ежедневный бэкап (03:00)"
     echo ""
     echo -e "${YELLOW}РАЗРАБОТКА (Sail):${NC}"
     echo "  deploy          Обновить проект: composer + migrate + cache clear"
@@ -462,6 +500,18 @@ case "${1:-help}" in
         ;;
     prod-logs)
         prod_logs "${2:-app}"
+        ;;
+    prod-backup)
+        prod_backup
+        ;;
+    prod-restore)
+        prod_restore "${2:-latest}" "${3:-}"
+        ;;
+    prod-backup-list)
+        prod_backup_list
+        ;;
+    prod-backup-install-cron)
+        prod_backup_install_cron "${2:-3}" "${3:-0}"
         ;;
 
     # Разработка
