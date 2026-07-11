@@ -13,8 +13,10 @@ final class HeroSlideSeeder extends Seeder
 {
     public function run(): void
     {
-        if (! Storage::exists('hero-slides')) {
-            Storage::makeDirectory('hero-slides');
+        $disk = Storage::disk('public');
+
+        if (! $disk->exists('hero-slides')) {
+            $disk->makeDirectory('hero-slides');
         }
 
         $slides = [
@@ -54,11 +56,11 @@ final class HeroSlideSeeder extends Seeder
             $sourcePath = database_path("seeders/hero-slides/{$imageFile}");
             $storagePath = "hero-slides/{$imageFile}";
 
-            if (file_exists($sourcePath) && ! Storage::exists($storagePath)) {
-                File::copy($sourcePath, Storage::path($storagePath));
+            if (file_exists($sourcePath) && ! $disk->exists($storagePath)) {
+                File::copy($sourcePath, $disk->path($storagePath));
             }
 
-            $slideData['image_path'] = Storage::exists($storagePath) ? $storagePath : null;
+            $slideData['image_path'] = $disk->exists($storagePath) ? $storagePath : null;
             $slideData['is_active'] = true;
 
             HeroSlide::query()->updateOrCreate(

@@ -113,8 +113,10 @@ prod_up() {
     log "Запуск продакшн окружения (без пересборки образов)..."
     docker compose -f docker-compose.production.yml up -d --no-build
 
+    local port=${APP_PUBLISHED_PORT:-8000}
+
     info "✅ Продакшн запущен:"
-    info "🌐 Web: http://localhost:8080"
+    info "🌐 Web: http://localhost:${port}"
     info "🗄️ MySQL: localhost:3306"
     info "📚 Redis: localhost:6379"
 
@@ -141,6 +143,18 @@ prod_migrate() {
     docker compose -f docker-compose.production.yml exec -T app php artisan migrate --force
 }
 
+prod_seed() {
+    check_env
+    check_docker
+
+    log "Запуск production сидов (идемпотентно, без товаров и демо-данных)..."
+    docker compose -f docker-compose.production.yml exec -T app sh -lc '
+        set -e
+        php artisan storage:link || true
+        php artisan db:seed --class=ProductionSeeder --force
+    '
+}
+
 prod_optimize() {
     check_env
     check_docker
@@ -149,6 +163,8 @@ prod_optimize() {
     docker compose -f docker-compose.production.yml exec -T app sh -lc '
         set -e
         php artisan storage:link || true
+        php artisan filament:assets
+        php artisan vendor:publish --tag=livewire:assets --force --no-interaction
         php artisan optimize:clear
         php artisan config:cache
         php artisan route:cache
@@ -421,6 +437,7 @@ help() {
     echo "  prod-up         Запуск продакшн (автоочистка старых образов)"
     echo "  prod-deploy     Сборка, запуск, миграции, cache optimize и health"
     echo "  prod-migrate    Докатить миграции (PRODUCTION)"
+    echo "  prod-seed       Сиды для fresh install (PRODUCTION, вручную)"
     echo "  prod-optimize   Laravel cache optimize (PRODUCTION)"
     echo "  prod-health     Проверить production health"
     echo "  prod-down       Остановка продакшн"
@@ -475,6 +492,7 @@ help() {
     echo "  ./dev.sh prod-build            # Сборка продакшн (с кэшем)"
     echo "  ./dev.sh prod-up               # Запуск продакшн (автоочистка)"
     echo "  ./dev.sh prod-deploy           # Полный production deploy локально/на сервере"
+    echo "  ./dev.sh prod-seed             # Сиды для первичной инициализации production"
     echo ""
     echo -e "${BLUE}Для разработки используйте команды без префикса.${NC}"
     echo -e "${BLUE}Для продакшна используйте команды с префиксом 'prod-'.${NC}"
@@ -508,6 +526,9 @@ case "${1:-help}" in
         ;;
     prod-migrate)
         prod_migrate
+        ;;
+    prod-seed)
+        prod_seed
         ;;
     prod-optimize)
         prod_optimize

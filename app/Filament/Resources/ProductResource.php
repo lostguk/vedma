@@ -60,19 +60,23 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('weight')
                             ->label('Вес (г)')
                             ->numeric()
-                            ->suffix('г'),
+                            ->suffix('г')
+                            ->required(),
                         Forms\Components\TextInput::make('width')
                             ->label('Ширина (см)')
                             ->numeric()
-                            ->suffix('см'),
+                            ->suffix('см')
+                            ->required(),
                         Forms\Components\TextInput::make('height')
                             ->label('Высота (см)')
                             ->numeric()
-                            ->suffix('см'),
+                            ->suffix('см')
+                            ->required(),
                         Forms\Components\TextInput::make('length')
                             ->label('Длина (см)')
                             ->numeric()
-                            ->suffix('см'),
+                            ->suffix('см')
+                            ->required(),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Изображения')

@@ -103,6 +103,8 @@ jobs:
             docker compose -f "$COMPOSE_FILE" exec -T app sh -lc '
               set -e
               php artisan storage:link || true
+              php artisan filament:assets
+              php artisan vendor:publish --tag=livewire:assets --force --no-interaction
               php artisan migrate --force
               php artisan optimize:clear
               php artisan config:cache

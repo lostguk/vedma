@@ -21,6 +21,13 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 COPY . .
 RUN composer dump-autoload --optimize --classmap-authoritative --no-dev
 
+# Публикуем статические ассеты Filament и Livewire для админки
+RUN cp .env.example .env \
+    && CACHE_STORE=file SESSION_DRIVER=file QUEUE_CONNECTION=sync TELESCOPE_ENABLED=false \
+        php artisan filament:assets \
+    && CACHE_STORE=file SESSION_DRIVER=file QUEUE_CONNECTION=sync TELESCOPE_ENABLED=false \
+        php artisan vendor:publish --tag=livewire:assets --force --no-interaction
+
 # Сборка frontend assets для Laravel/Vite.
 FROM node:22-alpine AS assets
 
