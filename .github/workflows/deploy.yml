@@ -1,4 +1,4 @@
-name: Deploy to Main
+name: Deploy Production Backend
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check available secrets
         run: |
@@ -27,7 +27,7 @@ jobs:
           echo "${{ secrets.DEPLOY }}" > ~/.ssh/server_key
           chmod 600 ~/.ssh/server_key
           ssh-keyscan -H 95.163.241.226 >> ~/.ssh/known_hosts
-      - name: Deploy over SSH with Debugging
+      - name: Deploy production over SSH
         run: |
           ssh deploy@95.163.241.226 -i ~/.ssh/server_key << 'EOF'
             set -e

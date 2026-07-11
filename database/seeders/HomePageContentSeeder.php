@@ -23,13 +23,15 @@ final class HomePageContentSeeder extends Seeder
             'about_trust_feature_3_image.png',
         ];
 
-        if (! Storage::exists('home')) {
-            Storage::makeDirectory('home');
+        $disk = Storage::disk('public');
+
+        if (! $disk->exists('home')) {
+            $disk->makeDirectory('home');
         }
 
         foreach ($files as $file) {
             $sourcePath = database_path("seeders/homepage-images/{$file}");
-            $targetPath = Storage::path("home/{$file}");
+            $targetPath = $disk->path("home/{$file}");
 
             if (! file_exists($targetPath) && file_exists($sourcePath)) {
                 File::copy($sourcePath, $targetPath);

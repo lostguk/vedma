@@ -28,6 +28,26 @@ ENV APP_ENV=production \
     LOG_CHANNEL=stderr
 RUN php artisan filament:assets --no-interaction
 
+# Публикуем статические ассеты Filament и Livewire для админки
+RUN cp .env.example .env \
+    && CACHE_STORE=file SESSION_DRIVER=file QUEUE_CONNECTION=sync TELESCOPE_ENABLED=false \
+        php artisan filament:assets \
+    && CACHE_STORE=file SESSION_DRIVER=file QUEUE_CONNECTION=sync TELESCOPE_ENABLED=false \
+        php artisan vendor:publish --tag=livewire:assets --force --no-interaction
+
+# Сборка frontend assets для Laravel/Vite.
+FROM node:22-alpine AS assets
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+COPY vite.config.js ./
+COPY resources ./resources
+COPY --from=composer /app/vendor ./vendor
+RUN npm run build
+
 # Основной образ для продакшна
 FROM php:8.3-fpm-alpine AS production
 
@@ -91,19 +111,25 @@ RUN mkdir -p /var/www/html \
 COPY docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/php/php.ini /usr/local/etc/php/php.ini
+COPY docker/php/php-production.ini /usr/local/etc/php/conf.d/zz-production.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
 COPY docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Копирование приложения
 COPY --from=composer --chown=www:www /app /var/www/html
+COPY --from=assets --chown=www:www /app/public/build /var/www/html/public/build
 
 # Symlink для публичных медиа-файлов (/storage → storage/app/public)
 RUN ln -sfn ../storage/app/public /var/www/html/public/storage \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Установка правильных разрешений
-RUN chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache \
+RUN mkdir -p /var/www/html/storage/framework/cache/data \
+    /var/www/html/storage/framework/sessions \
+    /var/www/html/storage/framework/views \
+    /var/www/html/bootstrap/cache \
+    && chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Переключение на пользователя www
@@ -126,4 +152,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 FROM production AS development
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY docker/php/php-development.ini /usr/local/etc/php/conf.d/zzz-development.ini
 ENV COMPOSER_ALLOW_SUPERUSER=1

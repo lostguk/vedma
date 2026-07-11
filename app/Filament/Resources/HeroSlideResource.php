@@ -75,6 +75,7 @@ class HeroSlideResource extends Resource
                         Forms\Components\FileUpload::make('image_path')
                             ->label('Фоновое изображение слайда')
                             ->image()
+                            ->disk('public')
                             ->directory('hero-slides')
                             ->imageResizeMode('cover')
                             ->imageResizeTargetWidth('1920')

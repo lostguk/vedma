@@ -9,7 +9,6 @@
 ### Контейнеры
 
 1. **shop_nginx_dev** - Веб-сервер
-
     - Базовый образ: `nginx:alpine`
     - Порт: 8000
     - Пользователь: `appuser` (UID: 1000)
@@ -17,20 +16,17 @@
     - Ограничения ресурсов: 0.5 CPU, 128MB RAM
 
 2. **shop_php_dev** - PHP-FPM
-
     - Базовый образ: `php:8.3-fpm`
     - Порт: 9001
     - Пользователь: `appuser` (UID: 1000)
     - Ограничения ресурсов: 1.0 CPU, 512MB RAM
 
 3. **shop_mysql_dev** - База данных
-
     - Базовый образ: `mysql:8.0`
     - Порт: 3307
     - Ограничения ресурсов: 1.0 CPU, 1GB RAM
 
 4. **shop_redis_dev** - Кэш
-
     - Базовый образ: `redis:alpine`
     - Порт: 6378
     - Ограничения ресурсов: 0.5 CPU, 256MB RAM
@@ -44,13 +40,11 @@
 ### Принципы безопасности
 
 1. **Принцип наименьших привилегий**
-
     - Все контейнеры запускаются под непривилегированными пользователями
     - Минимальный набор capabilities
     - `no-new-privileges:true` для всех контейнеров
 
 2. **Изоляция ресурсов**
-
     - Ограничения CPU и памяти для каждого контейнера
     - Использование tmpfs для временных файлов
     - Read-only volumes где это возможно
@@ -64,23 +58,23 @@
 
 #### Nginx
 
--   Скрытие версии сервера
--   Защитные заголовки (CSP, XSS Protection, etc.)
--   Rate limiting для API endpoints
--   Блокировка доступа к чувствительным файлам
+- Скрытие версии сервера
+- Защитные заголовки (CSP, XSS Protection, etc.)
+- Rate limiting для API endpoints
+- Блокировка доступа к чувствительным файлам
 
 #### PHP-FPM
 
--   Ограничение типов файлов (.php только)
--   Безопасная конфигурация open_basedir
--   Отключение опасных функций
--   Контроль загрузки файлов
+- Ограничение типов файлов (.php только)
+- Безопасная конфигурация open_basedir
+- Отключение опасных функций
+- Контроль загрузки файлов
 
 #### MySQL
 
--   Непривилегированный пользователь
--   Ограничение подключений
--   Безопасная конфигурация
+- Непривилегированный пользователь
+- Ограничение подключений
+- Безопасная конфигурация
 
 ## Использование
 
@@ -224,13 +218,11 @@ docker exec shop_php_dev whoami
 ### Оптимизация
 
 1. **Nginx**
-
     - Gzip сжатие
     - Кэширование статических файлов
     - Оптимизация буферов
 
 2. **PHP-FPM**
-
     - Настройка pool manager
     - Оптимизация буферов FastCGI
     - Контроль процессов
@@ -255,22 +247,18 @@ docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
 ### Частые проблемы
 
 1. **Ошибка подключения nginx к PHP**
-
     - Проверьте, что PHP-FPM слушает 0.0.0.0:9000
     - Убедитесь, что контейнеры в одной сети
 
 2. **Проблемы с правами доступа**
-
     - Проверьте HOST_UID и HOST_GID в .env
     - Убедитесь, что пользователи созданы корректно
 
 3. **Ошибки базы данных**
-
     - Проверьте health check MySQL
     - Убедитесь в корректности переменных окружения
 
 4. **Ошибка при сборке: `chown` не может изменить права доступа**
-
     - Проблема: Директории `storage` или `bootstrap/cache` могут не существовать на этапе сборки
     - Решение: Dockerfile автоматически создает необходимые директории перед изменением прав
     - Если проблема сохраняется, проверьте `.dockerignore` - он не должен исключать сами директории (только их содержимое)
@@ -302,19 +290,22 @@ docker inspect shop_php_dev
 
 ```bash
 # Продакшн конфигурация
-docker-compose -f docker-compose.yml up -d
+./dev.sh prod-deploy
 
-# Или для продакшн сервера
-docker-compose -f docker-compose.prod.yml up -d
+# Или вручную
+docker compose -f docker-compose.production.yml build
+docker compose -f docker-compose.production.yml up -d --no-build
 ```
 
 ### Отличия продакшн конфигурации
 
--   SSL сертификаты
--   Более строгие настройки безопасности
--   Оптимизация производительности
--   Логирование в внешние системы
--   Мониторинг и алерты
+- Код и зависимости запекаются в Docker image
+- Порт приложения параметризуется через `APP_PUBLISHED_PORT` (по умолчанию `8000`)
+- MySQL и Redis не публикуются наружу
+- Redis password задается через `REDIS_PASSWORD`
+- Оптимизация производительности
+- Post-deploy: `migrate --force`, Laravel cache optimize, health-check
+- Backup перед переключением dev-слота на production
 
 ## Лучшие практики
 
@@ -327,15 +318,16 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ## Дополнительная документация
 
--   [MAC_SETUP.md](./MAC_SETUP.md) - Настройка Docker для macOS
--   [BUILD_OPTIMIZATION.md](./BUILD_OPTIMIZATION.md) - Оптимизация процесса сборки (кэш, когда использовать --no-cache)
--   [DEPLOY_OPTIMIZATION.md](./DEPLOY_OPTIMIZATION.md) - Оптимизация процесса деплоя (CI/CD, умная сборка)
--   [QUICK_FIX_DISK.md](./QUICK_FIX_DISK.md) - Быстрое решение проблемы переполнения диска
--   [DISK_CLEANUP.md](./DISK_CLEANUP.md) - Полное руководство по очистке Docker
+- [MAC_SETUP.md](./MAC_SETUP.md) - Настройка Docker для macOS
+- [BUILD_OPTIMIZATION.md](./BUILD_OPTIMIZATION.md) - Оптимизация процесса сборки (кэш, когда использовать --no-cache)
+- [DEPLOY_OPTIMIZATION.md](./DEPLOY_OPTIMIZATION.md) - Оптимизация процесса деплоя (CI/CD, умная сборка)
+- [PRODUCTION_RUNBOOK.md](./PRODUCTION_RUNBOOK.md) - Production cutover, smoke checks и rollback
+- [QUICK_FIX_DISK.md](./QUICK_FIX_DISK.md) - Быстрое решение проблемы переполнения диска
+- [DISK_CLEANUP.md](./DISK_CLEANUP.md) - Полное руководство по очистке Docker
 
 ## Дополнительная информация
 
--   [Docker Security](https://docs.docker.com/engine/security/)
--   [Nginx Security](https://nginx.org/en/docs/http/request_processing.html)
--   [PHP-FPM Configuration](https://www.php.net/manual/en/install.fpm.configuration.php)
--   [MySQL Security](https://dev.mysql.com/doc/refman/8.0/en/security.html)
+- [Docker Security](https://docs.docker.com/engine/security/)
+- [Nginx Security](https://nginx.org/en/docs/http/request_processing.html)
+- [PHP-FPM Configuration](https://www.php.net/manual/en/install.fpm.configuration.php)
+- [MySQL Security](https://dev.mysql.com/doc/refman/8.0/en/security.html)

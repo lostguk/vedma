@@ -114,7 +114,10 @@ HTML),
         ];
 
         foreach ($pages as $page) {
-            Page::create($page);
+            Page::query()->updateOrCreate(
+                ['slug' => $page['slug']],
+                $page,
+            );
         }
     }
 }

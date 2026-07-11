@@ -19,11 +19,11 @@ final class HeroSlideResource extends JsonResource
 
         $optimizedWebpPath = preg_replace('/\.(png|jpe?g)$/i', '.webp', $imagePath);
 
-        if ($optimizedWebpPath && $optimizedWebpPath !== $imagePath && Storage::exists($optimizedWebpPath)) {
-            return Storage::url($optimizedWebpPath);
+        if ($optimizedWebpPath && $optimizedWebpPath !== $imagePath && Storage::disk('public')->exists($optimizedWebpPath)) {
+            return Storage::disk('public')->url($optimizedWebpPath);
         }
 
-        return Storage::url($imagePath);
+        return Storage::disk('public')->url($imagePath);
     }
 
     public function toArray(Request $request): array

@@ -9,7 +9,7 @@ services:
     container_name: vedma_app
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "${APP_PUBLISHED_HOST:-0.0.0.0}:${APP_PUBLISHED_PORT:-8000}:8080"
     environment:
       APP_ENV: production
       DB_HOST: mysql
@@ -19,6 +19,7 @@ services:
     volumes:
       - ./storage/app:/var/www/html/storage/app:rw
       - ./storage/logs:/var/www/html/storage/logs:rw
+      - ./storage/framework:/var/www/html/storage/framework:rw
     networks:
       - vedma_network
     depends_on:
@@ -47,7 +48,11 @@ services:
     #       cpus: '0.5'
     #       memory: 512M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://localhost:8080/health >/dev/null || exit 1",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -57,17 +62,14 @@ services:
     image: mysql:8.0
     container_name: vedma_mysql
     restart: unless-stopped
-    ports:
-      - "${DB_PORT:-3306}:3306"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_HOST: "%"
     volumes:
       - mysql_data:/var/lib/mysql
-      # - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     networks:
       - vedma_network
     # security_opt:
@@ -112,12 +114,19 @@ services:
     image: redis:7-alpine
     container_name: vedma_redis
     restart: unless-stopped
-    ports:
-      - "${REDIS_PORT:-6379}:6379"
+    env_file:
+      - .env
     volumes:
       - redis_data:/data
       - ./docker/redis/redis.conf:/etc/redis/redis.conf:ro
-    command: redis-server /etc/redis/redis.conf
+    command:
+      - sh
+      - -c
+      - |
+        if [ -n "$$REDIS_PASSWORD" ]; then
+          exec redis-server /etc/redis/redis.conf --requirepass "$$REDIS_PASSWORD"
+        fi
+        exec redis-server /etc/redis/redis.conf
     networks:
       - vedma_network
     # security_opt:
@@ -139,7 +148,11 @@ services:
     #       cpus: '0.1'
     #       memory: 128M
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test:
+        [
+          "CMD-SHELL",
+          'if [ -n "$$REDIS_PASSWORD" ]; then redis-cli -a "$$REDIS_PASSWORD" ping; else redis-cli ping; fi',
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -153,6 +166,8 @@ networks:
 
 volumes:
   mysql_data:
+    name: ${MYSQL_VOLUME_NAME:-vedma_mysql_data}
     driver: local
   redis_data:
+    name: ${REDIS_VOLUME_NAME:-vedma_redis_data}
     driver: local

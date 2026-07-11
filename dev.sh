@@ -115,8 +115,10 @@ prod_up() {
     log "Запуск продакшн окружения (без пересборки образов)..."
     docker compose -f docker-compose.production.yml up -d --no-build
 
+    local port=${APP_PUBLISHED_PORT:-8000}
+
     info "✅ Продакшн запущен:"
-    info "🌐 Web: http://localhost:8080"
+    info "🌐 Web: http://localhost:${port}"
     info "🗄️ MySQL: localhost:3306"
     info "📚 Redis: localhost:6379"
 
@@ -164,6 +166,61 @@ prod_backup_install_cron() {
     local minute="${2:-0}"
     log "Установка cron для ежедневного бэкапа (production)..."
     "$SCRIPT_DIR/scripts/backup.sh" install-cron "$hour" "$minute"
+}
+
+prod_migrate() {
+    check_env
+    check_docker
+
+    log "Докатывание миграций (PRODUCTION)..."
+    docker compose -f docker-compose.production.yml exec -T app php artisan migrate --force
+}
+
+prod_seed() {
+    check_env
+    check_docker
+
+    log "Запуск production сидов (идемпотентно, без товаров и демо-данных)..."
+    docker compose -f docker-compose.production.yml exec -T app sh -lc '
+        set -e
+        php artisan storage:link || true
+        php artisan db:seed --class=ProductionSeeder --force
+    '
+}
+
+prod_optimize() {
+    check_env
+    check_docker
+
+    log "Оптимизация Laravel cache (PRODUCTION)..."
+    docker compose -f docker-compose.production.yml exec -T app sh -lc '
+        set -e
+        php artisan storage:link || true
+        php artisan filament:assets
+        php artisan vendor:publish --tag=livewire:assets --force --no-interaction
+        php artisan optimize:clear
+        php artisan config:cache
+        php artisan route:cache
+        php artisan view:cache
+        php artisan queue:restart || true
+    '
+}
+
+prod_health() {
+    check_docker
+
+    local port=${APP_PUBLISHED_PORT:-8000}
+    log "Проверка health production на http://127.0.0.1:${port}/health..."
+    curl -fsS "http://127.0.0.1:${port}/health" >/dev/null
+    info "✅ Production health OK"
+}
+
+prod_deploy() {
+    prod_build "${1:-}"
+    prod_up
+    prod_migrate
+    prod_optimize
+    prod_health
 }
 
 # ===== ОБЩИЕ КОМАНДЫ =====
@@ -411,6 +468,11 @@ help() {
     echo "  prod-build      Сборка продакшн образа (с кэшем)"
     echo "  prod-build --no-cache  Полная пересборка без кэша"
     echo "  prod-up         Запуск продакшн (автоочистка старых образов)"
+    echo "  prod-deploy     Сборка, запуск, миграции, cache optimize и health"
+    echo "  prod-migrate    Докатить миграции (PRODUCTION)"
+    echo "  prod-seed       Сиды для fresh install (PRODUCTION, вручную)"
+    echo "  prod-optimize   Laravel cache optimize (PRODUCTION)"
+    echo "  prod-health     Проверить production health"
     echo "  prod-down       Остановка продакшн"
     echo "  prod-logs [srv] Логи продакшн (app, mysql, redis)"
     echo "  prod-backup              Создать бэкап БД + storage/app + .env"
@@ -457,6 +519,8 @@ help() {
     echo "  ./dev.sh dev-shell             # Консоль в DEV контейнер"
     echo "  ./dev.sh prod-build            # Сборка продакшн (с кэшем)"
     echo "  ./dev.sh prod-up               # Запуск продакшн (автоочистка)"
+    echo "  ./dev.sh prod-deploy           # Полный production deploy локально/на сервере"
+    echo "  ./dev.sh prod-seed             # Сиды для первичной инициализации production"
     echo ""
     echo -e "${BLUE}Для разработки используйте команды без префикса.${NC}"
     echo -e "${BLUE}Для продакшна используйте команды с префиксом 'prod-'.${NC}"
@@ -484,6 +548,21 @@ case "${1:-help}" in
         ;;
     prod-up)
         prod_up
+        ;;
+    prod-deploy)
+        prod_deploy "${2:-}"
+        ;;
+    prod-migrate)
+        prod_migrate
+        ;;
+    prod-seed)
+        prod_seed
+        ;;
+    prod-optimize)
+        prod_optimize
+        ;;
+    prod-health)
+        prod_health
         ;;
     prod-down)
         prod_down

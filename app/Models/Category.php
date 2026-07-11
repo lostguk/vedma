@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection as SupportCollection;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -28,6 +31,8 @@ use Illuminate\Support\Collection as SupportCollection;
  * @property-read string $full_path
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\HomePageContent> $homePageContents
  * @property-read int|null $home_page_contents_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, Media> $media
+ * @property-read int|null $media_count
  * @property-read Category|null $parent
  *
  * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
@@ -48,9 +53,12 @@ use Illuminate\Support\Collection as SupportCollection;
  *
  * @mixin \Eloquent
  */
-final class Category extends Model
+final class Category extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
+
+    public const ICON_COLLECTION = 'icon';
 
     protected $fillable = [
         'name',
@@ -163,5 +171,23 @@ final class Category extends Model
             'category_id',
             'home_page_content_id'
         );
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::ICON_COLLECTION)
+            ->useDisk('public')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml']);
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(100)
+            ->height(100)
+            ->sharpen(10)
+            ->nonQueued()
+            ->performOnCollections(self::ICON_COLLECTION);
     }
 }
