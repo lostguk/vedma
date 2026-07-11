@@ -37,15 +37,14 @@ jobs:
             git stash
             git pull origin main
 
-            # Проверяем, были ли изменения в Dockerfile или composer.json
-            # Используем кэш по умолчанию, полная пересборка только при изменениях
+            # Полная пересборка при изменениях Docker/Composer/NPM/конфигов контейнера
             if git rev-parse HEAD~1 >/dev/null 2>&1; then
-              DOCKERFILE_CHANGED=$(git diff HEAD~1 HEAD --name-only | grep -E "(Dockerfile|composer\.(json|lock))" || true)
-              if [ -n "$DOCKERFILE_CHANGED" ]; then
-                echo "Обнаружены изменения в Dockerfile или composer.json, делаем полную пересборку..."
+              REBUILD_REQUIRED=$(git diff HEAD~1 HEAD --name-only | grep -E "(^Dockerfile|composer\.(json|lock)|package(-lock)?\.json|^docker/)" || true)
+              if [ -n "$REBUILD_REQUIRED" ]; then
+                echo "Обнаружены изменения в Docker/зависимостях, делаем полную пересборку..."
                 docker compose -f docker-compose.production.yml build --no-cache
               else
-                echo "Изменений в Dockerfile нет, используем кэш..."
+                echo "Изменений в Docker нет, используем кэш..."
                 docker compose -f docker-compose.production.yml build
               fi
             else

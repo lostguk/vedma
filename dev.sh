@@ -215,6 +215,53 @@ prod_health() {
     info "✅ Production health OK"
 }
 
+prod_shell() {
+    check_docker
+
+    log "Консоль в PRODUCTION app контейнере..."
+    docker compose -f docker-compose.production.yml exec app sh
+}
+
+prod_diagnose_upload() {
+    check_docker
+
+    log "Диагностика загрузки файлов (PRODUCTION)..."
+    docker compose -f docker-compose.production.yml exec -T app sh -lc '
+        set -e
+        echo "=== Конфигурация ==="
+        php artisan tinker --execute="
+            echo \"APP_URL: \" . config(\"app.url\") . PHP_EOL;
+            echo \"APP_ENV: \" . config(\"app.env\") . PHP_EOL;
+            echo \"Livewire disk: \" . config(\"livewire.temporary_file_upload.disk\") . PHP_EOL;
+            echo \"Livewire dir: \" . config(\"livewire.temporary_file_upload.directory\") . PHP_EOL;
+            echo \"Media temp thumbs: \" . (config(\"media-library.generate_thumbnails_for_temporary_uploads\") ? \"on\" : \"off\") . PHP_EOL;
+            echo \"Media session affinity: \" . (config(\"media-library.enable_temporary_uploads_session_affinity\") ? \"on\" : \"off\") . PHP_EOL;
+            echo \"Queue: \" . config(\"queue.default\") . PHP_EOL;
+        "
+        echo ""
+        echo "=== Права storage (www) ==="
+        id www || id
+        for dir in storage/app/public/livewire-tmp storage/app/public/tmp storage/app/public; do
+            if [ -d "$dir" ]; then
+                ls -ld "$dir"
+                su -s /bin/sh www -c "touch $dir/.write-test && rm -f $dir/.write-test" && echo "  OK: запись в $dir" || echo "  FAIL: нет записи в $dir"
+            else
+                echo "  MISSING: $dir"
+            fi
+        done
+        echo ""
+        echo "=== Supervisor / queue worker ==="
+        supervisorctl status 2>/dev/null || echo "supervisorctl недоступен"
+        echo ""
+        echo "=== Последние ошибки в laravel.log ==="
+        tail -n 30 storage/logs/laravel.log 2>/dev/null | grep -Ei "livewire|upload|media|signed|419|403|413|500" || echo "нет совпадений в последних 30 строках"
+        echo ""
+        echo "=== Подсказка: внешний reverse proxy ==="
+        echo "Убедитесь, что nginx перед Docker передаёт X-Forwarded-* и client_max_body_size >= 64M"
+        echo "См. docs/docker/REVERSE_PROXY.md"
+    '
+}
+
 prod_deploy() {
     prod_build "${1:-}"
     prod_up
@@ -473,6 +520,8 @@ help() {
     echo "  prod-seed       Сиды для fresh install (PRODUCTION, вручную)"
     echo "  prod-optimize   Laravel cache optimize (PRODUCTION)"
     echo "  prod-health     Проверить production health"
+    echo "  prod-shell      Консоль в PRODUCTION app"
+    echo "  prod-diagnose-upload  Диагностика загрузки картинок (PRODUCTION)"
     echo "  prod-down       Остановка продакшн"
     echo "  prod-logs [srv] Логи продакшн (app, mysql, redis)"
     echo "  prod-backup              Создать бэкап БД + storage/app + .env"
@@ -563,6 +612,12 @@ case "${1:-help}" in
         ;;
     prod-health)
         prod_health
+        ;;
+    prod-shell)
+        prod_shell
+        ;;
+    prod-diagnose-upload)
+        prod_diagnose_upload
         ;;
     prod-down)
         prod_down

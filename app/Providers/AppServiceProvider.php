@@ -20,10 +20,16 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
 
-        // Force HTTPS URLs if APP_URL uses https to avoid mixed content (eg. Scribe assets)
-        $appUrl = (string) config('app.url');
-        if (str_starts_with($appUrl, 'https://')) {
-            URL::forceScheme('https');
+        $appUrl = rtrim((string) config('app.url'), '/');
+
+        if ($appUrl !== '') {
+            // За reverse proxy signed URL Livewire/Filament должны строиться от APP_URL,
+            // а не от внутреннего host контейнера (localhost:8080).
+            URL::forceRootUrl($appUrl);
+
+            if (str_starts_with($appUrl, 'https://')) {
+                URL::forceScheme('https');
+            }
         }
     }
 }
