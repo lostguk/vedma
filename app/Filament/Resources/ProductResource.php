@@ -88,7 +88,6 @@ class ProductResource extends Resource
                             ->appendFiles()
                             ->image()
                             ->disk('public')
-                            ->directory('products')
                             ->visibility('public')
                             ->maxSize(1024 * 2)
                             ->maxFiles(10)

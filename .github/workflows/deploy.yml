@@ -56,6 +56,18 @@ jobs:
             # Запускаем контейнеры
             docker compose -f docker-compose.production.yml up -d
 
+            # Миграции, storage:link, кэш и перезапуск очереди
+            docker compose -f docker-compose.production.yml exec -T app sh -lc '
+              set -e
+              php artisan storage:link || true
+              php artisan migrate --force
+              php artisan optimize:clear
+              php artisan config:cache
+              php artisan route:cache
+              php artisan view:cache
+              php artisan queue:restart || true
+            '
+
             # Очищаем старые образы (старше 3 дней)
             echo "Очистка старых образов..."
             docker image prune -a -f --filter "until=72h" || true

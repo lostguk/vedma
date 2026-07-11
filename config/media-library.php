@@ -66,7 +66,7 @@ return [
      * in the same session. You can opt to disable this for stateless usage of
      * the pro components.
      */
-    'enable_temporary_uploads_session_affinity' => true,
+    'enable_temporary_uploads_session_affinity' => env('MEDIA_LIBRARY_SESSION_AFFINITY', false),
 
     /*
      * When enabled, Media Library pro will generate thumbnails for uploaded file.
