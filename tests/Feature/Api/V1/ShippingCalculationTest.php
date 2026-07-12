@@ -83,7 +83,7 @@ class ShippingCalculationTest extends TestCase
         Config::set('services.metaship.api_secret', 'test-secret');
 
         $product = Product::factory()->create([
-            'weight' => 1.2,
+            'weight' => 700,
             'width' => 10,
             'height' => 11,
             'length' => 12,
@@ -101,6 +101,7 @@ class ShippingCalculationTest extends TestCase
                 $this->assertSame(10, $data['width'] ?? null);
                 $this->assertSame(11, $data['height'] ?? null);
                 $this->assertSame(12, $data['length'] ?? null);
+                $this->assertSame(1.4, (float) ($data['weight'] ?? null));
 
                 return Http::response([
                     'price' => 350,
@@ -121,5 +122,35 @@ class ShippingCalculationTest extends TestCase
         $response->assertOk();
         $response->assertJsonPath('data.price', 350);
         $response->assertJsonPath('data.options.0.carrier', 'CDEK');
+    }
+
+    public function test_calculate_converts_product_weight_from_grams_to_kilograms(): void
+    {
+        Config::set('services.metaship.api_key', 'test-key');
+        Config::set('services.metaship.api_secret', 'test-secret');
+
+        $product = Product::factory()->create([
+            'weight' => 60,
+            'width' => 20,
+            'height' => 18,
+            'length' => 16,
+        ]);
+
+        Http::fake([
+            'https://api.metaship.ru/auth/access_token' => Http::response(['access_token' => 'test-token'], 200),
+            'https://api.metaship.ru/v2/offers*' => function ($request) {
+                $data = $request->data();
+                $this->assertSame(0.1, (float) ($data['weight'] ?? null));
+
+                return Http::response([], 200);
+            },
+        ]);
+
+        $this->postJson('/api/v1/shipping/calculate', [
+            'products' => [
+                ['id' => $product->id, 'quantity' => 1],
+            ],
+            'address' => 'Москва, ул. Пушкина, д. 1',
+        ])->assertOk();
     }
 }

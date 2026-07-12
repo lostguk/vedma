@@ -37,7 +37,7 @@ final class ShippingCalculationService
             'length' => (int) $totals['length'],
             'width' => (int) $totals['width'],
             'height' => (int) $totals['height'],
-            'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))) / 1000,
+            'weight' => max(0.1, min(100.0, round((float) $totals['weight'], 3))),
             'declaredValue' => $declaredValue,
             'address' => $address,
             'errors' => 1,
@@ -213,9 +213,7 @@ final class ShippingCalculationService
         foreach ($items as $i) {
             $qty = max(1, (int) $i['quantity']);
 
-            $w = (float) $i['weight'];
-            $wInKg = $w > 500 ? $w / 1000.0 : $w;
-            $weightKg += $wInKg * $qty;
+            $weightKg += ((float) $i['weight'] / 1000.0) * $qty;
 
             $width = max($width, (float) $i['width']);
             $height = max($height, (float) $i['height']);
