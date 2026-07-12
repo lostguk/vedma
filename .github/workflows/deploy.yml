@@ -58,7 +58,9 @@ jobs:
             # Миграции, storage:link, кэш и перезапуск очереди
             docker compose -f docker-compose.production.yml exec -T app sh -lc '
               set -e
-              php artisan storage:link || true
+            php artisan storage:link || true
+              php artisan filament:assets --no-interaction
+              php artisan vendor:publish --tag=livewire:assets --force --no-interaction
               php artisan migrate --force
               php artisan optimize:clear
               php artisan config:cache

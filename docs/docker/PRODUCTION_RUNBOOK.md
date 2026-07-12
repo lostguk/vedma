@@ -27,7 +27,7 @@ test -n "$REDIS_PASSWORD"
 ```dotenv
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://vedminozelie.ru
+APP_URL=https://api.vedminozelie.ru
 FRONTEND_URL=https://vedminozelie.ru
 APP_PUBLISHED_PORT=8000
 
@@ -116,7 +116,7 @@ docker compose -f docker-compose.production.yml exec -T app php artisan tinker -
 
 Обязательные условия:
 
-1. В `.env` на сервере: `APP_URL=https://vedminozelie.ru` (без слэша в конце).
+1. В `.env` на сервере: `APP_URL=https://api.vedminozelie.ru` — домен, с которого открывается API и админка (`/admin`). `FRONTEND_URL=https://vedminozelie.ru` — для фронтенда/CORS.
 2. После смены `APP_URL`: `./dev.sh prod-optimize` (пересобрать `config:cache`).
 3. Внешний nginx должен проксировать заголовки и разрешать загрузку файлов:
 

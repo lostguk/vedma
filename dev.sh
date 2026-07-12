@@ -256,6 +256,18 @@ prod_diagnose_upload() {
         echo "=== Последние ошибки в laravel.log ==="
         tail -n 30 storage/logs/laravel.log 2>/dev/null | grep -Ei "livewire|upload|media|signed|419|403|413|500" || echo "нет совпадений в последних 30 строках"
         echo ""
+        echo "=== Filament / Livewire assets ==="
+        for f in public/css/filament/forms/forms.css public/css/filament/filament/app.css public/js/filament/filament/app.js public/vendor/livewire/livewire.js; do
+            if [ -f "$f" ]; then
+                echo "  OK: $f"
+            else
+                echo "  MISSING: $f  (запустите: ./dev.sh prod-optimize)"
+            fi
+        done
+        echo ""
+        echo "=== Подсказка: домен админки ==="
+        echo "APP_URL должен совпадать с доменом API/админки (например https://api.vedminozelie.ru), не с фронтендом"
+        echo ""
         echo "=== Подсказка: внешний reverse proxy ==="
         echo "Убедитесь, что nginx перед Docker передаёт X-Forwarded-* и client_max_body_size >= 64M"
         echo "См. docs/docker/REVERSE_PROXY.md"

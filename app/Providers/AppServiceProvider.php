@@ -22,14 +22,8 @@ class AppServiceProvider extends ServiceProvider
 
         $appUrl = rtrim((string) config('app.url'), '/');
 
-        if ($appUrl !== '') {
-            // За reverse proxy signed URL Livewire/Filament должны строиться от APP_URL,
-            // а не от внутреннего host контейнера (localhost:8080).
-            URL::forceRootUrl($appUrl);
-
-            if (str_starts_with($appUrl, 'https://')) {
-                URL::forceScheme('https');
-            }
+        if (str_starts_with($appUrl, 'https://')) {
+            URL::forceScheme('https');
         }
     }
 }
