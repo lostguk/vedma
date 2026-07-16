@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Exceptions\Api\InsufficientStockException;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\OrderCalculateRequest;
 use App\Http\Requests\Api\V1\OrderStoreRequest;
@@ -105,7 +106,12 @@ final class OrderController extends ApiController
             'all_keys' => array_keys($request->all()),
         ]);
 
-        $order = $orderService->createOrder($validated);
+        try {
+            $order = $orderService->createOrder($validated);
+        } catch (InsufficientStockException $exception) {
+            return $this->errorResponse($exception->getMessage(), 422);
+        }
+
         $order->load('items', 'items.product.categories', 'promoCode');
 
         return $this->successResponse(new OrderResource(resource: $order), 'Заказ успешно создан', 201);

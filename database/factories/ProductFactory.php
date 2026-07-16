@@ -72,6 +72,16 @@ class ProductFactory extends Factory
         ]);
     }
 
+    public function withStock(int $stock): static
+    {
+        return $this->state(['stock' => $stock]);
+    }
+
+    public function unlimitedStock(): static
+    {
+        return $this->state(['stock' => null]);
+    }
+
     public function configure(): static
     {
         return $this->afterCreating(function (Product $product) {

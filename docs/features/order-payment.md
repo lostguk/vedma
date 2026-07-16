@@ -28,6 +28,7 @@
 - Обновление статуса через эндпоинт статуса
 - Обработка webhook для оплаты
 - Возврат платежа
+- Восстановление складских остатков при refund
 - Передача orderBundle с фискальными данными
 - Включение доставки как позиции в чеке
 
@@ -57,6 +58,16 @@
     }
 }
 ```
+
+## Влияние на склад
+
+При успешном возврате (`POST /api/v1/payments/{public_id}/refund` или webhook со статусом refunded) `PaymentService` вызывает `ProductStockService::restore()`:
+
+- остатки возвращаются только для товаров с ограниченным складом (`stock IS NOT NULL`)
+- количество суммируется по позициям заказа
+- услуги с безлимитным складом (`stock: null`) не затрагиваются
+
+Списание остатков происходит при оформлении заказа (`POST /api/v1/order`), подробнее — в `docs/features/products.md`.
 
 ## Фискализация (ОФД через АТОЛ)
 
@@ -88,7 +99,7 @@
 
 - `OrderBundleBuilder` — формирует `orderBundle` из заказа и его позиций
 - `AlfaBankGateway` — передаёт `orderBundle`, `taxSystem`, `email` в запрос `register.do`
-- `PaymentService` — связывает `OrderBundleBuilder` и `AlfaBankGateway`
+- `PaymentService` — связывает `OrderBundleBuilder`, `AlfaBankGateway` и `ProductStockService`
 
 ### Что включается в чек
 

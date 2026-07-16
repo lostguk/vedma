@@ -234,4 +234,113 @@ class OrderStoreTest extends TestCase
             'delivery_price' => null,
         ]);
     }
+
+    public function test_уменьшает_остаток_на_складе_при_оформлении_заказа(): void
+    {
+        $this->mockShippingService();
+
+        $product = Product::factory()->withStock(10)->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 3],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_stock_decrement@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Some Address',
+        ];
+
+        $response = $this->postJson('/api/v1/order', $payload);
+
+        $response->assertCreated();
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock' => 7,
+        ]);
+    }
+
+    public function test_не_уменьшает_остаток_для_товара_с_безлимитным_складом(): void
+    {
+        $this->mockShippingService();
+
+        $product = Product::factory()->unlimitedStock()->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 5],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_unlimited_stock@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Some Address',
+        ];
+
+        $response = $this->postJson('/api/v1/order', $payload);
+
+        $response->assertCreated();
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock' => null,
+        ]);
+    }
+
+    public function test_не_оформляет_заказ_при_недостаточном_остатке(): void
+    {
+        $this->mockShippingService();
+
+        $product = Product::factory()->withStock(2)->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 5],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_insufficient_stock@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Some Address',
+        ];
+
+        $response = $this->postJson('/api/v1/order', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonPath('status', 'error')
+            ->assertJsonPath('message', 'Недостаточно товара «'.$product->name.'» на складе. Доступно: 2 шт.');
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock' => 2,
+        ]);
+        $this->assertDatabaseMissing('orders', [
+            'email' => 'test_insufficient_stock@example.com',
+        ]);
+    }
+
+    public function test_не_оформляет_заказ_если_товар_отсутствует_на_складе(): void
+    {
+        $this->mockShippingService();
+
+        $product = Product::factory()->withStock(0)->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 1],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_out_of_stock@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Some Address',
+        ];
+
+        $response = $this->postJson('/api/v1/order', $payload);
+
+        $response->assertUnprocessable()
+            ->assertJsonPath('message', 'Недостаточно товара «'.$product->name.'» на складе. Доступно: 0 шт.');
+        $this->assertDatabaseMissing('orders', [
+            'email' => 'test_out_of_stock@example.com',
+        ]);
+    }
 }

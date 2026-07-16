@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
+use App\Services\ProductStockService;
 use Illuminate\Support\Carbon;
 use RuntimeException;
 use Throwable;
@@ -19,6 +20,7 @@ final readonly class PaymentService
         private OrderRepository $orderRepository,
         private AlfaBankGateway $gateway,
         private OrderBundleBuilder $bundleBuilder,
+        private ProductStockService $productStockService,
     ) {}
 
     /**
@@ -269,27 +271,13 @@ final readonly class PaymentService
             $order->update([
                 'status' => 'refunded',
             ]);
-            $this->restoreStock($order);
+            $this->productStockService->restore($order);
         }
 
         if ($payment->status === Payment::STATUS_FAILED) {
             $order->update([
                 'status' => 'payment_failed',
             ]);
-        }
-    }
-
-    private function restoreStock(Order $order): void
-    {
-        $order->loadMissing('items');
-
-        foreach ($order->items as $item) {
-            if ($item->product_id) {
-                \App\Models\Product::query()
-                    ->where('id', $item->product_id)
-                    ->whereNotNull('stock')
-                    ->increment('stock', $item->count);
-            }
         }
     }
 }

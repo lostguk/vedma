@@ -104,6 +104,35 @@ it('обновляет статус платежа через API статуса
     ]);
 });
 
+it('возвращает остатки на склад при возврате платежа', function (): void {
+    Http::fake([
+        '*' => Http::response(['errorCode' => 0], 200),
+    ]);
+
+    $product = Product::factory()->withStock(3)->create();
+    $order = Order::factory()->create();
+    \App\Models\OrderItem::factory()->create([
+        'order_id' => $order->id,
+        'product_id' => $product->id,
+        'count' => 2,
+    ]);
+    $payment = Payment::factory()->create([
+        'order_id' => $order->id,
+        'external_order_id' => 'ext-order-refund-stock',
+        'status' => Payment::STATUS_PAID,
+    ]);
+
+    $response = $this->postJson("/api/v1/payments/{$payment->public_id}/refund", [
+        'amount' => 100.00,
+    ]);
+
+    $response->assertOk();
+    $this->assertDatabaseHas('products', [
+        'id' => $product->id,
+        'stock' => 5,
+    ]);
+});
+
 it('выполняет возврат платежа', function (): void {
     Http::fake([
         '*' => Http::response(['errorCode' => 0], 200),

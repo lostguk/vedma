@@ -14,7 +14,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use RuntimeException;
 use Throwable;
 
 final readonly class OrderService
@@ -26,6 +25,7 @@ final readonly class OrderService
         private RegistrationService $registrationService,
         private OrderCalculationService $orderCalculationService,
         private ShippingCalculationService $shippingCalculationService,
+        private ProductStockService $productStockService,
     ) {}
 
     /**
@@ -70,6 +70,9 @@ final readonly class OrderService
             // 3.1. Серверный расчёт стоимости доставки через MetaShip
             $deliveryPrice = $this->calculateDeliveryPrice($data);
 
+            // 3.2. Списание остатков со склада
+            $this->productStockService->deduct($calculatedItems);
+
             // 4. Создание заказа
             $orderData = [
                 'user_id' => $user?->id,
@@ -106,18 +109,6 @@ final readonly class OrderService
                 ];
             }
             $this->orderRepository->createOrderItems($order, $items);
-
-            // 6. Списание остатков со склада
-            foreach ($data['items'] as $itemData) {
-                $product = $products->firstWhere('id', $itemData['id']);
-                if ($product && $product->stock !== null) {
-                    $count = (int) $itemData['count'];
-                    if ($product->stock < $count) {
-                        throw new RuntimeException("Недостаточно товара «{$product->name}» на складе. Доступно: {$product->stock} шт.");
-                    }
-                    $product->decrement('stock', $count);
-                }
-            }
 
             return $order;
         });

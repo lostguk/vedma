@@ -50,8 +50,32 @@
 - `stock: N` — N единиц на складе
 - `isInStock()` — `true` если `stock === null || stock > 0`
 - Scope `inStock()` — фильтрация товаров с наличием
-- При создании заказа: `stock` уменьшается на количество единиц
-- При возврате (refund): `stock` увеличивается обратно
+
+#### Списание и возврат остатков
+
+Логика вынесена в `ProductStockService`:
+
+| Событие | Поведение |
+| ------- | --------- |
+| `POST /api/v1/order` | Остаток списывается **при создании заказа** (до записи в БД, внутри транзакции) |
+| Товар с `stock: null` | Списание пропускается |
+| Товар с `stock: 0` или недостаточным количеством | Заказ отклоняется с **422** |
+| Возврат оплаты (`refund`) | Остаток восстанавливается через `ProductStockService::restore()` |
+
+**Детали реализации:**
+
+- Количества агрегируются по `product_id` (дубли в `items` суммируются)
+- Перед проверкой и списанием используется `lockForUpdate()` для защиты от гонок
+- При ошибке склада выбрасывается `InsufficientStockException`, контроллер возвращает:
+
+```json
+{
+  "status": "error",
+  "message": "Недостаточно товара «Свеча ритуальная» на складе. Доступно: 2 шт."
+}
+```
+
+**Важно:** остаток резервируется при оформлении заказа, а не при оплате. При неоплате или отмене без refund остаток автоматически не возвращается.
 
 ### Scopes
 
@@ -120,6 +144,8 @@ page=1&per_page=9&sort=price_asc&category=svechi&search=ритуальная&pri
 - `app/Http/Requests/Api/V1/ProductIndexRequest.php`
 - `app/Http/Resources/V1/ProductResource.php`
 - `app/Services/ProductFilterService.php`
+- `app/Services/ProductStockService.php`
+- `app/Exceptions/Api/InsufficientStockException.php`
 - `app/Repositories/ProductRepository.php`
 - `app/Filament/Resources/ProductResource.php`
 - `database/migrations/2025_03_26_070727_create_products_table.php`
