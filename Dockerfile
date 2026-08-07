@@ -58,6 +58,7 @@ LABEL description="Laravel Vedma Shop Production Image"
 
 # Установка системных зависимостей и сборочных инструментов для pecl redis
 RUN apk add --no-cache \
+    ca-certificates \
     curl \
     libpng-dev \
     libjpeg-turbo-dev \
@@ -92,6 +93,11 @@ RUN apk add --no-cache \
     && docker-php-ext-install opcache \
     && apk del autoconf g++ make gcc libc-dev \
     && rm -rf /var/cache/apk/*
+
+# Корневые сертификаты НУЦ Минцифры (Russian Trusted CA) для TLS к банкам/госсервисам
+COPY docker/certs/russian_trusted_root_ca.crt /usr/local/share/ca-certificates/russian_trusted_root_ca.crt
+COPY docker/certs/russian_trusted_sub_ca.crt /usr/local/share/ca-certificates/russian_trusted_sub_ca.crt
+RUN update-ca-certificates
 
 # Создание пользователя www
 RUN addgroup -g 1000 www && \
