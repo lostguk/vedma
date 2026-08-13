@@ -188,6 +188,25 @@ prod_seed() {
     '
 }
 
+prod_artisan() {
+    check_docker
+    docker compose -f docker-compose.production.yml exec -T app php artisan "$@"
+}
+
+prod_seed_demo_products() {
+    check_env
+    check_docker
+
+    log "Генерация 200 демо-товаров без картинок (PRODUCTION)..."
+    docker compose -f docker-compose.production.yml exec -T app php artisan tinker --execute="
+        if (! class_exists(Database\Seeders\DemoCatalogProductSeeder::class)) {
+            require base_path('database/seeders/DemoCatalogProductSeeder.php');
+        }
+        (new Database\Seeders\DemoCatalogProductSeeder)->run();
+        echo 'Создано: '.App\Models\Product::query()->where('slug', 'like', 'demo-bulk-%')->count().PHP_EOL;
+    "
+}
+
 prod_optimize() {
     check_env
     check_docker
@@ -530,6 +549,8 @@ help() {
     echo "  prod-deploy     Сборка, запуск, миграции, cache optimize и health"
     echo "  prod-migrate    Докатить миграции (PRODUCTION)"
     echo "  prod-seed       Сиды для fresh install (PRODUCTION, вручную)"
+    echo "  prod-seed-demo-products  200 демо-товаров без картинок (для проверки пагинации)"
+    echo "  prod-artisan [c] Artisan в PRODUCTION"
     echo "  prod-optimize   Laravel cache optimize (PRODUCTION)"
     echo "  prod-health     Проверить production health"
     echo "  prod-shell      Консоль в PRODUCTION app"
@@ -582,6 +603,8 @@ help() {
     echo "  ./dev.sh prod-up               # Запуск продакшн (автоочистка)"
     echo "  ./dev.sh prod-deploy           # Полный production deploy локально/на сервере"
     echo "  ./dev.sh prod-seed             # Сиды для первичной инициализации production"
+    echo "  ./dev.sh prod-seed-demo-products  # 200 демо-товаров без картинок"
+    echo "  ./dev.sh prod-artisan tinker   # Artisan в PRODUCTION"
     echo ""
     echo -e "${BLUE}Для разработки используйте команды без префикса.${NC}"
     echo -e "${BLUE}Для продакшна используйте команды с префиксом 'prod-'.${NC}"
@@ -618,6 +641,13 @@ case "${1:-help}" in
         ;;
     prod-seed)
         prod_seed
+        ;;
+    prod-seed-demo-products)
+        prod_seed_demo_products
+        ;;
+    prod-artisan)
+        shift
+        prod_artisan "$@"
         ;;
     prod-optimize)
         prod_optimize

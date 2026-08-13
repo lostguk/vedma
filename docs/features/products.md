@@ -55,12 +55,12 @@
 
 Логика вынесена в `ProductStockService`:
 
-| Событие | Поведение |
-| ------- | --------- |
-| `POST /api/v1/order` | Остаток списывается **при создании заказа** (до записи в БД, внутри транзакции) |
-| Товар с `stock: null` | Списание пропускается |
-| Товар с `stock: 0` или недостаточным количеством | Заказ отклоняется с **422** |
-| Возврат оплаты (`refund`) | Остаток восстанавливается через `ProductStockService::restore()` |
+| Событие                                          | Поведение                                                                       |
+| ------------------------------------------------ | ------------------------------------------------------------------------------- |
+| `POST /api/v1/order`                             | Остаток списывается **при создании заказа** (до записи в БД, внутри транзакции) |
+| Товар с `stock: null`                            | Списание пропускается                                                           |
+| Товар с `stock: 0` или недостаточным количеством | Заказ отклоняется с **422**                                                     |
+| Возврат оплаты (`refund`)                        | Остаток восстанавливается через `ProductStockService::restore()`                |
 
 **Детали реализации:**
 
@@ -70,8 +70,8 @@
 
 ```json
 {
-  "status": "error",
-  "message": "Недостаточно товара «Свеча ритуальная» на складе. Доступно: 2 шт."
+    "status": "error",
+    "message": "Недостаточно товара «Свеча ритуальная» на складе. Доступно: 2 шт."
 }
 ```
 
@@ -107,7 +107,7 @@
 **Query параметры:**
 
 ```
-page=1&per_page=9&sort=price_asc&category=svechi&search=ритуальная&price_from=100&price_to=5000&is_new=1&is_bestseller=1&ids=1,2,3
+page=1&per_page=30&sort=price_asc&category=svechi&search=ритуальная&price_from=100&price_to=5000&is_new=1&is_bestseller=1&ids=1,2,3
 ```
 
 **Ответ (стандартная Laravel Resource collection):**
@@ -118,7 +118,7 @@ page=1&per_page=9&sort=price_asc&category=svechi&search=ритуальная&pri
     { "id": 1, "name": "Свеча ритуальная", "slug": "svecha-ritualnaya", "price": 450, "stock": 25, "in_stock": true, ... }
   ],
   "links": { ... },
-  "meta": { "total": 42, "last_page": 5, "current_page": 1, "per_page": 9 }
+  "meta": { "total": 42, "last_page": 2, "current_page": 1, "per_page": 30 }
 }
 ```
 
