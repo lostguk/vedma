@@ -95,10 +95,21 @@ final readonly class PaymentService
         $response = $this->gateway->getOrderStatus($payment->external_order_id);
         $status = $this->mapStatus($response);
 
+        $payload = $response;
+        if ($this->isFiscalEnabled()) {
+            $receiptResponse = $this->gateway->getReceiptStatus($payment->external_order_id);
+            $payload['receiptStatusResponse'] = $receiptResponse;
+        }
+
         $update = [
             'status' => $status,
-            'payload' => $response,
+            'payload' => $payload,
         ];
+
+        $fiscalError = $this->extractFiscalError($payload['receiptStatusResponse'] ?? null);
+        if ($fiscalError !== null) {
+            $update['error_message'] = $fiscalError;
+        }
 
         if ($status === Payment::STATUS_PAID && ! $payment->paid_at) {
             $update['paid_at'] = Carbon::now();
@@ -254,6 +265,60 @@ final readonly class PaymentService
         }
 
         return Payment::STATUS_PENDING;
+    }
+
+    private function isFiscalEnabled(): bool
+    {
+        return (bool) config('services.alfabank.fiscal.enabled', false);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $receiptResponse
+     */
+    private function extractFiscalError(?array $receiptResponse): ?string
+    {
+        if ($receiptResponse === null) {
+            return null;
+        }
+
+        $failedReceiptStatuses = [2, 5, 8];
+
+        foreach ($receiptResponse['receipt'] ?? [] as $receipt) {
+            if (! is_array($receipt)) {
+                continue;
+            }
+
+            $receiptStatus = (int) ($receipt['receiptStatus'] ?? -1);
+            if (! in_array($receiptStatus, $failedReceiptStatuses, true)) {
+                continue;
+            }
+
+            $uuid = isset($receipt['uuid']) ? (string) $receipt['uuid'] : null;
+            $detail = $receipt['errorMessage']
+                ?? $receipt['error']
+                ?? $receiptResponse['errorMessage']
+                ?? null;
+
+            if (is_string($detail) && trim($detail) !== '' && ! in_array(mb_strtolower(trim($detail)), ['успешно', 'success'], true)) {
+                $message = trim($detail);
+            } else {
+                $message = 'чек отклонён АТОЛ (receiptStatus='.$receiptStatus.')';
+            }
+
+            if ($uuid) {
+                $message .= ', uuid='.$uuid.' (детали в ЛК АТОЛ)';
+            }
+
+            return 'Фискализация: '.$message;
+        }
+
+        if (! empty($receiptResponse['errorCode']) && (int) $receiptResponse['errorCode'] !== 0) {
+            $message = $receiptResponse['errorMessage'] ?? 'Ошибка запроса статуса чека.';
+
+            return 'Фискализация: '.(string) $message;
+        }
+
+        return null;
     }
 
     private function syncOrderStatus(Payment $payment): void

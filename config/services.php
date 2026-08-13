@@ -50,6 +50,7 @@ return [
         'fail_url' => env('ALFABANK_FAIL_URL'),
         'language' => env('ALFABANK_LANGUAGE', 'ru'),
         'currency' => env('ALFABANK_CURRENCY', 'RUB'),
+        'verify_ssl' => filter_var(env('ALFABANK_VERIFY_SSL', true), FILTER_VALIDATE_BOOLEAN),
         'fiscal' => [
             'enabled' => env('ALFABANK_FISCAL_ENABLED', false),
             'tax_system' => env('ALFABANK_FISCAL_TAX_SYSTEM', 1),

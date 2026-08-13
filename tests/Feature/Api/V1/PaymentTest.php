@@ -83,7 +83,8 @@ it('добавляет payment public_id в returnUrl и failUrl при реги
 
 it('обновляет статус платежа через API статуса', function (): void {
     Http::fake([
-        '*' => Http::response(['orderStatus' => 2], 200),
+        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
+        '*/getReceiptStatus.do' => Http::response(['errorCode' => '0', 'receipt' => []], 200),
     ]);
 
     $order = Order::factory()->create();
@@ -102,6 +103,64 @@ it('обновляет статус платежа через API статуса
         'id' => $payment->id,
         'status' => Payment::STATUS_PAID,
     ]);
+});
+
+it('сохраняет ошибку фискализации из getReceiptStatus при проверке статуса', function (): void {
+    config(['services.alfabank.fiscal.enabled' => true]);
+
+    Http::fake([
+        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
+        '*/getReceiptStatus.do' => Http::response([
+            'errorCode' => '0',
+            'errorMessage' => 'ATOL: неверный ИНН группы ККТ',
+            'receipt' => [
+                [
+                    'receiptStatus' => 2,
+                    'uuid' => 'receipt-uuid-1',
+                ],
+            ],
+        ], 200),
+    ]);
+
+    $order = Order::factory()->create();
+    $payment = Payment::factory()->create([
+        'order_id' => $order->id,
+        'external_order_id' => 'ext-order-fiscal-error',
+        'status' => Payment::STATUS_PENDING,
+    ]);
+
+    $response = $this->getJson("/api/v1/payments/{$payment->public_id}/status");
+
+    $response->assertOk()
+        ->assertJsonPath('data.status', Payment::STATUS_PAID)
+        ->assertJsonPath('data.error_message', 'Фискализация: ATOL: неверный ИНН группы ККТ, uuid=receipt-uuid-1 (детали в ЛК АТОЛ)')
+        ->assertJsonPath('data.fiscal.receipts.0.status', 2);
+
+    $payment->refresh();
+    expect($payment->payload['receiptStatusResponse']['receipt'][0]['receiptStatus'] ?? null)->toBe(2);
+    expect($payment->error_message)->toBe('Фискализация: ATOL: неверный ИНН группы ККТ, uuid=receipt-uuid-1 (детали в ЛК АТОЛ)');
+
+    Http::assertSent(fn (\Illuminate\Http\Client\Request $request): bool => str_contains($request->url(), '/payment/rest/getReceiptStatus.do'));
+});
+
+it('не запрашивает getReceiptStatus когда фискализация отключена', function (): void {
+    config(['services.alfabank.fiscal.enabled' => false]);
+
+    Http::fake([
+        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
+        '*/getReceiptStatus.do' => Http::response(['errorCode' => '0'], 200),
+    ]);
+
+    $order = Order::factory()->create();
+    $payment = Payment::factory()->create([
+        'order_id' => $order->id,
+        'external_order_id' => 'ext-order-no-receipt',
+        'status' => Payment::STATUS_PENDING,
+    ]);
+
+    $this->getJson("/api/v1/payments/{$payment->public_id}/status")->assertOk();
+
+    Http::assertNotSent(fn (\Illuminate\Http\Client\Request $request): bool => str_contains($request->url(), '/payment/rest/getReceiptStatus.do'));
 });
 
 it('возвращает остатки на склад при возврате платежа', function (): void {

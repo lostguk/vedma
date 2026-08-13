@@ -107,6 +107,16 @@
 - Доставка как отдельная позиция (если delivery_price > 0)
 - Email и/или телефон покупателя для отправки чека
 
+### Диагностика ошибок АТОЛ
+
+При `GET /api/v1/payments/{public_id}/status` (если `ALFABANK_FISCAL_ENABLED=true`) дополнительно вызывается `getReceiptStatus.do`.
+
+Ответ сохраняется в `payments.payload.receiptStatusResponse`, а текст ошибки — в `payments.error_message` (префикс `Фискализация:`).
+
+В API-ответе статуса также приходят `error_message` и краткий блок `fiscal`.
+
+Значения `receiptStatus`: `1` — чек доставлен, `2` — ошибка чека оплаты, `5` — ошибка чека возврата.
+
 ### Настройки в личном кабинете Альфа-Банка
 
 Раздел «Настройки ОФД» (`/admin/settings/ofd`):

@@ -67,6 +67,30 @@ final readonly class AlfaBankGateway
         return $this->parseResponse($response);
     }
 
+    /**
+     * Статус кассового чека (АТОЛ через шлюз). Не бросает исключение при errorCode != 0 —
+     * ошибка фискализации должна сохраняться в payload, а не ломать проверку оплаты.
+     */
+    public function getReceiptStatus(string $externalOrderId): array
+    {
+        $payload = [
+            'userName' => $this->username(),
+            'password' => $this->password(),
+            'orderId' => $externalOrderId,
+        ];
+
+        $response = $this->post('/payment/rest/getReceiptStatus.do', $payload);
+
+        if ($response->failed()) {
+            return [
+                'errorCode' => 'http',
+                'errorMessage' => 'Ошибка при обращении к платежному шлюзу (getReceiptStatus).',
+            ];
+        }
+
+        return $response->json() ?? [];
+    }
+
     public function refund(string $externalOrderId, int $amount): array
     {
         $payload = [
@@ -84,6 +108,7 @@ final readonly class AlfaBankGateway
     private function post(string $path, array $payload): Response
     {
         return Http::asForm()
+            ->withOptions(['verify' => (bool) config('services.alfabank.verify_ssl', true)])
             ->timeout(15)
             ->post($this->baseUrl().$path, $payload);
     }

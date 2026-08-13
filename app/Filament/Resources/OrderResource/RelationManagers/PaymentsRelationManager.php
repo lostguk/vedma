@@ -43,6 +43,13 @@ class PaymentsRelationManager extends RelationManager
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('amount')->label('Сумма')->money('RUB'),
+                Tables\Columns\TextColumn::make('error_message')
+                    ->label('Ошибка / фискализация')
+                    ->wrap()
+                    ->copyable()
+                    ->copyMessage('Скопировано')
+                    ->tooltip(fn (?string $state): ?string => $state)
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('external_order_id')->label('OrderId')->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('payment_url')->label('Ссылка')->url(fn ($state) => $state)->openUrlInNewTab()->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('paid_at')->label('Оплачен')->dateTime('d.m.Y H:i')->sortable(),
