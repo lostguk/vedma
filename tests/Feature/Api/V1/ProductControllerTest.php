@@ -312,6 +312,8 @@ class ProductControllerTest extends TestCase
                     'per_page',
                     'to',
                     'total',
+                    'price_min',
+                    'price_max',
                 ],
             ])
             ->assertJsonCount(15, 'data')

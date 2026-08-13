@@ -72,23 +72,25 @@ final class ProductController extends ApiController
      *     "path": "/api/v1/products",
      *     "per_page": 15,
      *     "to": 15,
-     *     "total": 75
+     *     "total": 75,
+     *     "price_min": 80,
+     *     "price_max": 250
      *   }
      * }
      */
     public function index(ProductIndexRequest $request, ProductFilterService $filterService): AnonymousResourceCollection
     {
-        // Get validated data with defaults
         $filters = $request->validatedWithDefaults();
+        $priceBounds = $filterService->priceBounds($filters);
 
-        // Apply filters and sorting using the service
         $query = $filterService->apply($filters);
 
-        // Add eager loading and paginate
         $products = $query->with(['categories', 'media', 'related.media'])
             ->paginate($filters['per_page']);
 
-        return ProductResource::collection($products);
+        return ProductResource::collection($products)->additional([
+            'meta' => $priceBounds,
+        ]);
     }
 
     /**

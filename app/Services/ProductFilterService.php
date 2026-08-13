@@ -79,4 +79,26 @@ final class ProductFilterService
 
         return $query;
     }
+
+    /**
+     * Мин/макс цена по тем же фильтрам, что и список, но без price_from/price_to.
+     * Нужно, чтобы слайдер не сжимался до уже выбранного диапазона.
+     *
+     * @param  array<string, mixed>  $filters
+     * @return array{price_min: float|null, price_max: float|null}
+     */
+    public function priceBounds(array $filters): array
+    {
+        unset($filters['price_from'], $filters['price_to'], $filters['sort'], $filters['per_page']);
+
+        $row = $this->apply($filters)
+            ->reorder()
+            ->selectRaw('MIN(products.price) as price_min, MAX(products.price) as price_max')
+            ->first();
+
+        return [
+            'price_min' => $row?->price_min !== null ? (float) $row->price_min : null,
+            'price_max' => $row?->price_max !== null ? (float) $row->price_max : null,
+        ];
+    }
 }

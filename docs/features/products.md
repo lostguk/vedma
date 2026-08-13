@@ -98,6 +98,8 @@
 - `ids` — конкретные ID товаров (через запятую)
 - `sort` — сортировка: `price_asc`, `price_desc`, `name_asc`, `created_at_desc` (по умолчанию)
 
+`priceBounds()` считает `MIN(price)` / `MAX(price)` по тем же фильтрам, **кроме** `price_from` / `price_to` и сортировки. Значения отдаются в `meta.price_min` / `meta.price_max` списка товаров — фронт использует их для слайдера цены.
+
 ## API Endpoints
 
 ### GET /api/v1/products
@@ -118,7 +120,7 @@ page=1&per_page=30&sort=price_asc&category=svechi&search=ритуальная&pr
     { "id": 1, "name": "Свеча ритуальная", "slug": "svecha-ritualnaya", "price": 450, "stock": 25, "in_stock": true, ... }
   ],
   "links": { ... },
-  "meta": { "total": 42, "last_page": 2, "current_page": 1, "per_page": 30 }
+  "meta": { "total": 42, "last_page": 2, "current_page": 1, "per_page": 30, "price_min": 80, "price_max": 8000 }
 }
 ```
 
