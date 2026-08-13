@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\PromoCode;
 use App\Models\User;
+use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,7 +21,13 @@ class OrderStoreTest extends TestCase
 
     private function mockShippingService(?int $price = 350): void
     {
+        $this->mock(AddressSuggestService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('isDeliverableAddress')
+                ->andReturn(true);
+        });
         $this->mock(ShippingCalculationService::class, function (MockInterface $mock) use ($price): void {
+            $mock->shouldReceive('hasShippableProducts')
+                ->andReturn(true);
             $mock->shouldReceive('calculatePriceForDeliveryType')
                 ->andReturn($price);
         });
@@ -211,7 +218,37 @@ class OrderStoreTest extends TestCase
         ]);
     }
 
-    public function test_заказ_создаётся_с_null_delivery_price_если_metaship_недоступен(): void
+    public function test_не_оформляет_заказ_с_неполным_адресом(): void
+    {
+        $this->mock(AddressSuggestService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('isDeliverableAddress')->andReturn(false);
+        });
+        $this->mock(ShippingCalculationService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('hasShippableProducts')->andReturn(true);
+            $mock->shouldReceive('calculatePriceForDeliveryType')->never();
+        });
+
+        $product = Product::factory()->create(['price' => 100]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 1],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_incomplete_address@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Москва',
+        ];
+        $response = $this->postJson('/api/v1/order', $payload);
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['address']);
+        $this->assertDatabaseMissing('orders', [
+            'email' => 'test_incomplete_address@example.com',
+        ]);
+    }
+
+    public function test_не_оформляет_заказ_если_metaship_не_рассчитал_доставку(): void
     {
         $this->mockShippingService(null);
 
@@ -225,12 +262,39 @@ class OrderStoreTest extends TestCase
             'last_name' => 'Иванов',
             'email' => 'test_null_delivery@example.com',
             'delivery_type' => 'PostOffice',
-            'address' => 'Москва, ул. Пушкина, д. 1',
+            'address' => 'Москва',
+        ];
+        $response = $this->postJson('/api/v1/order', $payload);
+        $response->assertUnprocessable()
+            ->assertJsonValidationErrors(['address']);
+        $this->assertDatabaseMissing('orders', [
+            'email' => 'test_null_delivery@example.com',
+        ]);
+    }
+
+    public function test_заказ_без_физических_товаров_создаётся_без_доставки(): void
+    {
+        $this->mock(ShippingCalculationService::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('hasShippableProducts')->andReturn(false);
+            $mock->shouldReceive('calculatePriceForDeliveryType')->never();
+        });
+
+        $product = Product::factory()->create(['price' => 1500]);
+        $payload = [
+            'items' => [
+                ['id' => $product->id, 'count' => 1],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'test_service_only@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Москва',
         ];
         $response = $this->postJson('/api/v1/order', $payload);
         $response->assertCreated();
         $this->assertDatabaseHas('orders', [
-            'email' => 'test_null_delivery@example.com',
+            'email' => 'test_service_only@example.com',
             'delivery_price' => null,
         ]);
     }

@@ -102,6 +102,14 @@ final class ShippingCalculationService
     }
 
     /**
+     * @param  array<int, array{id:int, quantity:int}>  $products
+     */
+    public function hasShippableProducts(array $products): bool
+    {
+        return $this->filterShippableProducts($products) !== [];
+    }
+
+    /**
      * Найти минимальную цену из группированного ответа MetaShip по типу доставки.
      *
      * MetaShip возвращает объект, сгруппированный по типу:

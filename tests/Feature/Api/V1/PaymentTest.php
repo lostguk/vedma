@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\PromoCode;
+use App\Services\DaData\AddressSuggestService;
+use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 
@@ -244,6 +246,14 @@ it('создает платеж по сумме со скидкой и с уче
         '*' => Http::response(['orderId' => 'ext-order-discount', 'formUrl' => 'https://pay.test/form-discount'], 200),
     ]);
 
+    $this->mock(AddressSuggestService::class, function ($mock): void {
+        $mock->shouldReceive('isDeliverableAddress')->andReturn(true);
+    });
+    $this->mock(ShippingCalculationService::class, function ($mock): void {
+        $mock->shouldReceive('hasShippableProducts')->andReturn(true);
+        $mock->shouldReceive('calculatePriceForDeliveryType')->andReturn(100);
+    });
+
     $category = Category::factory()->create();
     $product = Product::factory()->create(['price' => 1000.00]);
     $product->categories()->attach($category->id);
@@ -452,6 +462,14 @@ it('полный цикл: calculate → store → payment с промокодо
     Http::fake([
         '*' => Http::response(['orderId' => 'ext-order-e2e', 'formUrl' => 'https://pay.test/form-e2e'], 200),
     ]);
+
+    $this->mock(AddressSuggestService::class, function ($mock): void {
+        $mock->shouldReceive('isDeliverableAddress')->andReturn(true);
+    });
+    $this->mock(ShippingCalculationService::class, function ($mock): void {
+        $mock->shouldReceive('hasShippableProducts')->andReturn(true);
+        $mock->shouldReceive('calculatePriceForDeliveryType')->andReturn(250);
+    });
 
     $category = Category::factory()->create();
     $product1 = Product::factory()->create(['price' => 500]);

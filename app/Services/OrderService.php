@@ -9,11 +9,14 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\Auth\RegistrationService;
+use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use RuntimeException;
 use Throwable;
 
 final readonly class OrderService
@@ -26,6 +29,7 @@ final readonly class OrderService
         private OrderCalculationService $orderCalculationService,
         private ShippingCalculationService $shippingCalculationService,
         private ProductStockService $productStockService,
+        private AddressSuggestService $addressSuggestService,
     ) {}
 
     /**
@@ -141,6 +145,24 @@ final readonly class OrderService
             'quantity' => $item['count'],
         ])->all();
 
+        if (! $this->shippingCalculationService->hasShippableProducts($shippingProducts)) {
+            return null;
+        }
+
+        try {
+            $addressComplete = $this->addressSuggestService->isDeliverableAddress($address);
+        } catch (RuntimeException) {
+            throw ValidationException::withMessages([
+                'address' => 'Не удалось проверить адрес. Выберите его из подсказок ещё раз.',
+            ]);
+        }
+
+        if (! $addressComplete) {
+            throw ValidationException::withMessages([
+                'address' => 'Укажите полный адрес: населённый пункт, улица и дом.',
+            ]);
+        }
+
         $price = $this->shippingCalculationService->calculatePriceForDeliveryType(
             $shippingProducts,
             $address,
@@ -152,6 +174,10 @@ final readonly class OrderService
                 'delivery_type' => $deliveryType,
                 'address' => $address,
                 'items_count' => count($data['items']),
+            ]);
+
+            throw ValidationException::withMessages([
+                'address' => 'Не удалось рассчитать стоимость доставки. Укажите полный адрес: населённый пункт, улица и дом.',
             ]);
         }
 

@@ -57,4 +57,39 @@ final readonly class AddressSuggestService
 
         return is_array($data) ? $data : [];
     }
+
+    public function isDeliverableAddress(string $address): bool
+    {
+        $result = $this->suggest(trim($address), 1);
+        $suggestion = $result['suggestions'][0] ?? null;
+
+        return is_array($suggestion) && self::isDeliverableSuggestion($suggestion);
+    }
+
+    /**
+     * @param  array<string, mixed>  $suggestion
+     */
+    public static function isDeliverableSuggestion(array $suggestion): bool
+    {
+        $data = $suggestion['data'] ?? null;
+        if (! is_array($data)) {
+            return false;
+        }
+
+        $level = (int) ($data['fias_level'] ?? 0);
+        if ($level >= 8) {
+            return true;
+        }
+
+        $city = trim((string) ($data['city'] ?? ''));
+        $settlement = trim((string) ($data['settlement'] ?? ''));
+        $street = trim((string) ($data['street'] ?? ''));
+        $house = trim((string) ($data['house'] ?? ''));
+
+        if (($city === '' && $settlement === '') || $house === '') {
+            return false;
+        }
+
+        return ! ($city !== '' && $street === '');
+    }
 }

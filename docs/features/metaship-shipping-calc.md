@@ -6,14 +6,14 @@
 
 ## API Endpoint
 
--   POST `/api/v1/shipping/calculate`
+- POST `/api/v1/shipping/calculate`
 
 ### Параметры
 
--   `products` (array, required): список товаров
-    -   `id` (integer, required): ID товара
-    -   `quantity` (integer, required, >=1): количество
--   `address` (string, required): адрес доставки (город, улица, дом)
+- `products` (array, required): список товаров
+    - `id` (integer, required): ID товара
+    - `quantity` (integer, required, >=1): количество
+- `address` (string, required): адрес доставки (город, улица, дом)
 
 ### Пример запроса
 
@@ -42,11 +42,14 @@
 
 ## Тестирование
 
--   Тесты расположены в `tests/Feature/Api/V1/ShippingCalculationTest.php`.
--   Покрывают валидацию и успешный сценарий (с моками HTTP).
+- Тесты расположены в `tests/Feature/Api/V1/ShippingCalculationTest.php`.
+- Покрывают валидацию и успешный сценарий (с моками HTTP).
 
 ## Примечания
 
--   Интеграция с Metaship выполнена через Laravel HTTP Client.
--   Конфигурация: `config/services.php` → `metaship`.
--   Переменные окружения: `METASHIP_BASE_URL`, `METASHIP_API_KEY`, `METASHIP_API_SECRET`.
+- Интеграция с Metaship выполнена через Laravel HTTP Client.
+- Перед расчётом `POST /order` проверяет полноту адреса через DaData (`fias_level >= 8` или населённый пункт + дом).
+- Если в заказе есть физические товары и адрес неполный либо Metaship не вернул цену, `POST /order` отвечает **422** и заказ не создаётся.
+- Заказ только из категорий `exclude_from_shipping` может быть создан без `delivery_price`.
+- Конфигурация: `config/services.php` → `metaship`.
+- Переменные окружения: `METASHIP_BASE_URL`, `METASHIP_API_KEY`, `METASHIP_API_SECRET`.
