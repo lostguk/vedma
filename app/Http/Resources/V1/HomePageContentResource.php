@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Resources\V1;
 
 use App\Models\HeroSlide;
+use App\Models\PromoBanner;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,8 +21,11 @@ final class HomePageContentResource extends JsonResource
             ->ordered()
             ->get();
 
+        $promo = PromoBanner::current();
+
         return [
             'slides' => HeroSlideResource::collection($slides),
+            'promo' => $promo ? new PromoBannerResource($promo) : null,
             'categories' => HomePageCategoryResource::collection($categories),
         ];
     }

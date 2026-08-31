@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         PaymentSeeder::class,
         HomePageContentSeeder::class,
         HeroSlideSeeder::class,
+        PromoBannerSeeder::class,
     ];
 
     /**

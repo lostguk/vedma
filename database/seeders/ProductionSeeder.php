@@ -20,6 +20,7 @@ final class ProductionSeeder extends Seeder
             PageSeeder::class,
             HomePageContentSeeder::class,
             HeroSlideSeeder::class,
+            PromoBannerSeeder::class,
         ]);
     }
 }

@@ -52,6 +52,7 @@ it('returns home page content with categories and products', function (): void {
         ->assertJsonStructure([
             'data' => [
                 'slides',
+                'promo',
                 'categories' => [
                     '*' => [
                         'id',
