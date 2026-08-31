@@ -197,7 +197,8 @@ class ProductResource extends Resource
                         ->label(__('filament.actions.delete.label')),
                 ]),
             ])
-            ->defaultSort('created_at', direction: 'desc');
+            ->defaultSort('created_at', direction: 'desc')
+            ->paginationPageOptions([5, 10, 25, 50]);
     }
 
     public static function getRelations(): array
