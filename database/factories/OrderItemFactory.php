@@ -29,6 +29,7 @@ class OrderItemFactory extends Factory
             'product_id' => $product->id,
             'name' => $product->name,
             'price' => $price,
+            'price_without_discount' => $price,
             'count' => $count,
             'total' => $price * $count,
         ];

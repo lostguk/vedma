@@ -52,10 +52,12 @@ final class OrderCalculationService
                 ]),
                 [
                     'price' => $price,
+                    'price_without_discount' => $originalPrice,
                     'old_price' => $oldPrice,
                     'count' => $count,
                     'summery' => $itemTotalWithDiscount,
                     'summery_old' => $oldPrice * $count,
+                    'summery_without_discount' => $itemTotalWithoutDiscount,
                     'discounted' => $discounted,
                 ]
             );

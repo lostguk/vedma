@@ -17,6 +17,7 @@ class OrderCalculationResource extends JsonResource
             'slug' => $this['slug'],
             'description' => $this['description'],
             'price' => $this['price'],
+            'price_without_discount' => (int) round((float) ($this['price_without_discount'] ?? $this['price'])),
             'old_price' => $this['old_price'],
             'weight' => $this['weight'],
             'width' => $this['width'],
@@ -28,6 +29,7 @@ class OrderCalculationResource extends JsonResource
             'count' => $this['count'],
             'summery' => (int) round((float) $this['summery']),
             'summery_old' => (int) round((float) $this['summery_old']),
+            'summery_without_discount' => (int) round((float) ($this['summery_without_discount'] ?? $this['summery'])),
             'discounted' => $this['discounted'],
         ];
     }

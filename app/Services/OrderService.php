@@ -108,6 +108,7 @@ final readonly class OrderService
                     'product_id' => $item['id'],
                     'name' => $item['name'],
                     'price' => (int) round((float) $item['price']),
+                    'price_without_discount' => (int) round((float) ($item['price_without_discount'] ?? $item['price'])),
                     'count' => $item['count'],
                     'total' => (int) round((float) $item['summery']),
                 ];

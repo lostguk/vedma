@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int $product_id
  * @property string $name
  * @property float $price
+ * @property float|null $price_without_discount
  * @property int $count
  * @property float $total
  * @property Carbon $created_at
@@ -43,13 +44,14 @@ final class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'product_id', 'name', 'price', 'count', 'total',
+        'order_id', 'product_id', 'name', 'price', 'price_without_discount', 'count', 'total',
     ];
 
     protected $casts = [
         'order_id' => 'int',
         'product_id' => 'int',
         'price' => 'float',
+        'price_without_discount' => 'float',
         'count' => 'int',
         'total' => 'float',
     ];

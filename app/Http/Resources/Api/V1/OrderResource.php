@@ -22,6 +22,10 @@ class OrderResource extends JsonResource
         $totalWithoutDiscount = (int) round((float) ($this->total_price_without_discount ?? $calculation['total_without_discount']));
         $totalWithDiscount = (int) round((float) ($this->total_price_with_discount ?? $calculation['total_with_discount']));
 
+        $deliveryPrice = $this->delivery_price !== null ? (int) $this->delivery_price : null;
+        $discountAmount = max(0, $totalWithoutDiscount - $totalWithDiscount);
+        $payableTotal = $totalWithDiscount + (int) ($deliveryPrice ?? 0);
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -35,9 +39,11 @@ class OrderResource extends JsonResource
             'total_price' => $totalWithDiscount,
             'total_without_discount' => $totalWithoutDiscount,
             'total_with_discount' => $totalWithDiscount,
+            'discount_amount' => $discountAmount,
+            'payable_total' => $payableTotal,
             'promo_code_status' => $calculation['promo_code_status'],
             'delivery_type' => $this->delivery_type,
-            'delivery_price' => $this->delivery_price,
+            'delivery_price' => $deliveryPrice,
             'status_code' => $this->status,
             'status' => $this->statusLabel($this->status),
             'created_at' => $this->created_at?->toDateTimeString(),

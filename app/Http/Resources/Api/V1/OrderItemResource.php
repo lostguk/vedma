@@ -15,14 +15,34 @@ class OrderItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $count = (int) $this->count;
+        $priceWithDiscount = (int) round((float) $this->price);
+        $priceWithoutDiscount = $this->priceWithoutDiscount($priceWithDiscount);
+        $totalWithDiscount = (int) round((float) ($this->total ?? $priceWithDiscount * $count));
+
         return [
             'id' => $this->id,
             'product_id' => $this->product_id,
             'name' => $this->name,
-            'price' => $this->price,
-            'count' => $this->count,
-            'total' => $this->total,
+            'price' => $priceWithDiscount,
+            'price_without_discount' => $priceWithoutDiscount,
+            'count' => $count,
+            'total' => $totalWithDiscount,
+            'total_without_discount' => $priceWithoutDiscount * $count,
             'product' => new ProductResource($this->whenLoaded('product')),
         ];
+    }
+
+    private function priceWithoutDiscount(int $priceWithDiscount): int
+    {
+        if ($this->price_without_discount !== null) {
+            return (int) round((float) $this->price_without_discount);
+        }
+
+        $catalogPrice = $this->relationLoaded('product') && $this->product
+            ? (int) round((float) $this->product->price)
+            : $priceWithDiscount;
+
+        return max($priceWithDiscount, $catalogPrice);
     }
 }

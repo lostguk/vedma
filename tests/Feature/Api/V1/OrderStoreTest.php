@@ -95,6 +95,13 @@ class OrderStoreTest extends TestCase
             'total_price_with_discount' => 180,
             'total_price' => 180,
         ]);
+        $this->assertDatabaseHas('order_items', [
+            'product_id' => $product->id,
+            'price' => 90,
+            'price_without_discount' => 100,
+            'count' => 2,
+            'total' => 180,
+        ]);
     }
 
     public function test_оформляет_заказ_с_невалидным_промокодом(): void

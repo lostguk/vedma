@@ -98,7 +98,9 @@ final class OrderControllerTest extends TestCase
         $response->assertJsonFragment([
             'id' => $product->id,
             'count' => 3,
+            'price_without_discount' => 200,
             'summery' => 540, // 200*0.9*3
+            'summery_without_discount' => 600,
             'discounted' => true,
         ]);
         $response->assertJson([
@@ -194,14 +196,16 @@ final class OrderControllerTest extends TestCase
             'total_price' => 180,
             'total_price_without_discount' => 200,
             'total_price_with_discount' => 180,
+            'delivery_price' => 350,
         ]);
         \App\Models\OrderItem::factory()->create([
             'order_id' => $order->id,
             'product_id' => $product->id,
             'name' => $product->name,
-            'price' => 100,
+            'price' => 90,
+            'price_without_discount' => 100,
             'count' => 2,
-            'total' => 200,
+            'total' => 180,
         ]);
 
         $this->actingAs($authUser);
@@ -216,7 +220,17 @@ final class OrderControllerTest extends TestCase
             'status_code' => 'paid',
             'total_without_discount' => 200,
             'total_with_discount' => 180,
+            'discount_amount' => 20,
+            'payable_total' => 530,
             'promo_code_status' => 'applied',
+        ]);
+        $response->assertJsonFragment([
+            'product_id' => $product->id,
+            'price' => 90,
+            'price_without_discount' => 100,
+            'count' => 2,
+            'total' => 180,
+            'total_without_discount' => 200,
         ]);
     }
 }
