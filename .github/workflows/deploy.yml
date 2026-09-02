@@ -9,6 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: main
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
@@ -35,7 +37,7 @@ jobs:
             sudo rm -rf .scribe/endpoints.cache || true
             sudo chown -R $USER:$USER . || true
             git stash
-            git pull origin main
+            GIT_TERMINAL_PROMPT=0 git -c http.extraHeader="AUTHORIZATION: bearer ${{ github.token }}" pull origin main
 
             # Полная пересборка при изменениях Docker/Composer/NPM/конфигов контейнера
             if git rev-parse HEAD~1 >/dev/null 2>&1; then
