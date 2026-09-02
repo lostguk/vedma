@@ -23,13 +23,15 @@ abstract class ApiController extends Controller
 
     /**
      * Error Response
+     *
+     * @param  array<string, mixed>  $extra
      */
-    protected function errorResponse(string $message, int $code = 400, ?array $errors = null): JsonResponse
+    protected function errorResponse(string $message, int $code = 400, ?array $errors = null, array $extra = []): JsonResponse
     {
-        $response = [
+        $response = array_merge([
             'status' => 'error',
             'message' => $message,
-        ];
+        ], $extra);
 
         if ($errors !== null) {
             $response['errors'] = $errors;

@@ -10,6 +10,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\Auth\RegistrationService;
+use App\Services\Auth\VerificationResendLimiter;
 use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Auth\Events\Registered;
@@ -32,6 +33,7 @@ final readonly class OrderService
         private ShippingCalculationService $shippingCalculationService,
         private ProductStockService $productStockService,
         private AddressSuggestService $addressSuggestService,
+        private VerificationResendLimiter $verificationResendLimiter,
     ) {}
 
     /**
@@ -125,6 +127,7 @@ final readonly class OrderService
         if ($registeredUser instanceof User) {
             try {
                 event(new Registered($registeredUser));
+                $this->verificationResendLimiter->hit($registeredUser->email);
             } catch (Throwable $exception) {
                 report($exception);
             }

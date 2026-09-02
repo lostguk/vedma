@@ -30,9 +30,73 @@ final class ResendVerificationTest extends TestCase
 
         $response->assertOk()
             ->assertJsonPath('status', 'success')
-            ->assertJsonPath('message', 'Письмо для подтверждения отправлено повторно.');
+            ->assertJsonPath('message', 'Письмо для подтверждения отправлено повторно.')
+            ->assertJsonPath('data.retry_after', 60)
+            ->assertHeader('Retry-After', '60');
 
         Notification::assertSentTo($user, VerifyEmailNotification::class);
+    }
+
+    public function test_resend_verification_is_limited_to_once_per_minute(): void
+    {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create([
+            'email' => 'throttle@example.com',
+        ]);
+
+        $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'throttle@example.com',
+        ])->assertOk();
+
+        $limited = $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'Throttle@example.com',
+        ]);
+
+        $limited->assertStatus(429)
+            ->assertJsonPath('status', 'error')
+            ->assertJsonPath('code', 'too_many_attempts');
+
+        $retryAfter = $limited->json('retry_after');
+        $this->assertIsInt($retryAfter);
+        $this->assertGreaterThan(0, $retryAfter);
+        $this->assertLessThanOrEqual(60, $retryAfter);
+        $limited->assertHeader('Retry-After', (string) $retryAfter);
+
+        Notification::assertSentToTimes($user, VerifyEmailNotification::class, 1);
+
+        $this->travel(61)->seconds();
+
+        $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'throttle@example.com',
+        ])->assertOk();
+
+        Notification::assertSentToTimes($user, VerifyEmailNotification::class, 2);
+    }
+
+    public function test_register_rate_limits_immediate_verification_resend(): void
+    {
+        Notification::fake();
+
+        $payload = [
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'middle_name' => 'Middle',
+            'email' => 'register-resend@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $this->postJson(route('api.v1.auth.register'), $payload)->assertCreated();
+
+        $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'register-resend@example.com',
+        ])
+            ->assertStatus(429)
+            ->assertJsonPath('code', 'too_many_attempts');
+
+        $user = User::where('email', 'register-resend@example.com')->firstOrFail();
+        Notification::assertSentToTimes($user, VerifyEmailNotification::class, 1);
     }
 
     public function test_resend_verification_returns_ok_when_email_already_verified(): void
@@ -87,5 +151,11 @@ final class ResendVerificationTest extends TestCase
                 'Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.'
             )
             ->assertJsonPath('errors.email.0', 'Не удалось доставить письмо подтверждения.');
+
+        $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'fail@example.com',
+        ])
+            ->assertStatus(429)
+            ->assertJsonPath('code', 'too_many_attempts');
     }
 }

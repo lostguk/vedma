@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\Auth\RegisterRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Services\Auth\RegistrationService;
+use App\Services\Auth\VerificationResendLimiter;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -38,15 +39,10 @@ final class RegisterController extends ApiController
 {
     private const ERROR_VERIFICATION_EMAIL_FAILED = 'Не удалось отправить письмо для подтверждения. Проверьте адрес и попробуйте ещё раз.';
 
-    private RegistrationService $registrationService;
-
-    /**
-     * RegisterController constructor.
-     */
-    public function __construct(RegistrationService $registrationService)
-    {
-        $this->registrationService = $registrationService;
-    }
+    public function __construct(
+        private readonly RegistrationService $registrationService,
+        private readonly VerificationResendLimiter $verificationResendLimiter,
+    ) {}
 
     /**
      * Регистрация нового пользователя
@@ -115,6 +111,8 @@ final class RegisterController extends ApiController
                 ['email' => ['Не удалось доставить письмо подтверждения.']]
             );
         }
+
+        $this->verificationResendLimiter->hit($user->email);
 
         return $this->successResponse(
             new UserResource($user),

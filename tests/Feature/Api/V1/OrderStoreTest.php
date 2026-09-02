@@ -163,6 +163,12 @@ class OrderStoreTest extends TestCase
         ]);
         $this->assertNull($user->email_verified_at);
         Notification::assertSentTo($user, VerifyEmailNotification::class);
+
+        $this->postJson(route('api.v1.auth.verify-registration.resend'), [
+            'email' => 'test4@example.com',
+        ])->assertStatus(429);
+
+        Notification::assertSentToTimes($user, VerifyEmailNotification::class, 1);
     }
 
     public function test_оформляет_заказ_авторизованным_пользователем(): void

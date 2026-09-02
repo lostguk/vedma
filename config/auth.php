@@ -117,12 +117,15 @@ return [
     | Email Verification
     |--------------------------------------------------------------------------
     |
-    | Number of minutes a signed verification link remains valid.
+    | Number of minutes a signed verification link remains valid, and how
+    | many seconds must pass before another verification email can be sent
+    | to the same address.
     |
     */
 
     'verification' => [
         'expire' => (int) env('AUTH_VERIFICATION_EXPIRE', 60 * 24),
+        'resend_decay' => (int) env('AUTH_VERIFICATION_RESEND_DECAY', 60),
     ],
 
 ];

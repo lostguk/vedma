@@ -8,7 +8,9 @@ use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\Auth\ResendVerificationRequest;
 use App\Models\User;
 use App\Services\Auth\ResendVerificationService;
+use App\Services\Auth\VerificationResendLimiter;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 /**
@@ -26,8 +28,11 @@ final class ResendVerificationController extends ApiController
 
     private const SUCCESS_EMAIL_SENT = 'Письмо для подтверждения отправлено повторно.';
 
+    private const ERROR_TOO_MANY_ATTEMPTS = 'Письмо можно отправить повторно через %d сек.';
+
     public function __construct(
         private readonly ResendVerificationService $resendVerificationService,
+        private readonly VerificationResendLimiter $verificationResendLimiter,
     ) {}
 
     /**
@@ -38,7 +43,9 @@ final class ResendVerificationController extends ApiController
      * @response 200 scenario="Письмо отправлено" {
      *     "status": "success",
      *     "message": "Письмо для подтверждения отправлено повторно.",
-     *     "data": []
+     *     "data": {
+     *         "retry_after": 60
+     *     }
      * }
      * @response 200 scenario="Email уже подтвержден" {
      *     "status": "success",
@@ -58,12 +65,17 @@ final class ResendVerificationController extends ApiController
      *         ]
      *     }
      * }
+     * @response 429 scenario="Слишком частые запросы" {
+     *     "status": "error",
+     *     "message": "Письмо можно отправить повторно через 60 сек.",
+     *     "code": "too_many_attempts",
+     *     "retry_after": 60
+     * }
      */
     public function __invoke(ResendVerificationRequest $request): JsonResponse
     {
-        $user = $this->resendVerificationService->findByEmail(
-            $request->string('email')->toString()
-        );
+        $email = $request->string('email')->toString();
+        $user = $this->resendVerificationService->findByEmail($email);
 
         if (! $user instanceof User) {
             return $this->errorResponse(self::ERROR_EMAIL_NOT_FOUND, 404);
@@ -72,6 +84,12 @@ final class ResendVerificationController extends ApiController
         if ($user->hasVerifiedEmail()) {
             return $this->successResponse([], self::ERROR_EMAIL_ALREADY_VERIFIED);
         }
+
+        if ($this->verificationResendLimiter->tooManyAttempts($user->email)) {
+            return $this->tooManyAttemptsResponse($user->email);
+        }
+
+        $this->verificationResendLimiter->hit($user->email);
 
         try {
             $this->resendVerificationService->send($user);
@@ -85,6 +103,24 @@ final class ResendVerificationController extends ApiController
             );
         }
 
-        return $this->successResponse([], self::SUCCESS_EMAIL_SENT);
+        $retryAfter = $this->verificationResendLimiter->decaySeconds();
+
+        return $this->successResponse(
+            ['retry_after' => $retryAfter],
+            self::SUCCESS_EMAIL_SENT,
+        )->header('Retry-After', (string) $retryAfter);
+    }
+
+    private function tooManyAttemptsResponse(string $email): JsonResponse
+    {
+        $seconds = $this->verificationResendLimiter->availableIn($email);
+        $message = sprintf(self::ERROR_TOO_MANY_ATTEMPTS, $seconds);
+
+        return $this->errorResponse(
+            $message,
+            Response::HTTP_TOO_MANY_REQUESTS,
+            ['email' => [$message]],
+            ['code' => 'too_many_attempts', 'retry_after' => $seconds],
+        )->header('Retry-After', (string) $seconds);
     }
 }
