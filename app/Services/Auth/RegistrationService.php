@@ -31,11 +31,7 @@ final readonly class RegistrationService
      */
     public function register(array $data): User
     {
-        // Хешируем пароль
         $data['password'] = Hash::make($data['password']);
-
-        // Создаем пользователя
-        // TODO: Отправка email для верификации будет добавлена позже
 
         return $this->userRepository->createWithVerification($data);
     }

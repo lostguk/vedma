@@ -8,8 +8,10 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -17,6 +19,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class UserResource extends Resource
 {
@@ -123,6 +126,43 @@ class UserResource extends Resource
                     ->query(fn ($query) => $query->whereNull('email_verified_at')),
             ])
             ->actions([
+                Action::make('verifyEmail')
+                    ->label('Подтвердить email')
+                    ->icon('heroicon-o-check-badge')
+                    ->color('success')
+                    ->visible(fn (User $record): bool => ! $record->hasVerifiedEmail())
+                    ->requiresConfirmation()
+                    ->modalHeading('Подтвердить email')
+                    ->modalDescription('Пользователь сможет войти без перехода по ссылке из письма.')
+                    ->action(function (User $record): void {
+                        $record->markEmailAsVerified();
+
+                        Notification::make()
+                            ->title('Email подтверждён')
+                            ->success()
+                            ->send();
+                    }),
+                Action::make('resendVerification')
+                    ->label('Отправить письмо')
+                    ->icon('heroicon-o-envelope')
+                    ->visible(fn (User $record): bool => ! $record->hasVerifiedEmail())
+                    ->action(function (User $record): void {
+                        try {
+                            $record->sendEmailVerificationNotification();
+
+                            Notification::make()
+                                ->title('Письмо отправлено')
+                                ->success()
+                                ->send();
+                        } catch (Throwable $exception) {
+                            report($exception);
+
+                            Notification::make()
+                                ->title('Не удалось отправить письмо')
+                                ->danger()
+                                ->send();
+                        }
+                    }),
                 EditAction::make()
                     ->label(__('filament.actions.edit.label')),
                 Tables\Actions\DeleteAction::make()

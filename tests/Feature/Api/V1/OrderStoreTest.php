@@ -8,10 +8,12 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\PromoCode;
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Mockery\MockInterface;
 use Tests\TestCase;
 
@@ -133,6 +135,7 @@ class OrderStoreTest extends TestCase
 
     public function test_оформляет_заказ_с_регистрацией_пользователя(): void
     {
+        Notification::fake();
         $this->mockShippingService();
 
         $product = Product::factory()->create(['price' => 100]);
@@ -153,10 +156,13 @@ class OrderStoreTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'test4@example.com',
         ]);
+        $user = User::where('email', 'test4@example.com')->firstOrFail();
         $this->assertDatabaseHas('orders', [
             'email' => 'test4@example.com',
-            'user_id' => User::where('email', 'test4@example.com')->first()->id,
+            'user_id' => $user->id,
         ]);
+        $this->assertNull($user->email_verified_at);
+        Notification::assertSentTo($user, VerifyEmailNotification::class);
     }
 
     public function test_оформляет_заказ_авторизованным_пользователем(): void

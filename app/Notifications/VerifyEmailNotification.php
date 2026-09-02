@@ -42,8 +42,14 @@ final class VerifyEmailNotification extends Notification
         $emailHash = sha1($notifiable->getEmailForVerification());
 
         // Переносим все query-параметры из подписанного URL на фронт
-        $query = parse_url($signedApiUrl, PHP_URL_QUERY) ?: '';
-        $verificationUrl = $frontendUrl.$frontendPath.'/'.$userId.'/'.$emailHash.($query ? ('?'.$query) : '');
+        $query = parse_url($signedApiUrl, PHP_URL_QUERY);
+        if (! is_string($query) || $query === '') {
+            $queryPos = strpos($signedApiUrl, '?');
+            $query = $queryPos !== false ? substr($signedApiUrl, $queryPos + 1) : '';
+        }
+        $verificationUrl = $frontendUrl.$frontendPath.'/'.$userId.'/'.$emailHash.($query !== '' ? ('?'.$query) : '');
+
+        $expireHours = max(1, (int) ceil($this->expireMinutes() / 60));
 
         return (new MailMessage)
             ->subject('Подтверждение регистрации на сайте Ведьмино зелье')
@@ -51,7 +57,7 @@ final class VerifyEmailNotification extends Notification
             ->line('Спасибо за регистрацию на сайте Ведьмино зелье.')
             ->line('Пожалуйста, подтвердите ваш email адрес, нажав на кнопку ниже:')
             ->action('Подтвердить Email', $verificationUrl)
-            ->line('Эта ссылка действительна в течение 60 минут.')
+            ->line("Эта ссылка действительна в течение {$expireHours} ч.")
             ->line('Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.');
     }
 
@@ -62,12 +68,18 @@ final class VerifyEmailNotification extends Notification
     {
         return URL::temporarySignedRoute(
             'api.v1.auth.verify-registration',
-            now()->addMinutes(60),
+            now()->addMinutes($this->expireMinutes()),
             [
                 'user' => $notifiable->getKey(),
                 'hash' => sha1($notifiable->getEmailForVerification()),
-            ]
+            ],
+            false,
         );
+    }
+
+    private function expireMinutes(): int
+    {
+        return max(1, (int) Config::get('auth.verification.expire', 60 * 24));
     }
 
     /**

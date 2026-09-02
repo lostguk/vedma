@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('verify-registration/{user}/{hash}', VerifyRegistrationController::class)
-    ->middleware('signed')
+    ->middleware('signed:relative')
     ->name('api.v1.auth.verify-registration');
 
 Route::post('verify-registration/resend', ResendVerificationController::class)

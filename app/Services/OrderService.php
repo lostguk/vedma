@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Order;
+use App\Models\User;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\PromoCodeRepository;
 use App\Services\Auth\RegistrationService;
 use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,9 +42,10 @@ final readonly class OrderService
     public function createOrder(array $data): Order
     {
 
-        return DB::transaction(function () use ($data) {
+        [$order, $registeredUser] = DB::transaction(function () use ($data) {
             // 1. Определяем пользователя
             $user = Auth::guard('sanctum')->user();
+            $registeredUser = null;
 
             if (! $user && ($data['register'] ?? false)) {
                 $user = $this->registrationService->register([
@@ -55,6 +58,7 @@ final readonly class OrderService
                     'phone' => $data['phone'] ?? null,
                     'address' => $data['address'] ?? null,
                 ]);
+                $registeredUser = $user;
             }
 
             // 2. Промокод
@@ -115,8 +119,18 @@ final readonly class OrderService
             }
             $this->orderRepository->createOrderItems($order, $items);
 
-            return $order;
+            return [$order, $registeredUser];
         });
+
+        if ($registeredUser instanceof User) {
+            try {
+                event(new Registered($registeredUser));
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+        }
+
+        return $order;
     }
 
     /**

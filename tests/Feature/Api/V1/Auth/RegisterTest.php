@@ -88,6 +88,10 @@ final class RegisterTest extends TestCase
                 $this->assertStringContainsString('expires=', $verificationUrl);
                 $this->assertStringContainsString('signature=', $verificationUrl);
 
+                parse_str((string) parse_url($verificationUrl, PHP_URL_QUERY), $query);
+                $this->assertGreaterThan(now()->addHours(23)->timestamp, (int) ($query['expires'] ?? 0));
+                $this->assertLessThanOrEqual(now()->addHours(25)->timestamp, (int) ($query['expires'] ?? 0));
+
                 return true;
             }
         );
