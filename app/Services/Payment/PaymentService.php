@@ -10,6 +10,7 @@ use App\Repositories\OrderRepository;
 use App\Repositories\PaymentRepository;
 use App\Services\ProductStockService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Throwable;
 
@@ -32,6 +33,14 @@ final readonly class PaymentService
     {
         /** @var Order $order */
         $order = $this->orderRepository->findById($orderId);
+
+        if (! $order->isPayable()) {
+            if ($order->status === 'cancelled' || $order->hasReleasedStock()) {
+                throw new RuntimeException('Заказ отменён, оплата недоступна.');
+            }
+
+            throw new RuntimeException('Оплата по заказу уже завершена.');
+        }
 
         $existing = $this->paymentRepository->findLatestForOrder($order->id);
         if ($existing && in_array($existing->status, [
@@ -326,6 +335,16 @@ final readonly class PaymentService
         $order = $payment->order;
 
         if ($payment->status === Payment::STATUS_PAID) {
+            if ($order->hasReleasedStock() || $order->status === 'cancelled') {
+                Log::warning('Получена оплата по заказу с возвращённым складом', [
+                    'order_id' => $order->id,
+                    'payment_id' => $payment->id,
+                    'order_status' => $order->status,
+                ]);
+
+                return;
+            }
+
             $order->update([
                 'status' => 'paid',
                 'paid_at' => $payment->paid_at ?? Carbon::now(),
@@ -340,6 +359,10 @@ final readonly class PaymentService
         }
 
         if ($payment->status === Payment::STATUS_FAILED) {
+            if (in_array($order->status, ['paid', 'refunded', 'cancelled'], true)) {
+                return;
+            }
+
             $order->update([
                 'status' => 'payment_failed',
             ]);

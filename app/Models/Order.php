@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property string $status
  * @property string|null $payment_type
  * @property Carbon|null $paid_at
+ * @property Carbon|null $stock_released_at
  * @property string|null $comment
  * @property string|null $delivery_type
  * @property int|null $delivery_price
@@ -73,11 +74,14 @@ final class Order extends Model
 {
     use HasFactory;
 
+    /** @var list<string> */
+    public const STATUSES_HOLDING_STOCK = ['new', 'payment_pending', 'payment_failed'];
+
     protected $fillable = [
         'user_id', 'first_name', 'last_name', 'middle_name', 'email', 'phone',
         'address', 'promo_code_id',
         'total_price', 'total_price_without_discount', 'total_price_with_discount',
-        'status', 'payment_type', 'paid_at', 'comment',
+        'status', 'payment_type', 'paid_at', 'stock_released_at', 'comment',
         'delivery_type', 'delivery_price', 'delivery_status', 'delivery_data',
     ];
 
@@ -89,8 +93,26 @@ final class Order extends Model
         'total_price_with_discount' => 'int',
         'delivery_price' => 'int',
         'paid_at' => 'datetime',
+        'stock_released_at' => 'datetime',
         'delivery_data' => 'array',
     ];
+
+    public function hasReleasedStock(): bool
+    {
+        return $this->stock_released_at !== null;
+    }
+
+    public function isPayable(): bool
+    {
+        return ! $this->hasReleasedStock()
+            && in_array($this->status, self::STATUSES_HOLDING_STOCK, true);
+    }
+
+    public function canCancelAndReleaseStock(): bool
+    {
+        return ! $this->hasReleasedStock()
+            && in_array($this->status, [...self::STATUSES_HOLDING_STOCK, 'cancelled'], true);
+    }
 
     public function user(): BelongsTo
     {

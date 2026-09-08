@@ -192,6 +192,7 @@ it('возвращает остатки на склад при возврате 
         'id' => $product->id,
         'stock' => 5,
     ]);
+    $this->assertNotNull($order->fresh()->stock_released_at);
 });
 
 it('выполняет возврат платежа', function (): void {
@@ -576,5 +577,72 @@ it('берет для оплаты сумму со скидкой, а не бе�
         'order_id' => $order->id,
         'amount' => 750,
         'external_order_id' => 'ext-order-price-check',
+    ]);
+});
+
+it('не создаёт платёж по отменённому заказу со снятым складом', function (): void {
+    $order = Order::factory()->create([
+        'status' => 'cancelled',
+        'stock_released_at' => now(),
+    ]);
+
+    $response = $this->postJson('/api/v1/payments', [
+        'order_id' => $order->id,
+    ]);
+
+    $response->assertStatus(422)
+        ->assertJsonPath('message', 'Заказ отменён, оплата недоступна.');
+});
+
+it('повторный возврат не накручивает склад', function (): void {
+    Http::fake([
+        '*' => Http::response(['errorCode' => 0], 200),
+    ]);
+
+    $product = Product::factory()->withStock(3)->create();
+    $order = Order::factory()->create(['status' => 'paid']);
+    \App\Models\OrderItem::factory()->create([
+        'order_id' => $order->id,
+        'product_id' => $product->id,
+        'count' => 2,
+    ]);
+    $payment = Payment::factory()->create([
+        'order_id' => $order->id,
+        'external_order_id' => 'ext-order-refund-twice',
+        'status' => Payment::STATUS_PAID,
+    ]);
+
+    $this->postJson("/api/v1/payments/{$payment->public_id}/refund")->assertOk();
+    $this->postJson("/api/v1/payments/{$payment->public_id}/refund")->assertOk();
+
+    $this->assertDatabaseHas('products', [
+        'id' => $product->id,
+        'stock' => 5,
+    ]);
+});
+
+it('не переводит отменённый заказ в paid по webhook', function (): void {
+    $order = Order::factory()->create([
+        'status' => 'cancelled',
+        'stock_released_at' => now(),
+    ]);
+    $payment = Payment::factory()->create([
+        'order_id' => $order->id,
+        'external_order_id' => 'ext-order-late-paid',
+        'status' => Payment::STATUS_PENDING,
+    ]);
+
+    $this->postJson('/api/v1/payments/alfabank/webhook', [
+        'orderId' => 'ext-order-late-paid',
+        'orderStatus' => 2,
+    ])->assertOk();
+
+    $this->assertDatabaseHas('orders', [
+        'id' => $order->id,
+        'status' => 'cancelled',
+    ]);
+    $this->assertDatabaseHas('payments', [
+        'id' => $payment->id,
+        'status' => Payment::STATUS_PAID,
     ]);
 });

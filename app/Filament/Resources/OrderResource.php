@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Services\ProductStockService;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
@@ -12,9 +13,11 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use RuntimeException;
 
 class OrderResource extends Resource
 {
@@ -103,6 +106,15 @@ class OrderResource extends Resource
                             ])->nullable()
                             ->disabled(),
                         DateTimePicker::make('paid_at')->label('Оплачен в')->nullable()->disabled(),
+                        Placeholder::make('stock_released_at')
+                            ->label('Склад возвращён')
+                            ->content(static function (?Order $record): string {
+                                if ($record?->stock_released_at === null) {
+                                    return 'Нет — остаток удерживается заказом';
+                                }
+
+                                return $record->stock_released_at->format('d.m.Y H:i');
+                            }),
                         Textarea::make('comment')->label('Комментарий'),
                     ])->columns(2),
                 Section::make('Оплата')
@@ -193,6 +205,32 @@ class OrderResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\Action::make('cancelAndReleaseStock')
+                    ->label('Вернуть на склад')
+                    ->icon('heroicon-o-arrow-uturn-left')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Отменить заказ и вернуть товары на склад?')
+                    ->modalDescription('Заказ получит статус «Отменён». Повторно оплатить его будет нельзя. Если в банке ещё висит сессия оплаты — сначала нажмите «Проверить оплату».')
+                    ->visible(fn (Order $record): bool => $record->canCancelAndReleaseStock())
+                    ->action(function (Order $record): void {
+                        try {
+                            app(ProductStockService::class)->cancelAndRelease($record);
+                        } catch (RuntimeException $exception) {
+                            Notification::make()
+                                ->title('Не удалось вернуть склад')
+                                ->body($exception->getMessage())
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        Notification::make()
+                            ->title('Заказ отменён, остатки возвращены')
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

@@ -7,10 +7,12 @@ use App\Models\Order;
 use App\Repositories\PaymentRepository;
 use App\Services\Export\OrderExcelExporter;
 use App\Services\Payment\PaymentService;
+use App\Services\ProductStockService;
 use Filament\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use RuntimeException;
 
 class EditOrder extends EditRecord
 {
@@ -19,6 +21,43 @@ class EditOrder extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('cancelAndReleaseStock')
+                ->label('Отменить и вернуть на склад')
+                ->icon('heroicon-o-arrow-uturn-left')
+                ->color('danger')
+                ->requiresConfirmation()
+                ->modalHeading('Отменить заказ и вернуть товары на склад?')
+                ->modalDescription('Заказ получит статус «Отменён». Повторно оплатить его будет нельзя. Если в банке ещё висит сессия оплаты — сначала нажмите «Проверить оплату».')
+                ->visible(function (): bool {
+                    /** @var Order $order */
+                    $order = $this->record;
+
+                    return $order->canCancelAndReleaseStock();
+                })
+                ->action(function (ProductStockService $productStockService): void {
+                    /** @var Order $order */
+                    $order = $this->record;
+
+                    try {
+                        $productStockService->cancelAndRelease($order);
+                    } catch (RuntimeException $exception) {
+                        Notification::make()
+                            ->title('Не удалось вернуть склад')
+                            ->body($exception->getMessage())
+                            ->danger()
+                            ->send();
+
+                        return;
+                    }
+
+                    $this->record->refresh();
+                    $this->fillForm();
+
+                    Notification::make()
+                        ->title('Заказ отменён, остатки возвращены')
+                        ->success()
+                        ->send();
+                }),
             Actions\Action::make('exportExcel')
                 ->label('Выгрузить в Excel')
                 ->icon('heroicon-o-arrow-down-tray')
