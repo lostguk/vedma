@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,6 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withCommands([
         __DIR__.'/../app/Console/Commands',
     ])
+    ->withSchedule(function (Schedule $schedule): void {
+        $schedule->command('orders:release-unpaid-stock --execute --include-pending --min-age=12')
+            ->dailyAt('03:00')
+            ->timezone('Europe/Moscow')
+            ->withoutOverlapping();
+    })
     ->withMiddleware(function (Middleware $middleware) {
         // Trust upstream proxies to correctly detect HTTPS scheme
         $middleware->trustProxies(at: '*', headers: Request::HEADER_X_FORWARDED_FOR

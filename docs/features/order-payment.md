@@ -75,7 +75,13 @@ php artisan orders:release-unpaid-stock
 php artisan orders:release-unpaid-stock --execute
 ```
 
-Без `--execute` команда только показывает отчёт. По умолчанию берутся **все** подходящие заказы (`payment_failed`, `new`, `cancelled` без флага). `payment_pending` — только с `--include-pending`. Опция `--min-age=N` по-прежнему может ограничить выборку по возрасту в часах. После отмены `POST /payments` по этому заказу возвращает 422.
+Без `--execute` команда только показывает отчёт. По умолчанию берутся **все** подходящие заказы (`payment_failed`, `new`, `cancelled` без флага). `payment_pending` — только с `--include-pending`. Опция `--min-age=N` ограничивает выборку по возрасту в часах. После отмены `POST /payments` по этому заказу возвращает 422.
+
+Ночной прогон (03:00 Europe/Moscow) запускается планировщиком Laravel из контейнера (`schedule:work` в supervisor):
+
+```
+orders:release-unpaid-stock --execute --include-pending --min-age=12
+```
 
 Списание остатков происходит при оформлении заказа (`POST /api/v1/order`), подробнее — в `docs/features/products.md`.
 

@@ -107,6 +107,7 @@ curl -fsS http://127.0.0.1:8000/health
 docker compose -f docker-compose.production.yml exec -T app php artisan migrate:status
 docker compose -f docker-compose.production.yml exec -T app php artisan route:list --path=api
 docker compose -f docker-compose.production.yml exec -T app php artisan tinker --execute="Redis::connection()->ping();"
+docker compose -f docker-compose.production.yml exec -T app php artisan schedule:list
 ./dev.sh prod-diagnose-upload
 ```
 

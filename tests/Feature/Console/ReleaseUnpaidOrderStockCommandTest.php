@@ -92,3 +92,61 @@ it('с --min-age не берёт более свежие заказы', function
     expect($order->fresh()->stock_released_at)->toBeNull();
     expect($product->fresh()->stock)->toBe(0);
 });
+
+it('ночные флаги отменяют старый payment_pending и не трогают свежий', function (): void {
+    $product = Product::factory()->withStock(0)->create();
+    $old = Order::factory()->create([
+        'status' => 'payment_pending',
+        'created_at' => now()->subHours(13),
+    ]);
+    $fresh = Order::factory()->create([
+        'status' => 'payment_pending',
+        'created_at' => now()->subHour(),
+    ]);
+    OrderItem::factory()->create([
+        'order_id' => $old->id,
+        'product_id' => $product->id,
+        'count' => 1,
+    ]);
+    OrderItem::factory()->create([
+        'order_id' => $fresh->id,
+        'product_id' => $product->id,
+        'count' => 1,
+    ]);
+
+    $this->artisan('orders:release-unpaid-stock', [
+        '--execute' => true,
+        '--include-pending' => true,
+        '--min-age' => 12,
+    ])->assertSuccessful();
+
+    expect($old->fresh()->status)->toBe('cancelled');
+    expect($old->fresh()->stock_released_at)->not->toBeNull();
+    expect($fresh->fresh()->status)->toBe('payment_pending');
+    expect($fresh->fresh()->stock_released_at)->toBeNull();
+    expect($product->fresh()->stock)->toBe(1);
+});
+
+it('повторный --execute не накручивает склад', function (): void {
+    $product = Product::factory()->withStock(0)->create();
+    $order = Order::factory()->create([
+        'status' => 'payment_failed',
+        'created_at' => now()->subDay(),
+    ]);
+    OrderItem::factory()->create([
+        'order_id' => $order->id,
+        'product_id' => $product->id,
+        'count' => 2,
+    ]);
+
+    $this->artisan('orders:release-unpaid-stock', [
+        '--execute' => true,
+        '--ids' => (string) $order->id,
+    ])->assertSuccessful();
+    $this->artisan('orders:release-unpaid-stock', [
+        '--execute' => true,
+        '--ids' => (string) $order->id,
+    ])->assertSuccessful();
+
+    expect($product->fresh()->stock)->toBe(2);
+});
