@@ -22,7 +22,7 @@ class PaymentFactory extends Factory
 
         return [
             'order_id' => $order->id,
-            'provider' => 'alfabank',
+            'provider' => 'tbank',
             'status' => $this->faker->randomElement([
                 Payment::STATUS_CREATED,
                 Payment::STATUS_REGISTERED,

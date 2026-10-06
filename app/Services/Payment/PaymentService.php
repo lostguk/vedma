@@ -19,13 +19,13 @@ final readonly class PaymentService
     public function __construct(
         private PaymentRepository $paymentRepository,
         private OrderRepository $orderRepository,
-        private AlfaBankGateway $gateway,
-        private OrderBundleBuilder $bundleBuilder,
+        private TBankGateway $gateway,
+        private ReceiptBuilder $receiptBuilder,
         private ProductStockService $productStockService,
     ) {}
 
     /**
-     * Создать платеж и зарегистрировать его в Альфа-Банке.
+     * Создать платеж и зарегистрировать его в Т-Банке.
      *
      * @throws Throwable
      */
@@ -58,10 +58,10 @@ final readonly class PaymentService
         $amount = $this->calculateAmount($order);
         $payment = $this->paymentRepository->createPayment([
             'order_id' => $order->id,
-            'provider' => 'alfabank',
+            'provider' => 'tbank',
             'status' => Payment::STATUS_CREATED,
             'amount' => $amount,
-            'currency' => (string) config('services.alfabank.currency', 'RUB'),
+            'currency' => (string) config('services.tbank.currency', 'RUB'),
         ]);
 
         $publicId = (string) $payment->public_id;
@@ -69,12 +69,12 @@ final readonly class PaymentService
         $failUrl = $this->appendPaymentPublicId($failUrl, $publicId);
 
         try {
-            $fiscalData = $this->bundleBuilder->build($order);
-            $response = $this->gateway->registerOrder($order, $payment, $successUrl, $failUrl, $fiscalData);
+            $receipt = $this->receiptBuilder->build($order);
+            $response = $this->gateway->init($order, $payment, $successUrl, $failUrl, $receipt);
 
             $payment = $this->paymentRepository->updatePayment($payment, [
-                'external_order_id' => $response['orderId'] ?? null,
-                'payment_url' => $response['formUrl'] ?? null,
+                'external_order_id' => isset($response['PaymentId']) ? (string) $response['PaymentId'] : null,
+                'payment_url' => $response['PaymentURL'] ?? null,
                 'status' => Payment::STATUS_REGISTERED,
                 'payload' => $response,
             ]);
@@ -101,24 +101,15 @@ final readonly class PaymentService
             return $payment;
         }
 
-        $response = $this->gateway->getOrderStatus($payment->external_order_id);
-        $status = $this->mapStatus($response);
+        $this->assertSupportedProvider($payment);
 
-        $payload = $response;
-        if ($this->isFiscalEnabled()) {
-            $receiptResponse = $this->gateway->getReceiptStatus($payment->external_order_id);
-            $payload['receiptStatusResponse'] = $receiptResponse;
-        }
+        $response = $this->gateway->getState($payment->external_order_id);
+        $status = $this->mapStatus($response);
 
         $update = [
             'status' => $status,
-            'payload' => $payload,
+            'payload' => $response,
         ];
-
-        $fiscalError = $this->extractFiscalError($payload['receiptStatusResponse'] ?? null);
-        if ($fiscalError !== null) {
-            $update['error_message'] = $fiscalError;
-        }
 
         if ($status === Payment::STATUS_PAID && ! $payment->paid_at) {
             $update['paid_at'] = Carbon::now();
@@ -136,16 +127,21 @@ final readonly class PaymentService
 
     public function refund(Payment $payment, ?float $amount = null): Payment
     {
+        $this->assertSupportedProvider($payment);
+
         if (! $payment->external_order_id) {
-            throw new RuntimeException('Нельзя выполнить возврат без orderId платежа.');
+            throw new RuntimeException('Нельзя выполнить возврат без идентификатора платежа.');
         }
 
         if ($amount !== null && $amount <= 0) {
             throw new RuntimeException('Сумма возврата должна быть больше нуля.');
         }
 
-        $refundAmount = $amount ?? $payment->amount;
-        $response = $this->gateway->refund($payment->external_order_id, $this->toMinorAmount($refundAmount));
+        $refundAmount = $amount ?? (float) $payment->amount;
+        $response = $this->gateway->cancel(
+            $payment->external_order_id,
+            $amount === null ? null : $this->toMinorAmount($refundAmount),
+        );
 
         $payment = $this->paymentRepository->updatePayment($payment, [
             'status' => Payment::STATUS_REFUNDED,
@@ -160,13 +156,17 @@ final readonly class PaymentService
 
     public function handleWebhook(array $payload): ?Payment
     {
-        $externalOrderId = $payload['orderId'] ?? $payload['mdOrder'] ?? null;
-        if (! $externalOrderId) {
-            return null;
+        if (! $this->gateway->isValidNotification($payload)) {
+            throw new RuntimeException('Неверная подпись уведомления Т-Банка.');
         }
 
-        $payment = $this->paymentRepository->findByExternalOrderId((string) $externalOrderId);
+        $payment = $this->findWebhookPayment($payload);
         if (! $payment) {
+            Log::warning('Уведомление Т-Банка не сопоставлено с платежом', [
+                'payment_id' => $payload['PaymentId'] ?? null,
+                'order_id' => $payload['OrderId'] ?? null,
+            ]);
+
             return null;
         }
 
@@ -251,83 +251,51 @@ final readonly class PaymentService
         return (int) round($amount * 100);
     }
 
-    private function mapStatus(array $payload): string
-    {
-        $orderStatus = $payload['orderStatus'] ?? null;
-        if ($orderStatus !== null) {
-            return match ((int) $orderStatus) {
-                2 => Payment::STATUS_PAID,
-                3, 6 => Payment::STATUS_FAILED,
-                4 => Payment::STATUS_REFUNDED,
-                default => Payment::STATUS_PENDING,
-            };
-        }
-
-        $status = $payload['status'] ?? null;
-        if (is_string($status)) {
-            return match (strtolower($status)) {
-                'paid', 'success', 'completed' => Payment::STATUS_PAID,
-                'refunded' => Payment::STATUS_REFUNDED,
-                'failed', 'declined', 'error' => Payment::STATUS_FAILED,
-                default => Payment::STATUS_PENDING,
-            };
-        }
-
-        return Payment::STATUS_PENDING;
-    }
-
-    private function isFiscalEnabled(): bool
-    {
-        return (bool) config('services.alfabank.fiscal.enabled', false);
-    }
-
     /**
-     * @param  array<string, mixed>|null  $receiptResponse
+     * @param  array<string, mixed>  $payload
      */
-    private function extractFiscalError(?array $receiptResponse): ?string
+    private function findWebhookPayment(array $payload): ?Payment
     {
-        if ($receiptResponse === null) {
-            return null;
+        $paymentId = $payload['PaymentId'] ?? null;
+        if ($paymentId !== null && (string) $paymentId !== '') {
+            $payment = $this->paymentRepository->findByExternalOrderId((string) $paymentId);
+            if ($payment) {
+                return $payment;
+            }
         }
 
-        $failedReceiptStatuses = [2, 5, 8];
-
-        foreach ($receiptResponse['receipt'] ?? [] as $receipt) {
-            if (! is_array($receipt)) {
-                continue;
-            }
-
-            $receiptStatus = (int) ($receipt['receiptStatus'] ?? -1);
-            if (! in_array($receiptStatus, $failedReceiptStatuses, true)) {
-                continue;
-            }
-
-            $uuid = isset($receipt['uuid']) ? (string) $receipt['uuid'] : null;
-            $detail = $receipt['errorMessage']
-                ?? $receipt['error']
-                ?? $receiptResponse['errorMessage']
-                ?? null;
-
-            if (is_string($detail) && trim($detail) !== '' && ! in_array(mb_strtolower(trim($detail)), ['успешно', 'success'], true)) {
-                $message = trim($detail);
-            } else {
-                $message = 'чек отклонён АТОЛ (receiptStatus='.$receiptStatus.')';
-            }
-
-            if ($uuid) {
-                $message .= ', uuid='.$uuid.' (детали в ЛК АТОЛ)';
-            }
-
-            return 'Фискализация: '.$message;
-        }
-
-        if (! empty($receiptResponse['errorCode']) && (int) $receiptResponse['errorCode'] !== 0) {
-            $message = $receiptResponse['errorMessage'] ?? 'Ошибка запроса статуса чека.';
-
-            return 'Фискализация: '.(string) $message;
+        $orderId = $payload['OrderId'] ?? null;
+        if (is_string($orderId) && $orderId !== '') {
+            return $this->paymentRepository->findByPublicId($orderId);
         }
 
         return null;
+    }
+
+    private function assertSupportedProvider(Payment $payment): void
+    {
+        if ($payment->provider === 'tbank') {
+            return;
+        }
+
+        throw new RuntimeException('Платёж создан в другом шлюзе и больше не обслуживается.');
+    }
+
+    private function mapStatus(array $payload): string
+    {
+        $status = $payload['Status'] ?? $payload['status'] ?? null;
+        if (! is_string($status)) {
+            return Payment::STATUS_PENDING;
+        }
+
+        return match (strtoupper($status)) {
+            'CONFIRMED', 'PARTIAL_REFUNDED' => Payment::STATUS_PAID,
+            'REFUNDED' => Payment::STATUS_REFUNDED,
+            'REJECTED', 'CANCELED', 'AUTH_FAIL', 'DEADLINE_EXPIRED', 'REVERSED' => Payment::STATUS_FAILED,
+            'PAID', 'SUCCESS', 'COMPLETED' => Payment::STATUS_PAID,
+            'FAILED', 'DECLINED', 'ERROR' => Payment::STATUS_FAILED,
+            default => Payment::STATUS_PENDING,
+        };
     }
 
     private function syncOrderStatus(Payment $payment): void

@@ -34,6 +34,7 @@ final readonly class OrderService
         private ProductStockService $productStockService,
         private AddressSuggestService $addressSuggestService,
         private VerificationResendLimiter $verificationResendLimiter,
+        private CartService $cartService,
     ) {}
 
     /**
@@ -120,6 +121,10 @@ final readonly class OrderService
                 ];
             }
             $this->orderRepository->createOrderItems($order, $items);
+
+            if ($user instanceof User) {
+                $this->cartService->clear($user);
+            }
 
             return [$order, $registeredUser];
         });

@@ -14,9 +14,35 @@ use Illuminate\Support\Facades\Http;
 
 uses(RefreshDatabase::class);
 
+function tbankNotification(array $overrides = []): array
+{
+    $payload = array_merge([
+        'TerminalKey' => 'TestTerminal',
+        'OrderId' => 'order',
+        'Success' => true,
+        'Status' => 'CONFIRMED',
+        'PaymentId' => '1',
+        'ErrorCode' => '0',
+        'Amount' => 10000,
+    ], $overrides);
+
+    $flat = [];
+    foreach ($payload as $key => $value) {
+        if (is_array($value) || $value === null) {
+            continue;
+        }
+        $flat[$key] = is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
+    }
+    $flat['Password'] = 'test-password';
+    ksort($flat, SORT_STRING);
+    $payload['Token'] = hash('sha256', implode('', $flat));
+
+    return $payload;
+}
+
 it('создает платеж и возвращает ссылку на оплату', function (): void {
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-1', 'formUrl' => 'https://pay.test/form'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-1', 'PaymentURL' => 'https://pay.test/form'], 200),
     ]);
 
     $order = Order::factory()->create([
@@ -34,8 +60,8 @@ it('создает платеж и возвращает ссылку на опл
         ->assertJsonPath('data.payment_url', 'https://pay.test/form');
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        return str_contains($request->url(), '/payment/rest/register.do')
-            && $request['amount'] === 130000;
+        return str_contains($request->url(), '/Init')
+            && $request['Amount'] === 130000;
     });
 
     $this->assertDatabaseHas('payments', [
@@ -47,7 +73,7 @@ it('создает платеж и возвращает ссылку на опл
 
 it('добавляет payment public_id в returnUrl и failUrl при регистрации', function (): void {
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-return', 'formUrl' => 'https://pay.test/form-return'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-return', 'PaymentURL' => 'https://pay.test/form-return'], 200),
     ]);
 
     $order = Order::factory()->create([
@@ -69,12 +95,12 @@ it('добавляет payment public_id в returnUrl и failUrl при реги
     expect($payment)->not->toBeNull();
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request) use ($payment, $order): bool {
-        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+        if (! str_contains($request->url(), '/Init')) {
             return false;
         }
 
-        $returnUrl = (string) ($request['returnUrl'] ?? '');
-        $failUrl = (string) ($request['failUrl'] ?? '');
+        $returnUrl = (string) ($request['SuccessURL'] ?? '');
+        $failUrl = (string) ($request['FailURL'] ?? '');
 
         return str_contains($returnUrl, 'payment='.$payment->public_id)
             && str_contains($returnUrl, 'order_id='.$order->id)
@@ -85,8 +111,7 @@ it('добавляет payment public_id в returnUrl и failUrl при реги
 
 it('обновляет статус платежа через API статуса', function (): void {
     Http::fake([
-        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
-        '*/getReceiptStatus.do' => Http::response(['errorCode' => '0', 'receipt' => []], 200),
+        '*/GetState' => Http::response(['Success' => true, 'ErrorCode' => '0', 'Status' => 'CONFIRMED'], 200),
     ]);
 
     $order = Order::factory()->create();
@@ -107,62 +132,28 @@ it('обновляет статус платежа через API статуса
     ]);
 });
 
-it('сохраняет ошибку фискализации из getReceiptStatus при проверке статуса', function (): void {
-    config(['services.alfabank.fiscal.enabled' => true]);
-
-    Http::fake([
-        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
-        '*/getReceiptStatus.do' => Http::response([
-            'errorCode' => '0',
-            'errorMessage' => 'ATOL: неверный ИНН группы ККТ',
-            'receipt' => [
-                [
-                    'receiptStatus' => 2,
-                    'uuid' => 'receipt-uuid-1',
-                ],
-            ],
-        ], 200),
-    ]);
+it('отклоняет webhook с неверной подписью', function (): void {
+    config(['services.tbank.password' => 'test-password']);
 
     $order = Order::factory()->create();
     $payment = Payment::factory()->create([
         'order_id' => $order->id,
-        'external_order_id' => 'ext-order-fiscal-error',
+        'external_order_id' => 'ext-order-bad-sign',
         'status' => Payment::STATUS_PENDING,
     ]);
 
-    $response = $this->getJson("/api/v1/payments/{$payment->public_id}/status");
-
-    $response->assertOk()
-        ->assertJsonPath('data.status', Payment::STATUS_PAID)
-        ->assertJsonPath('data.error_message', 'Фискализация: ATOL: неверный ИНН группы ККТ, uuid=receipt-uuid-1 (детали в ЛК АТОЛ)')
-        ->assertJsonPath('data.fiscal.receipts.0.status', 2);
-
-    $payment->refresh();
-    expect($payment->payload['receiptStatusResponse']['receipt'][0]['receiptStatus'] ?? null)->toBe(2);
-    expect($payment->error_message)->toBe('Фискализация: ATOL: неверный ИНН группы ККТ, uuid=receipt-uuid-1 (детали в ЛК АТОЛ)');
-
-    Http::assertSent(fn (\Illuminate\Http\Client\Request $request): bool => str_contains($request->url(), '/payment/rest/getReceiptStatus.do'));
-});
-
-it('не запрашивает getReceiptStatus когда фискализация отключена', function (): void {
-    config(['services.alfabank.fiscal.enabled' => false]);
-
-    Http::fake([
-        '*/getOrderStatusExtended.do' => Http::response(['errorCode' => '0', 'orderStatus' => 2], 200),
-        '*/getReceiptStatus.do' => Http::response(['errorCode' => '0'], 200),
+    $payload = tbankNotification([
+        'OrderId' => $payment->public_id,
+        'PaymentId' => 'ext-order-bad-sign',
     ]);
+    $payload['Token'] = 'invalid';
 
-    $order = Order::factory()->create();
-    $payment = Payment::factory()->create([
-        'order_id' => $order->id,
-        'external_order_id' => 'ext-order-no-receipt',
+    $this->postJson('/api/v1/payments/tbank/webhook', $payload)->assertForbidden();
+
+    $this->assertDatabaseHas('payments', [
+        'id' => $payment->id,
         'status' => Payment::STATUS_PENDING,
     ]);
-
-    $this->getJson("/api/v1/payments/{$payment->public_id}/status")->assertOk();
-
-    Http::assertNotSent(fn (\Illuminate\Http\Client\Request $request): bool => str_contains($request->url(), '/payment/rest/getReceiptStatus.do'));
 });
 
 it('возвращает остатки на склад при возврате платежа', function (): void {
@@ -228,13 +219,16 @@ it('обрабатывает webhook статуса оплаты', function (): 
         'status' => Payment::STATUS_PENDING,
     ]);
 
-    $response = $this->postJson('/api/v1/payments/alfabank/webhook', [
-        'orderId' => 'ext-order-4',
-        'orderStatus' => 2,
-    ]);
+    config(['services.tbank.password' => 'test-password']);
+
+    $response = $this->postJson('/api/v1/payments/tbank/webhook', tbankNotification([
+        'OrderId' => $payment->public_id,
+        'PaymentId' => 'ext-order-4',
+        'Status' => 'CONFIRMED',
+    ]));
 
     $response->assertOk()
-        ->assertJsonPath('data.status', Payment::STATUS_PAID);
+        ->assertSee('OK');
 
     $this->assertDatabaseHas('payments', [
         'id' => $payment->id,
@@ -244,7 +238,7 @@ it('обрабатывает webhook статуса оплаты', function (): 
 
 it('создает платеж по сумме со скидкой и с учетом доставки', function (): void {
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-discount', 'formUrl' => 'https://pay.test/form-discount'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-discount', 'PaymentURL' => 'https://pay.test/form-discount'], 200),
     ]);
 
     $this->mock(AddressSuggestService::class, function ($mock): void {
@@ -292,8 +286,8 @@ it('создает платеж по сумме со скидкой и с уче
         ->assertJsonPath('data.payment_url', 'https://pay.test/form-discount');
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        return str_contains($request->url(), '/payment/rest/register.do')
-            && $request['amount'] === 90000;
+        return str_contains($request->url(), '/Init')
+            && $request['Amount'] === 90000;
     });
 
     $this->assertDatabaseHas('orders', [
@@ -311,19 +305,19 @@ it('создает платеж по сумме со скидкой и с уче
     ]);
 });
 
-it('передает orderBundle с фискальными данными когда фискализация включена', function (): void {
+it('передает Receipt с фискальными данными когда фискализация включена', function (): void {
     config([
-        'services.alfabank.fiscal.enabled' => true,
-        'services.alfabank.fiscal.tax_system' => 1,
-        'services.alfabank.fiscal.default_tax_type' => 10,
-        'services.alfabank.fiscal.payment_method' => 4,
-        'services.alfabank.fiscal.payment_object' => 1,
-        'services.alfabank.fiscal.delivery_payment_object' => 4,
-        'services.alfabank.fiscal.delivery_name' => 'Доставка',
+        'services.tbank.fiscal.enabled' => true,
+        'services.tbank.fiscal.taxation' => 'usn_income',
+        'services.tbank.fiscal.tax' => 'vat5',
+        'services.tbank.fiscal.payment_method' => 'full_payment',
+        'services.tbank.fiscal.payment_object' => 'commodity',
+        'services.tbank.fiscal.delivery_payment_object' => 'service',
+        'services.tbank.fiscal.delivery_name' => 'Доставка',
     ]);
 
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-fiscal', 'formUrl' => 'https://pay.test/form-fiscal'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-fiscal', 'PaymentURL' => 'https://pay.test/form-fiscal'], 200),
     ]);
 
     $product = Product::factory()->create(['price' => 500.00]);
@@ -350,31 +344,26 @@ it('передает orderBundle с фискальными данными ког
     $response->assertOk();
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+        if (! str_contains($request->url(), '/Init')) {
             return false;
         }
 
-        $hasOrderBundle = isset($request['orderBundle']);
-        $hasTaxSystem = isset($request['taxSystem']);
-        $hasEmail = isset($request['email']);
-
-        if ($hasOrderBundle) {
-            $bundle = json_decode($request['orderBundle'], true);
-            $hasItems = ! empty($bundle['cartItems']['items']);
-            $hasCustomer = ! empty($bundle['customerDetails']['email']);
-
-            return $hasItems && $hasCustomer && $hasTaxSystem && $hasEmail;
+        $receipt = $request['Receipt'] ?? null;
+        if (! is_array($receipt)) {
+            return false;
         }
 
-        return false;
+        return ($receipt['Taxation'] ?? null) === 'usn_income'
+            && ($receipt['Email'] ?? null) === 'fiscal@example.com'
+            && ! empty($receipt['Items']);
     });
 });
 
-it('не передает orderBundle когда фискализация отключена', function (): void {
-    config(['services.alfabank.fiscal.enabled' => false]);
+it('не передает Receipt когда фискализация отключена', function (): void {
+    config(['services.tbank.fiscal.enabled' => false]);
 
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-nofiscal', 'formUrl' => 'https://pay.test/form-nofiscal'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-nofiscal', 'PaymentURL' => 'https://pay.test/form-nofiscal'], 200),
     ]);
 
     $order = Order::factory()->create([
@@ -390,27 +379,27 @@ it('не передает orderBundle когда фискализация отк
     $response->assertOk();
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+        if (! str_contains($request->url(), '/Init')) {
             return false;
         }
 
-        return ! isset($request['orderBundle']);
+        return ! isset($request['Receipt']);
     });
 });
 
-it('включает доставку как позицию в orderBundle', function (): void {
+it('включает доставку как позицию в Receipt', function (): void {
     config([
-        'services.alfabank.fiscal.enabled' => true,
-        'services.alfabank.fiscal.tax_system' => 1,
-        'services.alfabank.fiscal.default_tax_type' => 10,
-        'services.alfabank.fiscal.payment_method' => 4,
-        'services.alfabank.fiscal.payment_object' => 1,
-        'services.alfabank.fiscal.delivery_payment_object' => 4,
-        'services.alfabank.fiscal.delivery_name' => 'Доставка',
+        'services.tbank.fiscal.enabled' => true,
+        'services.tbank.fiscal.taxation' => 'usn_income',
+        'services.tbank.fiscal.tax' => 'vat5',
+        'services.tbank.fiscal.payment_method' => 'full_payment',
+        'services.tbank.fiscal.payment_object' => 'commodity',
+        'services.tbank.fiscal.delivery_payment_object' => 'service',
+        'services.tbank.fiscal.delivery_name' => 'Доставка',
     ]);
 
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-delivery', 'formUrl' => 'https://pay.test/form-delivery'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-delivery', 'PaymentURL' => 'https://pay.test/form-delivery'], 200),
     ]);
 
     $product = Product::factory()->create(['price' => 300.00]);
@@ -436,32 +425,26 @@ it('включает доставку как позицию в orderBundle', fun
     $response->assertOk();
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        if (! str_contains($request->url(), '/payment/rest/register.do')) {
+        if (! str_contains($request->url(), '/Init')) {
             return false;
         }
 
-        if (! isset($request['orderBundle'])) {
-            return false;
-        }
-
-        $bundle = json_decode($request['orderBundle'], true);
-        $items = $bundle['cartItems']['items'] ?? [];
-
-        if (count($items) !== 2) {
+        $items = $request['Receipt']['Items'] ?? null;
+        if (! is_array($items) || count($items) !== 2) {
             return false;
         }
 
         $deliveryItem = $items[1];
 
-        return $deliveryItem['name'] === 'Доставка'
-            && $deliveryItem['itemPrice'] === 10000
-            && $deliveryItem['itemCode'] === 'delivery';
+        return $deliveryItem['Name'] === 'Доставка'
+            && $deliveryItem['Price'] === 10000
+            && $deliveryItem['PaymentObject'] === 'service';
     });
 });
 
 it('полный цикл: calculate → store → payment с промокодом и 3 товарами', function (): void {
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-e2e', 'formUrl' => 'https://pay.test/form-e2e'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-e2e', 'PaymentURL' => 'https://pay.test/form-e2e'], 200),
     ]);
 
     $this->mock(AddressSuggestService::class, function ($mock): void {
@@ -539,8 +522,8 @@ it('полный цикл: calculate → store → payment с промокодо
     $paymentResponse->assertOk();
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        return str_contains($request->url(), '/payment/rest/register.do')
-            && $request['amount'] === 135500;
+        return str_contains($request->url(), '/Init')
+            && $request['Amount'] === 135500;
     });
 
     $this->assertDatabaseHas('payments', [
@@ -551,7 +534,7 @@ it('полный цикл: calculate → store → payment с промокодо
 
 it('берет для оплаты сумму со скидкой, а не без скидки', function (): void {
     Http::fake([
-        '*' => Http::response(['orderId' => 'ext-order-price-check', 'formUrl' => 'https://pay.test/form-check'], 200),
+        '*' => Http::response(['Success' => true, 'ErrorCode' => '0', 'PaymentId' => 'ext-order-price-check', 'PaymentURL' => 'https://pay.test/form-check'], 200),
     ]);
 
     $order = Order::factory()->create([
@@ -569,8 +552,8 @@ it('берет для оплаты сумму со скидкой, а не бе�
         ->assertJsonPath('data.payment_url', 'https://pay.test/form-check');
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request): bool {
-        return str_contains($request->url(), '/payment/rest/register.do')
-            && $request['amount'] === 75000;
+        return str_contains($request->url(), '/Init')
+            && $request['Amount'] === 75000;
     });
 
     $this->assertDatabaseHas('payments', [
@@ -632,10 +615,13 @@ it('не переводит отменённый заказ в paid по webhook
         'status' => Payment::STATUS_PENDING,
     ]);
 
-    $this->postJson('/api/v1/payments/alfabank/webhook', [
-        'orderId' => 'ext-order-late-paid',
-        'orderStatus' => 2,
-    ])->assertOk();
+    config(['services.tbank.password' => 'test-password']);
+
+    $this->postJson('/api/v1/payments/tbank/webhook', tbankNotification([
+        'OrderId' => $payment->public_id,
+        'PaymentId' => 'ext-order-late-paid',
+        'Status' => 'CONFIRMED',
+    ]))->assertOk();
 
     $this->assertDatabaseHas('orders', [
         'id' => $order->id,

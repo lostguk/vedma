@@ -12,5 +12,5 @@ Route::get('payments/{payment}/status', [PaymentController::class, 'status'])
 Route::post('payments/{payment}/refund', [PaymentController::class, 'refund'])
     ->name('api.v1.payments.refund');
 
-Route::post('payments/alfabank/webhook', [PaymentController::class, 'webhook'])
-    ->name('api.v1.payments.alfabank.webhook');
+Route::post('payments/tbank/webhook', [PaymentController::class, 'webhook'])
+    ->name('api.v1.payments.tbank.webhook');

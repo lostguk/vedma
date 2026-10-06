@@ -152,8 +152,8 @@
                                                                                 <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments--payment--refund">
                                 <a href="#oplata-zakaza-POSTapi-v1-payments--payment--refund">Возврат платежа.</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">
-                                <a href="#oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">Webhook от Альфа-Банка для обновления статуса платежа.</a>
+                                                                                <li class="tocify-item level-2" data-unique="oplata-zakaza-POSTapi-v1-payments-tbank-webhook">
+                                <a href="#oplata-zakaza-POSTapi-v1-payments-tbank-webhook">Webhook Т-Банка. Ответ — текст OK.</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -3082,20 +3082,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
         </div>
         </form>
 
-                    <h2 id="oplata-zakaza-POSTapi-v1-payments-alfabank-webhook">Webhook от Альфа-Банка для обновления статуса платежа.</h2>
+                    <h2 id="oplata-zakaza-POSTapi-v1-payments-tbank-webhook">Webhook Т-Банка. Ответ — текст OK.</h2>
 
 <p>
 </p>
 
 
 
-<span id="example-requests-POSTapi-v1-payments-alfabank-webhook">
+<span id="example-requests-POSTapi-v1-payments-tbank-webhook">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "{{ config("app.url") }}/api/v1/payments/alfabank/webhook" \
+    "{{ config("app.url") }}/api/v1/payments/tbank/webhook" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -3110,7 +3110,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "{{ config("app.url") }}/api/v1/payments/alfabank/webhook"
+    "{{ config("app.url") }}/api/v1/payments/tbank/webhook"
 );
 
 const headers = {
@@ -3134,45 +3134,45 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-POSTapi-v1-payments-alfabank-webhook">
+<span id="example-responses-POSTapi-v1-payments-tbank-webhook">
 </span>
-<span id="execution-results-POSTapi-v1-payments-alfabank-webhook" hidden>
+<span id="execution-results-POSTapi-v1-payments-tbank-webhook" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-POSTapi-v1-payments-alfabank-webhook"></span>:
+                id="execution-response-status-POSTapi-v1-payments-tbank-webhook"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTapi-v1-payments-alfabank-webhook"
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-payments-tbank-webhook"
       data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
 </span>
-<span id="execution-error-POSTapi-v1-payments-alfabank-webhook" hidden>
+<span id="execution-error-POSTapi-v1-payments-tbank-webhook" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTapi-v1-payments-alfabank-webhook">
+    <pre><code id="execution-error-message-POSTapi-v1-payments-tbank-webhook">
 
 Tip: Check that you&#039;re properly connected to the network.
 If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
 You can check the Dev Tools console for debugging information.</code></pre>
 </span>
-<form id="form-POSTapi-v1-payments-alfabank-webhook" data-method="POST"
-      data-path="api/v1/payments/alfabank/webhook"
+<form id="form-POSTapi-v1-payments-tbank-webhook" data-method="POST"
+      data-path="api/v1/payments/tbank/webhook"
       data-authed="0"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-payments-alfabank-webhook', this);">
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-payments-tbank-webhook', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTapi-v1-payments-alfabank-webhook"
-                    onclick="tryItOut('POSTapi-v1-payments-alfabank-webhook');">Try it out ⚡
+                    id="btn-tryout-POSTapi-v1-payments-tbank-webhook"
+                    onclick="tryItOut('POSTapi-v1-payments-tbank-webhook');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTapi-v1-payments-alfabank-webhook"
-                    onclick="cancelTryOut('POSTapi-v1-payments-alfabank-webhook');" hidden>Cancel 🛑
+                    id="btn-canceltryout-POSTapi-v1-payments-tbank-webhook"
+                    onclick="cancelTryOut('POSTapi-v1-payments-tbank-webhook');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTapi-v1-payments-alfabank-webhook"
+                    id="btn-executetryout-POSTapi-v1-payments-tbank-webhook"
                     data-initial-text="Send Request 💥"
                     data-loading-text="⏱ Sending..."
                     hidden>Send Request 💥
@@ -3180,7 +3180,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </h3>
             <p>
             <small class="badge badge-black">POST</small>
-            <b><code>api/v1/payments/alfabank/webhook</code></b>
+            <b><code>api/v1/payments/tbank/webhook</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
@@ -3188,7 +3188,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="application/json"
                data-component="header">
     <br>
@@ -3199,7 +3199,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+                              name="Accept"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="application/json"
                data-component="header">
     <br>
@@ -3211,7 +3211,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="orderId"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+                              name="orderId"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="a1b2c3d4-e5f6-7890-abcd-ef1234567890"
                data-component="body">
     <br>
@@ -3222,7 +3222,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="mdOrder"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+                              name="mdOrder"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="architecto"
                data-component="body">
     <br>
@@ -3233,7 +3233,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="orderStatus"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               step="any"               name="orderStatus"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="2"
                data-component="body">
     <br>
@@ -3244,7 +3244,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="status"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+                              name="status"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="architecto"
                data-component="body">
     <br>
@@ -3255,7 +3255,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="amount"                data-endpoint="POSTapi-v1-payments-alfabank-webhook"
+               step="any"               name="amount"                data-endpoint="POSTapi-v1-payments-tbank-webhook"
                value="16"
                data-component="body">
     <br>

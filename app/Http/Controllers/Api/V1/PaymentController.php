@@ -12,6 +12,7 @@ use App\Http\Resources\Api\V1\PaymentResource;
 use App\Repositories\PaymentRepository;
 use App\Services\Payment\PaymentService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Log;
 use RuntimeException;
 use Throwable;
@@ -93,16 +94,18 @@ final class PaymentController extends ApiController
     /**
      * @group Оплата заказа
      *
-     * Webhook от Альфа-Банка для обновления статуса платежа.
+     * Webhook Т-Банка. В ответ банк ждёт тело OK.
      */
-    public function webhook(PaymentWebhookRequest $request, PaymentService $paymentService): JsonResponse
+    public function webhook(PaymentWebhookRequest $request, PaymentService $paymentService): Response
     {
-        $payment = $paymentService->handleWebhook($request->validated());
+        try {
+            $paymentService->handleWebhook($request->all());
+        } catch (RuntimeException $exception) {
+            Log::warning('Отклонено уведомление Т-Банка: '.$exception->getMessage());
 
-        if (! $payment) {
-            return $this->errorResponse('Платеж не найден.', 404);
+            return response('Forbidden', 403);
         }
 
-        return $this->successResponse(new PaymentResource($payment));
+        return response('OK', 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
 }

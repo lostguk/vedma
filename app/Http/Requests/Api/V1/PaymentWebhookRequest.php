@@ -20,24 +20,35 @@ class PaymentWebhookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'orderId' => ['nullable', 'string', 'required_without:mdOrder'],
-            'mdOrder' => ['nullable', 'string', 'required_without:orderId'],
-            'orderStatus' => ['nullable', 'integer'],
-            'status' => ['nullable', 'string'],
-            'amount' => ['nullable', 'integer'],
+            'TerminalKey' => ['required', 'string'],
+            'OrderId' => ['required', 'string'],
+            'Success' => ['present'],
+            'Status' => ['required', 'string'],
+            'PaymentId' => ['required'],
+            'ErrorCode' => ['required'],
+            'Amount' => ['required', 'integer'],
+            'Token' => ['required', 'string'],
         ];
     }
 
     public function bodyParameters(): array
     {
         return [
-            'orderId' => [
-                'description' => 'ID заказа в платежной системе',
+            'PaymentId' => [
+                'description' => 'Идентификатор платежа в Т-Банке',
+                'example' => '3093639567',
+            ],
+            'OrderId' => [
+                'description' => 'public_id платежа в магазине',
                 'example' => 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
             ],
-            'orderStatus' => [
-                'description' => 'Статус заказа по шкале платежного шлюза',
-                'example' => 2,
+            'Status' => [
+                'description' => 'Статус платежа Т-Банка',
+                'example' => 'CONFIRMED',
+            ],
+            'Token' => [
+                'description' => 'Подпись уведомления',
+                'example' => 'sha256',
             ],
         ];
     }

@@ -1,5 +1,5 @@
 **Название фичи:**
-Оплата заказа через Альфа-Банк
+Оплата заказа через Т-Банк
 
 **Цель:**
 Позволить пользователю оплатить заказ через платёжную страницу банка и получать актуальный статус оплаты.
@@ -20,7 +20,7 @@
 - Клиент переходит на платёжную страницу банка
 - Банк уведомляет систему через webhook
 - Клиент запрашивает статус по `public_id`
-- При вызове `register.do` к переданным `success_url` и `fail_url` сервер **автоматически добавляет** query-параметр `payment=<public_id>`, чтобы фронт на страницах возврата мог вызвать `GET /payments/{public_id}/status`
+- При вызове `Init` к переданным `success_url` и `fail_url` сервер **автоматически добавляет** query-параметр `payment=<public_id>`, чтобы фронт на страницах возврата мог вызвать `GET /payments/{public_id}/status`
 
 **Требуемые тесты:**
 
@@ -29,7 +29,7 @@
 - Обработка webhook для оплаты
 - Возврат платежа
 - Восстановление складских остатков при refund
-- Передача orderBundle с фискальными данными
+- Передача Receipt с фискальными данными
 - Включение доставки как позиции в чеке
 
 **Документация:**
@@ -37,7 +37,7 @@
 - `POST /api/v1/payments` — создать платеж
 - `GET /api/v1/payments/{public_id}/status` — получить статус
 - `POST /api/v1/payments/{public_id}/refund` — выполнить возврат
-- `POST /api/v1/payments/alfabank/webhook` — webhook Альфа-Банка
+- `POST /api/v1/payments/tbank/webhook` — webhook Т-Банка (ответ `OK`)
 
 **Пример ответа:**
 
@@ -51,7 +51,7 @@
         "status": "registered",
         "amount": 1990.5,
         "currency": "RUB",
-        "payment_url": "https://pay.alfabank.ru/payment/...",
+        "payment_url": "https://pay.tbank.ru/...",
         "paid_at": null,
         "refunded_at": null,
         "created_at": "2026-01-15 10:00:00"
@@ -85,66 +85,24 @@ orders:release-unpaid-stock --execute --include-pending --min-age=12
 
 Списание остатков происходит при оформлении заказа (`POST /api/v1/order`), подробнее — в `docs/features/products.md`.
 
-## Фискализация (ОФД через АТОЛ)
+## Фискализация
 
-### Схема работы
+Чек уходит в Т-Банк объектом `Receipt` вместе с методом `Init`. Касса и ОФД настраиваются в личном кабинете Т-Банка.
 
-```
-Приложение → Альфа-Банк (шлюз) → АТОЛ (онлайн-касса) → ОФД → ФНС
-                                                          ↓
-                                                     Покупатель (чек)
-```
+| Переменная | Описание | По умолчанию |
+| --- | --- | --- |
+| `TBANK_FISCAL_ENABLED` | Передавать чек | `false` |
+| `TBANK_FISCAL_TAXATION` | Система налогообложения (`usn_income`) | `usn_income` |
+| `TBANK_FISCAL_TAX` | Ставка НДС (`vat5`) | `vat5` |
+| `TBANK_FISCAL_PAYMENT_METHOD` | Признак способа расчёта | `full_payment` |
+| `TBANK_FISCAL_PAYMENT_OBJECT` | Признак предмета расчёта для товара | `commodity` |
+| `TBANK_FISCAL_DELIVERY_PAYMENT_OBJECT` | Признак предмета для доставки | `service` |
+| `TBANK_FISCAL_DELIVERY_NAME` | Название позиции доставки | `Доставка` |
 
-Фискализация происходит автоматически на стороне Альфа-Банка. Приложение передаёт данные корзины (`orderBundle`) при регистрации заказа через `register.do`.
+- `ReceiptBuilder` собирает позиции, доставку и контакты покупателя
+- `TBankGateway` подписывает запрос и отправляет `Init`, `GetState` и `Cancel`
+- Сумма позиций чека совпадает с суммой платежа; для каждой позиции `Amount = Price × Quantity`
 
-### Конфигурация
+Уведомление банка: `POST /api/v1/payments/tbank/webhook`. Подпись `Token` проверяется паролем терминала. Успешный ответ — текст `OK`.
 
-Переменные окружения в `.env`:
-
-| Переменная                                | Описание                                  | Значение по умолчанию |
-| ----------------------------------------- | ----------------------------------------- | --------------------- |
-| `ALFABANK_FISCAL_ENABLED`                 | Включена ли фискализация                  | `false`               |
-| `ALFABANK_FISCAL_TAX_SYSTEM`              | Система налогообложения (1=УСН доход)     | `1`                   |
-| `ALFABANK_FISCAL_TAX_TYPE`                | Ставка НДС (10=НДС 5%)                    | `10`                  |
-| `ALFABANK_FISCAL_PAYMENT_METHOD`          | Признак способа расчёта (4=полная оплата) | `4`                   |
-| `ALFABANK_FISCAL_PAYMENT_OBJECT`          | Признак предмета расчёта (1=товар)        | `1`                   |
-| `ALFABANK_FISCAL_DELIVERY_PAYMENT_OBJECT` | Признак предмета для доставки (4=услуга)  | `4`                   |
-| `ALFABANK_FISCAL_DELIVERY_NAME`           | Наименование позиции доставки             | `Доставка`            |
-
-### Архитектура
-
-- `OrderBundleBuilder` — формирует `orderBundle` из заказа и его позиций
-- `AlfaBankGateway` — передаёт `orderBundle`, `taxSystem`, `email` в запрос `register.do`
-- `PaymentService` — связывает `OrderBundleBuilder`, `AlfaBankGateway` и `ProductStockService`
-
-### Что включается в чек
-
-- Все товарные позиции заказа (name, price, quantity, tax)
-- Доставка как отдельная позиция (если delivery_price > 0)
-- Email и/или телефон покупателя для отправки чека
-
-### Диагностика ошибок АТОЛ
-
-При `GET /api/v1/payments/{public_id}/status` (если `ALFABANK_FISCAL_ENABLED=true`) дополнительно вызывается `getReceiptStatus.do`.
-
-Ответ сохраняется в `payments.payload.receiptStatusResponse`, а текст ошибки — в `payments.error_message` (префикс `Фискализация:`).
-
-В API-ответе статуса также приходят `error_message` и краткий блок `fiscal`.
-
-Значения `receiptStatus`: `1` — чек доставлен, `2` — ошибка чека оплаты, `5` — ошибка чека возврата.
-
-### Настройки в личном кабинете Альфа-Банка
-
-Раздел «Настройки ОФД» (`/admin/settings/ofd`):
-
-- Система фискализации: АТОЛ
-- Версия ФФД: 1.2 (V5)
-- Логин/пароль АТОЛ Online API
-- ИНН
-- Идентификатор группы ККТ
-- Ставка налога, система налогообложения
-- Признаки предмета и способа расчёта
-
-```
-
-```
+Статусы Т-Банка: `CONFIRMED` — оплачен, `REFUNDED` и `PARTIAL_REFUNDED` — возврат, `REJECTED`, `CANCELED`, `AUTH_FAIL`, `DEADLINE_EXPIRED`, `REVERSED` — ошибка.
