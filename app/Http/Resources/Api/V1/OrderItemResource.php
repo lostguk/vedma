@@ -29,6 +29,7 @@ class OrderItemResource extends JsonResource
             'count' => $count,
             'total' => $totalWithDiscount,
             'total_without_discount' => $priceWithoutDiscount * $count,
+            'is_wholesale' => (bool) $this->is_wholesale,
             'product' => new ProductResource($this->whenLoaded('product')),
         ];
     }

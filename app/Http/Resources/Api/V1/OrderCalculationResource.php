@@ -31,6 +31,7 @@ class OrderCalculationResource extends JsonResource
             'summery_old' => (int) round((float) $this['summery_old']),
             'summery_without_discount' => (int) round((float) ($this['summery_without_discount'] ?? $this['summery'])),
             'discounted' => $this['discounted'],
+            'wholesale' => (bool) ($this['wholesale'] ?? false),
         ];
     }
 }

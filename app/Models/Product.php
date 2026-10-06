@@ -22,6 +22,8 @@ use Spatie\Sluggable\SlugOptions;
  * @property string|null $description
  * @property float $price
  * @property float|null $old_price
+ * @property int|null $wholesale_min_qty
+ * @property float|null $wholesale_price
  * @property float $weight Вес в граммах
  * @property float|null $width Ширина в см
  * @property float|null $height Высота в см
@@ -88,6 +90,8 @@ final class Product extends Model implements HasMedia
         'description',
         'price',
         'old_price',
+        'wholesale_min_qty',
+        'wholesale_price',
         'weight',
         'width',
         'height',
@@ -105,6 +109,8 @@ final class Product extends Model implements HasMedia
     protected $casts = [
         'price' => 'float',
         'old_price' => 'float',
+        'wholesale_min_qty' => 'integer',
+        'wholesale_price' => 'float',
         'weight' => 'float',
         'width' => 'float',
         'height' => 'float',
@@ -120,6 +126,33 @@ final class Product extends Model implements HasMedia
     public function isInStock(): bool
     {
         return $this->stock === null || $this->stock > 0;
+    }
+
+    /**
+     * Оптовая цена настроена и её можно достичь с текущим остатком.
+     */
+    public function hasWholesaleOffer(): bool
+    {
+        $minQty = $this->wholesale_min_qty;
+        $wholesalePrice = $this->wholesale_price;
+
+        if ($minQty === null || $wholesalePrice === null || $minQty < 2) {
+            return false;
+        }
+
+        if ($wholesalePrice <= 0 || $wholesalePrice >= (float) $this->price) {
+            return false;
+        }
+
+        return $this->stock === null || $this->stock >= $minQty;
+    }
+
+    /**
+     * Оптовая цена действует на каждую штуку, когда количество достигло порога.
+     */
+    public function wholesaleAppliesTo(int $count): bool
+    {
+        return $this->hasWholesaleOffer() && $count >= (int) $this->wholesale_min_qty;
     }
 
     public function scopeInStock(Builder $query): Builder

@@ -27,6 +27,8 @@ class CartLineResource extends JsonResource
             'name' => $product->name,
             'price' => $product->price,
             'old_price' => $product->old_price,
+            'wholesale_min_qty' => $product->hasWholesaleOffer() ? $product->wholesale_min_qty : null,
+            'wholesale_price' => $product->hasWholesaleOffer() ? $product->wholesale_price : null,
             'image' => $this->imageUrl($product),
             'slug' => $product->slug,
             'stock' => $product->stock,

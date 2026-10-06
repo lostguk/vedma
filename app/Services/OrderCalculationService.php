@@ -28,14 +28,18 @@ final class OrderCalculationService
 
         foreach ($products as $product) {
             $count = (int) ($itemsById[$product->id]['count'] ?? 1);
-            $price = (int) round((float) $product->price);
+            $retailPrice = (int) round((float) $product->price);
             $oldPrice = (int) round((float) ($product->old_price ?? $product->price));
+            $wholesale = $product->wholesaleAppliesTo($count);
+            $price = $wholesale
+                ? (int) round((float) $product->wholesale_price)
+                : $retailPrice;
             $discounted = false;
             $originalPrice = $price;
 
-            // Применяем промокод, если он активен и товар в нужной категории
-            if ($promoCode && $promoCode->discount_type === 'percent' && $product->categories->pluck('id')->intersect($promoCategories)->isNotEmpty()) {
-                $price = (int) round($price * (1 - $promoCode->discount_value / 100));
+            // Промокод не действует на позицию, которая уже продаётся по опту.
+            if (! $wholesale && $promoCode && $promoCode->discount_type === 'percent' && $product->categories->pluck('id')->intersect($promoCategories)->isNotEmpty()) {
+                $price = (int) round($retailPrice * (1 - $promoCode->discount_value / 100));
                 $discounted = true;
                 $hasDiscountedItems = true;
             }
@@ -59,6 +63,7 @@ final class OrderCalculationService
                     'summery_old' => $oldPrice * $count,
                     'summery_without_discount' => $itemTotalWithoutDiscount,
                     'discounted' => $discounted,
+                    'wholesale' => $wholesale,
                 ]
             );
         }

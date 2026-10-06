@@ -33,6 +33,8 @@ class ProductControllerTest extends TestCase
                     'description',
                     'price',
                     'old_price',
+                    'wholesale_min_qty',
+                    'wholesale_price',
                     'is_new',
                     'is_bestseller',
                     'dimensions' => [
@@ -91,6 +93,8 @@ class ProductControllerTest extends TestCase
                     'slug',
                     'price',
                     'old_price',
+                    'wholesale_min_qty',
+                    'wholesale_price',
                     'is_new',
                     'is_bestseller',
                 ],
@@ -287,6 +291,8 @@ class ProductControllerTest extends TestCase
                         'description',
                         'price',
                         'old_price',
+                        'wholesale_min_qty',
+                        'wholesale_price',
                         'is_new',
                         'is_bestseller',
                         'dimensions',
@@ -372,5 +378,44 @@ class ProductControllerTest extends TestCase
         $responseNameDesc->assertJsonPath('data.1.id', $product3->id);
         $responseNameDesc->assertJsonPath('data.2.id', $product1->id);
         $responseNameDesc->assertJsonCount(3, 'data');
+    }
+
+    public function test_product_returns_wholesale_offer_when_it_can_be_reached(): void
+    {
+        $product = Product::factory()->withStock(10)->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+
+        $this->getJson(route('api.v1.products.show', ['slug' => $product->slug]))
+            ->assertOk()
+            ->assertJsonPath('data.price', 1000)
+            ->assertJsonPath('data.wholesale_min_qty', 5)
+            ->assertJsonPath('data.wholesale_price', 800);
+    }
+
+    public function test_product_hides_wholesale_offer_when_stock_or_price_is_invalid(): void
+    {
+        $outOfReach = Product::factory()->withStock(3)->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+        $notCheaper = Product::factory()->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 1000,
+        ]);
+
+        $this->getJson(route('api.v1.products.show', ['slug' => $outOfReach->slug]))
+            ->assertOk()
+            ->assertJsonPath('data.wholesale_min_qty', null)
+            ->assertJsonPath('data.wholesale_price', null);
+
+        $this->getJson(route('api.v1.products.show', ['slug' => $notCheaper->slug]))
+            ->assertOk()
+            ->assertJsonPath('data.wholesale_min_qty', null)
+            ->assertJsonPath('data.wholesale_price', null);
     }
 }

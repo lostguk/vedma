@@ -23,6 +23,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'old_price' => $this->old_price,
+            'wholesale_min_qty' => $this->hasWholesaleOffer() ? $this->wholesale_min_qty : null,
+            'wholesale_price' => $this->hasWholesaleOffer() ? $this->wholesale_price : null,
             'is_new' => $this->is_new,
             'is_bestseller' => $this->is_bestseller,
             'dimensions' => $this->dimensions,

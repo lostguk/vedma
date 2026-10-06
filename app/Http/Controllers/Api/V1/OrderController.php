@@ -59,7 +59,8 @@ final class OrderController extends ApiController
      * @responseField items[].summery Итоговая стоимость товара (с учетом промокода)
      * @responseField items[].summery_old Итоговая стоимость товара без промокода
      * @responseField items[].discounted Применен ли промокод к товару
-     * @responseField total_without_discount Общая сумма заказа без промокода
+     * @responseField items[].wholesale Оптовая цена применена ко всем штукам позиции. Промокод на такую позицию не действует
+     * @responseField total_without_discount Сумма до промокода. Оптовая цена уже подставлена и скидкой не считается
      * @responseField total_with_discount Общая сумма заказа с промокодом
      * @responseField promo_code_status Статус промокода: "not_sent" (промокод не был отправлен), "not_exists" (промокод не существует / не активен), "not_applied" (промокод существует, но не применился к товарам), "applied" (промокод применился)
      */

@@ -7,9 +7,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers\RelatedRelationManager;
 use App\Models\Product;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
@@ -53,6 +55,54 @@ class ProductResource extends Resource
                             ->label('Старая цена')
                             ->numeric()
                             ->prefix('₽'),
+                        Forms\Components\TextInput::make('wholesale_min_qty')
+                            ->label('Опт от, шт.')
+                            ->integer()
+                            ->minValue(2)
+                            ->nullable()
+                            ->requiredWith('wholesale_price')
+                            ->validationMessages([
+                                'required_with' => 'Укажите, от какого количества действует оптовая цена.',
+                            ])
+                            ->rule(function (): Closure {
+                                return function (string $attribute, mixed $value, Closure $fail): void {
+                                    if (blank($value)) {
+                                        return;
+                                    }
+
+                                    if (filter_var($value, FILTER_VALIDATE_INT) === false || (int) $value < 2) {
+                                        $fail('Оптовый порог — целое число от 2.');
+                                    }
+                                };
+                            })
+                            ->helperText('С этого количества все штуки продаются по оптовой цене. Промокоды на опт не действуют.'),
+                        Forms\Components\TextInput::make('wholesale_price')
+                            ->label('Оптовая цена')
+                            ->numeric()
+                            ->prefix('₽')
+                            ->nullable()
+                            ->requiredWith('wholesale_min_qty')
+                            ->validationMessages([
+                                'required_with' => 'Укажите оптовую цену или очистите порог.',
+                            ])
+                            ->rule(function (Get $get): Closure {
+                                return function (string $attribute, mixed $value, Closure $fail) use ($get): void {
+                                    if (blank($value)) {
+                                        return;
+                                    }
+
+                                    if (! is_numeric($value) || (float) $value <= 0) {
+                                        $fail('Оптовая цена должна быть больше нуля.');
+
+                                        return;
+                                    }
+
+                                    $price = $get('price');
+                                    if (! is_numeric($price) || (float) $value >= (float) $price) {
+                                        $fail('Оптовая цена должна быть меньше розничной.');
+                                    }
+                                };
+                            }),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Характеристики')
@@ -142,6 +192,14 @@ class ProductResource extends Resource
                     ->label('Старая цена')
                     ->money('RUB')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('wholesale_price')
+                    ->label('Опт')
+                    ->money('RUB')
+                    ->placeholder('—')
+                    ->description(fn (Product $record): ?string => $record->wholesale_min_qty
+                        ? 'от '.$record->wholesale_min_qty.' шт.'
+                        : null)
+                    ->toggleable(),
                 Tables\Columns\IconColumn::make('is_new')
                     ->label('Новинка')
                     ->boolean(),

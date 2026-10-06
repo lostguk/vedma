@@ -87,7 +87,7 @@ final class OrderExcelExporter
         $itemNum = 1;
         foreach ($order->items as $item) {
             $sheet->setCellValue("A{$row}", $itemNum);
-            $sheet->setCellValue("B{$row}", $item->name);
+            $sheet->setCellValue("B{$row}", $item->is_wholesale ? $item->name.' (опт)' : $item->name);
             $sheet->setCellValue("D{$row}", number_format((float) $item->price, 0, ',', ' ').' ₽');
             $sheet->setCellValue("E{$row}", $item->count);
             $sheet->setCellValue("F{$row}", number_format((float) ($item->total ?? $item->price * $item->count), 0, ',', ' ').' ₽');

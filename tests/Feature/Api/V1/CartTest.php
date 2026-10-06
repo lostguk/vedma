@@ -253,4 +253,25 @@ class CartTest extends TestCase
             ],
         ])->assertUnprocessable();
     }
+
+    public function test_корзина_отдаёт_условия_опта_и_розничную_цену(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::factory()->withStock(10)->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+        Sanctum::actingAs($user);
+
+        $this->putJson('/api/v1/cart', [
+            'items' => [
+                ['id' => $product->id, 'quantity' => 5],
+            ],
+        ])->assertOk()
+            ->assertJsonPath('data.items.0.price', 1000)
+            ->assertJsonPath('data.items.0.qty', 5)
+            ->assertJsonPath('data.items.0.wholesale_min_qty', 5)
+            ->assertJsonPath('data.items.0.wholesale_price', 800);
+    }
 }

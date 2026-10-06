@@ -41,6 +41,7 @@ final class OrderControllerTest extends TestCase
             'summery' => 200,
             'summery_old' => 240,
             'discounted' => false,
+            'wholesale' => false,
         ]);
         $response->assertJson([
             'data' => [
@@ -49,6 +50,149 @@ final class OrderControllerTest extends TestCase
                 'promo_code_status' => 'not_sent',
             ],
         ]);
+    }
+
+    public function test_calculate_applies_wholesale_to_every_unit_at_threshold(): void
+    {
+        $product = Product::factory()->create([
+            'price' => 1000,
+            'old_price' => 1200,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+
+        $this->postJson('/api/v1/order/calculate', [
+            'items' => [
+                ['id' => $product->id, 'count' => 5],
+            ],
+        ])->assertOk()
+            ->assertJsonFragment([
+                'id' => $product->id,
+                'count' => 5,
+                'price' => 800,
+                'price_without_discount' => 800,
+                'summery' => 4000,
+                'summery_without_discount' => 4000,
+                'discounted' => false,
+                'wholesale' => true,
+            ])
+            ->assertJsonPath('data.total_without_discount', 4000)
+            ->assertJsonPath('data.total_with_discount', 4000);
+    }
+
+    public function test_calculate_keeps_retail_price_below_wholesale_threshold(): void
+    {
+        $product = Product::factory()->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+
+        $this->postJson('/api/v1/order/calculate', [
+            'items' => [
+                ['id' => $product->id, 'count' => 4],
+            ],
+        ])->assertOk()
+            ->assertJsonFragment([
+                'price' => 1000,
+                'summery' => 4000,
+                'wholesale' => false,
+            ]);
+    }
+
+    public function test_calculate_ignores_promo_when_wholesale_is_active(): void
+    {
+        $category = \App\Models\Category::factory()->create();
+        $product = Product::factory()->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 2,
+            'wholesale_price' => 800,
+        ]);
+        $product->categories()->attach($category->id);
+        $promo = PromoCode::factory()->create([
+            'discount_type' => 'percent',
+            'discount_value' => 50,
+            'start_date' => now()->subDay(),
+            'end_date' => now()->addDay(),
+        ]);
+        $promo->categories()->attach($category->id);
+
+        $this->postJson('/api/v1/order/calculate', [
+            'items' => [
+                ['id' => $product->id, 'count' => 2],
+            ],
+            'promo_code' => $promo->code,
+        ])->assertOk()
+            ->assertJsonFragment([
+                'price' => 800,
+                'price_without_discount' => 800,
+                'summery' => 1600,
+                'discounted' => false,
+                'wholesale' => true,
+            ])
+            ->assertJsonPath('data.promo_code_status', 'not_applied')
+            ->assertJsonPath('data.total_with_discount', 1600);
+    }
+
+    public function test_calculate_applies_promo_only_to_retail_lines(): void
+    {
+        $category = \App\Models\Category::factory()->create();
+        $wholesaleProduct = Product::factory()->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+        $retailProduct = Product::factory()->create(['price' => 200]);
+        $wholesaleProduct->categories()->attach($category->id);
+        $retailProduct->categories()->attach($category->id);
+        $promo = PromoCode::factory()->create([
+            'discount_type' => 'percent',
+            'discount_value' => 10,
+            'start_date' => now()->subDay(),
+            'end_date' => now()->addDay(),
+        ]);
+        $promo->categories()->attach($category->id);
+
+        $response = $this->postJson('/api/v1/order/calculate', [
+            'items' => [
+                ['id' => $wholesaleProduct->id, 'count' => 5],
+                ['id' => $retailProduct->id, 'count' => 1],
+            ],
+            'promo_code' => $promo->code,
+        ]);
+
+        $response->assertOk()
+            ->assertJsonPath('data.promo_code_status', 'applied')
+            ->assertJsonPath('data.total_without_discount', 4200)
+            ->assertJsonPath('data.total_with_discount', 4180);
+
+        $items = collect($response->json('data.items'))->keyBy('id');
+        $this->assertTrue($items[$wholesaleProduct->id]['wholesale']);
+        $this->assertFalse($items[$wholesaleProduct->id]['discounted']);
+        $this->assertSame(4000, $items[$wholesaleProduct->id]['summery']);
+        $this->assertFalse($items[$retailProduct->id]['wholesale']);
+        $this->assertTrue($items[$retailProduct->id]['discounted']);
+        $this->assertSame(180, $items[$retailProduct->id]['summery']);
+    }
+
+    public function test_calculate_skips_wholesale_when_stock_cannot_reach_it(): void
+    {
+        $product = Product::factory()->withStock(3)->create([
+            'price' => 1000,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+
+        $this->postJson('/api/v1/order/calculate', [
+            'items' => [
+                ['id' => $product->id, 'count' => 3],
+            ],
+        ])->assertOk()
+            ->assertJsonFragment([
+                'price' => 1000,
+                'summery' => 3000,
+                'wholesale' => false,
+            ]);
     }
 
     public function test_calculate_with_invalid_promo_code(): void

@@ -118,6 +118,7 @@ final readonly class OrderService
                     'price_without_discount' => (int) round((float) ($item['price_without_discount'] ?? $item['price'])),
                     'count' => $item['count'],
                     'total' => (int) round((float) $item['summery']),
+                    'is_wholesale' => (bool) ($item['wholesale'] ?? false),
                 ];
             }
             $this->orderRepository->createOrderItems($order, $items);

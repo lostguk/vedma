@@ -18,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property float|null $price_without_discount
  * @property int $count
  * @property float $total
+ * @property bool $is_wholesale
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Order $order
@@ -44,7 +45,7 @@ final class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'product_id', 'name', 'price', 'price_without_discount', 'count', 'total',
+        'order_id', 'product_id', 'name', 'price', 'price_without_discount', 'count', 'total', 'is_wholesale',
     ];
 
     protected $casts = [
@@ -54,6 +55,7 @@ final class OrderItem extends Model
         'price_without_discount' => 'float',
         'count' => 'int',
         'total' => 'float',
+        'is_wholesale' => 'boolean',
     ];
 
     public function order(): BelongsTo

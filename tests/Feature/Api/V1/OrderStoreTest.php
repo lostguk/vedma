@@ -13,6 +13,7 @@ use App\Services\DaData\AddressSuggestService;
 use App\Services\Shipping\ShippingCalculationService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Notification;
 use Mockery\MockInterface;
 use Tests\TestCase;
@@ -424,6 +425,67 @@ class OrderStoreTest extends TestCase
             ->assertJsonPath('message', 'Недостаточно товара «'.$product->name.'» на складе. Доступно: 0 шт.');
         $this->assertDatabaseMissing('orders', [
             'email' => 'test_out_of_stock@example.com',
+        ]);
+    }
+
+    public function test_оформляет_заказ_по_оптовой_цене_без_промокода(): void
+    {
+        config([
+            'services.dadata.token' => 'test-token',
+            'services.metaship.api_key' => 'test-key',
+            'services.metaship.api_secret' => 'test-secret',
+        ]);
+        Http::fake([
+            'suggestions.dadata.ru/*' => Http::response([
+                'suggestions' => [[
+                    'value' => 'Some Address',
+                    'data' => ['fias_level' => 8],
+                ]],
+            ]),
+            'api.metaship.ru/auth/access_token' => Http::response([
+                'access_token' => 'token',
+            ]),
+            'api.metaship.ru/v2/offers*' => Http::response([
+                'PostOffice' => [[
+                    'delivery' => ['code' => 'RussianPost'],
+                    'service' => ['total' => '300'],
+                ]],
+            ]),
+        ]);
+
+        $product = Product::factory()->create([
+            'price' => 1000,
+            'old_price' => 1200,
+            'wholesale_min_qty' => 5,
+            'wholesale_price' => 800,
+        ]);
+
+        $this->postJson('/api/v1/order', [
+            'items' => [
+                ['id' => $product->id, 'count' => 5],
+            ],
+            'register' => false,
+            'first_name' => 'Иван',
+            'last_name' => 'Иванов',
+            'email' => 'wholesale@example.com',
+            'delivery_type' => 'PostOffice',
+            'address' => 'Some Address',
+        ])->assertCreated();
+
+        $this->assertDatabaseHas('orders', [
+            'email' => 'wholesale@example.com',
+            'total_price' => 4000,
+            'total_price_without_discount' => 4000,
+            'total_price_with_discount' => 4000,
+            'delivery_price' => 300,
+        ]);
+        $this->assertDatabaseHas('order_items', [
+            'product_id' => $product->id,
+            'price' => 800,
+            'price_without_discount' => 800,
+            'count' => 5,
+            'total' => 4000,
+            'is_wholesale' => true,
         ]);
     }
 }
